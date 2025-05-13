@@ -8,7 +8,6 @@
 #include <termios.h>
 #include <unistd.h>
 #include <time.h>
-#include <string.h>
 #include "plib.c"
 
 #define clear()  system("clear");
@@ -16,10 +15,10 @@
 #define BOLD_ANSI "\033[1m"
 #define SEL_ANSI "\033[32m"
 #define DIS_ANSI "\033[31m"
-#define BURRITO_CHEAP_PRICE 8.5
-#define BURRITO_EXPENSIVE_PRICE 13.5
-#define DELIVERY_CHARGE 2.5
+#define 
 #define USER_SLEEP_DELAY 1
+#define DELIVERY_CHARGE 2.5
+
 // define callback toggles
 int auto_toggle = 0;
 int help_toggle = 0;
@@ -45,7 +44,7 @@ int nrand(int min, int max) {
 	 */
 struct burrito {
 	char*type;
-	char*location; // 0 = delivery, 1 = pickup
+	int location; // 0 = delivery, 1 = pickup
 	char*name;
 	char*number;
 	char*address;
@@ -104,13 +103,13 @@ int draw_screen_implicit(char *array[],size_t array_length,char *prompt){
 }
 
 
-char *create_label_price(const char* label, float price) {
-    size_t buffer_size = strlen(label) + 32; 
-    char *price_char = malloc(buffer_size);
-    if (!price_char) return NULL;  // Always check malloc
-    snprintf(price_char, buffer_size, "%s - %0.2f", label, price);
-    return price_char;
+char *create_label_price(char*label, float price){
+	char *price_char;
+	sprintf(price_char,"%s%f",label,price);
+	return price_char;
 }
+
+
 
 
 void seperator(char *c,int a){printf("\n");for(int i=0;i<a;i++) printf("%s",c);printf("\n\n");}
