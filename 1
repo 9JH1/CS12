@@ -8,7 +8,7 @@
 #include <termios.h>
 #include <unistd.h>
 #include <time.h>
-#include <bsd/string.h>
+#include <string.h>
 #include "plib.c"
 
 #define clear()  system("clear");
@@ -35,7 +35,14 @@ int nrand(int min, int max) {
   int range = max - min;
   return rand() % range + min;
 }
-
+	/*
+	 * cheese
+	 * plain
+	 * spicy
+	 * deluxe
+	 * large
+	 * gourmet
+	 */
 struct burrito {
 	char*type;
 	char*location; // 0 = delivery, 1 = pickup
@@ -44,6 +51,12 @@ struct burrito {
 	char*address;
 };
 
+
+// very funny
+struct burrito order(){
+	struct burrito order={0};
+	return order;
+}
 
 int achar(){
 	static struct termios oldt, newt;
@@ -55,22 +68,6 @@ int achar(){
 	tcsetattr(STDIN_FILENO,TCSANOW,&oldt);
 	return ch;
 }
-void draw_recept_sep(){
-	printf("%s------------ORDER-----------\033[0m\n",DIS_ANSI);
-}
-void draw_header_sep(){
-	printf("%s----------------------------\033[0m\n",DIS_ANSI);
-}
-void draw_header(){
-	printf("Welcome To %sBanjo's Burritos\033[0m!\n",BOLD_ANSI);
-	draw_header_sep();
-}
-void draw_order_header(){
-	printf("Welcome To %sBanjo's Burritos\033[0m!\n",BOLD_ANSI);
-	draw_recept_sep();
-}
-
-
 
 int draw_screen_implicit(char *array[],size_t array_length,char *prompt){
 	int selected=0;
@@ -78,7 +75,6 @@ int draw_screen_implicit(char *array[],size_t array_length,char *prompt){
 	clear();
 	while (1){
 		clear_a();
-		draw_header();
 		printf("%s",prompt);
 		for(int i=0;i<array_length;i++){
 			if(selected == i){
@@ -99,66 +95,27 @@ int draw_screen_implicit(char *array[],size_t array_length,char *prompt){
 			} else if (ch == 10) break;
 		}
 	}
-	draw_header_sep();
-	printf("\nYou selected %s%s\033[0m\n",BOLD_ANSI,array[selected]);
+	printf("You selected %s%s\033[0m\n",BOLD_ANSI,array[selected]);
 	fflush(stdout);
 	sleep(USER_SLEEP_DELAY);
 	return selected;
 }
 
 
-char **create_label_price(const char *labels[], size_t label_amount) {
-    char **buffer = (char **)malloc(label_amount * sizeof(char *));
-    if (buffer == NULL) return NULL;
-
-    size_t largest = 0;
-    for (size_t i = 0; i < label_amount; i++) {
-        size_t len = strlen(labels[i]);
-        if (len > largest) largest = len;
-    }
-
-    for (size_t i = 0; i < label_amount; i++) {
-        double price = (i > 2) ? BURRITO_EXPENSIVE_PRICE : BURRITO_CHEAP_PRICE;
-        size_t buffer_size = largest + 20;
-        buffer[i] = (char *)malloc(buffer_size);
-        if (buffer[i] == NULL) {
-            for (size_t j = 0; j < i; j++) free(buffer[j]);
-            free(buffer);
-            return NULL;
-        }
-        snprintf(buffer[i], buffer_size, "%-*s $%.2f", (int)largest, labels[i], price);
-    }
-
-    return buffer;
-}
-
-
-void draw_border(char*text,int size){
-	printf("|%s",text);
-	if(size>0 && strlen(text)>0){
-		for(int i=0;i<size-2-strlen(text);i++){
-			printf(" ");
-		}
-		printf("|\n");
+char *create_label_price(const char *labels[], float price,size_t label_amount) {
+	int largest=0; 
+	char* output[label_amount]={};
+	for(size_t i=0;i<label_amount;i++) if(largest<strlen(labels[i])) largest=strlen(labels[i]);
+	for(size_t i=0;i<label_amount;i++){
+		const char *label=labels[i]="";
+  	size_t buffer_size = strlen(labels[i]) + 32; 
+		char price_char[buffer_size];
+  	if (!price_char) return NULL;  // Always check malloc
+  	snprintf(price_char, buffer_size, "%s - %0.2f", label, price);
+		free(price_char);
 	}
+	return output;
 }
 
-void free_labels(char **buffer, size_t label_amount) {
-	for (size_t i = 0; i < label_amount; i++) {
-  	free(buffer[i]);
-  }
-  free(buffer);
-}
 
 void seperator(char *c,int a){printf("\n");for(int i=0;i<a;i++) printf("%s",c);printf("\n\n");}
-
-
-
-
-char* input_checker(char *prompt,struct burrito local){
-	while(1){
-		clear();
-		draw_header();	
-	}
-}
-

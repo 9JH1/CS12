@@ -23,7 +23,6 @@
 
 	-----------------------------------------------------------------------------
 	This file is associated with the 2025 Yr 12 Computer science assessment.
-
 */
  
 #include <stdio.h>
@@ -71,51 +70,90 @@ int main(int system_argument_amount, char *system_argument_array[]){
 		int screen_main_value = draw_screen(screen_main,3,"-- Select An Option --\n");
 		switch (screen_main_value){
 			case 0: // Enter order 
-				if(1==1){} // this is done to appease the C11 standards
-				struct burrito local;
+				if(1==1){}// this is done to appease the C11 standards
+				struct burrito local={0};
 
 				// location BOOL
 				char *screen_location[]={"Pickup","Delivery"};
-				local.location = screen_location[draw_screen(screen_location,2,"Welcome to Banjo Burritos\nIs your order for pickup or delivery?\n")];
+				local.location = screen_location[draw_screen(screen_location,2,"Is your order for pickup or delivery?\n")];
 				printf("\n%sA %s%0.2f\033[0m delivery charge has been added to your order.\n",DIS_ANSI,BOLD_ANSI,DELIVERY_CHARGE);
 				
 				// name string
-				clear();
-				printf("Enter your name:%s ",BOLD_ANSI);
-				char user_name[64]="";
-				fgets(user_name,sizeof(user_name),stdin);
-				printf("\033[0m");
+				while(1){
+					clear();
+					draw_header();
+					printf("Order Type:%s %s\033[0m\n",BOLD_ANSI,local.location);
+					draw_header_sep();
+					printf("Enter your name:%s ",BOLD_ANSI);
+					char user_name[64]="";
+					fgets(user_name,sizeof(user_name),stdin);
+					printf("\033[0m");
+					if(strcmp(user_name,"\n")!=0 && strlen(user_name)>0){
+						local.name = user_name;
+						break;
+					} else {
+						printf("%sPlease enter an %sACTUAL\033[0m%s name.\033[0m\n",DIS_ANSI,BOLD_ANSI,DIS_ANSI);
+						sleep(USER_SLEEP_DELAY);
+					}
+				}
 				
 
 
 				// number string
-				clear();
-				printf("Enter your Phone Number:%s ",BOLD_ANSI);
-				char phone_number[32]="";
-				fgets(phone_number,sizeof(phone_number),stdin);
-				printf("\033[0m");
-
-				// ask address
-				if(local.location){
-					printf("Enter your Adress:%s ",BOLD_ANSI);
-					char address[64]="";
-					fgets(address,sizeof(address),stdin);
+				while(1){
+					clear();
+					draw_header();
+					printf("Order Type:%s %s\033[0m\n",BOLD_ANSI,local.location);
+					printf("Enter your name:%s %s\033[0m",BOLD_ANSI,local.name);
+					draw_header_sep();
+					printf("Enter your Phone Number:%s ",BOLD_ANSI);
+					char phone_number[16]="";
+					fgets(phone_number,sizeof(phone_number),stdin);	
 					printf("\033[0m");
+					if(strcmp(phone_number,"\n")!=0 && strlen(phone_number)>0){
+						local.number = phone_number;
+						break;
+					} else {
+						printf("%s Please enter your %sACTUAL\033[0m%s phone number.\033[0m\n",DIS_ANSI,BOLD_ANSI,DIS_ANSI);
+						sleep(USER_SLEEP_DELAY);
+					}
 				}
 
-				// select the type;
-				char *screen_type[]={
-					create_label_price( "Cheese",BURRITO_CHEAP_PRICE),
-					create_label_price("Plain",BURRITO_CHEAP_PRICE),
-					create_label_price("Spicy",BURRITO_CHEAP_PRICE),
-					create_label_price("Deluxe",BURRITO_EXPENSIVE_PRICE),
-					create_label_price("Large",BURRITO_EXPENSIVE_PRICE),
-					create_label_price("Gourmet",BURRITO_EXPENSIVE_PRICE),
+				while(1){
+				if(strcmp(local.location,"Delivery")){
+						clear();
+						draw_header();
+						printf("Enter your Adress:%s ",BOLD_ANSI);
+						char address[64]="";
+						fgets(address,sizeof(address),stdin);
+						local.address = address;
+						printf("\033[0m");
+					}
+				}
+
+				// select the type
+				const char *screen_type_psudo[]={
+					"Cheese",
+					"Plain",
+					"Spicy",
+					"Deluxe",
+					"Large",
+					"Gorumet",
 				};
-				local.type = screen_type[draw_screen(screen_type,6,"Please select fromteh following burritos:\n")];
 
+				char **screen_type =  create_label_price(screen_type_psudo,6);
+				local.type = screen_type[draw_screen(screen_type,6,"Please select from the following burritos:\n")];
+				free_labels(screen_type,6);
+				
+				// complete the order: 
+				char *screen_complete_order[]={
+					"Yes",
+					"No",
+				};
+				if(!draw_screen(screen_complete_order,2,"Do you want to complete your order?\n")){
+					// we done cuh
 
-				break;
+				} else break;
 			case 1: // Management Summary 
 
 				break;
