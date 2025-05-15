@@ -137,12 +137,7 @@ char *plib_get_arg_value(char *arg_name,struct plib_argument *array){
 }
 
 
-int plib_struct_next(struct burrito local,size_t length){
-	size_t i;
-	for(i=0;i<length;i++){
-		if(local[i].arg == NULL) break;
-	}
-}
+
 int plib_set_arg_implicit(char* argument, char* description, char* type,void (*callback)(const char *value), void (*function)(void),int self_callback,struct plib_argument *local, size_t max_length) {
 	size_t i;
   for (i = 0; i < max_length; i++) {
