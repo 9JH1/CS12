@@ -70,18 +70,43 @@ int main(int system_argument_amount, char *system_argument_array[]){
 					// only ask for address if mode is delivery	
 					if(screen_location_value) order.address = input_checker("Please enter your","address");
 
-					// select the type
-					char **screen_type =  create_label_price(burrito_type_list,6);
-					int screen_type_psudo_value = draw_screen(screen_type,6,"Please select from the following burritos:");
-					if(screen_type_psudo_value<=2) order.price += BURRITO_CHEAP_PRICE;
-					else order.price += BURRITO_EXPENSIVE_PRICE;
-					order.type = screen_type[screen_type_psudo_value];
-					free_labels(screen_type,6);
+					// allocate memory for type(s);
+					order.type_capacity = 1;
+					order.type_index = 0;
+					order.type = malloc(order.type_capacity * BURRITO_ALLOC_SIZE);
+
+					while(1){
+						int user_type_input = 1;
+						if(user_type_input<=2) order.price += BURRITO_CHEAP_PRICE;
+						else order.price += BURRITO_EXPENSIVE_PRICE;	
+						// dynmically allocate more size 
+						if(order.type_index == order.type_capacity){
+							order.type_capacity += 1;
+							if(verbose){
+								printf("Allocated %lu bytes (%lu bytes total) for more burritos!\n",sizeof(BURRITO_TYPE_LIST[user_type_input]),sizeof(order.type));
+								sleep(USER_SLEEP_DELAY);
+							}
+							char** temp = realloc(order.type,sizeof(order.type)+sizeof(BURRITO_TYPE_LIST[user_type_input]));
+							if(!temp){
+								printf("Memory allocation failed in type.\n");
+								free(order.type);
+								return 1;
+							}
+							order.type = temp;
+						}
+						order.type[order.type_index] = (char *)BURRITO_TYPE_LIST[user_type_input];
+						order.type_index++;
+					}
 					char *screen_complete_order[]={"Yes","No, Restart Order",};
 					char price_header[256];
 					snprintf(price_header,sizeof(price_header),"Final Price: %s$%0.2f\033[0m, Confirm Order?",BOLD_ANSI,order.price);
 					if(!draw_screen(screen_complete_order,2,price_header)){
 						// finished
+						printf("User ordered burritos:\n");
+						for(int i=0;i<order.type_index;i++){
+							printf("%s\n",order.type[i]);
+						}
+						sleep(5);
 						order_index++;
 						order_amount_global=order_index;
 					} else {

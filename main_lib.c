@@ -4,8 +4,10 @@
 #include <time.h>
 #include <signal.h>
 #include <bsd/string.h>
+#include <string.h>
 #include "plib.c"
 #include "main_settings.c"
+
 #ifdef _WIN32
 	#include <conio.h>
 	int achar() {
@@ -51,14 +53,18 @@ int nrand(int min, int max) {
 int order_amount_global=0;
 
 typedef struct Burrito {
-	char*type;
+	char **type;
+	int type_capacity;
+	int type_index;
 	char*mode; // 0 = delivery, 1 = pickup
 	int mode_val;
 	char*name;
 	char*number;
 	char*address;
 	float price;
-}Burrito;
+}Burrito; 
+
+
 
 // all this does is run when the user presses control+c
 void quit(int a){printf("\nCTRL+C pressed have fun with your leaked memory, Goodbye\n");exit(0);}
@@ -118,33 +124,51 @@ int draw_screen_implicit(char *array[],size_t array_length,char *prompt){
 	return selected;
 }
 
-
 char **create_label_price(const char *labels[], size_t label_amount) {
-    char **buffer = (char **)malloc(label_amount * sizeof(char *));
-    if (buffer == NULL) return NULL;
+    // +1 for "Exit", +1 for NULL terminator
+    size_t total = label_amount + 2;
+    char **buffer = malloc(total * sizeof(char *));
+    if (!buffer) return NULL;
 
+    // find longest label
     size_t largest = 0;
     for (size_t i = 0; i < label_amount; i++) {
         size_t len = strlen(labels[i]);
         if (len > largest) largest = len;
     }
 
+    // build each “Label    $xx.xx”
     for (size_t i = 0; i < label_amount; i++) {
-        double price = (i > BURRITO_PRICE_CHANGE_NUM) ? BURRITO_EXPENSIVE_PRICE : BURRITO_CHEAP_PRICE;
-        size_t buffer_size = largest + 20;
-        buffer[i] = (char *)malloc(buffer_size);
-        if (buffer[i] == NULL) {
+        double price = (i > BURRITO_PRICE_CHANGE_NUM)
+                       ? BURRITO_EXPENSIVE_PRICE
+                       : BURRITO_CHEAP_PRICE;
+
+        // estimate buffer size for each label + price
+        size_t buf_sz = largest + 10; // label + space + "$" + "xx.xx" + '\0'
+        buffer[i] = malloc(buf_sz);
+        if (!buffer[i]) {
             for (size_t j = 0; j < i; j++) free(buffer[j]);
             free(buffer);
             return NULL;
         }
-        snprintf(buffer[i], buffer_size, "%-*s $%.2f", (int)largest, labels[i], price);
+
+        snprintf(buffer[i], buf_sz, "%-*s $%.2f", (int)largest, labels[i], price);
     }
+
+    // Allocate and copy "Exit"
+    buffer[label_amount] = malloc(5); // "Exit" + '\0'
+    if (!buffer[label_amount]) {
+        for (size_t i = 0; i < label_amount; i++) free(buffer[i]);
+        free(buffer);
+        return NULL;
+    }
+    strcpy(buffer[label_amount], "Exit");
+
+    // NULL terminate the list
+    buffer[label_amount + 1] = NULL;
 
     return buffer;
 }
-
-
 void draw_border(char*text,int size){
 	printf("|%s",text);
 	if(size>0 && strlen(text)>0){

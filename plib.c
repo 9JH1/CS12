@@ -102,7 +102,6 @@ struct plib_argument {
 	// ^ self callback ( calls function with its own pointer );
 };
 
-
 int plib_list_contains(struct plib_argument *array, size_t array_size, char*value){
 	for(int i=0;i<array_size;i++){
 		if(plib_strcmp(array[i].arg,value)==0) return 0;
