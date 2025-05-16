@@ -2,12 +2,15 @@
 #define SEL_ANSI  "\033[32m"
 #define DIS_ANSI  "\033[31m"
 
-#define BURRITO_CHEAP_PRICE      8.5
-#define BURRITO_EXPENSIVE_PRICE 13.5
-#define DELIVERY_CHARGE          2.5
 #define USER_SLEEP_DELAY         1
-#define BURRITO_MAX_AMOUNT       3
+
+#define BURRITO_CHEAP_PRICE 8.5
+#define BURRITO_EXPENSIVE_PRICE 13.5
+#define BURRITO_LIMIT 90 // per slider
+
+#define DELIVERY_CHARGE          2.5
 #define BURRITO_PRICE_CHANGE_NUM 3-1
-#define BURRITO_TYPE_LIST_COUNT  6
-const char *BURRITO_TYPE_LIST[]={"Cheese","Plain","Spicy","Deluxe","Large","Gorumet"};
-const int BURRITO_ALLOC_SIZE = sizeof(BURRITO_TYPE_LIST) / BURRITO_TYPE_LIST_COUNT;
+#define BURRITO_TYPE_AMOUNT  6
+
+const char *BURRITO_TYPE_LIST[]={"Cheese","Plain","Spicy","Deluxe","Large","Gourmet"};
+

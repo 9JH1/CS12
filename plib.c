@@ -3,7 +3,6 @@
 #define color(hex1,hex2,out) plib_color_implicit(hex1,hex2,out,sizeof(out))
 #define plib_set_arg(a,b,c,d,e,f,g) plib_set_arg_implicit(a,b,c,d,e,f,g,sizeof(g)/sizeof(g[0]))
 #define plib_argument_help(a) plib_argument_help_table_implicit(a,__FILE__)
-#define plib_proccess_arguments(a) plib_proccess_arguments_implicit(system_argument_amount,system_argument_array,a)
 
 // take input from user.
 char *lowwer(char *a){
@@ -31,10 +30,7 @@ int plib_length(char *a){
 	return out;
 }
 
-void input(char *prompt, size_t MAX_INPUT_SIZE, char *out) {
-    printf("%s", prompt);
-    fgets(out, MAX_INPUT_SIZE, stdin);
-}
+
 
 
 int hex_to_int(char c) {
