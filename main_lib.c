@@ -51,6 +51,7 @@ typedef enum {
     DINEIN
 } OrderMode;
 
+
 typedef struct Burrito_type{
 	char *type;
 	int amount;

@@ -194,7 +194,8 @@ int main(int system_argument_amount, char *system_argument_array[]){
 						 * if the current order was about to overflow in the order_list malloc this block simply 
 						 * adds more space to order_list. */
 						if(verbose){
-							printf("orders struct has been DMA'D from %d -> %d.\n",orders_capacity,orders_capacity*2);
+							printf("orders struct has been reallocated from %d (%d bytes) -> %d (%d bytes).\n",orders_capacity,orders_capacity*(int)sizeof(Burrito),orders_capacity*2,(orders_capacity*2)*(int)sizeof(Burrito));
+
 							sleep(USER_SLEEP_DELAY);
 						}
 						
@@ -296,17 +297,23 @@ int main(int system_argument_amount, char *system_argument_array[]){
 					break;
 
 				case 3:
+					if(0){}
 
+					int memory_sum = 0;
 					// loop through and free all nested malloc'd memory
 					for(int i=0;i<order_index;i++){
 						if(verbose){
-							printf("Free'd %lu bytes from nested orders\n",sizeof(order_list[i].type));
+							memory_sum += ((orders_capacity*sizeof(Burrito_type))/order_index);
+							printf("Free'd total %d bytes from nested orders\n",memory_sum);
 						}
 						free(order_list[i].type);
 					}
 
-					// free the list and exit the program :D 
-					printf("Free'd %lu bytes of memory from order_list\n",sizeof(order_list));
+					// free the list and exit the program :D
+					if(verbose){
+						memory_sum += orders_capacity*sizeof(Burrito);
+						printf("Free'd total %d bytes of memory from order_list\n",memory_sum);
+					}
 					free(order_list);
 					return 0;
 			}
