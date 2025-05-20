@@ -13,4 +13,5 @@
 #define BURRITO_TYPE_AMOUNT  6
 
 const char *BURRITO_TYPE_LIST[]={"Cheese","Plain","Spicy","Deluxe","Large","Gourmet"};
-
+int orders_capacity=1;
+int order_index=0;

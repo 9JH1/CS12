@@ -17,7 +17,7 @@
 
 #elif __unix__
 	#include <termios.h>
-	int achar_unix(){
+	int achar(){
 		static struct termios oldt, newt;
 		tcgetattr(STDIN_FILENO,&oldt);
 		newt=oldt;
@@ -29,7 +29,6 @@
 	}
 #endif
 
-#define achar() achar_unix()
 #define clear()  system("clear");
 #define clear_a() printf("\033[H");
 
@@ -65,11 +64,7 @@ typedef struct Burrito {
 	char*address;
 	float price;
 	Burrito_type *type;
-}Burrito; 
-
-
-
-
+}Burrito;
 
 void draw_header_sep_implicit(){
 	printf("%s----------------------------\033[0m\n",DIS_ANSI);
@@ -81,7 +76,7 @@ printf("Welcome To %sBanjo's Burritos\033[0m!%s Order #%d ($%0.2f)\033[0m\n",BOL
 
 // all this does is run when the user presses control+c
 void quit(int a){
-	printf("\nCTRL+C pressed have fun with your leaked memory, Goodbye\n");
+	printf("\n\033[0mCTRL+C pressed have fun with your leaked memory, Goodbye\n");
 	exit(0);
 }
 
@@ -193,6 +188,104 @@ Burrito_type *display_burrito_menu(){
 					printf("%f\n",price_sum);
 					return burrito_list;
 				}
+				break;
+		}
+	}
+}
+
+
+/* order_num | name | price
+ *
+ *
+ */
+
+void draw_kitchen_screen(Burrito *order_list, int order_index){
+	// init 
+	int order_num_largest = 0,
+			name_largest = 0,
+			price_largest = 0;
+	Burrito *order_list_local = order_list;
+	
+	// count 
+	for(int i=0;i<order_index;i++){
+		Burrito local = order_list[i];
+		if(strlen(local.name)>name_largest) name_largest = strlen(local.name);
+		char order_num[32] = "";
+		sprintf(order_num,"%d",i+1);
+		if(strlen(order_num)>order_num_largest) order_num_largest = strlen(order_num);
+		char price_char[32] = "";
+		sprintf(price_char,"%0.2f",local.price);
+		if(strlen(price_char)>price_largest) price_largest = strlen(price_char);
+	}
+
+	clear()
+	int selected_line_index = 0;
+	int selected_mode_index = 0;
+
+	char *modes[] = {
+		"delete",
+		"edit",
+		"cancel",
+	};
+	int mode_amount = 3;
+
+	while (1){
+		clear_a();
+		draw_header_implicit();
+		printf("| ");
+		for(int i=0;i<mode_amount;i++){
+			if(i == selected_mode_index){
+				printf("%s%s",BOLD_ANSI,SEL_ANSI);
+			} else printf("%s",DIS_ANSI);
+			printf("%s\033[0m | ",modes[i]);
+		}
+		printf("\n");
+
+		draw_header_sep_implicit();
+		for(int i=0;i<order_index;i++){
+			if(i == selected_line_index) printf("> ");
+			else printf("  ");
+			
+			Burrito local = order_list[i];
+			char order_index_char[32] = "";
+			sprintf(order_index_char,"%d",i);
+			printf("Order: #%d |",i);
+			for(int j=0;j<order_num_largest;j++) printf(" ");
+			
+			printf("%s |",local.name);
+			for(int j=0;j<name_largest-strlen(local.name);j++) printf(" ");
+
+			printf("$%0.2f |",local.price);
+			char price_char[32] = "";
+			sprintf(price_char,"%0.2f",local.price);
+			for(int j=0;j<price_largest-strlen(price_char);j++) printf(" ");
+
+			printf("\n");
+		}
+
+		int ch=achar(); 
+		switch(ch){
+			case 'B':
+				if(selected_line_index==order_index-1) selected_line_index = 0;
+				else selected_line_index++;
+				break;
+			case 'A':
+				if(selected_line_index==0) selected_line_index=order_index-1;
+				else selected_line_index--;
+				break;
+			case 'C':
+				if(selected_mode_index==mode_amount-1) selected_mode_index = 0;
+				else selected_mode_index++;
+				break;
+			case 'D':
+				if(selected_mode_index==0) selected_mode_index=mode_amount-1;
+				else selected_mode_index--;
+				break;
+			case 10:
+				if(selected_mode_index == 2 ){
+					return;
+				}
+
 				break;
 		}
 	}

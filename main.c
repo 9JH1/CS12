@@ -36,20 +36,42 @@ void draw_mangement(Burrito *order_list, int order_index){
 	float total_sales=0;
 	int pickup=0, 
 			delivery=0, 
-			eat_in=0;
+			dine_in=0;
+	char pickup_suffix[1]="",
+			 delivery_suffix[1]="",
+			 dine_in_suffix[1]="",
+			 total_suffix[1]="";
 
 	// Loop through and calculate sums
 	for(int i=0;i<order_index;i++){
 		if(order_list[i].mode == PICKUP) pickup++;
 		else if (order_list[i].mode == DELIVERY) delivery++;
-		else if (order_list[i].mode == DINEIN) eat_in++;				
+		else if (order_list[i].mode == DINEIN) dine_in++;				
 		total_sales+=order_list[i].price;
 	}
+	
+	// Add suffixes
+	if(pickup > 1) pickup_suffix[0] = 's';
+	if(delivery > 1) delivery_suffix[0] = 's';
+	if(dine_in > 1) dine_in_suffix[0] = 's';
+	if(dine_in>1 || pickup>1 || delivery>1) total_suffix[0] = 's';
 
 	// draw the ui
 	draw_header_sep();
-	printf("There have been %s%d\033[0m orders placed, costing %s$%0.2f\033[0m\n",BOLD_ANSI,order_index,BOLD_ANSI,total_sales);
-	printf("%s%d\033[0m Customer(s) picked up their burrito, %s%d\033[0m Customer(s) had it delivered and %s%d\033[0m Customer(s) ate inside the restaurant.\n",BOLD_ANSI,pickup,BOLD_ANSI,delivery, BOLD_ANSI,eat_in);
+	printf("there have been a total of %s%d\033[0m customer%s with a order sum price of %s$%0.2f\033[0m\n",BOLD_ANSI,pickup+delivery+dine_in,total_suffix,BOLD_ANSI,total_sales);
+	if(pickup > 0){
+		printf("%s%d\033[0m customer%s picked up their order",BOLD_ANSI,pickup,pickup_suffix);
+	}
+	
+	if(delivery > 0){
+		printf(", %s%d\033[0m customer%s picked up their order",BOLD_ANSI,delivery,delivery_suffix);
+	}
+
+	if(dine_in){
+		printf(", %s%d\033[0m customer%s picked up their order",BOLD_ANSI,dine_in,dine_in_suffix);
+	}
+	printf(".\n");
+
 	draw_header_sep();
 	printf("%sPress %sany key\033[0m%s to go back to main menu.\033[0m\n",DIS_ANSI,BOLD_ANSI,DIS_ANSI);
 	achar();
@@ -79,7 +101,7 @@ char* input(char *prompt,char *keyword){
 		// take the input
 		fgets(input,sizeof(input),stdin);
 		printf("\033[0m");
-
+		input[strcspn(input, "\n")] = 0;
 		// error check and return 
 		if(strcmp(input,"\n")!=0 && strlen(input)>0){
 			return input;
@@ -164,7 +186,6 @@ int main(int system_argument_amount, char *system_argument_array[]){
 	 * it preloads and runs callbacks and other functions based off of the arguments run 
 	 * with the program eg --help and --verbose. */
 	if(proccess_arguments(args) == 0){
-		int orders_capacity = 1, order_index = 0;
 		Burrito *order_list = malloc(orders_capacity * sizeof(Burrito));
 			
 		/* checking if order list is defined is important as if it is not it shows that a 
@@ -175,7 +196,10 @@ int main(int system_argument_amount, char *system_argument_array[]){
 			return 1;
 		}
 		
-		// Start the app loop (continuously ask user for input)
+		/* unlike python C does not come with booleans unless you import another library,
+		 * instead of true and false C uses 1 and 0 this is why you will see int value returns 
+		 * and conditinals throughout the code. */
+
 		while(1){
 			char *screen_main[]={"Enter Order","Management Summary","Kitchen Screen","Exit"};
 			int screen_main_value = draw_screen(screen_main,4,"-- Select An Option --");
@@ -294,6 +318,7 @@ int main(int system_argument_amount, char *system_argument_array[]){
 					break;
 
 				case 2:
+					draw_kitchen_screen(order_list,order_index);
 					break;
 
 				case 3:
