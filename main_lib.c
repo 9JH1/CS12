@@ -7,14 +7,34 @@
 #include "main_settings.c"
 
 #ifdef _WIN32
-	#include <conio.h>
 	int achar() {
-		if (_kbhit()) {
-			return _getch();
-		}
-		return -1;
+		HANDLE hStdin = GetStdHandle(STD_INPUT_HANDLE);
+		DWORD mode, bytesRead;
+		INPUT_RECORD ir;
+  	KEY_EVENT_RECORD ker;
+  	GetConsoleMode(hStdin, &mode);
+  	SetConsoleMode(hStdin, mode & ~(ENABLE_LINE_INPUT | ENABLE_ECHO_INPUT));
+  	ReadConsoleInput(hStdin, &ir, 1, &bytesRead);
+		if (ir.EventType == KEY_EVENT && ir.Event.KeyEvent.bKeyDown) {
+  		ker = ir.Event.KeyEvent;
+  		char ch = ker.uChar.AsciiChar;
+    	if (ch == '\r') { 
+      	ch = '\n';
+    	} else if (ker.wVirtualKeyCode >= VK_UP && ker.wVirtualKeyCode <= VK_DOWN) {
+    		switch (ker.wVirtualKeyCode) {
+      		case VK_UP:    ch = 'A'; break;
+        	case VK_DOWN:  ch = 'B'; break;
+        	case VK_RIGHT: ch = 'C'; break;
+        	case VK_LEFT:  ch = 'D'; break;
+      	}
+    	}
+    	SetConsoleMode(hStdin, mode);
+    	return (unsigned char)ch;
+  	}
+  	SetConsoleMode(hStdin, mode);
+  	return -1;
 	}
-
+#define clear()  system("clear");
 #elif __unix__
 	#include <termios.h>
 	int achar(){
@@ -27,9 +47,9 @@
 		tcsetattr(STDIN_FILENO,TCSANOW,&oldt);
 		return ch;
 	}
+	#define clear()  system("clear");
 #endif
 
-#define clear()  system("clear");
 #define clear_a() printf("\033[H");
 
 // define callback toggles
