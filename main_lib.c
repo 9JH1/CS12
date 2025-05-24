@@ -33,12 +33,14 @@
 #define clear_a() printf("\033[H");
 
 // define callback toggles
-int help_toggle = 0;
-int verbose     = 0;
+int help_toggle  = 0;
+int verbose      = 0;
+int exit_verbose = 0;
 
 // define callback functions
 void help_callback(){help_toggle = 1;}
 void verbose_callback(){verbose = 1;}
+void exit_verbose_callback(){verbose = 1;}
 
 int order_amount_global=0;
 static float order_price_global = 0;
@@ -116,6 +118,10 @@ Burrito_type *display_burrito_menu(){
 		int  amount_sum=0;
 		clear_a();
 		draw_header_implicit();
+		printf("Use the up and down arrows to navigate through items,\nuse left and right to increase and decrease amount,\npress enter on any item to submit order info\n");
+		draw_header_sep_implicit();
+		printf("Keybinds: [r]eset\n");
+		draw_header_sep_implicit();
 		for(int i=0;i<BURRITO_TYPE_AMOUNT;i++){
 			char largest_char[16];
 			snprintf(largest_char,sizeof(largest_char),"%d",burrito_list[i].amount);
@@ -123,17 +129,13 @@ Burrito_type *display_burrito_menu(){
 			price_sum+=burrito_list[i].amount*burrito_list[i].price;
 			amount_sum+=burrito_list[i].amount;
 		}
-		for(int i=0;i<(BURRITO_TYPE_AMOUNT+1);i++){
+		for(int i=0;i<(BURRITO_TYPE_AMOUNT);i++){
 			if(selected_line_index==i){
 				// write sel panel 
 				printf("%s%s> ",BOLD_ANSI,SEL_ANSI);
 			} else printf("  ");
 
-			if(i==0){
-				printf("Reset\033[0m\n");
-				continue;
-			}
-			Burrito_type local = burrito_list[i-1];
+			Burrito_type local = burrito_list[i];
 		
 			char cur_amount[16]="";
 			char cur_price[16]="";
@@ -161,33 +163,32 @@ Burrito_type *display_burrito_menu(){
 		switch(ch){
 			case 'B':
 				// down
-				if(selected_line_index==BURRITO_TYPE_AMOUNT) selected_line_index = 0;
+				if(selected_line_index==BURRITO_TYPE_AMOUNT-1) selected_line_index = 0;
 				else selected_line_index++;
 				break;
 			case 'A':
-				if(selected_line_index==0) selected_line_index=BURRITO_TYPE_AMOUNT;
+				if(selected_line_index==0) selected_line_index=BURRITO_TYPE_AMOUNT-1;
 				else selected_line_index--;
 				// up
 				break;
 			case 'C':
 				// right
-				if(selected_line_index!=0 && burrito_list[selected_line_index-1].amount < BURRITO_LIMIT) burrito_list[selected_line_index-1].amount++;
+				if(burrito_list[selected_line_index].amount < BURRITO_LIMIT) burrito_list[selected_line_index].amount++;
 				break;
 			case 'D':
 				// left
-				if(selected_line_index!=0 && burrito_list[selected_line_index-1].amount > 0) burrito_list[selected_line_index-1].amount--;
+				if(burrito_list[selected_line_index].amount > 0) burrito_list[selected_line_index].amount--;
+				break;
+			case 'r':
+				for(int i=0;i<BURRITO_TYPE_AMOUNT;i++){
+					burrito_list[i].amount = 0;
+				}
 				break;
 			case 10:
 				// enter
-				if(selected_line_index == 0){
-					for(int i=0;i<BURRITO_TYPE_AMOUNT;i++){
-						burrito_list[i].amount = 0;
-					}
-				} else {
-					order_price_global+=price_sum;
-					printf("%f\n",price_sum);
-					return burrito_list;
-				}
+				order_price_global+=price_sum;
+				printf("%f\n",price_sum);
+				return burrito_list;
 				break;
 		}
 	}
@@ -199,12 +200,11 @@ Burrito_type *display_burrito_menu(){
  *
  */
 
-void draw_kitchen_screen(Burrito *order_list, int order_index){
+int draw_kitchen_screen(Burrito *order_list, int order_index){
 	// init 
 	int order_num_largest = 0,
 			name_largest = 0,
 			price_largest = 0;
-	Burrito *order_list_local = order_list;
 	
 	// count 
 	for(int i=0;i<order_index;i++){
@@ -220,27 +220,10 @@ void draw_kitchen_screen(Burrito *order_list, int order_index){
 
 	clear()
 	int selected_line_index = 0;
-	int selected_mode_index = 0;
-
-	char *modes[] = {
-		"delete",
-		"edit",
-		"cancel",
-	};
-	int mode_amount = 3;
-
 	while (1){
 		clear_a();
 		draw_header_implicit();
-		printf("| ");
-		for(int i=0;i<mode_amount;i++){
-			if(i == selected_mode_index){
-				printf("%s%s",BOLD_ANSI,SEL_ANSI);
-			} else printf("%s",DIS_ANSI);
-			printf("%s\033[0m | ",modes[i]);
-		}
-		printf("\n");
-
+		printf(" Keybinds [b]back [c]ancel\n");
 		draw_header_sep_implicit();
 		for(int i=0;i<order_index;i++){
 			if(i == selected_line_index) printf("> ");
@@ -273,19 +256,9 @@ void draw_kitchen_screen(Burrito *order_list, int order_index){
 				if(selected_line_index==0) selected_line_index=order_index-1;
 				else selected_line_index--;
 				break;
-			case 'C':
-				if(selected_mode_index==mode_amount-1) selected_mode_index = 0;
-				else selected_mode_index++;
-				break;
-			case 'D':
-				if(selected_mode_index==0) selected_mode_index=mode_amount-1;
-				else selected_mode_index--;
-				break;
+			case 'b':
+				return 0;
 			case 10:
-				if(selected_mode_index == 2 ){
-					return;
-				}
-
 				break;
 		}
 	}

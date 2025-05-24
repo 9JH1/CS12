@@ -12,7 +12,6 @@
 
 
 // imported functions
-#define draw_screen(a, b, c) draw_screen_implicit(a, b, c) 
 #define set_argument(a, b, c, d, e, f, g) plib_set_arg(a, b, c, d, e, f, g)
 #define proccess_arguments(a) plib_proccess_arguments_implicit(system_argument_amount,system_argument_array,a)
 #define draw_header() draw_header_implicit()
@@ -22,8 +21,8 @@
 
 /* draw_management_screen:
  * ARGS:
- * 	order_list: a list of Burrito orders. 
- * 	order_index: the amount of items in order_list
+ * 	(Burrito*)order_list: a list of Burrito orders. 
+ * 	(int)order_index: the amount of items in order_list
  * 
  * RETURNS:
  * 	nothing.
@@ -64,11 +63,11 @@ void draw_mangement(Burrito *order_list, int order_index){
 	}
 	
 	if(delivery > 0){
-		printf(", %s%d\033[0m customer%s picked up their order",BOLD_ANSI,delivery,delivery_suffix);
+		printf(", %s%d\033[0m customer%s had their order delivered.",BOLD_ANSI,delivery,delivery_suffix);
 	}
 
 	if(dine_in){
-		printf(", %s%d\033[0m customer%s picked up their order",BOLD_ANSI,dine_in,dine_in_suffix);
+		printf(", %s%d\033[0m customer%s ate their order in store",BOLD_ANSI,dine_in,dine_in_suffix);
 	}
 	printf(".\n");
 
@@ -80,45 +79,76 @@ void draw_mangement(Burrito *order_list, int order_index){
 
 /* input: 
  * ARGS:
- * 	prompt: printed at the top of the selector menu 
- * 	keyword: keyword of the prompt eg USERNAME or PASSWORD 
+ * 	(char*)prompt: printed at the top of the selector menu 
+ * 	(char*)keyword: keyword of the prompt eg USERNAME or PASSWORD 
+ * 	(int)min: minimum string size 
+ * 	(int)max: maximum string size
  * RETURNS:
- * 	char of undefined size, program returns the string of the 
- * 	input that the user puts. 
+ * 	malloc'd char of undefined size, program returns the string of the 
+ * 	input that the user puts. the malloc'd string needs to be free'd after 
+ * 	use.
  * DESCRIPTION:
  * 	this function very simply asks the user to enter input,
  * 	this input function has built in themeing and blank input 
  * 	checking */
-char* input(char *prompt,char *keyword){
+char* input(char *prompt,char *keyword,const int min,const int max){
 	while(1){
-		clear();
-		draw_header();
+  	clear();
+    draw_header();
+    int input_malloc_size = max + 2;
+		char *input= malloc(input_malloc_size);
 
-		// print the prompt
-		printf("%s %s:%s%s ",prompt,keyword,BOLD_ANSI,SEL_ANSI);
-		static char input[256]="";
-		
-		// take the input
-		fgets(input,sizeof(input),stdin);
-		printf("\033[0m");
-		input[strcspn(input, "\n")] = 0;
-		// error check and return 
-		if(strcmp(input,"\n")!=0 && strlen(input)>0){
-			return input;
-		} else {
-			printf("%sPlease Enter your %sACTUAL %s\033[0m%s.\033[0m\n",DIS_ANSI,BOLD_ANSI,keyword,DIS_ANSI);
+		if(verbose){ 
+			printf("allocated %d mem for an input func call\n",input_malloc_size);
+			fflush(stdout);
+		}
+
+		if(!input){
+			printf("Error: a memory allocation error occured in input function\n");
+			exit(1);
+		} 
+   	
+    // print the prompt
+    printf("%s %s:%s%s ",prompt,keyword,BOLD_ANSI,SEL_ANSI);
+
+    // take the input
+    fgets(input,input_malloc_size,stdin);
+    printf("\033[0m");
+    input[strcspn(input, "\n")] = 0;
+	
+    // error check and return 
+    int input_length = strlen(input);
+		if(verbose){
+			printf("DEBUG: raw input='%s'\n", input);
+			printf("input has %d strlen\n",input_length);
 			sleep(USER_SLEEP_DELAY);
 		}
-	}
-}
 
+    if(input_length>0){
+			if(input_length >= min && input_length <= max) return input;
+			else if (input_length < min) printf("%sPlease Enter a value %slarger\033[0m then %s%d\033[0m\n",DIS_ANSI,BOLD_ANSI,BOLD_ANSI,min);
+			else if (input_length > max){
+				if (strchr(input, '\n') == NULL) {
+
+					// HACK: FLUSH EM JOHN
+    			int c;
+    			while ((c = getchar()) != '\n' && c != EOF);
+				}
+				printf("%sPlease Enter a value %ssmaller\033[0m then %s%d\033[0m\n",DIS_ANSI,BOLD_ANSI,BOLD_ANSI,max);
+				}
+    } else printf("%sPlease Enter an %sACTUAL %s\033[0m%s. you left it blank.\033[0m\n",DIS_ANSI,BOLD_ANSI,keyword,DIS_ANSI);
+		printf("%sPress any key to continue\033[0m\n",DIS_ANSI);
+    achar(); // make the user have to press enter;
+		free(input);
+  }
+}
 
 
 /* draw_screen:
  * ARGS:
- * 	array: a array of words used as items in the menu 
- * 	array_length: the amount of items in array.
- * 	prompt: text printed at the top of the menu 
+ * 	(char **)array: a array of words used as items in the menu 
+ * 	(int)array_length: the amount of items in array.
+ * 	(char *)prompt: text printed at the top of the menu 
  * RETURNS:
  * 	int, program returns the index of the current selected 
  * 	item. 
@@ -174,6 +204,7 @@ int main(int system_argument_amount, char *system_argument_array[]){
 	struct plib_argument args[3] = {0};
 	set_argument("--help","show this dialog","void",NULL,help_callback, 0,args);
 	set_argument("--verbose","show extra information","void",NULL,verbose_callback,0,args);
+	set_argument("--exit-verbose-only","shows exit memory free dialog","void",NULL,exit_verbose_callback,0,args);
 	
 	/* this small line basically just binds a killcode to a function, in this case it will 
 	 * run the quit() function if the user presses Control+C while the program is running,
@@ -246,7 +277,7 @@ int main(int system_argument_amount, char *system_argument_array[]){
 					 * future reference order->value is the same as order.value */
 					Burrito *order = &order_list[order_index];
 
-					// initialize price value (asssigned value later on)
+					// initialize values (asssigned later on)
 					order->price = 0;
 					char *screen_location[]={"Pickup","Delivery","Dine In",};
 
@@ -268,11 +299,11 @@ int main(int system_argument_amount, char *system_argument_array[]){
 					}
 
 					// get other basic input info 
-					order->name = input("Please enter your","name");
-					order->number = input("Please enter your","number");
+					order->name = input("Please enter your","name",INPUT_MIN_NAME,INPUT_MAX_NAME);
+					order->number = input("Please enter your","number",INPUT_MIN_NUMBER,INPUT_MAX_NUMBER);
 
 					// only ask for address if the location mode is delivery 
-					if(order->mode == DELIVERY) order->address = input("Please enter your","address");
+					if(order->mode == DELIVERY) order->address = input("Please enter your","address",INPUT_MIN_ADDRESS,INPUT_MAX_ADDRESS);
 
 					/* now this might look like a rather insignificant line but really this line calls the main 
 					 * attraction, that being the burrio selector program, this function is absolutly disgusting 
@@ -325,22 +356,44 @@ int main(int system_argument_amount, char *system_argument_array[]){
 					if(0){}
 
 					int memory_sum = 0;
+
+
 					// loop through and free all nested malloc'd memory
 					for(int i=0;i<order_index;i++){
 						if(verbose){
-							memory_sum += ((orders_capacity*sizeof(Burrito_type))/order_index);
-							printf("Free'd total %d bytes from nested orders\n",memory_sum);
+							int memory = ((orders_capacity*sizeof(Burrito_type))/order_index);
+							memory_sum += memory; 
+							printf("Free'd %d (tot %d) bytes from order[%d].type\n",memory,memory_sum,i);
+							if(strlen(order_list[i].name)>0){	
+								memory = INPUT_MAX_NAME;
+								memory_sum += memory; 
+								printf("Free'd %lu (pot %d, tot %d) bytes from order[%d].name\n",strlen(order_list[i].name),memory,memory_sum,i);
+							}
+
+							if(strlen(order_list[i].number)){
+								memory = INPUT_MAX_NUMBER;
+								memory_sum += memory;
+								printf("Free'd %lu (pot %d, tot %d) bytes from order[%d].number\n",strlen(order_list[i].number),memory,memory_sum,i);
+							}
+							if(order_list[i].mode == DELIVERY){
+								memory = INPUT_MAX_ADDRESS;
+								memory_sum += memory;
+								printf("Free'd %lu (pot %d,tot %d) bytes from order[%d].address\n",strlen(order_list[i].address),memory,memory_sum,i);
+							}
 						}
 						free(order_list[i].type);
 					}
 
 					// free the list and exit the program :D
 					if(verbose){
-						memory_sum += orders_capacity*sizeof(Burrito);
-						printf("Free'd total %d bytes of memory from order_list\n",memory_sum);
+						int memory = orders_capacity*sizeof(Burrito);
+						memory_sum += memory;
+						printf("Free'd %d (tot %d) bytes of memory from order_list\n",memory, memory_sum);
+						printf("Free'd %d total bytes of memory successfully!\n",memory_sum);
 					}
 					free(order_list);
 					return 0;
+#define BURRITO_TYPE_AMOUNT  6
 			}
 		}
 	}
