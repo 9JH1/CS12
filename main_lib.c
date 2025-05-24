@@ -6,6 +6,7 @@
 #include "plib.c"
 #include "main_settings.c"
 
+
 #ifdef _WIN32
 	int achar() {
 		HANDLE hStdin = GetStdHandle(STD_INPUT_HANDLE);
