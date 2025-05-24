@@ -1,8 +1,8 @@
 
 // COLORS 
 #define BOLD_ANSI "\033[1m"
-#define SEL_ANSI  "\033[32m"
-#define DIS_ANSI  "\033[31m"
+#define SEL_ANSI  "\033[0;38;2;32;160;153;49m"
+#define DIS_ANSI  "\033[0;38;2;68;66;122;49m"
 
 
 // PRICES
