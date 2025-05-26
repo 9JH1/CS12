@@ -11,6 +11,7 @@ const char *BURRITO_TYPE_LIST[]={"Cheese","Plain","Spicy","Deluxe","Large","Gour
 int orders_capacity=1;
 int order_index=0;
 
+
 #ifdef _WIN32
 	#include <windows.h>
 	int achar() {
@@ -40,7 +41,6 @@ int order_index=0;
   	SetConsoleMode(hStdin, mode);
   	return -1;
 	}
-#define clear()  system("clear");
 #elif __unix__
 	#include <termios.h>
 	int achar(){
@@ -53,7 +53,6 @@ int order_index=0;
 		tcsetattr(STDIN_FILENO,TCSANOW,&oldt);
 		return ch;
 	}
-	#define clear()  system("clear");
 #endif
 
 

@@ -62,9 +62,9 @@ char* input(char *prompt,char *keyword,const int min,const int max){
 			if(input_length >= min && input_length <= max) return input;
 			else if (input_length < min) printf("%sPlease Enter a value with a string length %slarger\033[0m%s than %s%d\033[0m\n",DIS_ANSI,BOLD_ANSI,DIS_ANSI,BOLD_ANSI,min);
 			else if (input_length > max){
-				if (strchr(input, '\n') == NULL) {
 
-					// HACK: FLUSH EM JOHN
+				// this is done for cross compatability
+				if (strchr(input, '\n') == NULL) {
     			int c;
     			while ((c = getchar()) != '\n' && c != EOF);
 				}
@@ -134,10 +134,9 @@ int draw_screen(const char *array[],size_t array_length,char *prompt){
 // system_argument_count and system_argument_array are the system vars parsed into the function on run
 int main(int system_argument_amount, char *system_argument_array[]){
 
-	/* what these lines do is declare some command line flags/rguments that allow the code to do different things 
-	 * for example wiht you run the --verbose or --exit-verbose the code will print more verbose lines, this is good as 
-	 * you can easily see if things are going wrong because when running with --verbose you can
-	 *
+	/* what these lines do is declare some command line flags/arguments that allows the user 
+	 * to view extra information, running this program with --verbose flag will cause it to 
+	 * show extra verbose information like allocation sizes and other bits.
 	 * */ 
 	struct plib_argument args[3] = {0};
 	set_argument("--help","show this dialog","void",NULL,help_callback, 1,args,3);

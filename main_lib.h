@@ -1,4 +1,4 @@
-#ifndef MAIN_LIB_H        // gaurd so that main_lib cant be used twice
+#ifndef MAIN_LIB_H        // guard so that main_lib cant be used twice
 #define MAIN_LIB_H
 
 extern int help_toggle;
@@ -40,7 +40,7 @@ typedef struct Burrito {
 #define BOLD_ANSI "\033[1m"
 #define SEL_ANSI  "\033[0;38;2;32;160;153;49m"
 #define DIS_ANSI  "\033[0;38;2;68;66;122;49m"
-#define clear_a() printf("\033[h?0");
+#define clear_a() printf("\033[0;0H")
 
 // PRICES
 #define BURRITO_CHEAP_PRICE      8.5
@@ -78,7 +78,7 @@ extern int orders_capacity;
 extern int order_index;
 
 #ifdef _WIN32
-	#define clear()  system("clear");
+	#define clear()  system("cls");
 #elif __unix__
 	#define clear()  system("clear");
 #endif
