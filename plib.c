@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include "main_lib.h"
+
 #define PLIB_ARG_HELP_TITLE_FORMAT "[OPTIONS]"
 #define color(hex1,hex2,out) plib_color_implicit(hex1,hex2,out,sizeof(out))
 #define plib_set_arg(a,b,c,d,e,f,g) plib_set_arg_implicit(a,b,c,d,e,f,g,sizeof(g)/sizeof(g[0]))
@@ -85,18 +87,6 @@ int plib_strcmp(const char *s1, const char *s2) {
 }
 
 
-struct plib_argument {
-	char *arg;
-	char *desc;
-	char *type;
-	char *value;
-	void (*call)(const char *value);
-	void (*func)(void);
-	char (*str_call)(const char *value);
-	int  (*int_call)(const char *value);
-	int scall;
-	// ^ self callback ( calls function with its own pointer );
-};
 
 int plib_list_contains(struct plib_argument *array, size_t array_size, char*value){
 	for(int i=0;i<array_size;i++){
@@ -133,7 +123,7 @@ char *plib_get_arg_value(char *arg_name,struct plib_argument *array){
 
 
 
-int plib_set_arg_implicit(char* argument, char* description, char* type,void (*callback)(const char *value), void (*function)(void),int self_callback,struct plib_argument *local, size_t max_length) {
+int set_argument(char* argument, char* description, char* type,void (*callback)(const char *value), void (*function)(void),int self_callback,struct plib_argument *local, int max_length) {
 	size_t i;
   for (i = 0; i < max_length; i++) {
   	if (local[i].arg == NULL) break;
@@ -215,7 +205,7 @@ int plib_argument_help_table_implicit(struct plib_argument *local, char *name){
 }
 
 
-int plib_proccess_arguments_implicit(int argc, char*argv[],struct plib_argument *local){
+int proccess_arguments(int argc, char *argv[],struct plib_argument *local){
 	size_t local_length=0;
 	while(local[local_length].arg != NULL) local_length++;
 	if(local_length>0){

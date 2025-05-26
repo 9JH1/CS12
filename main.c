@@ -3,21 +3,12 @@
  * --------------------------
  * view LICENCE for more details */
 
-
+// Minimal libs
 #include <stdio.h> // printf 
 #include <string.h> // strlen strcmp
 #include <stdlib.h> // malloc realloc 
 #include <unistd.h> // exit 
-#include "main_lib.c" // everything else
-
-
-// imported functions
-#define set_argument(a, b, c, d, e, f, g) plib_set_arg(a, b, c, d, e, f, g)
-#define proccess_arguments(a) plib_proccess_arguments_implicit(system_argument_amount,system_argument_array,a)
-#define draw_header() draw_header_implicit()
-#define handle_quit() handle_quit_implicit()
-#define draw_header_sep() draw_header_sep_implicit()
-
+#include "main_lib.h" // everything else
 
 /* input: 
  * ARGS:
@@ -78,12 +69,12 @@ char* input(char *prompt,char *keyword,const int min,const int max){
     			while ((c = getchar()) != '\n' && c != EOF);
 				}
 				printf("%sPlease Enter a value %ssmaller\033[0m%s than %s%d\033[0m\n",DIS_ANSI,BOLD_ANSI,DIS_ANSI,BOLD_ANSI,max);
-				}
+}
     } else printf("%sPlease Enter an %sACTUAL %s\033[0m%s. you left it blank.\033[0m\n",DIS_ANSI,BOLD_ANSI,keyword,DIS_ANSI);
 		printf("%sPress any key to continue\033[0m\n",DIS_ANSI);
     achar(); // make the user have to press enter;
 		free(input);
-  }
+ }
 }
 
 
@@ -101,7 +92,7 @@ char* input(char *prompt,char *keyword,const int min,const int max){
  * 	arrow keys to choose options from the array of words, when 
  * 	the user presses enter the function returns the index of 
  * 	the selected value. */
-int draw_screen(char *array[],size_t array_length,char *prompt){
+int draw_screen(const char *array[],size_t array_length,char *prompt){
 	int selected=0;
 	clear();
 	while (1){
@@ -143,11 +134,15 @@ int draw_screen(char *array[],size_t array_length,char *prompt){
 // system_argument_count and system_argument_array are the system vars parsed into the function on run
 int main(int system_argument_amount, char *system_argument_array[]){
 
-	// Set arguments & Quit Handler 
+	/* what these lines do is declare some command line flags/rguments that allow the code to do different things 
+	 * for example wiht you run the --verbose or --exit-verbose the code will print more verbose lines, this is good as 
+	 * you can easily see if things are going wrong because when running with --verbose you can
+	 *
+	 * */ 
 	struct plib_argument args[3] = {0};
-	set_argument("--help","show this dialog","void",NULL,help_callback, 1,args);
-	set_argument("--verbose","show extra information","void",NULL,verbose_callback,0,args);
-	set_argument("--exit-verbose-only","shows exit memory free dialog","void",NULL,exit_verbose_callback,0,args);
+	set_argument("--help","show this dialog","void",NULL,help_callback, 1,args,3);
+	set_argument("--verbose","show extra information","void",NULL,verbose_callback,0,args,3);
+	set_argument("--exit-verbose-only","shows exit memory free dialog","void",NULL,exit_verbose_callback,0,args,3);
 	
 	/* this small line basically just binds a killcode to a function, in this case it will 
 	 * run the quit() function if the user presses Control+C while the program is running,
@@ -159,7 +154,7 @@ int main(int system_argument_amount, char *system_argument_array[]){
 	/* the next line runs the implicit plib_process_arguments function, what this does is 
 	 * it preloads and runs callbacks and other functions based off of the arguments run 
 	 * with the program eg --help and --verbose. */
-	if(proccess_arguments(args) == 0){
+	if(proccess_arguments(system_argument_amount,system_argument_array,args) == 0){
 		Burrito *order_list = malloc(orders_capacity * sizeof(Burrito));
 			
 		/* checking if order list is defined is important as if it is not it shows that a 
@@ -175,7 +170,7 @@ int main(int system_argument_amount, char *system_argument_array[]){
 		 * and conditinals throughout the code. */
 
 		while(1){
-			char *screen_main[]={"Enter Order","Management Summary","Kitchen Screen","Exit"};
+			const char *screen_main[]={"Enter Order","Management Summary","Kitchen Screen","Exit"};
 			int screen_main_value = draw_screen(screen_main,4,"-- Select An Option --");
 
 			/* after viewing the documentation on draw_screen you can see it returns a int 
@@ -186,7 +181,7 @@ int main(int system_argument_amount, char *system_argument_array[]){
 				case 0:
 					// make a new callback point (used later on if the user wants to restart order)
 					re_order:
-					if(order_index == orders_capacity){
+					if(order_amount_global == orders_capacity){
 
 						/* this if block will dynamically allocate and re-allocate memory to fit more orders 
 						 * if the current order was about to overflow in the order_list malloc this block simply 
@@ -218,11 +213,11 @@ int main(int system_argument_amount, char *system_argument_array[]){
 					 * Also, because order is now a pointer and an undefined (*) pointer, it means that instead 
 					 * of using the conventional fullstop to query a value we use the -> operator, so  for 
 					 * future reference order->value is the same as order.value */
-					Burrito *order = &order_list[order_index];
+					Burrito *order = &order_list[order_amount_global];
 
 					// initialize values (asssigned later on)
 					order->price = 0;
-					char *screen_location[]={"Pickup","Delivery","Dine In",};
+					const char *screen_location[]={"Pickup","Delivery","Dine In",};
 
 					/* I decided to use something ive never used before for this particular data type, that being 
 					 * an ENUM data type, similar to a struct you can set const values easily, instead of having to 
@@ -262,7 +257,7 @@ int main(int system_argument_amount, char *system_argument_array[]){
 					}
 
 					// Draw the final screen 
-					char *screen_complete_order[]={"Yes","No, Restart Order",};
+					const char *screen_complete_order[]={"Yes","No, Restart Order",};
 					char price_header[256];
 					sprintf(price_header,"Final Price: %s$%0.2f\033[0m, Confirm Order?",BOLD_ANSI,order_price_global);
 					
@@ -271,9 +266,8 @@ int main(int system_argument_amount, char *system_argument_array[]){
 					if(!draw_screen(screen_complete_order,2,price_header)){
 						
 						// clean up for next frame
-						order_index++;
+						order_amount_global++;
 						order_price_global=0;
-						order_amount_global=order_index;
 					} else {
 
 						// go back to the start to redefine the values
@@ -302,12 +296,12 @@ int main(int system_argument_amount, char *system_argument_array[]){
 
 
 					// loop through and free all nested malloc'd memory
-					for(int i=0;i<order_index;i++){
+					for(int i=0;i<order_amount_global;i++){
 						if(verbose){
 							int memory = ((orders_capacity*sizeof(Burrito_type))/order_index);
 							memory_sum += memory; 
 							printf("verbose -> %d: Free'd %d (tot %d) bytes from order[%d].type\n",__LINE__,memory,memory_sum,i);
-							if(strlen(order_list[i].name)>0){	
+							if(strlen(order_list[i].name)>0){
 								memory = INPUT_MAX_NAME;
 								memory_sum += memory; 
 								printf("verbose -> %d: Free'd %lu (pot %d, tot %d) bytes from order[%d].name\n",__LINE__,strlen(order_list[i].name),memory,memory_sum,i);
