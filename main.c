@@ -19,64 +19,6 @@
 #define draw_header_sep() draw_header_sep_implicit()
 
 
-/* draw_management_screen:
- * ARGS:
- * 	(Burrito*)order_list: a list of Burrito orders. 
- * 	(int)order_index: the amount of items in order_list
- * 
- * RETURNS:
- * 	nothing.
- *
- * DESCRIPTION:
- *	this function uses the burrito list to generate and display 
- *	different data. some of the data used is the sum price and 
- *	amount of orders made. */
-void draw_mangement(Burrito *order_list, int order_index){
-	float total_sales=0;
-	int pickup=0, 
-			delivery=0, 
-			dine_in=0;
-	char pickup_suffix[1]="",
-			 delivery_suffix[1]="",
-			 dine_in_suffix[1]="",
-			 total_suffix[1]="";
-
-	// Loop through and calculate sums
-	for(int i=0;i<order_index;i++){
-		if(order_list[i].mode == PICKUP) pickup++;
-		else if (order_list[i].mode == DELIVERY) delivery++;
-		else if (order_list[i].mode == DINEIN) dine_in++;				
-		total_sales+=order_list[i].price;
-	}
-	
-	// Add suffixes
-	if(pickup > 1) pickup_suffix[0] = 's';
-	if(delivery > 1) delivery_suffix[0] = 's';
-	if(dine_in > 1) dine_in_suffix[0] = 's';
-	if(dine_in>1 || pickup>1 || delivery>1) total_suffix[0] = 's';
-
-	// draw the ui
-	draw_header_sep();
-	printf("there have been a total of %s%d\033[0m customer%s with a order sum price of %s$%0.2f\033[0m\n",BOLD_ANSI,pickup+delivery+dine_in,total_suffix,BOLD_ANSI,total_sales);
-	if(pickup > 0){
-		printf("%s%d\033[0m customer%s picked up their order",BOLD_ANSI,pickup,pickup_suffix);
-	}
-	
-	if(delivery > 0){
-		printf(", %s%d\033[0m customer%s had their order delivered.",BOLD_ANSI,delivery,delivery_suffix);
-	}
-
-	if(dine_in){
-		printf(", %s%d\033[0m customer%s ate their order in store",BOLD_ANSI,dine_in,dine_in_suffix);
-	}
-	printf(".\n");
-
-	draw_header_sep();
-	printf("%sPress %sany key\033[0m%s to go back to main menu.\033[0m\n",DIS_ANSI,BOLD_ANSI,DIS_ANSI);
-	achar();
-}
-
-
 /* input: 
  * ARGS:
  * 	(char*)prompt: printed at the top of the selector menu 
@@ -99,7 +41,7 @@ char* input(char *prompt,char *keyword,const int min,const int max){
 		char *input= malloc(input_malloc_size);
 
 		if(verbose){ 
-			printf("allocated %d mem for an input func call\n",input_malloc_size);
+			printf("verbose -> %d: allocated %d mem for an input func call\n",__LINE__,input_malloc_size);
 			fflush(stdout);
 		}
 
@@ -119,14 +61,15 @@ char* input(char *prompt,char *keyword,const int min,const int max){
     // error check and return 
     int input_length = strlen(input);
 		if(verbose){
-			printf("DEBUG: raw input='%s'\n", input);
-			printf("input has %d strlen\n",input_length);
-			sleep(USER_SLEEP_DELAY);
+			printf("verbose -> %d: raw input='%s'\n",__LINE__,  input);
+			printf("verbose -> %d: has %d strlen\n",__LINE__,input_length);
+			printf("verbose -> %d: press any key to continue\n",__LINE__);
+			achar();
 		}
 
     if(input_length>0){
 			if(input_length >= min && input_length <= max) return input;
-			else if (input_length < min) printf("%sPlease Enter a value %slarger\033[0m then %s%d\033[0m\n",DIS_ANSI,BOLD_ANSI,BOLD_ANSI,min);
+			else if (input_length < min) printf("%sPlease Enter a value with a string length %slarger\033[0m%s than %s%d\033[0m\n",DIS_ANSI,BOLD_ANSI,DIS_ANSI,BOLD_ANSI,min);
 			else if (input_length > max){
 				if (strchr(input, '\n') == NULL) {
 
@@ -134,7 +77,7 @@ char* input(char *prompt,char *keyword,const int min,const int max){
     			int c;
     			while ((c = getchar()) != '\n' && c != EOF);
 				}
-				printf("%sPlease Enter a value %ssmaller\033[0m then %s%d\033[0m\n",DIS_ANSI,BOLD_ANSI,BOLD_ANSI,max);
+				printf("%sPlease Enter a value %ssmaller\033[0m%s than %s%d\033[0m\n",DIS_ANSI,BOLD_ANSI,DIS_ANSI,BOLD_ANSI,max);
 				}
     } else printf("%sPlease Enter an %sACTUAL %s\033[0m%s. you left it blank.\033[0m\n",DIS_ANSI,BOLD_ANSI,keyword,DIS_ANSI);
 		printf("%sPress any key to continue\033[0m\n",DIS_ANSI);
@@ -202,7 +145,7 @@ int main(int system_argument_amount, char *system_argument_array[]){
 
 	// Set arguments & Quit Handler 
 	struct plib_argument args[3] = {0};
-	set_argument("--help","show this dialog","void",NULL,help_callback, 0,args);
+	set_argument("--help","show this dialog","void",NULL,help_callback, 1,args);
 	set_argument("--verbose","show extra information","void",NULL,verbose_callback,0,args);
 	set_argument("--exit-verbose-only","shows exit memory free dialog","void",NULL,exit_verbose_callback,0,args);
 	
@@ -249,7 +192,7 @@ int main(int system_argument_amount, char *system_argument_array[]){
 						 * if the current order was about to overflow in the order_list malloc this block simply 
 						 * adds more space to order_list. */
 						if(verbose){
-							printf("orders struct has been reallocated from %d (%d bytes) -> %d (%d bytes).\n",orders_capacity,orders_capacity*(int)sizeof(Burrito),orders_capacity*2,(orders_capacity*2)*(int)sizeof(Burrito));
+							printf("verbose -> %d: orders struct has been reallocated from %d (%d bytes) -> %d (%d bytes).\n",__LINE__,orders_capacity,orders_capacity*(int)sizeof(Burrito),orders_capacity*2,(orders_capacity*2)*(int)sizeof(Burrito));
 
 							sleep(USER_SLEEP_DELAY);
 						}
@@ -263,7 +206,7 @@ int main(int system_argument_amount, char *system_argument_array[]){
 						 * types to allocate memory that the system doesnt have, that could cause fatal errors and ==
 						 * other undefined behaviour. */
 						if(!temp){
-							if(verbose) printf("Error occured in order_list Realloc function\n");
+							if(verbose) printf("verbose -> %d: Error occured in order_list Realloc function\n",__LINE__);
 							free(order_list);
 							return 1;
 						} else order_list = temp;
@@ -363,22 +306,22 @@ int main(int system_argument_amount, char *system_argument_array[]){
 						if(verbose){
 							int memory = ((orders_capacity*sizeof(Burrito_type))/order_index);
 							memory_sum += memory; 
-							printf("Free'd %d (tot %d) bytes from order[%d].type\n",memory,memory_sum,i);
+							printf("verbose -> %d: Free'd %d (tot %d) bytes from order[%d].type\n",__LINE__,memory,memory_sum,i);
 							if(strlen(order_list[i].name)>0){	
 								memory = INPUT_MAX_NAME;
 								memory_sum += memory; 
-								printf("Free'd %lu (pot %d, tot %d) bytes from order[%d].name\n",strlen(order_list[i].name),memory,memory_sum,i);
+								printf("verbose -> %d: Free'd %lu (pot %d, tot %d) bytes from order[%d].name\n",__LINE__,strlen(order_list[i].name),memory,memory_sum,i);
 							}
 
 							if(strlen(order_list[i].number)){
 								memory = INPUT_MAX_NUMBER;
 								memory_sum += memory;
-								printf("Free'd %lu (pot %d, tot %d) bytes from order[%d].number\n",strlen(order_list[i].number),memory,memory_sum,i);
+								printf("verbose -> %d: Free'd %lu (pot %d, tot %d) bytes from order[%d].number\n",__LINE__,strlen(order_list[i].number),memory,memory_sum,i);
 							}
 							if(order_list[i].mode == DELIVERY){
 								memory = INPUT_MAX_ADDRESS;
 								memory_sum += memory;
-								printf("Free'd %lu (pot %d,tot %d) bytes from order[%d].address\n",strlen(order_list[i].address),memory,memory_sum,i);
+								printf("verbose -> %d: Free'd %lu (pot %d,tot %d) bytes from order[%d].address\n",__LINE__,strlen(order_list[i].address),memory,memory_sum,i);
 							}
 						}
 						free(order_list[i].type);
@@ -388,12 +331,11 @@ int main(int system_argument_amount, char *system_argument_array[]){
 					if(verbose){
 						int memory = orders_capacity*sizeof(Burrito);
 						memory_sum += memory;
-						printf("Free'd %d (tot %d) bytes of memory from order_list\n",memory, memory_sum);
-						printf("Free'd %d total bytes of memory successfully!\n",memory_sum);
+						printf("verbose -> %d: Free'd %d (tot %d) bytes of memory from order_list\n",__LINE__,memory, memory_sum);
+						printf("verbose -> %d: Free'd %d total bytes of memory successfully!\n",__LINE__,memory_sum);
 					}
 					free(order_list);
 					return 0;
-#define BURRITO_TYPE_AMOUNT  6
 			}
 		}
 	}

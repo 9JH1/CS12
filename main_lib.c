@@ -8,6 +8,7 @@
 
 
 #ifdef _WIN32
+	#include <windows.h>
 	int achar() {
 		HANDLE hStdin = GetStdHandle(STD_INPUT_HANDLE);
 		DWORD mode, bytesRead;
@@ -284,3 +285,61 @@ int draw_kitchen_screen(Burrito *order_list, int order_index){
 		}
 	}
 }
+
+/* draw_management_screen:
+ * ARGS:
+ * 	(Burrito*)order_list: a list of Burrito orders. 
+ * 	(int)order_index: the amount of items in order_list
+ * 
+ * RETURNS:
+ * 	nothing.
+ *
+ * DESCRIPTION:
+ *	this function uses the burrito list to generate and display 
+ *	different data. some of the data used is the sum price and 
+ *	amount of orders made. */
+void draw_mangement(Burrito *order_list, int order_index){
+	float total_sales=0;
+	int pickup=0, 
+			delivery=0, 
+			dine_in=0;
+	char pickup_suffix[1]="",
+			 delivery_suffix[1]="",
+			 dine_in_suffix[1]="",
+			 total_suffix[1]="";
+
+	// Loop through and calculate sums
+	for(int i=0;i<order_index;i++){
+		if(order_list[i].mode == PICKUP) pickup++;
+		else if (order_list[i].mode == DELIVERY) delivery++;
+		else if (order_list[i].mode == DINEIN) dine_in++;				
+		total_sales+=order_list[i].price;
+	}
+	
+	// Add suffixes
+	if(pickup > 1) pickup_suffix[0] = 's';
+	if(delivery > 1) delivery_suffix[0] = 's';
+	if(dine_in > 1) dine_in_suffix[0] = 's';
+	if(dine_in>1 || pickup>1 || delivery>1) total_suffix[0] = 's';
+
+	// draw the ui
+	draw_header_sep_implicit();
+	printf("there have been a total of %s%d\033[0m customer%s with a order sum price of %s$%0.2f\033[0m\n",BOLD_ANSI,pickup+delivery+dine_in,total_suffix,BOLD_ANSI,total_sales);
+	if(pickup > 0){
+		printf("%s%d\033[0m customer%s picked up their order",BOLD_ANSI,pickup,pickup_suffix);
+	}
+	
+	if(delivery > 0){
+		printf(", %s%d\033[0m customer%s had their order delivered.",BOLD_ANSI,delivery,delivery_suffix);
+	}
+
+	if(dine_in){
+		printf(", %s%d\033[0m customer%s ate their order in store",BOLD_ANSI,dine_in,dine_in_suffix);
+	}
+	printf(".\n");
+
+	draw_header_sep_implicit();
+	printf("%sPress %sany key\033[0m%s to go back to main menu.\033[0m\n",DIS_ANSI,BOLD_ANSI,DIS_ANSI);
+	achar();
+}
+
