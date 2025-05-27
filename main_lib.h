@@ -3,6 +3,7 @@
 
 // == Global Variables == 
 extern int verbose;
+extern int EXIT_CODE; // i know i know this isent a constant but its important, trust
 extern int help_toggle;
 extern int exit_verbose;
 extern int orders_capacity;
@@ -16,6 +17,15 @@ typedef enum {
     DELIVERY,
     DINEIN
 } OrderMode;
+
+typedef enum {
+	TRUE,
+	FALSE,
+} Bool;
+
+typedef struct Value {
+	int array_length;
+}Value;
 
 typedef struct Burrito_type{
 	char *type;
@@ -72,6 +82,7 @@ Burrito_type *display_burrito_menu(void);
 #define SEL_ANSI  "\033[0;38;2;32;160;153;49m"
 #define DIS_ANSI  "\033[0;38;2;68;66;122;49m"
 #define clear_a() printf("\033[0;0H")
+#define pause() getchar()
 
 // prices:
 #define BURRITO_CHEAP_PRICE      8.5
