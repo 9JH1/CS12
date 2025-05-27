@@ -6,15 +6,14 @@
 #include "plib.c"
 #include "main_lib.h"
 
-// imported functions
 const char *BURRITO_TYPE_LIST[]={"Cheese","Plain","Spicy","Deluxe","Large","Gourmet"};
 int orders_capacity=1;
-int order_index=0;
+int order_amount_global =0;
 
 
 #ifdef _WIN32
 	#include <windows.h>
-	int achar() {
+	int achar_WIN32() {
 		HANDLE hStdin = GetStdHandle(STD_INPUT_HANDLE);
 		DWORD mode, bytesRead;
 		INPUT_RECORD ir;
@@ -43,7 +42,7 @@ int order_index=0;
 	}
 #elif __unix__
 	#include <termios.h>
-	int achar(){
+	int achar_UNIX(){
 		static struct termios oldt, newt;
 		tcgetattr(STDIN_FILENO,&oldt);
 		newt=oldt;
@@ -58,16 +57,11 @@ int order_index=0;
 
 
 // define callback toggles
-int help_toggle  = 0;
 int verbose      = 0;
-int exit_verbose = 0;
 
 // define callback functions
-void help_callback(){help_toggle = 1;}
 void verbose_callback(){verbose = 1;}
-void exit_verbose_callback(){verbose = 1;}
 
-int order_amount_global=0;
 float order_price_global = 0;
 
 void draw_header_sep(){
@@ -118,6 +112,8 @@ Burrito_type *display_burrito_menu(){
 		int largest_amount=0;
 		float price_sum=0;
 		int  amount_sum=0;
+
+		const char *error_message = "Invalid order! Please enter at least 1 burrito to continue\n";
 		clear_a();
 		draw_header();
 		printf("Use the up and down arrows to navigate through items,\nuse left and right to increase and decrease amount,\npress enter on any item to submit order info\n");
@@ -131,6 +127,7 @@ Burrito_type *display_burrito_menu(){
 			price_sum+=burrito_list[i].amount*burrito_list[i].price;
 			amount_sum+=burrito_list[i].amount;
 		}
+
 		for(int i=0;i<(BURRITO_TYPE_AMOUNT);i++){
 			if(selected_line_index==i) printf("%s%s> ",BOLD_ANSI,SEL_ANSI);
 			else printf("  ");
@@ -186,8 +183,14 @@ Burrito_type *display_burrito_menu(){
 				break;
 			case 10:
 				// enter
+				if(amount_sum == 0){
+					draw_header_sep();
+					printf("%s%s\033[0m",DIS_ANSI,error_message);
+					sleep(USER_SLEEP_DELAY);
+					clear();
+					break;
+				}
 				order_price_global+=price_sum;
-				printf("%f\n",price_sum);
 				return burrito_list;
 				break;
 		}
@@ -218,7 +221,7 @@ int draw_kitchen_screen(Burrito *order_list, int order_index){
 		if(strlen(price_char)>price_largest) price_largest = strlen(price_char);
 	}
 
-	clear()
+	clear();
 	int selected_line_index = 0;
 	while (1){
 		clear_a();
@@ -280,7 +283,8 @@ void draw_mangement(Burrito *order_list, int order_index){
 	float total_sales=0;
 	int pickup=0, 
 			delivery=0, 
-			dine_in=0;
+			dine_in=0,
+			total_burritos=0;
 	char pickup_suffix[1]="",
 			 delivery_suffix[1]="",
 			 dine_in_suffix[1]="",
@@ -292,6 +296,7 @@ void draw_mangement(Burrito *order_list, int order_index){
 		else if (order_list[i].mode == DELIVERY) delivery++;
 		else if (order_list[i].mode == DINEIN) dine_in++;				
 		total_sales+=order_list[i].price;
+		total_burritos+=order_list[i].amount;
 	}
 	
 	// Add suffixes
@@ -302,7 +307,7 @@ void draw_mangement(Burrito *order_list, int order_index){
 
 	// draw the ui
 	draw_header_sep();
-	printf("there have been a total of %s%d\033[0m customer%s with a order sum price of %s$%0.2f\033[0m\n",BOLD_ANSI,pickup+delivery+dine_in,total_suffix,BOLD_ANSI,total_sales);
+	printf("there have been a total of %s%d\033[0m customer%s with a order sum price of %s$%0.2f\033[0m (%s%d Burritos)\n",BOLD_ANSI,pickup+delivery+dine_in,total_suffix,BOLD_ANSI,total_sales,BOLD_ANSI,total_burritos);
 	if(pickup > 0){
 		printf("%s%d\033[0m customer%s picked up their order",BOLD_ANSI,pickup,pickup_suffix);
 	}

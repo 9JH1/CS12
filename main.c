@@ -24,25 +24,27 @@
  * 	this function very simply asks the user to enter input,
  * 	this input function has built in themeing and blank input 
  * 	checking */
-char* input(char *prompt,char *keyword,const int min,const int max){
+char* input(char *prompt,char *keyword,const int MIN,const int MAX){
 	while(1){
   	clear();
     draw_header();
-    int input_malloc_size = max + 2;
+    int input_malloc_size = MAX + 2;
 		char *input= malloc(input_malloc_size);
 
 		if(verbose){ 
 			printf("verbose -> %d: allocated %d mem for an input func call\n",__LINE__,input_malloc_size);
 			fflush(stdout);
 		}
-
+		
+		// handle errors
 		if(!input){
 			printf("Error: a memory allocation error occured in input function\n");
 			exit(1);
 		} 
    	
     // print the prompt
-    printf("%s %s:%s%s ",prompt,keyword,BOLD_ANSI,SEL_ANSI);
+		printf("%sNote: input must have a string length between %s%d-%d\033[0m%s.\n",DIS_ANSI,BOLD_ANSI,MIN,MAX,DIS_ANSI);
+    printf("%s %s: %s%s",prompt,keyword,BOLD_ANSI,SEL_ANSI);
 
     // take the input
     fgets(input,input_malloc_size,stdin);
@@ -59,16 +61,22 @@ char* input(char *prompt,char *keyword,const int min,const int max){
 		}
 
     if(input_length>0){
-			if(input_length >= min && input_length <= max) return input;
-			else if (input_length < min) printf("%sPlease Enter a value with a string length %slarger\033[0m%s than %s%d\033[0m\n",DIS_ANSI,BOLD_ANSI,DIS_ANSI,BOLD_ANSI,min);
-			else if (input_length > max){
+			if(input_length >= MIN && input_length <= MAX) return input;
+			else if (input_length < MIN) printf("%sPlease Enter a value with a string length %slarger\033[0m%s than %s%d\033[0m\n",DIS_ANSI,BOLD_ANSI,DIS_ANSI,BOLD_ANSI,MIN);
+			else if (input_length > MAX){
 
-				// this is done for cross compatability
+				/* this is used to make sure that inputs dont overflow while using the 
+				 * fgets input capture method, if this loop wasent here then if the user 
+				 * entered a value LARGER then the MAX constant then the extra characters 
+				 * that cannot be read overflow into the next input meaning if your max was 
+				 * 4 and you entered a string with a length of 8 the first four chars would 
+				 * go to the first fgets input then the next four would go to the next input 
+				 * which is bad */
 				if (strchr(input, '\n') == NULL) {
     			int c;
     			while ((c = getchar()) != '\n' && c != EOF);
 				}
-				printf("%sPlease Enter a value %ssmaller\033[0m%s than %s%d\033[0m\n",DIS_ANSI,BOLD_ANSI,DIS_ANSI,BOLD_ANSI,max);
+				printf("%sPlease Enter a value with a string length %ssmaller\033[0m%s than %s%d\033[0m\n",DIS_ANSI,BOLD_ANSI,DIS_ANSI,BOLD_ANSI,MAX);
 }
     } else printf("%sPlease Enter an %sACTUAL %s\033[0m%s. you left it blank.\033[0m\n",DIS_ANSI,BOLD_ANSI,keyword,DIS_ANSI);
 		printf("%sPress any key to continue\033[0m\n",DIS_ANSI);
@@ -131,153 +139,179 @@ int draw_screen(const char *array[],size_t array_length,char *prompt){
 	return selected;
 }
 
-// system_argument_count and system_argument_array are the system vars parsed into the function on run
+// System_argument_count and system_argument_array are the system vars parsed into the function on run
 int main(int system_argument_amount, char *system_argument_array[]){
 
-	/* what these lines do is declare some command line flags/arguments that allows the user 
+	/* What these lines do is declare some command line flags/arguments that allows the user 
 	 * to view extra information, running this program with --verbose flag will cause it to 
 	 * show extra verbose information like allocation sizes and other bits.
 	 * */ 
-	struct plib_argument args[3] = {0};
-	set_argument("--help","show this dialog","void",NULL,help_callback, 1,args,3);
-	set_argument("--verbose","show extra information","void",NULL,verbose_callback,0,args,3);
-	set_argument("--exit-verbose-only","shows exit memory free dialog","void",NULL,exit_verbose_callback,0,args,3);
+	struct plib_argument args[1] = {0};
+	/* The set argument is taken from the plib.c  library and adds the actual flag as mentioned 
+	 * above, each argument has a bunch of differenet prameters that make it useful in files. 
+	 * the function and callback arguments can take a function name which is run when the program 
+	 * is called with the flag specifyed in NAME, the differneces between function and callback is 
+	 * that function is able to be run with the value given in the flag eg --myflag <value> would allow 
+	 * the value to be parsed into whatever function is set but it would not be able to be called in 
+	 * the callback, also view main_lib.h to see all of the prameters. */
+	set_argument(
+			"--verbose",              // NAME 
+			"show extra information", // DESCRIPTION
+			"void",                   // TYPE 
+			NULL,                     // FUNCTION 
+			verbose_callback,         // CALLBACK 
+			0,                        // SELF_CALL BOOL 
+			args,                     // BASE ARRAY 
+			1                         // ARRAY SIZE
+	);
 	
-	/* this small line basically just binds a killcode to a function, in this case it will 
+	/* This small line basically just binds a killcode to a function, in this case it will 
 	 * run the quit() function if the user presses Control+C while the program is running,
 	 * this is useful as we can free memory and perform other clean up before we close the 
 	 * script, and yes this method can be abused into making a non quitable file ( on windows 
 	 * at least ) */ 
 	handle_quit();
 
-	/* the next line runs the implicit plib_process_arguments function, what this does is 
+	/* The next line runs the implicit plib_process_arguments function, what this does is 
 	 * it preloads and runs callbacks and other functions based off of the arguments run 
 	 * with the program eg --help and --verbose. */
 	if(proccess_arguments(system_argument_amount,system_argument_array,args) == 0){
 		Burrito *order_list = malloc(orders_capacity * sizeof(Burrito));
 			
-		/* checking if order list is defined is important as if it is not it shows that a 
+		/* Checking if order list is defined is important as if it is not it shows that a 
 		 * potential memory leak has occured. this can occur when order_capacity or the 
 		 * Burrito struct are incorrectly set */
 		if(!order_list){
-			printf("Error!! memory leak occured!!! the burritos are free!!!!\n");
+			printf("error -> %d: failed to allocate %lu bytes of memory\n",__LINE__,orders_capacity * sizeof(Burrito));
 			return 1;
 		}
 		
-		/* unlike python C does not come with booleans unless you import another library,
+		/* Unlike python C does not come with booleans unless you import another library,
 		 * instead of true and false C uses 1 and 0 this is why you will see int value returns 
 		 * and conditinals throughout the code. */
 
 		while(1){
-			const char *screen_main[]={"Enter Order","Management Summary","Kitchen Screen","Exit"};
-			int screen_main_value = draw_screen(screen_main,4,"-- Select An Option --");
+			const char *screen_main[]={
+				"Enter Order",
+				"Management Summary",
+				"Kitchen Screen",
+				"Exit",
+				"Credits & Help",
+			};
 
-			/* after viewing the documentation on draw_screen you can see it returns a int 
+			// Set the 5 to a 4 to disable the credits if your going to steal my code
+			int screen_main_value = draw_screen(screen_main,5,"-- Select An Option --");
+
+			/* After viewing the documentation on draw_screen you can see it returns a int 
 			 * value corrasponding to the selection menu index, i've decided to use a switch 
 			 * case block as i can easily set different outputs based off of the menu item the 
 			 * user selects. */
 			switch (screen_main_value){
 				case 0:
-					// make a new callback point (used later on if the user wants to restart order)
-					re_order:
-					if(order_amount_global == orders_capacity){
+					// Make a new callback point (used later on if the user wants to restart order)
+					while(1){
+						int order_price = 0;
+						if(order_amount_global == orders_capacity){
 
-						/* this if block will dynamically allocate and re-allocate memory to fit more orders 
-						 * if the current order was about to overflow in the order_list malloc this block simply 
-						 * adds more space to order_list. */
-						if(verbose){
-							printf("verbose -> %d: orders struct has been reallocated from %d (%d bytes) -> %d (%d bytes).\n",__LINE__,orders_capacity,orders_capacity*(int)sizeof(Burrito),orders_capacity*2,(orders_capacity*2)*(int)sizeof(Burrito));
+							/* This if block will dynamically allocate and re-allocate memory to fit more orders 
+							 * if the current order was about to overflow in the order_list malloc this block simply 
+							 * adds more space to order_list. */
+							if(verbose){
+								printf("verbose -> %d: orders struct has been reallocated from %d (%d bytes) -> %d (%d bytes).\n",__LINE__,orders_capacity,orders_capacity*(int)sizeof(Burrito),orders_capacity*2,(orders_capacity*2)*(int)sizeof(Burrito));
+								sleep(USER_SLEEP_DELAY);
+							}
+						
+							// Times the capacity by two so 1, 2, 4, 8, 16... 
+							orders_capacity *= 2;
+							Burrito *temp = realloc(order_list,orders_capacity * sizeof(Burrito));
 
+							/* Again error checking to make sure that no issues occured when allocating memory 
+							* a good example of why this is necercerry is if the system is out of memory and the program 
+							* types to allocate memory that the system doesnt have, that could cause fatal errors and ==
+							 * other undefined behaviour. */
+							if(!temp){
+								printf("error -> %d: failed to allocate %lu bytes of memory\n",__LINE__,orders_capacity*sizeof(Burrito));
+								free(order_list);
+								return 1;
+							} else order_list = temp;
+						}
+
+						/* Create a new local order, this is nice and easy as instead of having to call values like 
+						 * order_list[order_global_amount].<value> it can simply be called using order.<value>.
+						 *
+						* Also, because order is now a pointer and an undefined (*) pointer, it means that instead 
+						 * of using the conventional fullstop to query a value we use the -> operator, so  for 
+						 * future reference order->value is the same as order.value */
+						Burrito *order = &order_list[order_amount_global];
+
+						// initialize values (asssigned later on)
+						order->price = 0;
+						const char *screen_location[]={"Pickup","Delivery","Dine In",};
+
+						/* I decided to use something ive never used before for this particular data type, that being 
+						 * an ENUM data type, similar to a struct you can set const values easily, instead of having to 
+						 * allocate memory for three porentail different words or having a hard to read int value corralating 
+						 * to string values i can instead define three constants that can be used like ints eg one of these
+						 * three consts is DELIVERY and i can also call it using the int 1*/
+						order->mode = (OrderMode)draw_screen(screen_location,3,"Is your order for pickup or delivery?");
+
+						// See? easy to read
+						if(order->mode==DELIVERY){
+							printf("%sA %s%0.2f\033[0m%s delivery charge has been added to your order.\033[0m\n",DIS_ANSI,BOLD_ANSI,DELIVERY_CHARGE,DIS_ANSI);
+
+							// Add a charge
+							order->price += DELIVERY_CHARGE;
+							order_price+=DELIVERY_CHARGE;
+							sleep(USER_SLEEP_DELAY);	
+						}
+
+						// Get other basic input info 
+						order->name = input("Please enter your","name",INPUT_MIN_NAME,INPUT_MAX_NAME);
+						order->number = input("Please enter your","number",INPUT_MIN_NUMBER,INPUT_MAX_NUMBER);
+
+						// Only ask for address if the location mode is delivery 
+						if(order->mode == DELIVERY) order->address = input("Please enter your","address",INPUT_MIN_ADDRESS,INPUT_MAX_ADDRESS);
+
+						/* Now this might look like a rather insignificant line but really this line calls the main 
+						 * attraction, that being the burrio selector program, this function is absolutly disgusting 
+						 * to look at even though it is as pretty as i could make it which is why it is not included 
+						 * in this release of the code. */ 
+						order->type = display_burrito_menu();
+
+						/* The display_burrito_menu returns a submenu of allocated memory, this submenu contains a 
+						 * list of every burrito type, price and amount the user ordered, this simple loop adds up 
+						 * the sum of all these values this number is used in various display elements. */
+						for(int i=0;i<BURRITO_TYPE_AMOUNT;i++){
+							int amount = order->type[i].amount; 
+							order->price += amount*order->type[i].price;
+							order->amount += amount;
+						}
+
+
+						// Draw the final screen 
+						const char *screen_complete_order[]={"Yes","No, Restart Order",};
+						char price_header[256];
+						sprintf(price_header,"Final Price: %s$%0.2f\033[0m, Confirm Order?",BOLD_ANSI,order_price_global);
+					
+						/* This conditional looks complex but simply will run if the user DOES NOT enter a value of 1
+						 * as one would evaluate to true which would pass the conditional. */ 
+						if(!draw_screen(screen_complete_order,2,price_header)){
+						
+							// Clean up for next frame
+							order_amount_global++;
+							order_price_global=0;
+							break;
+						} else {
+
+							// Go back to the start to redefine the values
+							printf("Restarting order.\n");
 							sleep(USER_SLEEP_DELAY);
 						}
-						
-						// times the capacity by two so 1, 2, 4, 8, 16... 
-						orders_capacity *= 2;
-						Burrito *temp = realloc(order_list,orders_capacity * sizeof(Burrito));
-
-						/* again error checking to make sure that no issues occured when allocating memory 
-						 * a good example of why this is necercerry is if the system is out of memory and the program 
-						 * types to allocate memory that the system doesnt have, that could cause fatal errors and ==
-						 * other undefined behaviour. */
-						if(!temp){
-							if(verbose) printf("verbose -> %d: Error occured in order_list Realloc function\n",__LINE__);
-							free(order_list);
-							return 1;
-						} else order_list = temp;
-					}
-
-					/* create a new local order, this is nice and easy as instead of having to call values like 
-					 * order_list[order_index].<value> it can simply be called using order.<value>.
-					 *
-					 * Also, because order is now a pointer and an undefined (*) pointer, it means that instead 
-					 * of using the conventional fullstop to query a value we use the -> operator, so  for 
-					 * future reference order->value is the same as order.value */
-					Burrito *order = &order_list[order_amount_global];
-
-					// initialize values (asssigned later on)
-					order->price = 0;
-					const char *screen_location[]={"Pickup","Delivery","Dine In",};
-
-					/* I decided to use something ive never used before for this particular data type, that being 
-					 * an ENUM data type, similar to a struct you can set const values easily, instead of having to 
-					 * allocate memory for three porentail different words or having a hard to read int value corralating 
-					 * to string values i can instead define three constants that can be used like ints eg one of these
-					 * three consts is DELIVERY and i can also call it using the int 1*/
-					order->mode = (OrderMode)draw_screen(screen_location,3,"Is your order for pickup or delivery?");
-
-					// See? easy to read
-					if(order->mode==DELIVERY){
-						printf("%sA %s%0.2f\033[0m%s delivery charge has been added to your order.\033[0m\n",DIS_ANSI,BOLD_ANSI,DELIVERY_CHARGE,DIS_ANSI);
-						
-						// Add a charge
-						order->price += DELIVERY_CHARGE;
-						order_price_global+=DELIVERY_CHARGE;
-						sleep(USER_SLEEP_DELAY);	
-					}
-
-					// get other basic input info 
-					order->name = input("Please enter your","name",INPUT_MIN_NAME,INPUT_MAX_NAME);
-					order->number = input("Please enter your","number",INPUT_MIN_NUMBER,INPUT_MAX_NUMBER);
-
-					// only ask for address if the location mode is delivery 
-					if(order->mode == DELIVERY) order->address = input("Please enter your","address",INPUT_MIN_ADDRESS,INPUT_MAX_ADDRESS);
-
-					/* now this might look like a rather insignificant line but really this line calls the main 
-					 * attraction, that being the burrio selector program, this function is absolutly disgusting 
-					 * to look at even though it is as pretty as i could make it which is why it is not included 
-					 * in this release of the code. */
-					order->type = display_burrito_menu();
-
-					/* the display_burrito_menu returns a submenu of allocated memory, this submenu contains a 
-					 * list of every burrito type, price and amount the user ordered, this simple loop adds up 
-					 * the sum of all these values this number is used in various display elements. */
-					for(int i=0;i<BURRITO_TYPE_AMOUNT;i++){
-						order->price += order->type[i].amount*order->type[i].price;
-					}
-
-					// Draw the final screen 
-					const char *screen_complete_order[]={"Yes","No, Restart Order",};
-					char price_header[256];
-					sprintf(price_header,"Final Price: %s$%0.2f\033[0m, Confirm Order?",BOLD_ANSI,order_price_global);
-					
-					/* this conditional looks complex but simply will run if the user DOES NOT enter a value of 1
-					 * as one would evaluate to true which would pass the conditional. */ 
-					if(!draw_screen(screen_complete_order,2,price_header)){
-						
-						// clean up for next frame
-						order_amount_global++;
-						order_price_global=0;
-					} else {
-
-						// go back to the start to redefine the values
-						printf("Restarting order.\n");
-						sleep(USER_SLEEP_DELAY);
-						goto re_order;
 					}
 					break;
-
+			
 				case 1:
-					if(order_index>0) draw_mangement(order_list,order_index);
+					if(order_amount_global>0) draw_mangement(order_list,order_amount_global);
 					else {
 						printf("No orders to view\n");
 						sleep(USER_SLEEP_DELAY);
@@ -285,50 +319,89 @@ int main(int system_argument_amount, char *system_argument_array[]){
 					break;
 
 				case 2:
-					draw_kitchen_screen(order_list,order_index);
+
+					// Draw the kitchen screen
+					draw_kitchen_screen(order_list,order_amount_global);
 					break;
 
 				case 3:
 					if(0){}
+					int memory_sum = 0,
+							memory     = 0;
 
-					int memory_sum = 0;
-
-
-					// loop through and free all nested malloc'd memory
+					/* Through out the program orders and inputs have been taking up allocated memory 
+					 * what this block does is it goes through every order and frees any items that 
+					 * take up memory, the input function for example returns malloced data and if we 
+					 * dident free it that bit of data will be trapped in your ram until you reboot which 
+					 * is not only stupid it is dangourous. */
 					for(int i=0;i<order_amount_global;i++){
 						if(verbose){
-							int memory = ((orders_capacity*sizeof(Burrito_type))/order_index);
+							memory = ((orders_capacity*sizeof(Burrito_type))/order_amount_global);
 							memory_sum += memory; 
 							printf("verbose -> %d: Free'd %d (tot %d) bytes from order[%d].type\n",__LINE__,memory,memory_sum,i);
-							if(strlen(order_list[i].name)>0){
-								memory = INPUT_MAX_NAME;
-								memory_sum += memory; 
-								printf("verbose -> %d: Free'd %lu (pot %d, tot %d) bytes from order[%d].name\n",__LINE__,strlen(order_list[i].name),memory,memory_sum,i);
-							}
+							
 
-							if(strlen(order_list[i].number)){
-								memory = INPUT_MAX_NUMBER;
-								memory_sum += memory;
-								printf("verbose -> %d: Free'd %lu (pot %d, tot %d) bytes from order[%d].number\n",__LINE__,strlen(order_list[i].number),memory,memory_sum,i);
-							}
-							if(order_list[i].mode == DELIVERY){
-								memory = INPUT_MAX_ADDRESS;
-								memory_sum += memory;
-								printf("verbose -> %d: Free'd %lu (pot %d,tot %d) bytes from order[%d].address\n",__LINE__,strlen(order_list[i].address),memory,memory_sum,i);
-							}
+							// Free the order name
+							memory = INPUT_MAX_NAME;
+							memory_sum += memory; 
+							printf("verbose -> %d: Free'd %lu (pot %d, tot %d) bytes from order[%d].name\n",__LINE__,strlen(order_list[i].name),memory,memory_sum,i);	
+							
+							// Free the order number 
+							memory = INPUT_MAX_NUMBER;
+							memory_sum += memory;
+							printf("verbose -> %d: Free'd %lu (pot %d, tot %d) bytes from order[%d].number\n",__LINE__,strlen(order_list[i].number),memory,memory_sum,i);
 						}
 						free(order_list[i].type);
+						free(order_list[i].name);
+						free(order_list[i].number);
+						
+						// Free the order address
+						if(order_list[i].mode == DELIVERY){
+							memory = INPUT_MAX_ADDRESS;
+							memory_sum += memory;
+							if (verbose )printf("verbose -> %d: Free'd %lu (pot %d,tot %d) bytes from order[%d].address\n",__LINE__,strlen(order_list[i].address),memory,memory_sum,i);
+							free(order_list[i].address);
+						}
 					}
 
-					// free the list and exit the program :D
+					// Free the list and exit the program :D
 					if(verbose){
-						int memory = orders_capacity*sizeof(Burrito);
+						memory = orders_capacity*sizeof(Burrito);
 						memory_sum += memory;
 						printf("verbose -> %d: Free'd %d (tot %d) bytes of memory from order_list\n",__LINE__,memory, memory_sum);
 						printf("verbose -> %d: Free'd %d total bytes of memory successfully!\n",__LINE__,memory_sum);
 					}
 					free(order_list);
+
+					// Exit the program.
 					return 0;
+				case 4:
+
+					/* I think this is all quite straight forward just a whole bunch of print functions 
+					 * to show some credits nothing fancy */
+					clear();
+					printf("== Credits ==\n");
+					printf("plib.c -> created by 9JH1 on github\n");
+					printf("all other files where written, compiled and debugged by\n");
+					printf("Lukan Snopovs (2025)\n");
+					printf("-------------\n");
+					printf("If in doubt about rights to this code please refer to the\n");
+					printf("LICENCE file that should have come with this code. if not\n");
+					printf("you can view the code source at https://github.com/9jh1/CS12\n");
+					printf("== Help ==\n");
+					printf("this project's foundations are based on the presumption that\n");
+					printf("your terminal converts the arrow keys to unicode chars (ABCD)\n");
+					printf("if the arrow keys on your terminal are not functioning as you\n");
+					printf("would expect refer to this guide to navigate through the menus\n");
+					printf("-------------\n");
+					printf("up    = A\n");
+					printf("down  = B\n");
+					printf("left  = C\n");
+					printf("right = D\n");
+					printf("-------------\n");
+					printf("\nThank you for using my program!\n");
+					achar();
+					break;
 			}
 		}
 	}
