@@ -1,4 +1,4 @@
-/* Simple Burrito ordering system 
+/*
  * Lukan Snopovs (c) 2025 
  * --------------------------
  * view LICENCE for more details */
@@ -8,6 +8,7 @@
 #include <string.h> // strlen strcmp
 #include <stdlib.h> // malloc realloc 
 #include <unistd.h> // exit 
+#include <regex.h> // introduced for phone regex
 #include "main_lib.h" // everything else
 
 /* input: 
@@ -24,72 +25,93 @@
  * 	this function very simply asks the user to enter input,
  * 	this input function has built in themeing and blank input 
  * 	checking */
-char* input(char *prompt,char *keyword,const int MIN,const int MAX){
-	
-	// check to make sure min and max are valid
-	if (MIN > MAX || MIN < 0 || MAX <= 0) {
-    printf("Error: Invalid MIN (%d) or MAX (%d) values.\n", MIN, MAX);
-    return NULL;
-	}
+char* input(char *prompt, char *keyword, const int MIN, const int MAX) {
+    // Check for valid MIN and MAX
+    if (MIN > MAX || MIN < 0 || MAX <= 0) {
+        printf("Error: Invalid MIN (%d) or MAX (%d) values.\n", MIN, MAX);
+        return NULL;
+    }
 
-	while(1){
-  	clear();
-    draw_header();
-    int input_malloc_size = MAX + 2;
-		char *input= malloc(input_malloc_size);
+    while (1) {
+        clear();
+        draw_header();
+        int input_malloc_size = MAX + 2;
+        char *input = malloc(input_malloc_size);
 
-		if(verbose){ 
-			printf("verbose -> %d: allocated %d mem for an input func call\n",__LINE__,input_malloc_size);
-			fflush(stdout);
-		}
-		
-		// handle errors
-		if(!input){
-			printf("Error: a memory allocation error occured in input function\n");
-			return NULL;
-		} 
-   	
-    // print the prompt
-		printf("%sNote: input must have a string length between %s%d-%d\033[0m%s.\n",DIS_ANSI,BOLD_ANSI,MIN,MAX,DIS_ANSI);
-    printf("%s %s: %s%s",prompt,keyword,BOLD_ANSI,SEL_ANSI);
+        if (verbose) {
+            printf("verbose -> %d: allocated %d mem for an input func call\n", __LINE__, input_malloc_size);
+            fflush(stdout);
+        }
 
-    // take the input
-    fgets(input,input_malloc_size,stdin);
-    printf("\033[0m");
-    input[strcspn(input, "\n")] = 0;
-	
-    // error check and return 
-    int input_length = strlen(input);
-		if(verbose){
-			printf("verbose -> %d: raw input='%s'\n",__LINE__,  input);
-			printf("verbose -> %d: has %d strlen\n",__LINE__,input_length);
-			printf("verbose -> %d: press any key to continue\n",__LINE__);
-			pause();
-		}
+        if (!input) {
+            printf("Error: a memory allocation error occurred in input function\n");
+            return NULL;
+        }
 
-    if(input_length>0){
-			if(input_length >= MIN && input_length <= MAX) return input;
-			else if (input_length < MIN) printf("%sPlease Enter a value with a string length %slarger\033[0m%s than %s%d\033[0m\n",DIS_ANSI,BOLD_ANSI,DIS_ANSI,BOLD_ANSI,MIN);
-			else if (input_length > MAX){
+        // Print the prompt
+        printf("%sNote: input must have a string length between %s%d-%d\033[0m%s.\n", DIS_ANSI, BOLD_ANSI, MIN, MAX, DIS_ANSI);
+        if (strcmp(keyword, "number") == 0) {
+            printf("%s %s%s (e.g., (123) 456-7890 or 123-456-7890)\033[0m%s%s: ", prompt, keyword,DIS_ANSI, BOLD_ANSI, SEL_ANSI);
+        } else {
+            printf("%s %s: %s%s", prompt, keyword, BOLD_ANSI, SEL_ANSI);
+        }
 
-				/* this is used to make sure that inputs dont overflow while using the 
-				 * fgets input capture method, if this loop wasent here then if the user 
-				 * entered a value LARGER then the MAX constant then the extra characters 
-				 * that cannot be read overflow into the next input meaning if your max was 
-				 * 4 and you entered a string with a length of 8 the first four chars would 
-				 * go to the first fgets input then the next four would go to the next input 
-				 * which is bad */ 
-				if (strchr(input, '\n') == NULL)  while (getchar() != '\n' && !feof(stdin));
-				printf("%sPlease Enter a value with a string length %ssmaller\033[0m%s than %s%d\033[0m\n",DIS_ANSI,BOLD_ANSI,DIS_ANSI,BOLD_ANSI,MAX);
+        // Take the input
+        fgets(input, input_malloc_size, stdin);
+        printf("\033[0m");
+        input[strcspn(input, "\n")] = 0;
+
+        // Error check and return
+        int input_length = strlen(input);
+        if (verbose) {
+            printf("verbose -> %d: raw input='%s'\n", __LINE__, input);
+            printf("verbose -> %d: has %d strlen\n", __LINE__, input_length);
+            wait();
+        }
+
+        if (input_length > 0) {
+            if (input_length >= MIN && input_length <= MAX) {
+                // Validate phone number if keyword is "number"
+                if (strcmp(keyword, "number") == 0) {
+                    const char *pattern = "^\\(?([0-9]{3})\\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$";
+                    regex_t regex;
+                    int ret = regcomp(&regex, pattern, REG_EXTENDED);
+                    if (ret) {
+                        printf("Error: Could not compile regex\n");
+                        free(input);
+                        continue;
+                    }
+                    ret = regexec(&regex, input, 0, NULL, 0);
+                    regfree(&regex);
+                    if (ret == REG_NOMATCH) {
+                        printf("%sInvalid phone number format. Please use (XXX) XXX-XXXX, XXX-XXX-XXXX, or XXXXXXXXXX\033[0m\n", DIS_ANSI);
+                        wait();
+                        free(input);
+                        continue;
+                    } else if (ret) {
+                        printf("Error: Regex match failed\n");
+                        free(input);
+                        continue;
+                    }
+                }
+                return input;
+            } else if (input_length < MIN) {
+                printf("%sPlease Enter a value with a string length %slarger\033[0m%s than %s%d\033[0m\n", DIS_ANSI, BOLD_ANSI, DIS_ANSI, BOLD_ANSI, MIN);
+            } else {
+                if (strchr(input, '\n') == NULL) {
+                    int c;
+                    while ((c = getchar()) != '\n' && c != EOF);
+                }
+                printf("%sPlease Enter a value with a string length %ssmaller\033[0m%s than %s%d\033[0m\n", DIS_ANSI, BOLD_ANSI, DIS_ANSI, BOLD_ANSI, MAX);
+            }
+        } else {
+            printf("%sPlease Enter an %sACTUAL %s\033[0m%s. you left it blank.\033[0m\n", DIS_ANSI, BOLD_ANSI, keyword, DIS_ANSI);
+        }
+        wait();
+        free(input);
+    }
 }
-    } else printf("%sPlease Enter an %sACTUAL %s\033[0m%s. you left it blank.\033[0m\n",DIS_ANSI,BOLD_ANSI,keyword,DIS_ANSI);
-		printf("%sPress any key to continue\033[0m\n",DIS_ANSI);
 
-		// make the user have to press enter;
-    pause(); 
-		free(input);
- }
-}
 
 
 /* draw_screen:
@@ -280,6 +302,7 @@ int main(int system_argument_amount, char *system_argument_array[]){
 
 							// Add a charge
 							order->price += DELIVERY_CHARGE;
+							order_price_global += DELIVERY_CHARGE;
 							sleep(USER_SLEEP_DELAY);	
 						}
 
@@ -288,62 +311,88 @@ int main(int system_argument_amount, char *system_argument_array[]){
 						if(order->name == NULL){
 
 							// exit the program
+							printf("Error: input returned NULL\n");
 							break_while_loop = TRUE;
 							break;
 						}
 
 						order->number = input("Please enter your","number",INPUT_MIN_NUMBER,INPUT_MAX_NUMBER);
-						if(order->number){
+						if(order->number == NULL){
 							
 							// exit the program
+							printf("Error: input returned NULL\n");
 							break_while_loop = TRUE;
 							break;
 						}
 
 						// Only ask for address if the location mode is delivery 
-						if(order->mode == DELIVERY) order->address = input("Please enter your","address",INPUT_MIN_ADDRESS,INPUT_MAX_ADDRESS);
+						if(order->mode == DELIVERY){
+							order->address = input("Please enter your","address",INPUT_MIN_ADDRESS,INPUT_MAX_ADDRESS);
+							if(order->address == NULL){
+								
+								// exit the program
+								printf("Error: input returned NULL\n");
+								break_while_loop = TRUE;
+								break;
+							}
+						}
 
 						/* Now this might look like a rather insignificant line but really this line calls the main 
 						 * attraction, that being the burrio selector program, this function is absolutly disgusting 
 						 * to look at even though it is as pretty as i could make it which is why it is not included 
 						 * in this release of the code. */ 
 						order->type = display_burrito_menu();
+						int end_sequence = TRUE;
+						if(order->type == NULL){
+							const char*screen_complete_order[]={"Yes","Restart Order"};
+							if(draw_screen(screen_complete_order,(Value){.array_length=2},"Cancel Order\n")==1){
+								continue;
+							} else end_sequence = FALSE;
+							order_price_global=0;
+						} 
 
-						/* The display_burrito_menu returns a submenu of allocated memory, this submenu contains a 
-						 * list of every burrito type, price and amount the user ordered, this simple loop adds up 
-						 * the sum of all these values this number is used in various display elements. */
-						for(int i=0;i<BURRITO_TYPE_AMOUNT;i++){
-							int amount = order->type[i].amount; 
-							order->price += amount*order->type[i].price;
-							order->amount += amount;
-						}
+						if(end_sequence == TRUE){
+							/* The display_burrito_menu returns a submenu of allocated memory, this submenu contains a 
+							 * list of every burrito type, price and amount the user ordered, this simple loop adds up 
+							 * the sum of all these values this number is used in various display elements. */
+							for(int i=0;i<BURRITO_TYPE_AMOUNT;i++){
+								int amount = order->type[i].amount; 
+								order->price += amount*order->type[i].price;
+								order->amount += amount;
+							}
 
-
-						// Draw the final screen 
-						const char *screen_complete_order[]={"Yes","No, Restart Order",};
-						char price_header[256];
-						int snprintf_return = snprintf(price_header,sizeof(price_header),"Final Price: %s$%0.2f\033[0m, Confirm Order?",BOLD_ANSI,order->price);
-						if(snprintf_return < 0 || (size_t)snprintf_return >= sizeof(price_header)){
-							
-							// NON FATAL error occured in snprintf we do not need to exit the proram
-							printf("Error: snprintf failed!\n");
-							break_while_loop = TRUE;
-							break;
-						}
+							// Draw the final screen 
+							const char *screen_complete_order[]={"Yes","No, Restart Order",};
+							char price_header[256];
+							int snprintf_return = snprintf(price_header,sizeof(price_header),"Final Price: %s$%0.2f\033[0m, Confirm Order?",BOLD_ANSI,order->price);
+							if(snprintf_return < 0 || (size_t)snprintf_return >= sizeof(price_header)){
+								
+								// NON FATAL error occured in snprintf we do not need to exit the proram
+								printf("Error: snprintf failed!\n");
+								break_while_loop = TRUE;
+								break;
+							}
 						
 					
 						/* This conditional looks complex but simply will run if the user DOES NOT enter a value of 1
-						 * as one would evaluate to true which would pass the conditional. */ 
+						 * as one would evaluate to true which would pass the conditional.
+						 *
+						 * UPDATE: the array_length is now a enum to improve visibilty instead of having '1' as the argument 
+						 * it is now '(Value){.array_length = 1}' which has drastically improved readability. */ 
 						if(!draw_screen(screen_complete_order,(Value){.array_length=2},price_header)){
-						
 							// Clean up for next frame
 							order_amount_global++;
+							order_price_global = 0;
+							break;
 						} else {
 
-							// Go back to the start to redefine the values
-							printf("Restarting order.\n");
-							sleep(USER_SLEEP_DELAY);
+								// Go back to the start to redefine the values
+								printf("Restarting order.\n");
+								sleep(USER_SLEEP_DELAY);
+								continue;
+							}
 						}
+						break;
 					}
 					break;
 			
@@ -391,7 +440,7 @@ int main(int system_argument_amount, char *system_argument_array[]){
 					printf("right = D\n");
 					printf("-------------\n");
 					printf("\nThank you for using my program!\n");
-					pause();
+					wait();
 					break;
 			}
 		}

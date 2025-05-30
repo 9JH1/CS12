@@ -9,6 +9,7 @@
 const char *BURRITO_TYPE_LIST[]={"Cheese","Plain","Spicy","Deluxe","Large","Gourmet"};
 int orders_capacity=1;
 int order_amount_global =0;
+float order_price_global = 0;
 int EXIT_CODE = 0;
 
 #ifdef _WIN32
@@ -57,12 +58,11 @@ int EXIT_CODE = 0;
 
 
 // define callback toggles
-int verbose      = 0;
+int verbose = 0;
 
 // define callback functions
 void verbose_callback(){verbose = 1;}
 
-float order_price_global = 0;
 
 void draw_header_sep(){
 	printf("%s----------------------------\033[0m\n",DIS_ANSI);
@@ -89,6 +89,8 @@ Burrito_type *display_burrito_menu(){
 	}*/ 
 	burrito_list_malloc = sizeof(Burrito)*BURRITO_TYPE_AMOUNT;
 	printf("%d\n",burrito_list_malloc);
+
+
 	Burrito_type *burrito_list = malloc(burrito_list_malloc);
 	for(int i=0;i<BURRITO_TYPE_AMOUNT;i++){
 		burrito_list[i].type = (char *)BURRITO_TYPE_LIST[i];
@@ -118,7 +120,7 @@ Burrito_type *display_burrito_menu(){
 		draw_header();
 		printf("Use the up and down arrows to navigate through items,\nuse left and right to increase and decrease amount,\npress enter on any item to submit order info\n");
 		draw_header_sep();
-		printf("Keybinds: [r]eset\n");
+		printf("Keybinds: [r]eset, [c]ancel order\n");
 		draw_header_sep();
 		for(int i=0;i<BURRITO_TYPE_AMOUNT;i++){
 			char largest_char[16];
@@ -181,6 +183,8 @@ Burrito_type *display_burrito_menu(){
 					burrito_list[i].amount = 0;
 				}
 				break;
+			case 'c':
+				return NULL;
 			case 10:
 				// enter
 				if(amount_sum == 0){
@@ -204,49 +208,26 @@ Burrito_type *display_burrito_menu(){
  */
 
 int draw_kitchen_screen(Burrito *order_list, int order_index){
-	// init 
-	int order_num_largest = 0,
-			name_largest = 0,
-			price_largest = 0;
-	
-	// count 
-	for(int i=0;i<order_index;i++){
-		Burrito local = order_list[i];
-		if(strlen(local.name)>name_largest) name_largest = strlen(local.name);
-		char order_num[32] = "";
-		sprintf(order_num,"%d",i+1);
-		if(strlen(order_num)>order_num_largest) order_num_largest = strlen(order_num);
-		char price_char[32] = "";
-		sprintf(price_char,"%0.2f",local.price);
-		if(strlen(price_char)>price_largest) price_largest = strlen(price_char);
-	}
-
 	clear();
 	int selected_line_index = 0;
+
 	while (1){
+		int show_recept = 0;
+		int only_show_one_recept = 0;
+		int recept_index_to_show = 0;
 		clear_a();
 		draw_header();
-		printf(" Keybinds [b]back [c]ancel\n");
+		printf("Keybinds [b]ack,  [c]ancel (order), [v]eiw, view [a]ll, [u]ndo all\n");
 		draw_header_sep();
 		for(int i=0;i<order_index;i++){
 			if(i == selected_line_index) printf("> ");
 			else printf("  ");
 			
 			Burrito local = order_list[i];
-			char order_index_char[32] = "";
-			sprintf(order_index_char,"%d",i);
-			printf("Order: #%d |",i);
-			for(int j=0;j<order_num_largest;j++) printf(" ");
-			
-			printf("%s |",local.name);
-			for(int j=0;j<name_largest-strlen(local.name);j++) printf(" ");
-
-			printf("$%0.2f |",local.price);
-			char price_char[32] = "";
-			sprintf(price_char,"%0.2f",local.price);
-			for(int j=0;j<price_largest-strlen(price_char);j++) printf(" ");
-
-			printf("\n");
+			if((Flag)local.flag == (Flag)NOTCANCELED){
+				printf("#%d: %s - $%0.2f",i+1,local.name,local.price);
+				printf("\n");
+			}
 		}
 
 		int ch=achar(); 
@@ -261,8 +242,60 @@ int draw_kitchen_screen(Burrito *order_list, int order_index){
 				break;
 			case 'b':
 				return 0;
-			case 10:
+			case 'a':
+				show_recept = 1;
 				break;
+			case 'c':
+				clear();
+				draw_header();
+				printf("Are you sure you want to cancel order %d?\n",selected_line_index+1);
+				order_list[selected_line_index].flag = (Flag)CANCELED;
+			case 'v':
+				show_recept = 1;
+				only_show_one_recept=1;
+				recept_index_to_show = selected_line_index;
+				break;
+		}
+
+
+		if(show_recept){
+			clear();
+			for(;recept_index_to_show<order_index;recept_index_to_show++){
+				Burrito local = order_list[recept_index_to_show];
+				if((Flag)local.flag == (Flag)CANCELED) continue;
+				printf("Order: %d\n",recept_index_to_show+1);
+				draw_header_sep();
+				printf("Name: %s\n",local.name);
+				printf("Number: %s\n",local.number);
+				printf("Location: ");
+
+				if (local.mode == DELIVERY) printf("Delivery\n");
+				else if (local.mode == PICKUP) printf("Pickup\n");
+				else if (local.mode == DINEIN) printf("Dine In\n");
+
+				if(local.mode == DELIVERY)
+			  	printf("Address: %s\n",local.address);
+				
+				printf("Price: $%0.2f\n",local.price);
+				printf("Burritos ordered: %d\n",local.amount);
+				draw_header_sep();
+				printf("Burritos ordered:\n");
+				draw_header_sep();
+				for(int i=0;i<BURRITO_TYPE_AMOUNT;i++){
+					if((local.type[i].amount || 0) >= 1){
+						printf("%d - %s ($%0.2f each, $%0.2f total)\n",
+							local.type[i].amount || 0,
+							local.type[i].type,
+							local.type[i].price,
+							(local.type[i].amount || 0) * local.type[i].price
+						);
+					}
+				}
+				printf("\n");
+				if (only_show_one_recept) break;
+			}
+			wait();
+			clear();
 		}
 	}
 }
@@ -292,6 +325,7 @@ void draw_mangement(Burrito *order_list, int order_index){
 
 	// Loop through and calculate sums
 	for(int i=0;i<order_index;i++){
+		if(order_list[i].flag == CANCELED) continue;
 		if(order_list[i].mode == PICKUP) pickup++;
 		else if (order_list[i].mode == DELIVERY) delivery++;
 		else if (order_list[i].mode == DINEIN) dine_in++;				
@@ -322,9 +356,296 @@ void draw_mangement(Burrito *order_list, int order_index){
 	printf(".\n");
 
 	draw_header_sep();
-	printf("%sPress %sany key\033[0m%s to go back to main menu.\033[0m\n",DIS_ANSI,BOLD_ANSI,DIS_ANSI);
-	pause();
+	wait();
+}
+
+int save_to_file(void *data, int size, const char *filename) {
+    Burrito *orders = (Burrito *)data;
+    FILE *file = fopen(filename, "wb");
+    if (!file) {
+        perror("Failed to open file for writing");
+        return 0;
+    }
+
+    // Write the number of orders
+    int order_count = size;
+    if (fwrite(&order_count, sizeof(int), 1, file) != 1) {
+        perror("Failed to write order count");
+        fclose(file);
+        return 0;
+    }
+
+    for (int i = 0; i < order_count; i++) {
+        // Write mode, price, amount
+        if (fwrite(&orders[i].mode, sizeof(OrderMode), 1, file) != 1 ||
+            fwrite(&orders[i].price, sizeof(float), 1, file) != 1 ||
+            fwrite(&orders[i].amount, sizeof(int), 1, file) != 1) {
+            perror("Failed to write order fields");
+            fclose(file);
+            return 0;
+        }
+
+        // Write name
+        size_t name_len = orders[i].name ? strlen(orders[i].name) + 1 : 0;
+        if (fwrite(&name_len, sizeof(size_t), 1, file) != 1 ||
+            (name_len && fwrite(orders[i].name, 1, name_len, file) != name_len)) {
+            perror("Failed to write name");
+            fclose(file);
+            return 0;
+        }
+
+        // Write number
+        size_t number_len = orders[i].number ? strlen(orders[i].number) + 1 : 0;
+        if (fwrite(&number_len, sizeof(size_t), 1, file) != 1 ||
+            (number_len && fwrite(orders[i].number, 1, number_len, file) != number_len)) {
+            perror("Failed to write number");
+            fclose(file);
+            return 0;
+        }
+
+        // Write address if delivery
+        size_t address_len = (orders[i].mode == DELIVERY && orders[i].address) ? strlen(orders[i].address) + 1 : 0;
+        if (fwrite(&address_len, sizeof(size_t), 1, file) != 1 ||
+            (address_len && fwrite(orders[i].address, 1, address_len, file) != address_len)) {
+            perror("Failed to write address");
+            fclose(file);
+            return 0;
+        }
+
+        // Write burrito types
+        if (!orders[i].type) {
+            fprintf(stderr, "Error: Burrito type array is NULL.\n");
+            fclose(file);
+            return 0;
+        }
+
+        for (int j = 0; j < BURRITO_TYPE_AMOUNT; j++) {
+            if (fwrite(&orders[i].type[j].amount, sizeof(int), 1, file) != 1 ||
+                fwrite(&orders[i].type[j].price, sizeof(float), 1, file) != 1) {
+                perror("Failed to write type");
+                fclose(file);
+                return 0;
+            }
+        }
+    }
+
+    fclose(file);
+    return 1;
 }
 
 
 
+void *load_from_file(const char *filename, int *size) {
+    FILE *file = fopen(filename, "rb");
+    if (!file) {
+        perror("Failed to open file for reading");
+        return NULL;
+    }
+
+    // Read the number of orders
+    size_t order_count;
+    if (fread(&order_count, sizeof(size_t), 1, file) != 1) {
+        perror("Failed to read order count");
+        fclose(file);
+        return NULL;
+    }
+
+    // Allocate memory for orders
+    Burrito *orders = calloc(order_count, sizeof(Burrito));
+    if (!orders) {
+        perror("Failed to allocate memory for orders");
+        fclose(file);
+        return NULL;
+    }
+
+    // Read each order
+    for (size_t i = 0; i < order_count; i++) {
+        // Read mode
+        if (fread(&orders[i].mode, sizeof(OrderMode), 1, file) != 1) {
+            perror("Failed to read mode");
+            free_orders(orders, i);
+            fclose(file);
+            return NULL;
+        }
+        // Read price
+        if (fread(&orders[i].price, sizeof(float), 1, file) != 1) {
+            perror("Failed to read price");
+            free_orders(orders, i);
+            fclose(file);
+            return NULL;
+        }
+        // Read amount
+        if (fread(&orders[i].amount, sizeof(int), 1, file) != 1) {
+            perror("Failed to read amount");
+            free_orders(orders, i);
+            fclose(file);
+            return NULL;
+        }
+        // Read name
+        size_t name_len;
+        if (fread(&name_len, sizeof(size_t), 1, file) != 1) {
+            perror("Failed to read name length");
+            free_orders(orders, i);
+            fclose(file);
+            return NULL;
+        }
+        if (name_len) {
+            orders[i].name = malloc(name_len);
+            if (!orders[i].name || fread(orders[i].name, 1, name_len, file) != name_len) {
+                perror("Failed to read name");
+                free_orders(orders, i);
+                fclose(file);
+                return NULL;
+            }
+        }
+        // Read number
+        size_t number_len;
+        if (fread(&number_len, sizeof(size_t), 1, file) != 1) {
+            perror("Failed to read number length");
+            free_orders(orders, i);
+            fclose(file);
+            return NULL;
+        }
+        if (number_len) {
+            orders[i].number = malloc(number_len);
+            if (!orders[i].number || fread(orders[i].number, 1, number_len, file) != number_len) {
+                perror("Failed to read number");
+                free_orders(orders, i);
+                fclose(file);
+                return NULL;
+            }
+        }
+        // Read address
+        size_t address_len;
+        if (fread(&address_len, sizeof(size_t), 1, file) != 1) {
+            perror("Failed to read address length");
+            free_orders(orders, i);
+            fclose(file);
+            return NULL;
+        }
+        if (address_len) {
+            orders[i].address = malloc(address_len);
+            if (!orders[i].address || fread(orders[i].address, 1, address_len, file) != address_len) {
+                perror("Failed to read address");
+                free_orders(orders, i);
+                fclose(file);
+                return NULL;
+            }
+        }
+        // Read type array
+        orders[i].type = malloc(BURRITO_TYPE_AMOUNT * sizeof(Burrito_type));
+        if (!orders[i].type) {
+            perror("Failed to allocate type array");
+            free_orders(orders, i);
+            fclose(file);
+            return NULL;
+        }
+        for (int j = 0; j < BURRITO_TYPE_AMOUNT; j++) {
+            if (fread(&orders[i].type[j].amount, sizeof(int), 1, file) != 1 ||
+                fread(&orders[i].type[j].price, sizeof(float), 1, file) != 1) {
+                perror("Failed to read type");
+                free_orders(orders, i);
+                fclose(file);
+                return NULL;
+            }
+        }
+    }
+
+    fclose(file);
+    *size = order_count;
+    return orders;
+}
+
+// Helper function to free partially loaded orders
+void free_orders_OLD(Burrito *orders, int  count) {
+		int memory_sum = 0,
+				memory     = 0;
+
+		/* Through out the program orders and inputs have been taking up allocated memory 
+		 * what this block does is it goes through every order and frees any items that 
+		 * take up memory, the input function for example returns malloced data and if we 
+		 * dident free it that bit of data will be trapped in your ram until you reboot which 
+		 * is not only stupid it is dangourous. */
+		for(int i=0;i<count;i++){
+			if(verbose){
+				memory = ((orders_capacity*sizeof(Burrito_type))/count);
+				memory_sum += memory; 
+				printf("verbose -> %d: Free'd %d (tot %d) bytes from order[%d].type\n",__LINE__,memory,memory_sum,i);
+
+				// Free the order name
+				memory = INPUT_MAX_NAME;
+				memory_sum += memory;
+				if(orders[i].name)
+					printf("verbose -> %d: free'd %lu (pot %d, tot %d) bytes from order[%d].name\n",__LINE__,strlen(orders[i].name),memory,memory_sum,i);	
+							
+				// Free the order number 
+				memory = INPUT_MAX_NUMBER;
+				memory_sum += memory;
+				if(orders[i].number)
+					printf("verbose -> %d: Free'd %lu (pot %d, tot %d) bytes from order[%d].number\n",__LINE__,strlen(orders[i].number),memory,memory_sum,i);
+			}
+
+			// ehm actually free the memory
+			free(orders[i].type);
+			free(orders[i].name);
+			free(orders[i].number);
+						
+			// Free the order address
+			if(orders[i].mode == DELIVERY){
+				memory = INPUT_MAX_ADDRESS;
+				memory_sum += memory;
+				if (verbose ) printf("verbose -> %d: Free'd %lu (pot %d,tot %d) bytes from order[%d].address\n",__LINE__,strlen(orders[i].address),memory,memory_sum,i);
+				free(orders[i].address);
+			}
+		}
+
+		// Free the list and exit the program :D
+		if(verbose){
+			memory = orders_capacity*sizeof(Burrito);
+			memory_sum += memory;
+			printf("verbose -> %d: Free'd %d (tot %d) bytes of memory from order_list\n",__LINE__,memory, memory_sum);
+			printf("verbose -> %d: Free'd %d total bytes of memory successfully!\n",__LINE__,memory_sum);
+		}
+		free(orders);
+}
+
+void free_orders(Burrito *orders, int order_count) {
+    if (!orders || order_count <= 0) return;
+
+    for (int i = 0; i < order_count; i++) {
+        Burrito *order = &orders[i];
+
+        // Free name
+        if (order->name) {
+            free(order->name);
+            order->name = NULL;
+        }
+
+        // Free phone number
+        if (order->number) {
+            free(order->number);
+            order->number = NULL;
+        }
+
+        // Free address (only if it was delivery)
+        if (order->mode == DELIVERY && order->address) {
+            free(order->address);
+            order->address = NULL;
+        }
+
+        // Free burrito types if they were dynamically allocated
+        if (order->type) {
+            free(order->type);
+            order->type = NULL;
+        }
+    }
+
+    // Free the full order list
+    free(orders);
+}
+
+void wait(){
+	printf("%sPress %sEnter\033[0m%s to continue\033[0m\n",DIS_ANSI,BOLD_ANSI,DIS_ANSI);
+	int c;
+  while ((c = getchar()) != '\n' && c != EOF);
+}

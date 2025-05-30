@@ -23,6 +23,11 @@ typedef enum {
 	FALSE,
 } Bool;
 
+typedef enum {
+	NOTCANCELED,
+	CANCELED,
+} Flag;
+
 typedef struct Value {
 	int array_length;
 }Value;
@@ -35,6 +40,7 @@ typedef struct Burrito_type{
 
 typedef struct Burrito {
 	OrderMode mode;
+	Flag flag;
 	char*name;
 	char*number;
 	char*address;
@@ -59,6 +65,7 @@ struct plib_argument {
 // == Functions ==
 // void:
 void quit(int a);
+void wait(void);
 void draw_header(void); 
 void handle_quit(void);
 void help_callback(void);
@@ -66,8 +73,9 @@ void draw_header_sep(void);
 void verbose_callback(void);
 void exit_verbose_callback(void);
 void draw_mangement(Burrito *order_list, int order_index);
-
-// int: 
+void *load_from_file(const char *filename, int *size); 
+int save_to_file(void *data, int size, const char *filename);
+void free_orders(Burrito *orders, int  count);
 int achar(void);
 int draw_kitchen_screen(Burrito *order_list, int order_index);
 int proccess_arguments(int argc, char*argv[],struct plib_argument *local);
@@ -77,12 +85,14 @@ int set_argument(char* argument, char* description, char* type,void (*callback)(
 Burrito_type *display_burrito_menu(void);
 
 // == Definitions ==
+// macros: 
+#define clear_a() printf("\033[0;0H")
+
 // colors:
 #define BOLD_ANSI "\033[1m"
+#define RESET_ANSI "\033[0m"
 #define SEL_ANSI  "\033[0;38;2;32;160;153;49m"
 #define DIS_ANSI  "\033[0;38;2;68;66;122;49m"
-#define clear_a() printf("\033[0;0H")
-#define pause() getchar()
 
 // prices:
 #define BURRITO_CHEAP_PRICE      8.5
@@ -92,9 +102,10 @@ Burrito_type *display_burrito_menu(void);
 
 
 // misc:
-#define BURRITO_LIMIT       90
+#define BURRITO_LIMIT       900000
 #define USER_SLEEP_DELAY    1
 #define BURRITO_TYPE_AMOUNT 6
+#define FILENAME "data.bin" // NOTE: UN USED / DEPRICATED
 
 // bounds :3c
 #define INPUT_MIN_NAME    2 
