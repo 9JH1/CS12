@@ -106,7 +106,7 @@ Burrito_type *display_burrito_menu(){
 		char*  cur_name  = burrito_list[i].type;
 		if(largest_name<strlen(cur_name)) largest_name = strlen(cur_name);
 	}
-
+	
 	// draw frame
 	int selected_line_index=0;
 	clear();
@@ -225,7 +225,7 @@ int draw_kitchen_screen(Burrito *order_list, int order_index){
 			
 			Burrito local = order_list[i];
 			if((Flag)local.flag == (Flag)NOTCANCELED){
-				printf("#%d: Name: %s - Price: $%0.2f",i+1,local.name,local.price);
+				printf("#%d: %s - $%0.2f",i+1,local.name,local.price);
 				printf("\n");
 			}
 		}
@@ -246,11 +246,11 @@ int draw_kitchen_screen(Burrito *order_list, int order_index){
 				show_recept = 1;
 				break;
 			case 'c':
+				clear();
+				draw_header();
+				drwa_screen((char **){"Yes","No"},2,"Are you sure you want to cancel this order?\n");
+				pause();
 				order_list[selected_line_index].flag = (Flag)CANCELED;
-			case 'u':
-				for(int i=0;i<order_index;i++){
-					order_list[i].flag = (Flag)NOTCANCELED;
-				}
 			case 'v':
 				show_recept = 1;
 				only_show_one_recept=1;
