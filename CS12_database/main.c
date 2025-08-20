@@ -15,6 +15,25 @@
 #define SECURITY_CODE_LENGTH 10
 #define DATA_DIR "./db/"
 
+// actual local database 
+loan *db_loan;
+int db_loan_index; 
+int db_loan_capacity;
+
+Member *db_members;
+int db_members_index;
+int db_members_capacity;
+
+book *db_books;
+int db_books_index;
+int db_books_index;
+
+// load the database
+int init_db(){
+	
+	return 1;
+}
+
 
 void quit(int code){
 	if(code != 0)
@@ -34,7 +53,7 @@ int main(const int argument_count, const char *argument_list[]){
 			.FLAG_NAME = "--clean",
 			.FLAG_CATAGORY = "base",
 			.DESCRIPTION = "Destroy old data files (wipe the database)",
-			.takes_value = 0,
+.takes_value = 0,
 			});
 
 	argument *run = NULL;
