@@ -14,11 +14,16 @@
 
 #define SECURITY_CODE_LENGTH 10
 #define DATA_DIR "./db/"
+#define DATA_LOANS_FNAME "loans.bin"
+#define DATA_BOOKS_FNAME "books.bin"
+#define DATA_DATES_FNAME "dates.bin"
+#define DATA_MEMBERS_FNAME "members.bin"
+
 
 // actual local database 
-loan *db_loan;
-int db_loan_index; 
-int db_loan_capacity;
+loan *db_loans;
+int db_loans_index; 
+int db_loans_capacity;
 
 Member *db_members;
 int db_members_index;
@@ -32,18 +37,71 @@ date *db_dates;
 int db_dates_index;
 int db_dates_capacity;
 
-// load the database
-int init_db(){
-	
-	return 1;
-}
-
-
 void quit(int code){
 	if(code != 0)
 		printf("\rexiting program with code %d..\n",code);
 	dinit_argument_list();
 	exit(code);
+}
+
+// load the database safley
+void init_db(){
+	const int loans_path_size = snprintf(NULL,0,"%s%s",DATA_DIR,DATA_LOANS_FNAME);
+	const int books_path_size = snprintf(NULL,0,"%s%s",DATA_DIR,DATA_BOOKS_FNAME);
+	const int dates_path_size = snprintf(NULL,0,"%s%s",DATA_DIR,DATA_DATES_FNAME);
+	const int members_path_size = snprintf(NULL,0,"%s%s",DATA_DIR,DATA_MEMBERS_FNAME);
+	
+	char loans_path_char[loans_path_size+1];
+	char books_path_char[books_path_size+1];
+	char dates_path_char[dates_path_size+1];
+	char members_path_char[members_path_size+1];
+
+	sprintf(loans_path_char,"%s%s",DATA_DIR,DATA_LOANS_FNAME);
+	sprintf(books_path_char,"%s%s",DATA_DIR,DATA_BOOKS_FNAME);
+	sprintf(dates_path_char,"%s%s",DATA_DIR,DATA_DATES_FNAME);
+	sprintf(members_path_char,"%s%s",DATA_DIR,DATA_MEMBERS_FNAME);
+	
+	FILE *loans_path;
+	FILE *books_path;
+	FILE *dates_path;
+	FILE *member_path;
+
+	if(!file_exist(loans_path_char)){
+		printf("Couldent open \"%s\"\n",loans_path_char);
+		quit(1);
+	} else { 
+		loans_path = fopen(loans_path_char, "rb"); 
+		db_loans = read_loans(loans_path, &db_loans_index);
+		db_loans_capacity = db_loans_index * 2;
+	}
+
+	if(!file_exist(books_path_char)){
+		printf("Couldent open \"%s\"\n",books_path_char);
+		quit(1);
+	} else { 
+		books_path = fopen(books_path_char, "rb");
+		db_books = read_books(books_path, &db_books_index);
+		db_books_capacity = db_books_index * 2;
+	}
+	
+	if(!file_exist(dates_path_char)){
+		printf("Couldent open \"%s\"\n",dates_path_char);
+		quit(1);
+	} else {
+		dates_path = fopen(dates_path_char, "rb");
+		db_dates = read_dates(dates_path, &db_dates_index);
+		db_dates_capacity = db_dates_index * 2;
+	}
+
+	if(!file_exist(members_path_char)){
+		printf("Couldent open \"%s\"\n",members_path_char);
+		quit(1);
+	} else { 
+		member_path = fopen(members_path_char,"rb");
+		db_members = read_members(dates_path, &db_dates_index);
+		db_members_capacity = db_members_index * 2;
+	}
+	printf("Database Imported!\n");
 }
 
 
