@@ -26,7 +26,11 @@ int db_members_capacity;
 
 book *db_books;
 int db_books_index;
-int db_books_index;
+int db_books_capacity;
+
+date *db_dates;
+int db_dates_index;
+int db_dates_capacity;
 
 // load the database
 int init_db(){
@@ -79,7 +83,7 @@ int main(const int argument_count, const char *argument_list[]){
 			printf("Creating missing \"%s\" dir\n",DATA_DIR);
 			system(com);
 			data_dir_created = true;
-		}
+		} else init_db();
 		
 		// parse system arguments
 		if(argument_run(clean)==0){

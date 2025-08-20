@@ -171,7 +171,7 @@ Member *read_members(FILE *fp, int *out_count) {
     fread(&arr[i].loan.loan_flagged, sizeof(bool), 1, fp);
     fread(arr[i].loan.loan_ids, sizeof(int), MAX_LOANS, fp);
   }
-  return ;
+  return arr;
 }
 
 void write_dates(FILE *fp, date * dates, int count){
