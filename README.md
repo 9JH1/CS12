@@ -1,9 +1,10 @@
 ## Year 12 Database Assessment
 ```
 ---------------------------------------
-main.c contains all of the proof-read 
-and pretty code, lib.c contains all of
-the excess code that DOES NOT look good 
+database.c contains all of the proof 
+read and pretty code, lib.c contains 
+all of the excess code that DOES NOT 
+look good / isent readable.
 
 Ive done it this way so that you can  
 easily read the code without having to 
