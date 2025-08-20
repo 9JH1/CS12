@@ -44,66 +44,109 @@ void quit(int code){
 	exit(code);
 }
 
-// load the database safley
-void init_db(){
-	const int loans_path_size = snprintf(NULL,0,"%s%s",DATA_DIR,DATA_LOANS_FNAME);
-	const int books_path_size = snprintf(NULL,0,"%s%s",DATA_DIR,DATA_BOOKS_FNAME);
-	const int dates_path_size = snprintf(NULL,0,"%s%s",DATA_DIR,DATA_DATES_FNAME);
-	const int members_path_size = snprintf(NULL,0,"%s%s",DATA_DIR,DATA_MEMBERS_FNAME);
-	
-	char loans_path_char[loans_path_size+1];
-	char books_path_char[books_path_size+1];
-	char dates_path_char[dates_path_size+1];
-	char members_path_char[members_path_size+1];
-
-	sprintf(loans_path_char,"%s%s",DATA_DIR,DATA_LOANS_FNAME);
-	sprintf(books_path_char,"%s%s",DATA_DIR,DATA_BOOKS_FNAME);
-	sprintf(dates_path_char,"%s%s",DATA_DIR,DATA_DATES_FNAME);
-	sprintf(members_path_char,"%s%s",DATA_DIR,DATA_MEMBERS_FNAME);
-	
-	FILE *loans_path;
-	FILE *books_path;
-	FILE *dates_path;
-	FILE *member_path;
-
-	if(!file_exist(loans_path_char)){
-		printf("Couldent open \"%s\"\n",loans_path_char);
-		quit(1);
-	} else { 
-		loans_path = fopen(loans_path_char, "rb"); 
-		db_loans = read_loans(loans_path, &db_loans_index);
-		db_loans_capacity = db_loans_index * 2;
-	}
-
-	if(!file_exist(books_path_char)){
-		printf("Couldent open \"%s\"\n",books_path_char);
-		quit(1);
-	} else { 
-		books_path = fopen(books_path_char, "rb");
-		db_books = read_books(books_path, &db_books_index);
-		db_books_capacity = db_books_index * 2;
-	}
-	
-	if(!file_exist(dates_path_char)){
-		printf("Couldent open \"%s\"\n",dates_path_char);
-		quit(1);
-	} else {
-		dates_path = fopen(dates_path_char, "rb");
-		db_dates = read_dates(dates_path, &db_dates_index);
-		db_dates_capacity = db_dates_index * 2;
-	}
-
-	if(!file_exist(members_path_char)){
-		printf("Couldent open \"%s\"\n",members_path_char);
-		quit(1);
-	} else { 
-		member_path = fopen(members_path_char,"rb");
-		db_members = read_members(dates_path, &db_dates_index);
-		db_members_capacity = db_members_index * 2;
-	}
-	printf("Database Imported!\n");
+char *combine_with_space(const char *a, const char *b){
+	const int size = snprintf(NULL,0,"%s %s",a,b);
+	char *out = malloc(size + 1);
+	sprintf(out,"%s %s",a,b);
+	return out;
 }
 
+char *combine(const char *a, const char*b){
+	const int size = snprintf(NULL,0,"%s%s",a,b);
+	char *out = (char *)malloc(size +1);
+	sprintf(out,"%s%s",a,b);
+	return out;
+}
+
+
+// load the database safley
+int init_db(){
+	printf("Importing Database..\n");
+	char *loans_path_char = combine(DATA_DIR,DATA_LOANS_FNAME);
+	char *books_path_char = combine(DATA_DIR,DATA_BOOKS_FNAME);
+	char *dates_path_char = combine(DATA_DIR, DATA_DATES_FNAME);
+	char *members_path_char = combine(DATA_DIR, DATA_MEMBERS_FNAME);
+	
+	FILE *loans_path = fopen(loans_path_char, "rb");
+	FILE *books_path = fopen(books_path_char, "rb");
+	FILE *dates_path = fopen(dates_path_char, "rb");
+	FILE *members_path = fopen(members_path_char, "rb");
+	
+	bool error_flag = false;
+
+	if(loans_path == NULL){
+		printf("Couldent open \"%s\"\n",loans_path_char);
+		system(combine_with_space(MKFILE_COMMAND,loans_path_char));
+		printf("Created \"%s\" file\n",loans_path_char);
+		error_flag = true;
+	} else { 
+		db_loans = read_loans(loans_path, &db_loans_index);
+		db_loans_capacity = db_loans_index + 1 * 2;
+	}
+
+	if(books_path == NULL){
+		printf("Couldent open \"%s\"\n",books_path_char);
+		system(combine_with_space(MKFILE_COMMAND,books_path_char));
+		printf("Created \"%s\" file\n",books_path_char);
+
+		error_flag = true;
+	} else { 
+		db_books = read_books(books_path, &db_books_index);
+		db_books_capacity = db_books_index + 1 * 2;
+	}
+	
+	if(dates_path == NULL){
+		printf("Couldent open \"%s\"\n",dates_path_char);
+		system(combine_with_space(MKFILE_COMMAND,dates_path_char));
+		printf("Created \"%s\" file\n",dates_path_char);
+		error_flag = true;
+	} else {
+		db_dates = read_dates(dates_path, &db_dates_index);
+		db_dates_capacity = db_dates_index + 1 * 2;
+	}
+
+	if(members_path == NULL){
+		printf("Couldent open \"%s\"\n",members_path_char);
+		system(combine_with_space(MKFILE_COMMAND,members_path_char));
+		printf("Created \"%s\" file\n",members_path_char);
+		error_flag = true;
+	} else { 
+		db_members = read_members(members_path, &db_members_index);
+		db_members_capacity = db_members_index + 1 * 2;
+	}
+
+	free(loans_path_char);
+	free(books_path_char);
+	free(dates_path_char);
+	free(members_path_char);
+	
+	if(error_flag == true)
+		return 1;
+	
+	printf("Imported %d objects from %s\n",db_loans_index + db_books_index + db_dates_index + db_members_index,DATA_DIR);
+	return 0;
+}
+
+int dinit_db(){
+	printf("Saving Database..\n");
+	char *loans_path_char = combine(DATA_DIR,DATA_LOANS_FNAME);
+	char *books_path_char = combine(DATA_DIR,DATA_BOOKS_FNAME);
+	char *dates_path_char = combine(DATA_DIR, DATA_DATES_FNAME);
+	char *members_path_char = combine(DATA_DIR, DATA_MEMBERS_FNAME);
+	
+	FILE *loans_path = fopen(loans_path_char, "rb");
+	FILE *books_path = fopen(books_path_char, "rb");
+	FILE *dates_path = fopen(dates_path_char, "rb");
+	FILE *members_path = fopen(members_path_char, "rb");
+	
+	write_loans(loans_path,db_loans,db_loans_index);
+	write_books(books_path,db_books,db_books_index);
+	write_dates(dates_path,db_dates,db_dates_index);
+	write_members(members_path,db_members,db_members_index);
+	
+	printf("Wrote %d objects to %s\n",db_loans_index + db_dates_index + db_dates_index + db_members_index, DATA_DIR);
+	return 0;
+}
 
 // this is the setup function, it is what checks the 
 // status of the database and handles flags.
@@ -115,7 +158,7 @@ int main(const int argument_count, const char *argument_list[]){
 			.FLAG_NAME = "--clean",
 			.FLAG_CATAGORY = "base",
 			.DESCRIPTION = "Destroy old data files (wipe the database)",
-.takes_value = 0,
+			.takes_value = 0,
 			});
 
 	argument *run = NULL;
@@ -131,28 +174,21 @@ int main(const int argument_count, const char *argument_list[]){
 
 		// catch signals
 		signal(SIGINT,quit);
-		bool data_dir_created = false;
-		if(!dir_exist(DATA_DIR)){
 
-			// create the database folder
-			int size = snprintf(NULL,0,"%s %s",MKDIR_COMMAND,DATA_DIR);
-			char com[size+1];
-			sprintf(com, "%s %s",MKDIR_COMMAND, DATA_DIR);
-			printf("Creating missing \"%s\" dir\n",DATA_DIR);
-			system(com);
-			data_dir_created = true;
-		} else init_db();
+		
 		
 		// parse system arguments
 		if(argument_run(clean)==0){
-			if(data_dir_created){
-				printf("the data dir was just created therefore there is no data to remove\n");
+			if(!dir_exist(DATA_DIR)){
+				printf("Database directoy dosent exist.\nThis means ther is nothing to clean\n");
 				quit(0);
-			}
-			
-			// take input
-			char buff[100];
-			input(buff,100,"Do you really want to delete the database? (y/N): ");
+			}	
+
+			char buff[SECURITY_CODE_LENGTH+1];
+
+			// input prompt confirmation
+			input(buff,SECURITY_CODE_LENGTH+1,"Do you really want to delete the database? (y/N): ");
+
 			if(strcmp(buff,"y")==0 || strcmp(buff,"Y")==0){
 				printf("To Confirm please write the following phrase into the input\n"
 					"As soon as you press enter after putting in the folloing the database will be deleted\n");
@@ -161,33 +197,45 @@ int main(const int argument_count, const char *argument_list[]){
 				char rand[SECURITY_CODE_LENGTH + 1];
 				for(int i=0;i<SECURITY_CODE_LENGTH;i++)
 					printf("%c",rand[i] = random_char());
-
 				printf("\n");
 				rand[SECURITY_CODE_LENGTH] = '\0';
-				input(buff,100,": ");
+
+				// input for secuirty question
+				input(buff,SECURITY_CODE_LENGTH+1,": ");
+
 				if(strcmp((char *)buff,(char *)rand)==0){
 
 					// delete the database folder
-					int size = snprintf(NULL,0,"%s %s",DELETE_COMMAND,DATA_DIR);
-					char com[size+1];
-					sprintf(com,"%s %s",DELETE_COMMAND,DATA_DIR);
-					printf("deleting database...\n");
-					system(com);
+					system(combine_with_space(DELETE_COMMAND,DATA_DIR));
 					printf("database deleted!\n");
-					quit(0);
 				} else {
 					printf("Wrong code entered\n");
 					quit(1);
 				}
 			}
 		}
+
 		if(argument_run(run)==0){
-			printf("database exited with code %d\n",database());
+			if(!dir_exist(DATA_DIR)){
+
+				// create the database folder
+				system(combine_with_space(MKDIR_COMMAND,DATA_DIR));
+				printf("Created \"%s\" dir\n",DATA_DIR);
+			}
+		
+			// import the database
+			if(init_db() == 1){
+				if(init_db() == 1)
+					printf("Error occured with database\n");
+			}
+
+			// run the database function
+			printf("DATABASE OUTPUT:\n\n");
+			int ret = database();
+			printf("\nEND OF DATABASE OUTPUT (exited with code %d)\n",ret);
+
+			dinit_db();
 		}
-
-		// \/ call help function
 	} else phelp();
-
-	// exit with code 0
 	quit(0);
 }

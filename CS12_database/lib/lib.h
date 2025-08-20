@@ -8,7 +8,7 @@ void input(char *buffer, int size, char* prompt);
 void write_loans(FILE *fp, loan *arr, int count);
 void write_books(FILE *fp, book *arr, int count);
 void write_members(FILE *fp, Member *arr, int count);
-void write_date(FILE *fp, date *dates, int count);
+void write_dates(FILE *fp, date *dates, int count);
 
 loan *read_loans(FILE *fp, int *out_count);
 book *read_books(FILE *fp, int *out_count); 
