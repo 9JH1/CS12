@@ -6,7 +6,6 @@ exit(-1);
 #endif 
 ;
 
-
 // 3rd party imports
 #include "lib/data.h"
 #include "lib/lib.h" 
@@ -26,7 +25,7 @@ loan *db_loans;
 int db_loans_index; 
 int db_loans_capacity;
 
-Member *db_members;
+member *db_members;
 int db_members_index;
 int db_members_capacity;
 
@@ -34,19 +33,12 @@ book *db_books;
 int db_books_index;
 int db_books_capacity;
 
-date *db_dates;
-int db_dates_index;
-int db_dates_capacity;
-
 void quit(int code){
 	if(code != 0)
 		printf("\rexiting program with code %d..\n",code);
 	dinit_argument_list();
 	exit(code);
 }
-
-
-
 
 // status of the database and handles flags.
 int main(const int argument_count, const char *argument_list[]){ 
@@ -101,7 +93,9 @@ int main(const int argument_count, const char *argument_list[]){
 				if(strcmp((char *)buff,(char *)rand)==0){
 
 					// delete the database folder
-					system(combine_with_space(DELETE_COMMAND,DATA_DIR));
+					char *com = combine_with_space(DELETE_COMMAND,DATA_DIR);
+					system(com);
+					free(com);
 					printf("database deleted!\n");
 				} else {
 					printf("Wrong code entered\n");
@@ -114,7 +108,10 @@ int main(const int argument_count, const char *argument_list[]){
 			if(!dir_exist(DATA_DIR)){
 
 				// create the database folder
-				system(combine_with_space(MKDIR_COMMAND,DATA_DIR));
+				char *com = combine_with_space(MKDIR_COMMAND,DATA_DIR);
+				system(com);
+				free(com);
+
 				printf("Created \"%s\" dir\n",DATA_DIR);
 			}
 		

@@ -10,7 +10,7 @@ typedef enum {
   MEMBER = 0,
   AUTHOR = 1,
   STAFF = 2,
-} MemberType;
+} memberType;
 
 typedef struct {
   int month;
@@ -36,16 +36,18 @@ typedef struct {
 
 // covers members staff and authors
 typedef struct {
-  char first_name[CHAR_SMALL];
-  char last_name[CHAR_SMALL];
-  char email[CHAR_SMALL];
-  char phone_number[CHAR_SMALL];
+  char *first_name;
+  char *last_name;
+  char *email;
+  char *phone_number;
   date dob;
   date time_created;
-  MemberType type;
+  memberType type;
   struct {
   	bool loan_flagged; 
-    int loan_ids[MAX_LOANS];
+    int *loan_ids;
+		int loan_index;
+		int loan_capacity;
   } loan;
   union {
     struct {
@@ -54,15 +56,13 @@ typedef struct {
       int member_code;
     } staff;
     struct {
-      char genre[CHAR_SMALL];
+      char *genre;
       date dod;
       bool is_alive;
       int book_count;
     } author;
-
-
   } o;
-} Member;
+} member;
 
 // covers all books
 typedef struct {

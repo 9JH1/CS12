@@ -100,239 +100,332 @@ book *read_books(FILE *fp, int *out_count) {
   return arr;
 }
 
-void write_members(FILE *fp, Member *arr, int count) {
-  fwrite(&count, sizeof(int), 1, fp);
-  for (int i = 0; i < count; i++) {
-    fwrite(arr[i].first_name, CHAR_SMALL, 1, fp);
-    fwrite(arr[i].last_name, CHAR_SMALL, 1, fp);
-    fwrite(arr[i].email, CHAR_SMALL, 1, fp);
-    fwrite(arr[i].phone_number, CHAR_SMALL, 1, fp);
-    fwrite(&arr[i].dob, sizeof(date), 1, fp);
-    fwrite(&arr[i].time_created, sizeof(date), 1, fp);
-    fwrite(&arr[i].type, sizeof(MemberType), 1, fp);
+void write_members(FILE *a, member *arr, const int size) {
+  if (!a || !arr || size < 0)
+    return;
 
-    switch (arr[i].type) {
-    case STAFF:
-      fwrite(&arr[i].o.staff.is_hired, sizeof(bool), 1, fp);
-      fwrite(&arr[i].o.staff.member_id, sizeof(int), 1, fp);
-      fwrite(&arr[i].o.staff.member_code, sizeof(int), 1, fp);
-      break;
+  fwrite(&size, sizeof(int), 1, a);
 
-    case AUTHOR:
-      fwrite(arr[i].o.author.genre, CHAR_SMALL, 1, fp);
-      fwrite(&arr[i].o.author.dod, sizeof(date), 1, fp);
-      fwrite(&arr[i].o.author.is_alive, sizeof(bool), 1, fp);
-      fwrite(&arr[i].o.author.book_count, sizeof(int), 1, fp);
-      break;
+  for (int i = 0; i < size; ++i) {
+    const member *m = &arr[i];
 
-    default:
-      // For MEMBER or unknown types, just skip union data
-      break;
+// Helper macro to write strings safely
+#define WRITE_STRING(s)                                                        \
+  do {                                                                         \
+    int len = (s != NULL) ? (int)strlen(s) + 1 : 0;                            \
+    fwrite(&len, sizeof(int), 1, a);                                           \
+    if (len > 0) {                                                             \
+      fwrite(s, sizeof(char), len, a);                                         \
+    }                                                                          \
+  } while (0)
+
+    WRITE_STRING(m->first_name);
+    WRITE_STRING(m->last_name);
+    WRITE_STRING(m->email);
+    WRITE_STRING(m->phone_number);
+
+    fwrite(&m->dob, sizeof(date), 1, a);
+    fwrite(&m->time_created, sizeof(date), 1, a);
+    fwrite(&m->type, sizeof(memberType), 1, a);
+
+    // Write loan data
+    fwrite(&m->loan.loan_flagged, sizeof(bool), 1, a);
+    fwrite(&m->loan.loan_index, sizeof(int), 1, a);
+    fwrite(&m->loan.loan_capacity, sizeof(int), 1, a);
+
+    if (m->loan.loan_capacity > 0 && m->loan.loan_ids != NULL) {
+      fwrite(m->loan.loan_ids, sizeof(int), m->loan.loan_capacity, a);
     }
 
-    // Write loan struct always
-    fwrite(&arr[i].loan.loan_flagged, sizeof(bool), 1, fp);
-    fwrite(arr[i].loan.loan_ids, sizeof(int), MAX_LOANS, fp);
+    // Union data based on member type
+    if (m->type == STAFF) {
+      fwrite(&m->o.staff.is_hired, sizeof(bool), 1, a);
+      fwrite(&m->o.staff.member_id, sizeof(int), 1, a);
+      fwrite(&m->o.staff.member_code, sizeof(int), 1, a);
+    } else if (m->type == AUTHOR) {
+      WRITE_STRING(m->o.author.genre);
+      fwrite(&m->o.author.dod, sizeof(date), 1, a);
+      fwrite(&m->o.author.is_alive, sizeof(bool), 1, a);
+      fwrite(&m->o.author.book_count, sizeof(int), 1, a);
+    }
+
+#undef WRITE_STRING
   }
 }
 
-Member *read_members(FILE *fp, int *out_count) {
-  fread(out_count, sizeof(int), 1, fp);
-  Member *arr = malloc(*out_count * sizeof(Member));
-  for (int i = 0; i < *out_count; i++) {
-    fread(arr[i].first_name, CHAR_SMALL, 1, fp);
-    fread(arr[i].last_name, CHAR_SMALL, 1, fp);
-    fread(arr[i].email, CHAR_SMALL, 1, fp);
-    fread(arr[i].phone_number, CHAR_SMALL, 1, fp);
-    fread(&arr[i].dob, sizeof(date), 1, fp);
-    fread(&arr[i].time_created, sizeof(date), 1, fp);
-    fread(&arr[i].type, sizeof(MemberType), 1, fp);
+void free_member(member *m) {
+  if (!m)
+    return;
+  free(m->first_name);
+  free(m->last_name);
+  free(m->email);
+  free(m->phone_number);
+  if (m->loan.loan_ids)
+    free(m->loan.loan_ids);
+  if (m->type == AUTHOR) {
+    free(m->o.author.genre);
+  }
+}
 
-    switch (arr[i].type) {
-    case STAFF:
-      fread(&arr[i].o.staff.is_hired, sizeof(bool), 1, fp);
-      fread(&arr[i].o.staff.member_id, sizeof(int), 1, fp);
-      fread(&arr[i].o.staff.member_code, sizeof(int), 1, fp);
-      break;
+member *read_members(FILE *a, int *out_size) {
 
-    case AUTHOR:
-      fread(arr[i].o.author.genre, CHAR_SMALL, 1, fp);
-      fread(&arr[i].o.author.dod, sizeof(int), 1, fp);
-      fread(&arr[i].o.author.is_alive, sizeof(bool), 1, fp);
-      fread(&arr[i].o.author.book_count, sizeof(int), 1, fp);
-      break;
+  FILE *fp = (FILE *)a;
 
-    default:
-      // Zero union for MEMBER or unknown types
-      memset(&arr[i].o, 0, sizeof(arr[i].o));
-      break;
+  int size = 0;
+	fread(&size, sizeof(int), 1,fp);
+	if(size == 0){
+		*out_size = 0;
+		return malloc(sizeof(member));
+	}
+
+  member *arr = calloc(size, sizeof(member));
+
+  for (int i = 0; i < size; ++i) {
+    member *m = &arr[i];
+
+// Read strings with length
+#define READ_STRING(s)                                                         \
+  do {                                                                         \
+    int len;                                                                   \
+    fread(&len, sizeof(int), 1, fp);                                           \
+    if (len > 0) {                                                             \
+      s = malloc(len);                                                         \
+      fread(s, sizeof(char), len, fp);                                         \
+    } else {                                                                   \
+      s = NULL;                                                                \
+    }                                                                          \
+  } while (0)
+
+    READ_STRING(m->first_name);
+    READ_STRING(m->last_name);
+    READ_STRING(m->email);
+    READ_STRING(m->phone_number);
+
+    fread(&m->dob, sizeof(date), 1, fp);
+    fread(&m->time_created, sizeof(date), 1, fp);
+    fread(&m->type, sizeof(memberType), 1, fp);
+
+    // Loan
+    fread(&m->loan.loan_flagged, sizeof(bool), 1, fp);
+    fread(&m->loan.loan_index, sizeof(int), 1, fp);
+    fread(&m->loan.loan_capacity, sizeof(int), 1, fp);
+
+    if (m->loan.loan_capacity > 0) {
+      m->loan.loan_ids = malloc(m->loan.loan_capacity * sizeof(int));
+      fread(m->loan.loan_ids, sizeof(int), m->loan.loan_capacity, fp);
+    } else {
+      m->loan.loan_ids = NULL;
     }
 
-    fread(&arr[i].loan.loan_flagged, sizeof(bool), 1, fp);
-    fread(arr[i].loan.loan_ids, sizeof(int), MAX_LOANS, fp);
+    // Union
+    if (m->type == STAFF) {
+      fread(&m->o.staff.is_hired, sizeof(bool), 1, fp);
+      fread(&m->o.staff.member_id, sizeof(int), 1, fp);
+      fread(&m->o.staff.member_code, sizeof(int), 1, fp);
+    } else if (m->type == AUTHOR) {
+      READ_STRING(m->o.author.genre);
+      fread(&m->o.author.dod, sizeof(date), 1, fp);
+      fread(&m->o.author.is_alive, sizeof(bool), 1, fp);
+      fread(&m->o.author.book_count, sizeof(int), 1, fp);
+    }
+
+#undef READ_STRING
   }
+
+  *out_size = size;
   return arr;
 }
 
-void write_dates(FILE *fp, date * dates, int count){
-	fwrite(&count, sizeof(int),1,fp);
-	for(int i = 0;i<count;i++){
-		fwrite(&dates[i].year,sizeof(int),1,fp);
-		fwrite(&dates[i].month,sizeof(int),1,fp);
-		fwrite(&dates[i].day,sizeof(int),1,fp);
-		fwrite(&dates[i].hour, sizeof(int),1,fp);
-		fwrite(&dates[i].minute,sizeof(int),1,fp);
-		fwrite(&dates[i].second,sizeof(int),1,fp);
-	}
+char *combine_with_space(const char *a, const char *b) {
+  const int size = snprintf(NULL, 0, "%s %s", a, b);
+  char *out = malloc(size + 1);
+  sprintf(out, "%s %s", a, b);
+  return out;
 }
 
-date *read_dates(FILE *fp, int *out_count){
-	fread(out_count,sizeof(int),1,fp);
-	date *out = malloc(*out_count * sizeof(date));
-	for(int i=0;i<*out_count;i++){
-		fread(&out[i].year,sizeof(int),1,fp);
-		fread(&out[i].month,sizeof(int),1,fp);
-		fread(&out[i].day,sizeof(int),1,fp);
-		fread(&out[i].hour,sizeof(int),1,fp);
-		fread(&out[i].minute,sizeof(int),1,fp);
-		fread(&out[i].second,sizeof(int),1,fp);
-	}
-	return out;
+char *combine(const char *a, const char *b) {
+  const int size = snprintf(NULL, 0, "%s%s", a, b);
+  char *out = (char *)malloc(size + 1);
+  sprintf(out, "%s%s", a, b);
+  return out;
 }
 
-char *combine_with_space(const char *a, const char *b){
-	const int size = snprintf(NULL,0,"%s %s",a,b);
-	char *out = malloc(size + 1);
-	sprintf(out,"%s %s",a,b);
-	return out;
-}
+int dinit_db() {
+  printf("Saving Database..\n");
+  char *loans_path_char = combine(DATA_DIR, DATA_LOANS_FNAME);
+  char *books_path_char = combine(DATA_DIR, DATA_BOOKS_FNAME);
+  char *members_path_char = combine(DATA_DIR, DATA_MEMBERS_FNAME);
 
-char *combine(const char *a, const char*b){
-	const int size = snprintf(NULL,0,"%s%s",a,b);
-	char *out = (char *)malloc(size +1);
-	sprintf(out,"%s%s",a,b);
-	return out;
-}
+  FILE *loans_path = fopen(loans_path_char, "wb");
+  FILE *books_path = fopen(books_path_char, "wb");
+  FILE *members_path = fopen(members_path_char, "wb");
 
-int dinit_db(){
-	printf("Saving Database..\n");
-	char *loans_path_char = combine(DATA_DIR,DATA_LOANS_FNAME);
-	char *books_path_char = combine(DATA_DIR,DATA_BOOKS_FNAME);
-	char *dates_path_char = combine(DATA_DIR, DATA_DATES_FNAME);
-	char *members_path_char = combine(DATA_DIR, DATA_MEMBERS_FNAME);
-	
-	FILE *loans_path = fopen(loans_path_char, "wb");
-	FILE *books_path = fopen(books_path_char, "wb");
-	FILE *dates_path = fopen(dates_path_char, "wb");
-	FILE *members_path = fopen(members_path_char, "wb");
-	
-	write_loans(loans_path,db_loans,db_loans_index);
-	write_books(books_path,db_books,db_books_index);
-	write_dates(dates_path,db_dates,db_dates_index);
-	write_members(members_path,db_members,db_members_index);
-	
-	printf("Wrote %d Loans (capacity: %d)\n",db_loans_index,db_loans_capacity);
-	printf("Wrote %d Books (capacity: %d)\n",db_books_index,db_books_capacity);
-	printf("Wrote %d Dates (capacity: %d)\n",db_dates_index,db_dates_capacity);
-	printf("Wrote %d Members (capacity: %d)\n",db_members_index,db_members_capacity);
-	return 0;
-}
+  write_loans(loans_path, db_loans, db_loans_index);
+  write_books(books_path, db_books, db_books_index);
+  write_members(members_path, db_members, db_members_index);
 
-int init_db(){
-	printf("Importing Database..\n");
-	char *loans_path_char = combine(DATA_DIR,DATA_LOANS_FNAME);
-	char *books_path_char = combine(DATA_DIR,DATA_BOOKS_FNAME);
-	char *dates_path_char = combine(DATA_DIR, DATA_DATES_FNAME);
-	char *members_path_char = combine(DATA_DIR, DATA_MEMBERS_FNAME);
-	
-	FILE *loans_path = fopen(loans_path_char, "rb");
-	FILE *books_path = fopen(books_path_char, "rb");
-	FILE *dates_path = fopen(dates_path_char, "rb");
-	FILE *members_path = fopen(members_path_char, "rb");
-	
-	bool error_flag = false;
-
-	if(loans_path == NULL){
-		printf("Couldent open \"%s\"\n",loans_path_char);
-		system(combine_with_space(MKFILE_COMMAND,loans_path_char));
-		printf("Created \"%s\" file\n",loans_path_char);
-		error_flag = true;
-	} else { 
-		db_loans = read_loans(loans_path, &db_loans_index);
-		db_loans_capacity = db_loans_index + 1 * 2;
-	}
-
-	if(books_path == NULL){
-		printf("Couldent open \"%s\"\n",books_path_char);
-		system(combine_with_space(MKFILE_COMMAND,books_path_char));
-		printf("Created \"%s\" file\n",books_path_char);
-
-		error_flag = true;
-	} else { 
-		db_books = read_books(books_path, &db_books_index);
-		db_books_capacity = db_books_index + 1 * 2;
-	}
-	
-	if(dates_path == NULL){
-		printf("Couldent open \"%s\"\n",dates_path_char);
-		system(combine_with_space(MKFILE_COMMAND,dates_path_char));
-		printf("Created \"%s\" file\n",dates_path_char);
-		error_flag = true;
-	} else {
-		db_dates = read_dates(dates_path, &db_dates_index);
-		db_dates_capacity = db_dates_index + 1 * 2;
-	}
-
-	if(members_path == NULL){
-		printf("Couldent open \"%s\"\n",members_path_char);
-		system(combine_with_space(MKFILE_COMMAND,members_path_char));
-		printf("Created \"%s\" file\n",members_path_char);
-		error_flag = true;
-	} else { 
-		db_members = read_members(members_path, &db_members_index);
-		db_members_capacity = db_members_index + 1 * 2;
-	}
+  printf("Wrote %d Loans (capacity: %d)\n", db_loans_index, db_loans_capacity);
+  printf("Wrote %d Books (capacity: %d)\n", db_books_index, db_books_capacity);
+  printf("Wrote %d members (capacity: %d)\n", db_members_index,
+         db_members_capacity);
 
 	free(loans_path_char);
 	free(books_path_char);
-	free(dates_path_char);
 	free(members_path_char);
-	
-	if(error_flag == true)
-		return 1;
-
-	printf("Imported %d Loans (capacity: %d)\n",db_loans_index,db_loans_capacity);
-	printf("Imported %d Books (capacity: %d)\n",db_books_index,db_books_capacity);
-	printf("Imported %d Dates (capacity: %d)\n",db_dates_index,db_dates_capacity);
-	printf("Imported %d Members (capacity: %d)\n",db_members_index,db_members_capacity);
-	return 0;
+  return 0;
 }
 
-int book_add(const book a){
-	if(db_books_index == db_books_capacity){
-		book *temp = realloc(db_books,db_books_capacity * sizeof(book));
-		db_books_capacity *= 2;
-		if(!temp){
-			printf("Error allocating memory for book\n");
-			return 1;
-		}
-		db_books = temp;
-	}
-	
-	db_books[db_books_index] = a;
-	db_books_index++;
+int init_db() {
+  printf("Importing Database..\n");
+  char *loans_path_char = combine(DATA_DIR, DATA_LOANS_FNAME);
+  char *books_path_char = combine(DATA_DIR, DATA_BOOKS_FNAME);
+  char *members_path_char = combine(DATA_DIR, DATA_MEMBERS_FNAME);
 
-	return 0;
+  FILE *loans_path = fopen(loans_path_char, "rb");
+  FILE *books_path = fopen(books_path_char, "rb");
+  FILE *members_path = fopen(members_path_char, "rb");
+
+  bool error_flag = false;
+
+  if (loans_path == NULL) {
+    printf("Couldent open \"%s\"\n", loans_path_char);
+  	char *com = combine_with_space(MKFILE_COMMAND, loans_path_char);
+		system(com);
+		free(com);
+    printf("Created \"%s\" file\n", loans_path_char);
+    error_flag = true;
+  } else {
+    db_loans = read_loans(loans_path, &db_loans_index);
+    db_loans_capacity = (db_loans_index + 1) * 2;
+  }
+
+  if (books_path == NULL) {
+    printf("Couldent open \"%s\"\n", books_path_char);
+    char *com = combine_with_space(MKFILE_COMMAND, books_path_char);
+		system(com);
+		free(com);
+    printf("Created \"%s\" file\n", books_path_char);
+
+    error_flag = true;
+  } else {
+    db_books = read_books(books_path, &db_books_index);
+    db_books_capacity = (db_books_index + 1) * 2;
+  }
+
+  if (members_path == NULL) {
+    printf("Couldent open \"%s\"\n", members_path_char);
+    char *com = combine_with_space(MKFILE_COMMAND, members_path_char);
+		system(com);
+		free(com);
+    printf("Created \"%s\" file\n", members_path_char);
+    error_flag = true;
+  } else {
+    db_members = read_members(members_path, &db_members_index);
+    db_members_capacity = (db_members_index + 1) * 2;
+  }
+
+  free(loans_path_char);
+  free(books_path_char);
+  free(members_path_char);
+
+  if (error_flag == true)
+    return 1;
+
+  printf("Imported %d Loans (capacity: %d)\n", db_loans_index,
+         db_loans_capacity);
+  printf("Imported %d Books (capacity: %d)\n", db_books_index,
+         db_books_capacity);
+  printf("Imported %d members (capacity: %d)\n", db_members_index,
+         db_members_capacity);
+  return 0;
 }
 
-int member_add(const Member a){
-	return 0;
+int book_add(const book a) {
+  if (db_books_index == db_books_capacity) {
+    db_books_capacity *= 2;
+    book *temp = realloc(db_books, db_books_capacity * sizeof(book));
+    if (!temp) {
+      printf("Error allocating memory for book\n");
+      return -1;
+    }
+    db_books = temp;
+  }
+
+  db_books[db_books_index] = a;
+  db_books_index++;
+
+  return db_books_index - 1;
 }
 
-int date_add(const date a){
-	return 0;
+int member_add(const member a) {
+  if (db_members_index == db_members_capacity) {
+    db_members_capacity *= 2;
+    member *temp = realloc(db_members, db_members_index * sizeof(member));
+
+    if (!temp) {
+      printf("Error allocating memory for members\n");
+      return -1;
+    }
+
+    db_members = temp;
+  }
+
+  db_members[db_members_index] = a;
+  db_members_index++;
+  return db_members_index - 1;
 }
 
-int loan_add(const loan a){
-	return 0;
+int loan_add(const loan a) {
+  if (db_loans_index == db_loans_capacity) {
+    db_loans_capacity *= 2;
+    loan *temp = realloc(db_loans, db_loans_index * sizeof(loan));
+
+    if (!temp) {
+      printf("Error allocating memory for loans\n");
+      return -1;
+    }
+
+    db_loans = temp;
+  }
+
+  db_loans[db_loans_index] = a;
+  db_loans_index++;
+  return db_loans_index - 1;
+}
+
+int book_add_index(const book a, const int b) {
+  if (b > db_books_index)
+    return 0;
+
+  db_books[b] = a;
+  return 1;
+}
+
+int member_add_index(const member a, const int b) {
+  if (b > db_members_index)
+    return 0;
+
+  db_members[b] = a;
+  return 1;
+}
+
+int loan_add_index(const loan a, const int b) {
+  if (b > db_loans_index)
+    return 0;
+
+  db_loans[b] = a;
+  return 1;
+}
+
+date date_now(void) {
+  time_t t = time(NULL);
+  struct tm tm = *localtime(&t);
+  return (date){
+      .year = (tm.tm_year + 1900),
+      .month = tm.tm_mon,
+      .day = tm.tm_mday,
+      .hour = tm.tm_hour,
+      .minute = tm.tm_min,
+      .second = tm.tm_sec,
+  };
 }

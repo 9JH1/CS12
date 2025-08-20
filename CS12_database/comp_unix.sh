@@ -1,1 +1,1 @@
-gcc main.c lib/*.c -o database && ./database $@
+gcc -g main.c lib/*.c -o database && ./database $@
