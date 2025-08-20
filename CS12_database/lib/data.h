@@ -24,8 +24,8 @@ typedef struct {
 // covers loans and all associated data
 typedef struct {
   int amount;
-  int dateid_issued;
-  int dateid_closed;
+  date issued;
+  date closed;
   bool active;
   char *note;
   union {
@@ -37,14 +37,14 @@ typedef struct {
 // covers members staff and authors
 typedef struct {
   char first_name[CHAR_SMALL];
-  char last_namer[CHAR_SMALL];
+  char last_name[CHAR_SMALL];
   char email[CHAR_SMALL];
   char phone_number[CHAR_SMALL];
-  int dateid_dob;
-  int dateid_time_created;
+  date dob;
+  date time_created;
   MemberType type;
   struct {
-    bool loan_flagged;
+  	bool loan_flagged; 
     int loan_ids[MAX_LOANS];
   } loan;
   union {
@@ -55,12 +55,13 @@ typedef struct {
     } staff;
     struct {
       char genre[CHAR_SMALL];
-      int id_dod;
+      date dod;
       bool is_alive;
       int book_count;
     } author;
-  } o;
 
+
+  } o;
 } Member;
 
 // covers all books

@@ -1,4 +1,4 @@
-#include "../platform.h"
+#include "lib.h"
 
 #ifdef __unix__
 	#include <dirent.h>

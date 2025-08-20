@@ -1,9 +1,13 @@
 #include <stdio.h>
+#include "lib/data.h"
+#include "lib/lib.h" 
 
-// local 
-
-// this is the code that is run when the database is validated
+/* 
+this is the code that is run when the database is imported
+any added data is saved to the local storage when this function 
+exits */
 int database(){
-	printf("Hello World!\n");
-	return 0;	
+	printf("%d\n",db_books[28].publication_date.year);
+	return 12;	
 }
+
