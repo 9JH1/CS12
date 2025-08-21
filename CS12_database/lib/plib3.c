@@ -160,7 +160,7 @@ void phelp() {
     printf("%s", argument_list[i].name);
 		for(int j = 0;j <longest - strlen(argument_list[i].name);j++) printf(" ");
 		printf(" | %s",argument_list[i].catagory);
-		for(int j = 0;j<longest_catagory - strlen(argument_list[i].catagory);i++) printf(" ");
+		for(int j = 0;j<longest_catagory - strlen(argument_list[i].catagory);j++) printf(" ");
 		printf(" | %s\n",argument_list[i].description);
   }
 }
