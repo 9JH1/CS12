@@ -106,7 +106,7 @@ int main(const int argument_count, const char *argument_list[]){
 	set_argument(&db_book_update_wizard,(set_argument_options){
 			.FLAG_NAME = "--book-update-wizard",
 			.FLAG_CATAGORY = "db_update",
-			.DESCRIPTION = "Update a prexisting book",
+			.DESCRIPTION = "Update an existing book",
 			.takes_value = 0,
 			});
 
