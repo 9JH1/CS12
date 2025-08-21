@@ -23,11 +23,12 @@ typedef struct {
 
 // covers loans and all associated data
 typedef struct {
-  int amount;
-  date issued;
-  date closed;
-  bool active;
-  char *note;
+  int amount;  // fee 
+  date issued; // when the book was taken out 
+  date returned; // when the book was returned
+  date return_date; // when the book NEEDs to be returned by
+	int bookid;  // id to the book.
+	bool active; // if the loan has been fulfilled.
   union {
     bool payed;
     bool covered;
@@ -59,7 +60,6 @@ typedef struct {
       char *genre;
       date dod;
       bool is_alive;
-      int book_count;
     } author;
   } o;
 } member;
@@ -71,7 +71,8 @@ typedef struct {
   date publication_date;
   char genre[CHAR_SMALL];
   char ISBN[15];
-  bool available;
+  int available;
+	int count;
 } book;
 
 #endif // DATA_TYPES_H

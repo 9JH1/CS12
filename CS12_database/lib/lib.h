@@ -3,7 +3,7 @@
 #include "data.h"
 #include <stdio.h>
 
-#define SECURITY_CODE_LENGTH 10
+#define SECURITY_CODE_LENGTH 3
 #define DATA_DIR "./db/"
 #define DATA_LOANS_FNAME "loans.bin"
 #define DATA_BOOKS_FNAME "books.bin"
@@ -37,6 +37,10 @@ loan *read_loans(FILE *fp, int *out_count);
 book *read_books(FILE *fp, int *out_count); 
 member *read_members(FILE *a, int *out_size);
 void free_member(member *m);
+void print_datetime(date a);
+void loan_new(member *a, loan b);
+int total_loan(member a);
+void print_number(const int a);
 #endif // !DATABASE_LIB 
 #ifndef PLATFORM_H
 	// platform selection: 

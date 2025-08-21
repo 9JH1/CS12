@@ -73,7 +73,7 @@ char *strsep(char **stringp, const char *delim) {
 int validate_argument_list() {
   // init argument list
   if (argument_list_capacity == 0) {
-    argument_list_capacity = 2;
+    argument_list_capacity = 5;
     argument_list = malloc(argument_list_capacity * sizeof(argument));
     if (!argument_list) {
       printc(ERROR, "unable to initialize argument_list (malloc)\n");

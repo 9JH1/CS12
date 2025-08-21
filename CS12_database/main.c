@@ -1,10 +1,7 @@
 #ifdef PLATFORM_NOT_SUPPORTED
 #include <stdio.h>
-#include <unistd.h>
 printf("this platform is not supported, use either Linux (__unix__) or windows (_WIN32)\n");
-exit(-1);
-#endif 
-;
+#else
 
 // 3rd party imports
 #include "lib/data.h"
@@ -34,8 +31,7 @@ int db_books_index;
 int db_books_capacity;
 
 void quit(int code){
-	if(code != 0)
-		printf("\rexiting program with code %d..\n",code);
+	printf("\rexiting program with code %d ..\n",code);
 	dinit_argument_list();
 	exit(code);
 }
@@ -106,7 +102,7 @@ int main(const int argument_count, const char *argument_list[]){
 
 		if(argument_run(run)==0){
 			if(!dir_exist(DATA_DIR)){
-
+				printf("Couldent open \"%s\"\n",DATA_DIR);
 				// create the database folder
 				char *com = combine_with_space(MKDIR_COMMAND,DATA_DIR);
 				system(com);
@@ -117,18 +113,34 @@ int main(const int argument_count, const char *argument_list[]){
 		
 			// import the database
 			if(init_db() == 1){
-
 				// re-import the database 
 				if(init_db() == 1)
 					printf("Error occured with database, unsure of cause\n");
 			}
 
 			// run the database function
-			printf("DATABASE OUTPUT:\n\n");
+			printf("DATABASE OUTPUT:\n\n"); 
 			int ret = database();
 			printf("\nEND OF DATABASE OUTPUT (exited with code %d)\n",ret);
+			fflush(stdout);
+
+			// write the database 
 			dinit_db();
+
+			// free the members 
+			for(int i =0;i < db_members_index;i++){
+				member *m = &db_members[i];
+
+				// the following causes a double free error for some reason, i couldent find the source
+				/*if(m->first_name != NULL) free(m->first_name);
+  			if(m->last_name != NULL) free(m->last_name);
+  			if(m->email != NULL) free(m->email);
+  			if(m->phone_number != NULL) free(m->phone_number);
+  			if (m->loan.loan_ids) free(m->loan.loan_ids);
+  			if (m->type == AUTHOR && m->o.author.genre) free(m->o.author.genre);*/
+			}
 		}
 	} else phelp();
 	quit(0);
 }
+#endif

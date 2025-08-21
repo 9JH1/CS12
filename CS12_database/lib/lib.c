@@ -146,7 +146,6 @@ void write_members(FILE *a, member *arr, const int size) {
       WRITE_STRING(m->o.author.genre);
       fwrite(&m->o.author.dod, sizeof(date), 1, a);
       fwrite(&m->o.author.is_alive, sizeof(bool), 1, a);
-      fwrite(&m->o.author.book_count, sizeof(int), 1, a);
     }
 
 #undef WRITE_STRING
@@ -156,10 +155,10 @@ void write_members(FILE *a, member *arr, const int size) {
 void free_member(member *m) {
   if (!m)
     return;
-  free(m->first_name);
-  free(m->last_name);
-  free(m->email);
-  free(m->phone_number);
+	if(m->first_name) free(m->first_name);
+  if(m->last_name) free(m->last_name);
+  if(m->email) free(m->email);
+  if(m->phone_number) free(m->phone_number);
   if (m->loan.loan_ids)
     free(m->loan.loan_ids);
   if (m->type == AUTHOR) {
@@ -226,7 +225,6 @@ member *read_members(FILE *a, int *out_size) {
       READ_STRING(m->o.author.genre);
       fread(&m->o.author.dod, sizeof(date), 1, fp);
       fread(&m->o.author.is_alive, sizeof(bool), 1, fp);
-      fread(&m->o.author.book_count, sizeof(int), 1, fp);
     }
 
 #undef READ_STRING
@@ -351,9 +349,13 @@ int book_add(const book a) {
     db_books = temp;
   }
 
+	if(db_books == NULL){
+		printf("Error db_books is unininitialized\n");
+	}
+
   db_books[db_books_index] = a;
   db_books_index++;
-
+	printf("created new book at index %d\n",db_books_index-1);
   return db_books_index - 1;
 }
 
@@ -369,9 +371,13 @@ int member_add(const member a) {
 
     db_members = temp;
   }
-
+	if(db_members == NULL){
+		printf("Error db_members is unininitialized\n");
+		return -1;
+	}
   db_members[db_members_index] = a;
   db_members_index++;
+	printf("created new member at index %d\n",db_members_index-1);
   return db_members_index - 1;
 }
 
@@ -379,7 +385,6 @@ int loan_add(const loan a) {
   if (db_loans_index == db_loans_capacity) {
     db_loans_capacity *= 2;
     loan *temp = realloc(db_loans, db_loans_index * sizeof(loan));
-
     if (!temp) {
       printf("Error allocating memory for loans\n");
       return -1;
@@ -388,8 +393,14 @@ int loan_add(const loan a) {
     db_loans = temp;
   }
 
+	if(db_loans == NULL){
+		printf("Error db_loans is unininitialized\n");
+		return -2;
+	}
+
   db_loans[db_loans_index] = a;
   db_loans_index++;
+	printf("created new loan at index %d\n",db_loans_index-1);
   return db_loans_index - 1;
 }
 
@@ -428,4 +439,57 @@ date date_now(void) {
       .minute = tm.tm_min,
       .second = tm.tm_sec,
   };
+}
+
+
+void print_datetime(date a) {
+  printf("%d:%d:%d, %d/%d/%d\n", a.hour, a.minute, a.second, a.day, a.month,
+         a.year);
+}
+
+void loan_new(member *a, loan b){
+	int loanid = loan_add(b);
+
+	// initialize missing loans 
+	if(a->loan.loan_ids == NULL) { 
+		if (a->loan.loan_capacity <= 0)
+			a->loan.loan_capacity = 2; // default amount of loans 
+
+		a->loan.loan_ids = malloc(a->loan.loan_capacity * sizeof(int));
+	}
+
+	// reallocate loans 
+	if(a->loan.loan_index == a->loan.loan_capacity){
+		a->loan.loan_capacity *= 2;
+		a->loan.loan_flagged = true; 
+		int *temp = realloc(a->loan.loan_ids,a->loan.loan_capacity * sizeof(int));
+		if(!temp){
+			printf("Couldn't allocate memory for new loan\n");
+			return;
+		} else a->loan.loan_ids = temp;
+	}
+
+	// append loans 
+	a->loan.loan_ids[a->loan.loan_index] = loanid;
+	a->loan.loan_index++;
+	return;
+}
+
+// unpayed and payed
+int total_loan(member a){
+	int out = 0;
+	for(int i = 0; i < a.loan.loan_index;i++)
+		out += db_loans[a.loan.loan_ids[i]].amount;
+	return out;
+}
+
+void print_number(const int a){
+	int b = snprintf(NULL,0,"%d",a);
+	char c[b+1];
+	sprintf(c,"%d",a);
+	int d = strlen(c) % 3; // difference for modulo
+	for(int i = 0; i < strlen(c); i++){
+		if(i+d % 3 == 0) printf("%c,",c[i]);
+		else printf("%c",c[i]);
+	}
 }
