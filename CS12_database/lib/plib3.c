@@ -156,6 +156,7 @@ void phelp() {
 	}
 
   printf("Options:\n");
+	printf("Name, Catagory, Description\n");
   for (int i = 0; i < argument_list_index; i++) {
     printf("%s", argument_list[i].name);
 		for(int j = 0;j <longest - strlen(argument_list[i].name);j++) printf(" ");
