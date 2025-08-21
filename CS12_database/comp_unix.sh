@@ -1,4 +1,6 @@
-git add . && git commit -m "$(date)" &>/dev/null
+git add .  
+git commit -m "$(date)"
+
 echo ""
 gcc -g main.c lib/*.c -o database && ./database $@  
 echo ""
