@@ -154,7 +154,7 @@ void phelp() {
   for (int i = 0; i < argument_list_index; i++) {
     printf("%s", argument_list[i].name);
 		for(int j = 0;j <longest - strlen(argument_list[i].name);j++) printf(" ");
-		printf(" | %s",argument_list[i].description);
+		printf(" | %s\n",argument_list[i].description);
   }
 }
 
