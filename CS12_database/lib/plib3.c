@@ -145,15 +145,22 @@ void phelp() {
 
 	int longest = 0;
 
+	int longest_catagory = 0;
+
 	for(int i = 0;i <argument_list_index; i++){
 		if(longest < strlen(argument_list[i].name))
 			longest = strlen(argument_list[i].name);
+
+		if(longest_catagory < strlen(argument_list[i].catagory))
+			longest_catagory = strlen(argument_list[i].catagory);
 	}
 
   printf("Options:\n");
   for (int i = 0; i < argument_list_index; i++) {
     printf("%s", argument_list[i].name);
 		for(int j = 0;j <longest - strlen(argument_list[i].name);j++) printf(" ");
+		printf(" | %s\n",argument_list[i].catagory);
+		for(int j = 0;j<longest_catagory - strlen(argument_list[i].catagory);i++) printf(" ");
 		printf(" | %s\n",argument_list[i].description);
   }
 }
