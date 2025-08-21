@@ -1,3 +1,4 @@
+set -xe
 git add .  
 git commit -m "$(date)"
 
