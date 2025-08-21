@@ -142,9 +142,19 @@ int set_bulk_argument(const char *arguments[], const int argument_size,
 void phelp() {
   if (argument_list == NULL)
     return;
+
+	int longest = 0;
+
+	for(int i = 0;i <argument_list_index; i++){
+		if(longest < strlen(argument_list[i].name))
+			longest = strlen(argument_list[i].name);
+	}
+
   printf("Options:\n");
   for (int i = 0; i < argument_list_index; i++) {
-    printf("%s | %s\n", argument_list[i].name, argument_list[i].description);
+    printf("%s", argument_list[i].name);
+		for(int j = 0;j <longest - strlen(argument_list[i].name);j++) printf(" ");
+		printf(" | %s",argument_list[i].description);
   }
 }
 

@@ -29,6 +29,7 @@ typedef struct {
   date return_date; // when the book NEEDs to be returned by
 	int bookid;  // id to the book.
 	bool active; // if the loan has been fulfilled.
+	char *note; // note of loan
   union {
     bool payed;
     bool covered;

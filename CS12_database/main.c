@@ -54,6 +54,87 @@ int main(const int argument_count, const char *argument_list[]){
 			.takes_value = 0,
 			});
 
+	argument *view = NULL;
+	set_argument(&view, (set_argument_options){
+			.FLAG_NAME = "--view",
+			.FLAG_CATAGORY = "base",
+			.DESCRIPTION = "View database information",
+			.takes_value = 0,
+			});
+
+	argument *db_member_wizard = NULL;
+	set_argument(&db_member_wizard,(set_argument_options){
+			.FLAG_NAME = "--member-wizard",
+			.FLAG_CATAGORY = "db_create",
+			.DESCRIPTION = "Run the member wizard",
+			.takes_value = 0,
+			}); 
+
+	argument *db_loan_wizard = NULL;
+	set_argument(&db_loan_wizard,(set_argument_options){
+			.FLAG_NAME = "--loan-wizard",
+			.FLAG_CATAGORY = "db_create",
+			.DESCRIPTION = "Run the loan wizard",
+			.takes_value = 0,
+			});
+
+	argument *db_book_wizard = NULL;
+	set_argument(&db_book_wizard,(set_argument_options){
+			.FLAG_NAME = "--book-wizard",
+			.FLAG_CATAGORY = "db_create",
+			.DESCRIPTION = "Run the book wizard",
+			.takes_value = 0,
+			});
+
+	argument *db_member_update_wizard = NULL;
+	set_argument(&db_member_update_wizard,(set_argument_options){
+			.FLAG_NAME = "--member-update-wizard",
+			.FLAG_CATAGORY = "db_update",
+			.DESCRIPTION = "Update an existing member",
+			.takes_value = 0,
+			});
+
+	argument *db_loan_update_wizard = NULL;
+	set_argument(&db_loan_update_wizard,(set_argument_options){
+			.FLAG_NAME = "--loan-update-wizard",
+			.FLAG_CATAGORY = "db_update",
+			.DESCRIPTION = "Update an existing loan",
+			.takes_value = 0,
+			});
+
+	argument *db_book_update_wizard = NULL;
+	set_argument(&db_book_update_wizard,(set_argument_options){
+			.FLAG_NAME = "--book-update-wizard",
+			.FLAG_CATAGORY = "db_update",
+			.DESCRIPTION = "Update a prexisting book",
+			.takes_value = 0,
+			});
+
+	argument *db_member_delete = NULL;
+	set_argument(&db_member_delete,(set_argument_options){
+			.FLAG_NAME = "--member-delete",
+			.FLAG_CATAGORY = "db_delete",
+			.DESCRIPTION = "Delete a member from the database",
+			.takes_value = 0,
+			});
+
+	argument *db_loan_delete = NULL;
+	set_argument(&db_loan_delete,(set_argument_options){
+			.FLAG_NAME = "--loan-delete",
+			.FLAG_CATAGORY = "db_delete",
+			.DESCRIPTION = "Delete a loan from the database",
+			.takes_value = 0,
+			});
+
+	argument *db_book_delete = NULL;
+	set_argument(&db_book_delete,(set_argument_options){
+			.FLAG_NAME = "--book-delete",
+			.FLAG_CATAGORY = "db_delete",
+			.DESCRIPTION = "Delete a book from the database",
+			.takes_value = 0,
+			});
+
+		
 	// process arguments
 	if(parse_arguments(argument_count,argument_list)==0){
 

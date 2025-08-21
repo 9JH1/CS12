@@ -52,7 +52,9 @@ void write_loans(FILE *fp, loan *arr, int count) {
   for (int i = 0; i < count; i++) {
     fwrite(&arr[i].amount, sizeof(int), 1, fp);
     fwrite(&arr[i].issued, sizeof(date), 1, fp);
-    fwrite(&arr[i].closed, sizeof(date), 1, fp);
+    fwrite(&arr[i].returned, sizeof(date), 1, fp);
+		fwrite(&arr[i].return_date, sizeof(date),1,fp);
+		fwrite(&arr[i].bookid,sizeof(int),1,fp);
     fwrite(&arr[i].active, sizeof(bool), 1, fp);
     write_string(fp, arr[i].note);
     fwrite(&arr[i].is.payed, sizeof(bool), 1,
@@ -66,7 +68,9 @@ loan *read_loans(FILE *fp, int *out_count) {
   for (int i = 0; i < *out_count; i++) {
     fread(&arr[i].amount, sizeof(int), 1, fp);
     fread(&arr[i].issued, sizeof(date), 1, fp);
-    fread(&arr[i].closed, sizeof(date), 1, fp);
+    fread(&arr[i].returned, sizeof(date), 1, fp);
+		fread(&arr[i].return_date,sizeof(date),1,fp);
+		fread(&arr[i].bookid,sizeof(int),1,fp);
     fread(&arr[i].active, sizeof(bool), 1, fp);
     arr[i].note = read_string(fp);
     fread(&arr[i].is.payed, sizeof(bool), 1, fp);
