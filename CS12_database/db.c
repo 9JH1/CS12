@@ -124,3 +124,18 @@ int database() {
 	free(name);
   return 0;
 }
+
+
+/*
+member member_wizard(const int id);
+book book_wizard(const int id);
+loan loan_wizard(const int id);
+
+void member_update(const int id);
+void book_update(const int id);
+void loan_update(const int id);
+
+void member_delete(const int id);
+void book_delete(const int id);
+void loan_delete(const int id);
+*/

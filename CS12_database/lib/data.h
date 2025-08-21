@@ -44,6 +44,8 @@ typedef struct {
   char *phone_number;
   date dob;
   date time_created;
+	bool account_available;
+	bool account_to_delete;
   memberType type;
   struct {
   	bool loan_flagged; 

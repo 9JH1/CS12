@@ -131,6 +131,7 @@ void write_members(FILE *a, member *arr, const int size) {
     fwrite(&m->dob, sizeof(date), 1, a);
     fwrite(&m->time_created, sizeof(date), 1, a);
     fwrite(&m->type, sizeof(memberType), 1, a);
+		fwrite(&m->account_available,sizeof(bool), 1, a);
 
     // Write loan data
     fwrite(&m->loan.loan_flagged, sizeof(bool), 1, a);
