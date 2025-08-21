@@ -57,7 +57,7 @@ int main(const int argument_count, const char *argument_list[]){
 	argument *view = NULL;
 	set_argument(&view, (set_argument_options){
 			.FLAG_NAME = "--view",
-			.FLAG_CATAGORY = "base",
+			.FLAG_CATAGORY = "db_view",
 			.DESCRIPTION = "View database information",
 			.takes_value = 0,
 			});
