@@ -55,14 +55,31 @@ date date_wizard(){
 	int iminute = eatoi(minute);
 	int isecond = eatoi(second);
 	
-	// catch errors 
-	if(
-			iyear == -1 || 
-			imonth == -1 || 
-			iday == -1 || 
-			ihour == -1 || 
-			iminute == -1 || 
-			isecond == -1) return (date){};
+	// catch errors (bounds?)
+	if(iyear == -1){
+		printf("year \"%s\" is invalid\n",year);
+		return (date){};
+	
+	} else if (imonth == -1 || imonth < 0 || imonth > 12){
+		printf("month \"%s\" is invalid\n",month);
+		return (date){};
+	
+	} else if( iday == -1 ||  iday < 0 || iday > 31){
+		printf("day \"%s\" is invalid\n",day);
+		return (date){};
+	
+	} else if (ihour == -1 ||  ihour < 0 || ihour > 23){
+		printf("hour \"%s\" is invalid\n",hour);
+		return (date){};
+	
+	} else if (iminute == -1 || iminute < 0 || iminute > 60){
+		printf("minute \"%s\" is invalid\n",minute);
+		return (date){};
+	
+	} else if (isecond == -1 || isecond < 0 || isecond > 60){
+		printf("second \"%s\" is invalid\n",second);
+		return (date){};
+	}
 
 	// create date object
 	date newdate = {
