@@ -104,14 +104,6 @@ book *read_books(FILE *fp, int *out_count) {
   return arr;
 }
 
-void write_members(FILE *a, member *arr, const int size) {
-  if (!a || !arr || size < 0)
-    return;
-
-  fwrite(&size, sizeof(int), 1, a);
-
-  for (int i = 0; i < size; ++i) {
-    const member *m = &arr[i];
 
 // Helper macro to write strings safely
 #define WRITE_STRING(s)                                                        \
@@ -122,6 +114,13 @@ void write_members(FILE *a, member *arr, const int size) {
       fwrite(s, sizeof(char), len, a);                                         \
     }                                                                          \
   } while (0)
+
+void write_members(FILE *a, member *arr, const int size) {
+  if (!a || !arr || size < 0) return;
+  fwrite(&size, sizeof(int), 1, a);
+  for (int i = 0; i < size; ++i) {
+    const member *m = &arr[i];
+
 
     WRITE_STRING(m->first_name);
     WRITE_STRING(m->last_name);
@@ -153,22 +152,17 @@ void write_members(FILE *a, member *arr, const int size) {
       fwrite(&m->o.author.is_alive, sizeof(bool), 1, a);
     }
 
-#undef WRITE_STRING
   }
 }
 
 void free_member(member *m) {
-  if (!m)
-    return;
+  if (!m) return;
 	if(m->first_name) free(m->first_name);
   if(m->last_name) free(m->last_name);
   if(m->email) free(m->email);
   if(m->phone_number) free(m->phone_number);
-  if (m->loan.loan_ids)
-    free(m->loan.loan_ids);
-  if (m->type == AUTHOR) {
-    free(m->o.author.genre);
-  }
+  if (m->loan.loan_ids) free(m->loan.loan_ids);
+  if (m->type == AUTHOR) free(m->o.author.genre);
 }
 
 member *read_members(FILE *a, int *out_size) {

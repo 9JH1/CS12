@@ -5,21 +5,21 @@ printf("this platform is not supported, use either Linux (__unix__) or windows (
 
 // 3rd party imports
 #include "lib/data.h"
-#include "lib/lib.h" 
+#include "lib/lib.h"
 #include "lib/plib.h"
 #include "db.c"
 
 // standard librarys 
 #include <stdlib.h>
-#include <stdio.h> 
-#include <signal.h> 
-#include <string.h> 
+#include <stdio.h>
+#include <signal.h>
+#include <string.h>
 #include <stdbool.h>
 
 
 // actual local database 
 loan *db_loans;
-int db_loans_index; 
+int db_loans_index;
 int db_loans_capacity;
 
 member *db_members;
@@ -209,17 +209,8 @@ int main(const int argument_count, const char *argument_list[]){
 			dinit_db();
 
 			// free the members 
-			for(int i =0;i < db_members_index;i++){
-				member *m = &db_members[i];
-
-				// the following causes a double free error for some reason, i couldent find the source
-				/*if(m->first_name != NULL) free(m->first_name);
-  			if(m->last_name != NULL) free(m->last_name);
-  			if(m->email != NULL) free(m->email);
-  			if(m->phone_number != NULL) free(m->phone_number);
-  			if (m->loan.loan_ids) free(m->loan.loan_ids);
-  			if (m->type == AUTHOR && m->o.author.genre) free(m->o.author.genre);*/
-			}
+			for(int i =0;i < db_members_index;i++)
+			free_member(&db_members[i]);
 		}
 	} else phelp();
 	quit(0);
