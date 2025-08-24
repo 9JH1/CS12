@@ -35,6 +35,8 @@ date date_wizard(){
 	char hour[CHAR_SMALL+1];
 	char minute[CHAR_SMALL+1];
 	char second[CHAR_SMALL+1];
+
+	date newdate = {-1};
 	
 	// tip
 	printf("Ensure any values of 0 are formatted like '0' not '00' or otherwise\n");
@@ -49,40 +51,43 @@ date date_wizard(){
 	
 	// convert chars to ints ( with error checking )
 	int iyear = eatoi(year);
-	int imonth = eatoi(month);
-	int iday = eatoi(day);
-	int ihour = eatoi(hour);
-	int iminute = eatoi(minute);
-	int isecond = eatoi(second);
-	
-	// catch errors (bounds?)
 	if(iyear == -1){
 		printf("year \"%s\" is invalid\n",year);
-		return (date){};
-	
-	} else if (imonth == -1 || imonth < 0 || imonth > 12){
-		printf("month \"%s\" is invalid\n",month);
-		return (date){};
-	
-	} else if( iday == -1 ||  iday < 0 || iday > 31){
-		printf("day \"%s\" is invalid\n",day);
-		return (date){};
-	
-	} else if (ihour == -1 ||  ihour < 0 || ihour > 23){
-		printf("hour \"%s\" is invalid\n",hour);
-		return (date){};
-	
-	} else if (iminute == -1 || iminute < 0 || iminute > 60){
-		printf("minute \"%s\" is invalid\n",minute);
-		return (date){};
-	
-	} else if (isecond == -1 || isecond < 0 || isecond > 60){
-		printf("second \"%s\" is invalid\n",second);
-		return (date){};
+		return newdate;
 	}
 
+	int imonth = eatoi(month);
+	if (imonth == -1 || imonth < 0 || imonth > 12){
+		printf("month \"%s\" is invalid\n",month);
+		return newdate;	
+	}
+
+	int iday = eatoi(day);
+	if( iday == -1 ||  iday < 0 || iday > 31){
+		printf("day \"%s\" is invalid\n",day);
+		return newdate;
+	} 
+	
+	int ihour = eatoi(hour);
+	if (ihour == -1 ||  ihour < 0 || ihour > 23){
+		printf("hour \"%s\" is invalid\n",hour);
+		return newdate;
+	}
+
+	int iminute = eatoi(minute);
+	if (iminute == -1 || iminute < 0 || iminute > 60){
+		printf("minute \"%s\" is invalid\n",minute);
+		return newdate;
+	}
+
+	int isecond = eatoi(second);
+	if (isecond == -1 || isecond < 0 || isecond > 60){
+		printf("second \"%s\" is invalid\n",second);
+		return newdate;
+	}
+	
 	// create date object
-	date newdate = {
+	newdate = (date){
 		.year = iyear,
 		.month = imonth,
 		.day = iday,
@@ -110,7 +115,6 @@ member member_wizard(){
 	char type[CHAR_SMALL+1];
 	input(type,CHAR_SMALL,"Enter Account type (MEMBER/author/staff): ");
 	if(strcmp(type,"author")==0){
-		
 	}
 	
 	return (member){

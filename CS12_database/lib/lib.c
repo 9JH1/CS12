@@ -128,12 +128,14 @@ book *read_books(FILE *fp, int *out_count) {
     }                                                                          \
   } while (0)
 
-void write_members(FILE *a, member *arr, const int size) {
+void write_members(FILE *a, member *arr, int size) {
   if (!a || !arr || size < 0) return;
+	for(int i = 0;i < size; ++i) if(db_members[i].account_to_delete == true) size--;
   fwrite(&size, sizeof(int), 1, a);
+
   for (int i = 0; i < size; ++i) {
     const member *m = &arr[i];
-
+		if(m->account_to_delete) continue;
 
     WRITE_STRING(m->first_name);
     WRITE_STRING(m->last_name);
