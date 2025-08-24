@@ -25,6 +25,7 @@
 typedef enum {
   ERROR,
   VERBOSE,
+	VERBOSE_ERROR,
 } mode;
 
 argument *argument_list;
@@ -32,16 +33,12 @@ int argument_list_index = 0;
 int argument_list_capacity = 0;
 const int noquiet = 1;
 
-#define printc(a, c, ...)                                                      \
-  printc_implicit(a, __LINE__, __FILE__, c, ##__VA_ARGS__)
-int printc_implicit(mode mode, const int LINE, const char *FILE,
-                    const char *format, ...) {
-  if (noquiet == 0)
-    return 0;
-  if (noquiet == 1 && mode == 1)
-    return 0;
-  if (noquiet >= 2)
-    return 0;
+#define printc(a, c, ...) printc_implicit(a, __LINE__, __FILE__, c, ##__VA_ARGS__)
+int printc_implicit(mode mode, const int LINE, const char *FILE, const char *format, ...) {
+  if (noquiet == 0) return 0;
+  if (noquiet == 1 && mode == 1) return 0;
+  if (noquiet >= 2) return 0;
+	if(noquiet == 1 && mode == 2) return 0;
 
   va_list args;
   printf("[%s] %s@%d: ", mode ? "Verbose" : "Error", FILE, LINE);
@@ -122,14 +119,14 @@ int set_argument(argument **pointer_return, set_argument_options options) {
 }
 
 // EXPERIMENTAL
-int set_bulk_argument(const char *arguments[], const int argument_size,
-                      const int input_type) {
+int set_bulk_argument(const char *arguments[], const int argument_size, const int input_type) {
   for (int i = 0; i > argument_size; i++) {
     argument *local_argument = NULL;
     set_argument(&local_argument, (set_argument_options){
-                                      .FLAG_NAME = arguments[i],
-                                      .takes_value = input_type,
-                                  });
+    	.FLAG_NAME = arguments[i],
+      .takes_value = input_type,
+    });
+
     printc(VERBOSE, "added bulk argument: %s", arguments[i]);
   }
   return 1;
@@ -140,17 +137,17 @@ int set_bulk_argument(const char *arguments[], const int argument_size,
 // if an argument is non-existant or if
 // and invalid argument is ran.
 void phelp() {
-  if (argument_list == NULL)
-    return;
+  if (argument_list == NULL) return;
 
 	int longest = 0;
-
 	int longest_catagory = 0;
 
 	for(int i = 0;i <argument_list_index; i++){
+		// get longest name 
 		if(longest < strlen(argument_list[i].name))
 			longest = strlen(argument_list[i].name);
 
+		// get longest catagory
 		if(longest_catagory < strlen(argument_list[i].catagory))
 			longest_catagory = strlen(argument_list[i].catagory);
 	}
@@ -195,12 +192,12 @@ int argument_exists(const char *name) {
 // by checking the record with argument_list
 int parse_arguments(const int argc, const char *argv[]) {
   if (argc == 1) {
-    printc(ERROR, "No arguments given\n");
+    printc(VERBOSE_ERROR, "No arguments given\n");
     return 1;
   }
   for (int i = 1; i < argc; i++) {
     if (!argv[i]) {
-      printc(ERROR, "NULL argument at index %d\n", i);
+      printc(VERBOSE_ERROR, "NULL argument at index %d\n", i);
       continue;
     }
 
@@ -226,8 +223,7 @@ int parse_arguments(const int argc, const char *argv[]) {
         local->value[0] = '\0';
         for (int j = i + 1; j < argc; j++) {
           strcat(local->value, argv[j]);
-          if (j < argc - 1)
-            strcat(local->value, " ");
+          if (j < argc - 1) strcat(local->value, " ");
         }
 
         return 0;
@@ -263,10 +259,10 @@ int parse_arguments(const int argc, const char *argv[]) {
 
     // handle the arguments
     if (return_code == 1)
-      printc(ERROR, "too many '=' in argument: '%s'\n", arg);
+      printc(VERBOSE_ERROR, "too many '=' in argument: '%s'\n", arg);
     else if (!key || strlen(key) == 0) {
       return_code = 1;
-      printc(ERROR, "invalid or empty key in '%s'\n", arg);
+      printc(VERBOSE_ERROR, "invalid or empty key in '%s'\n", arg);
     } else {
       const int argument_index = argument_exists(key);
       if (argument_index != -1) {
@@ -276,7 +272,7 @@ int parse_arguments(const int argc, const char *argv[]) {
            * no value, this is good for if you have
            * void flags like --help. */
           if (local_argument->takes_value != 0) {
-            printc(ERROR, "argument '%s' takes a value but none was provided\n",
+            printc(VERBOSE_ERROR, "argument '%s' takes a value but none was provided\n",
                    key);
             return_code = 1;
           }
@@ -286,10 +282,7 @@ int parse_arguments(const int argc, const char *argv[]) {
           /* a key has been provided and a value
            * has also been provided. */
           if (local_argument->takes_value != 1) {
-            printc(
-                ERROR,
-                "argument '%s' does not take a value but '%s' was provided\n",
-                key, value);
+            printc(VERBOSE_ERROR, "argument '%s' does not take a value but '%s' was provided\n", key, value);
             return_code = 1;
           }
 
@@ -298,17 +291,13 @@ int parse_arguments(const int argc, const char *argv[]) {
           if (local_argument->value) {
             strcpy(local_argument->value, value);
             local_argument->triggered = 1;
-          } else
-            printc(ERROR, "couldent allocate memory for argument '%s' value\n",
-                   key);
+          } else printc(ERROR, "couldent allocate memory for argument '%s' value\n", key);
         }
-      } else
-        printc(ERROR, "argument '%s' not found\n", key);
+      } else printc(ERROR, "argument '%s' not found\n", key);
     }
 
     free(to_free);
-    if (return_code != 0)
-      return return_code;
+    if (return_code != 0) return return_code;
   }
 
   return 0;
@@ -317,13 +306,9 @@ int parse_arguments(const int argc, const char *argv[]) {
 // get bool if argument has been run or not,
 // useful for void argument flags like --help
 int argument_run(const argument *local) {
-  if (validate_argument_list() != 0)
-    return -1;
-  if (!local)
-    return 1;
-
-  if (local->triggered)
-    return 0;
+  if (validate_argument_list() != 0) return -1;
+  if (!local) return 1;
+  if (local->triggered) return 0;
   return 1;
 }
 
@@ -334,17 +319,17 @@ char *argument_value(const argument *local) {
   }
 
   if (local->triggered) {
-    if (local->value)
-      return local->value;
+    if (local->value) return local->value;
     else {
-      printc(ERROR, "argument '%s' is triggered but has no value\n",
-             local->name);
+      printc(ERROR, "argument '%s' is triggered but has no value\n", local->name);
       return "";
     }
+
   } else {
     printc(ERROR, "argument '%s' does not have a value\n", local->name);
     return "";
   }
+
   printc(ERROR, "argument '%s' has not been run\n", local->name);
   printc(ERROR, "^--> use '*argument_run(argument *)'\n");
   return "";
@@ -352,8 +337,7 @@ char *argument_value(const argument *local) {
 
 // EXPERIMENTAL
 int is_all_triggered() {
-  if (validate_argument_list() != 0)
-    return -1;
+  if (validate_argument_list() != 0) return -1;
   for (int i = 0; i < argument_list_index; i++) {
     const argument *local = &argument_list[i];
     if (argument_run(local) != 0) {
