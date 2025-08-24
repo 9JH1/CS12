@@ -33,7 +33,10 @@ int argument_list_index = 0;
 int argument_list_capacity = 0;
 const int noquiet = 1;
 
+// macro definition makes the function automatically take in the line and file.
 #define printc(a, c, ...) printc_implicit(a, __LINE__, __FILE__, c, ##__VA_ARGS__)
+
+// basic print wrapper.
 int printc_implicit(mode mode, const int LINE, const char *FILE, const char *format, ...) {
   if (noquiet == 0) return 0;
   if (noquiet == 1 && mode == 1) return 0;
@@ -42,20 +45,19 @@ int printc_implicit(mode mode, const int LINE, const char *FILE, const char *for
 
   va_list args;
   printf("[%s] %s@%d: ", mode ? "Verbose" : "Error", FILE, LINE);
-
   va_start(args, format);
   vprintf(format, args);
   va_end(args);
+
   return 0;
 }
 
-char *strdup(const char *s); // Fuck you ALE
 char *strsep(char **stringp, const char *delim) {
   if (*stringp == NULL)
     return NULL;
+
   char *token_start = *stringp;
   *stringp = strpbrk(token_start, delim);
-
   if (*stringp) {
     **stringp = '\0';
     (*stringp)++;

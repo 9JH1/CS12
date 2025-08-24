@@ -115,6 +115,19 @@ book *read_books(FILE *fp, int *out_count) {
     }                                                                          \
   } while (0)
 
+// Read strings with length
+#define READ_STRING(s)                                                         \
+  do {                                                                         \
+    int len;                                                                   \
+    fread(&len, sizeof(int), 1, fp);                                           \
+    if (len > 0) {                                                             \
+      s = malloc(len);                                                         \
+      fread(s, sizeof(char), len, fp);                                         \
+    } else {                                                                   \
+      s = NULL;                                                                \
+    }                                                                          \
+  } while (0)
+
 void write_members(FILE *a, member *arr, const int size) {
   if (!a || !arr || size < 0) return;
   fwrite(&size, sizeof(int), 1, a);
@@ -177,23 +190,8 @@ member *read_members(FILE *a, int *out_size) {
 	}
 
   member *arr = calloc(size, sizeof(member));
-
   for (int i = 0; i < size; ++i) {
     member *m = &arr[i];
-
-// Read strings with length
-#define READ_STRING(s)                                                         \
-  do {                                                                         \
-    int len;                                                                   \
-    fread(&len, sizeof(int), 1, fp);                                           \
-    if (len > 0) {                                                             \
-      s = malloc(len);                                                         \
-      fread(s, sizeof(char), len, fp);                                         \
-    } else {                                                                   \
-      s = NULL;                                                                \
-    }                                                                          \
-  } while (0)
-
     READ_STRING(m->first_name);
     READ_STRING(m->last_name);
     READ_STRING(m->email);
@@ -211,9 +209,7 @@ member *read_members(FILE *a, int *out_size) {
     if (m->loan.loan_capacity > 0) {
       m->loan.loan_ids = malloc(m->loan.loan_capacity * sizeof(int));
       fread(m->loan.loan_ids, sizeof(int), m->loan.loan_capacity, fp);
-    } else {
-      m->loan.loan_ids = NULL;
-    }
+    } else m->loan.loan_ids = NULL;
 
     // Union
     if (m->type == STAFF) {
@@ -225,8 +221,6 @@ member *read_members(FILE *a, int *out_size) {
       fread(&m->o.author.dod, sizeof(date), 1, fp);
       fread(&m->o.author.is_alive, sizeof(bool), 1, fp);
     }
-
-#undef READ_STRING
   }
 
   *out_size = size;
@@ -263,8 +257,7 @@ int dinit_db() {
 
   printf("Wrote %d Loans (capacity: %d)\n", db_loans_index, db_loans_capacity);
   printf("Wrote %d Books (capacity: %d)\n", db_books_index, db_books_capacity);
-  printf("Wrote %d members (capacity: %d)\n", db_members_index,
-         db_members_capacity);
+  printf("Wrote %d members (capacity: %d)\n", db_members_index, db_members_capacity);
 
 	free(loans_path_char);
 	free(books_path_char);
@@ -302,7 +295,6 @@ int init_db() {
 		system(com);
 		free(com);
     printf("Created \"%s\" file\n", books_path_char);
-
     error_flag = true;
   } else {
     db_books = read_books(books_path, &db_books_index);
@@ -325,15 +317,11 @@ int init_db() {
   free(books_path_char);
   free(members_path_char);
 
-  if (error_flag == true)
-    return 1;
+  if (error_flag == true) return 1;
 
-  printf("Imported %d Loans (capacity: %d)\n", db_loans_index,
-         db_loans_capacity);
-  printf("Imported %d Books (capacity: %d)\n", db_books_index,
-         db_books_capacity);
-  printf("Imported %d members (capacity: %d)\n", db_members_index,
-         db_members_capacity);
+  printf("Imported %d Loans (capacity: %d)\n", db_loans_index, db_loans_capacity);
+  printf("Imported %d Books (capacity: %d)\n", db_books_index, db_books_capacity);
+  printf("Imported %d members (capacity: %d)\n", db_members_index, db_members_capacity);
   return 0;
 }
 
@@ -348,9 +336,7 @@ int book_add(const book a) {
     db_books = temp;
   }
 
-	if(db_books == NULL){
-		printf("Error db_books is unininitialized\n");
-	}
+	if(db_books == NULL) printf("Error db_books is unininitialized\n");
 
   db_books[db_books_index] = a;
   db_books_index++;
@@ -370,10 +356,12 @@ int member_add(const member a) {
 
     db_members = temp;
   }
+	
 	if(db_members == NULL){
 		printf("Error db_members is unininitialized\n");
 		return -1;
 	}
+
   db_members[db_members_index] = a;
   db_members_index++;
 	printf("created new member at index %d\n",db_members_index-1);

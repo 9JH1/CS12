@@ -205,12 +205,8 @@ int main(const int argument_count, const char *argument_list[]){
 			printf("\nEND OF DATABASE OUTPUT (exited with code %d)\n",ret);
 			fflush(stdout);
 
-			// write the database 
+			// save the database 
 			dinit_db();
-
-			// free the members 
-			for(int i =0;i < db_members_index;i++)
-			free_member(&db_members[i]);
 		}
 	} else phelp();
 	quit(0);
