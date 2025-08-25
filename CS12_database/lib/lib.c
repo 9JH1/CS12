@@ -10,9 +10,8 @@ void input(char *buffer, int size, char *prompt) {
   if (fgets(buffer, size, stdin) != NULL) {
     // Remove newline character if present
     int len = strlen(buffer);
-    if (len > 0 && buffer[len - 1] == '\n') {
+    if (len > 0 && buffer[len - 1] == '\n')
       buffer[len - 1] = '\0';
-    }
   }
 }
 
@@ -31,9 +30,7 @@ char random_char(void) {
 void write_string(FILE *fp, const char *str) {
   int len = str ? (int)strlen(str) : 0;
   fwrite(&len, sizeof(int), 1, fp);
-  if (len > 0) {
-    fwrite(str, sizeof(char), len, fp);
-  }
+  if (len > 0) fwrite(str, sizeof(char), len, fp);
 }
 
 char *read_string(FILE *fp) {
@@ -57,8 +54,7 @@ void write_loans(FILE *fp, loan *arr, int count) {
 		fwrite(&arr[i].bookid,sizeof(int),1,fp);
     fwrite(&arr[i].active, sizeof(bool), 1, fp);
     write_string(fp, arr[i].note);
-    fwrite(&arr[i].is.payed, sizeof(bool), 1,
-           fp); // use either payed or covered since union
+    fwrite(&arr[i].is.payed, sizeof(bool), 1, fp); 
   }
 }
 
@@ -181,9 +177,7 @@ void free_member(member *m) {
 }
 
 member *read_members(FILE *a, int *out_size) {
-
   FILE *fp = (FILE *)a;
-
   int size = 0;
 	fread(&size, sizeof(int), 1,fp);
 	if(size == 0){

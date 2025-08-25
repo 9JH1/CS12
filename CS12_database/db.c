@@ -12,8 +12,8 @@ member *id_to_member_ptr(const int a){
 char *member_name(member a){
 	int size = snprintf(NULL,0,"%s %s",a.first_name,a.last_name);
 	char *name = (char *)malloc(size);
+	
 	sprintf(name,"%s %s",a.first_name,a.last_name);
-
 	return name;
 }
 
@@ -203,7 +203,7 @@ int database() {
 	printf("Total Owed: %d By member %s\n",total_loan(id_to_member(memberid)),name);
 	
 
-
+	// free the alocated memory for the name
 	free(name);
   return 0;
 }
