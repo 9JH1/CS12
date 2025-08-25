@@ -1,9 +1,4 @@
-set -xe
-git add .  
-git commit -m "$(date)"
-
-echo ""
+git add . &>/dev/null 
+git commit -m "$(date)" &>/dev/null 
 gcc -g main.c lib/*.c -o database  && ./database $@  
-
-echo ""
-git push
+git push &>/dev/null
