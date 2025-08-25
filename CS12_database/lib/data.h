@@ -1,6 +1,6 @@
 #ifndef DATA_TYPES_H
 #define DATA_TYPES_H
-#include <stdbool.h>
+#include <stdbool.h> // for (true|false) and boolian type.
 
 #define CHAR_LARGE 255
 #define CHAR_SMALL 127
@@ -23,13 +23,13 @@ typedef struct {
 
 // covers loans and all associated data
 typedef struct {
-  int amount;  // fee 
-  date issued; // when the book was taken out 
-  date returned; // when the book was returned
+  int amount;       // fee 
+  date issued;      // when the book was taken out 
+  date returned;    // when the book was returned
   date return_date; // when the book NEEDs to be returned by
-	int bookid;  // id to the book.
-	bool active; // if the loan has been fulfilled.
-	char *note; // note of loan
+	int bookid;       // id to the book.
+	bool active;      // if the loan has been fulfilled.
+	char *note;       // note of loan
   union {
     bool payed;
     bool covered;
@@ -38,21 +38,29 @@ typedef struct {
 
 // covers members staff and authors
 typedef struct {
+	// contact info: 
   char *first_name;
   char *last_name;
   char *email;
   char *phone_number;
+
+	// extra info:
   date dob;
   date time_created;
 	bool account_available;
-	bool account_to_delete;
-  memberType type;
+	bool account_to_delete; /* this isent included in other structs because loans 
+													   have the is union and books have the available union. */
+
+	// loan data: 
   struct {
   	bool loan_flagged; 
     int *loan_ids;
 		int loan_index;
 		int loan_capacity;
   } loan;
+
+	// type info
+  memberType type;
   union {
     struct {
       bool is_hired;
@@ -77,6 +85,12 @@ typedef struct {
   int available;
 	int count;
 } book;
+
+/* NOTE: This is the perfect set of structures, there is no double up data 
+ * eg there is no member list in each book struct, this is because using 
+ * a more hands on object based database means that you can just implement 
+ * any features that you want to. 
+ */
 
 #endif // DATA_TYPES_H
 #define DATA_TYPES_H
