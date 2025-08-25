@@ -35,51 +35,48 @@ date date_wizard(){
 	char hour[CHAR_SMALL+1];
 	char minute[CHAR_SMALL+1];
 	char second[CHAR_SMALL+1];
-
 	date newdate = {-1};
 	
 	// tip
 	printf("Ensure any values of 0 are formatted like '0' not '00' or otherwise\n");
 
-	// take inputs
+	// take inputs (with error checking)
 	input(year,CHAR_SMALL,"Enter Year: ");
-	input(month,CHAR_SMALL,"Enter Month (1-12): ");
-	input(day, CHAR_SMALL,"Enter Day (0-31): ");
-	input(hour, CHAR_SMALL,"Enter Hour (0-23): ");
-	input(minute,CHAR_SMALL, "Enter Minute (0-59): ");
-	input(second, CHAR_SMALL, "Enter Second (0-59): ");
-	
-	// convert chars to ints ( with error checking )
 	int iyear = eatoi(year);
 	if(iyear == -1){
 		printf("year \"%s\" is invalid\n",year);
 		return newdate;
 	}
 
+	input(month,CHAR_SMALL,"Enter Month (1-12): ");
 	int imonth = eatoi(month);
 	if (imonth == -1 || imonth < 0 || imonth > 12){
 		printf("month \"%s\" is invalid\n",month);
 		return newdate;	
 	}
 
+	input(day, CHAR_SMALL,"Enter Day (0-31): ");
 	int iday = eatoi(day);
 	if( iday == -1 ||  iday < 0 || iday > 31){
 		printf("day \"%s\" is invalid\n",day);
 		return newdate;
 	} 
 	
+	input(hour, CHAR_SMALL,"Enter Hour (0-23): ");
 	int ihour = eatoi(hour);
 	if (ihour == -1 ||  ihour < 0 || ihour > 23){
 		printf("hour \"%s\" is invalid\n",hour);
 		return newdate;
 	}
 
+	input(minute,CHAR_SMALL, "Enter Minute (0-59): ");
 	int iminute = eatoi(minute);
 	if (iminute == -1 || iminute < 0 || iminute > 60){
 		printf("minute \"%s\" is invalid\n",minute);
 		return newdate;
 	}
 
+	input(second, CHAR_SMALL, "Enter Second (0-59): ");
 	int isecond = eatoi(second);
 	if (isecond == -1 || isecond < 0 || isecond > 60){
 		printf("second \"%s\" is invalid\n",second);
