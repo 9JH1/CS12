@@ -476,3 +476,122 @@ void print_number(const int a){
 		else printf("%c",c[i]);
 	}
 }
+
+int eatoi(const char *a){
+	int out = atoi(a);
+	if(out == 0 && strcmp(a,"0")!=0) return -1;
+	return out;
+}
+
+date date_wizard(){
+	char year[CHAR_SMALL+1];
+	char month[CHAR_SMALL+1];
+	char day[CHAR_SMALL+1];
+	char hour[CHAR_SMALL+1];
+	char minute[CHAR_SMALL+1];
+	char second[CHAR_SMALL+1];
+	date newdate = {.year = -1};
+	
+	// tip
+	printf("Ensure any values of 0 are formatted like '0' not '00' or otherwise\n");
+
+	// take inputs (with error checking)
+	input(year,CHAR_SMALL,"Enter Year: ");
+	int iyear = eatoi(year);
+	if(iyear == -1){
+		printf("year \"%s\" is invalid\n",year);
+		return newdate;
+	}
+
+	input(month,CHAR_SMALL,"Enter Month (1-12): ");
+	int imonth = eatoi(month);
+	if (imonth == -1 || imonth < 0 || imonth > 12){
+		printf("month \"%s\" is invalid\n",month);
+		return newdate;	
+	}
+
+	input(day, CHAR_SMALL,"Enter Day (0-31): ");
+	int iday = eatoi(day);
+	if( iday == -1 ||  iday < 0 || iday > 31){
+		printf("day \"%s\" is invalid\n",day);
+		return newdate;
+	} 
+	
+	input(hour, CHAR_SMALL,"Enter Hour (0-23): ");
+	int ihour = eatoi(hour);
+	if (ihour == -1 ||  ihour < 0 || ihour > 23){
+		printf("hour \"%s\" is invalid\n",hour);
+		return newdate;
+	}
+
+	input(minute,CHAR_SMALL, "Enter Minute (0-59): ");
+	int iminute = eatoi(minute);
+	if (iminute == -1 || iminute < 0 || iminute > 60){
+		printf("minute \"%s\" is invalid\n",minute);
+		return newdate;
+	}
+
+	input(second, CHAR_SMALL, "Enter Second (0-59): ");
+	int isecond = eatoi(second);
+	if (isecond == -1 || isecond < 0 || isecond > 60){
+		printf("second \"%s\" is invalid\n",second);
+		return newdate;
+	}
+	
+	// create date object
+	newdate = (date){
+		.year = iyear,
+		.month = imonth,
+		.day = iday,
+		.hour = ihour,
+		.minute = iminute,
+		.second = isecond,
+	};
+
+	// return the created date
+	return newdate;
+}
+
+// returns &member to the id provided 
+member *id_to_member_ptr(const int a){
+	return  &db_members[a];
+}
+
+char *member_name(member a){
+	int size = snprintf(NULL,0,"%s %s",a.first_name,a.last_name);
+	char *name = (char *)malloc(size);
+	
+	sprintf(name,"%s %s",a.first_name,a.last_name);
+	return name;
+}
+
+// returns member to the id provided
+member id_to_member(const int a){
+	return db_members[a];
+}
+
+
+member member_wizard(void){
+	char first_name[CHAR_LARGE+1];
+	char last_name[CHAR_LARGE+1];
+	char email[CHAR_SMALL+1];
+	char phone_number[CHAR_SMALL+1];
+	
+	// take string input
+	input(first_name,CHAR_LARGE,"First Name: ");
+	input(last_name,CHAR_LARGE,"Last Name: ");
+	input(email,CHAR_SMALL,"Email: ");
+	input(phone_number,CHAR_SMALL,"Phone Number: ");
+
+	char type[CHAR_SMALL+1];
+	input(type,CHAR_SMALL,"Enter Account type (MEMBER/author/staff): ");
+	if(strcmp(type,"author")==0){
+	}
+	
+	return (member){
+		.first_name = first_name,
+		.last_name = last_name,
+		.email = email,
+		.phone_number = phone_number,
+	};
+}

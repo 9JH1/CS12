@@ -1,47 +1,135 @@
 #ifndef DATABASE_LIB 
 #define DATABASE_LIB
+
+// for the datatypes from data.h 
 #include "data.h"
+
+// for bool, true and false.
 #include <stdio.h>
 
-#define SECURITY_CODE_LENGTH 3
-#define DATA_DIR "./db/"
+// constants
+#define SECURITY_CODE_LENGTH 3 // read ../main.c 
+#define DATA_DIR "./db/" // folder name of the database 
 #define DATA_LOANS_FNAME "loans.bin"
 #define DATA_BOOKS_FNAME "books.bin"
 #define DATA_MEMBERS_FNAME "members.bin"
 
-extern loan *db_loans;
-extern int db_loans_index; 
-extern int db_loans_capacity;
+// macros
+#define isdate(a) (a == {-1}) ? true : false
 
+
+// global variables for the database.
+extern loan *db_loans;
+extern book *db_books;
 extern member *db_members;
+extern int db_loans_index; 
+extern int db_books_index;
 extern int db_members_index;
+extern int db_loans_capacity;
+extern int db_books_capacity;
 extern int db_members_capacity;
 
-extern book *db_books;
-extern int db_books_index;
-extern int db_books_capacity;
+// return the current date in the date format (data.h)
 date date_now(void);
+
+// return a random printable character
 char random_char(void);
+
+// take input (buffer is a pointer to the input)
 void input(char *buffer, int size, char* prompt);
+
+// combine two strings with a space inbetween
+char *combine_with_space(const char *a, const char *b); 
+
+// combine two strings without a space in the middle
+char *combine(const char *a, const char *b);
+
+
+
+/* SAVE: 
+ * this function will automatically move all of the local 
+ * datbase to the constant storage location on disk, this 
+ * is done automatically on when the db.c file has exited.
+ * */
+int dinit_db(void);
+
+/* WRITE: 
+ * these functions write the ram to the disk, this is used 
+ * in saving the database as it lets us save a copy of the 
+ * programs data which is then imported later on. */
 void write_loans(FILE *fp, loan *arr, int count);
 void write_books(FILE *fp, book *arr, int count);
 void members_write(FILE *a, member *arr,const int size);
-int dinit_db(void);
+
+
+/* IMPORT: 
+ * uses the read_* functions to import data from the disk 
+ * directly into the program, this is executed automatically 
+ * before the db.c file is executed. in theory the database 
+ * handles all I/O operations automatically. */
 int init_db(void);
-char *combine_with_space(const char *a, const char *b); 
-char *combine(const char *a, const char *b);
+
+/* CREATE: 
+ * these functions will create a item in the 
+ * RAM.
+ * */
 int book_add(const book a);
 int member_add(const member a);
 int loan_add(const loan a);
+
+/* READ: 
+ * the following are oposite versions of the 
+ * write_* functions, these functions simply 
+ * use fwrite to move the storage location 
+ * of the database from the programs RAM stack 
+ * to the local disk storage, this allows the 
+ * database to have constant storage and 
+ * save information. */ 
 loan *read_loans(FILE *fp, int *out_count);
 book *read_books(FILE *fp, int *out_count); 
 member *read_members(FILE *a, int *out_size);
+
+/* members contain strings that have to 
+ * be allocated so this function is a helper 
+ * to free that memory */
 void free_member(member *m);
+
+// print the date and time 
 void print_datetime(date a);
+
+/* create a symbolic loan this function 
+ * is different to the loan_add func as 
+ * this function adds it directly to a 
+ * member, and the other one just adds
+ * a new loan to the db. */ 
 void loan_new(member *a, loan b);
+
+// show the total loan fee owing from a user.
 int total_loan(member a);
+
+// print a number with commas
 void print_number(const int a);
-#endif // !DATABASE_LIB 
+
+// convert a string to an int ( with error checking );
+int eatoi(const char *a);
+
+/* the wizard commands are used to prompt the user 
+ * for realtime data. */
+date date_wizard(void);
+member member_wizard(void);
+
+// return a pointer to a member using an memberid.
+member *id_to_member_ptr(const int a);
+
+// get the name of a member "<first_name> <last_name>"
+char *member_name(member a);
+
+// copy a member (non pointer) from an id
+member id_to_member(const int a);
+
+#endif // DATABASE_LIB 
+
+// platform code 
 #ifndef PLATFORM_H
 	// platform selection: 
 	#ifdef __unix__
@@ -49,13 +137,14 @@ void print_number(const int a);
 		#define DELETE_COMMAND "rm -rf"
 		#define MKDIR_COMMAND "mkdir"
 		#define MKFILE_COMMAND "touch"
+		#define PLATFORM_NOT_SUPPORTED 0
 	#elif _WIN32
 		// if on windows
 		#define DELETE_DOMMAND "del /s /q"
 		#define MKDIR_COMMAND "mkdir" // or md
 		#define MKFILE_COMMAND "echo '' >"
 	#else 
-		#define PLATFORM_NOT_SUPPORTED 
+		#define PLATFORM_NOT_SUPPORTED 1
 	#endif
 	
 	int dir_exist(const char *path);

@@ -1,13 +1,8 @@
-#ifdef PLATFORM_NOT_SUPPORTED
-#include <stdio.h>
-printf("this platform is not supported, use either Linux (__unix__) or windows (_WIN32)\n");
-#else
-
 // 3rd party imports
 #include "lib/data.h"
 #include "lib/lib.h"
 #include "lib/plib.h"
-#include "db.c"
+#include "db.c" // actual database file
 
 // standard librarys 
 #include <stdlib.h>
@@ -16,8 +11,7 @@ printf("this platform is not supported, use either Linux (__unix__) or windows (
 #include <string.h>
 #include <stdbool.h>
 
-
-// actual local database 
+// local database 
 loan *db_loans;
 int db_loans_index;
 int db_loans_capacity;
@@ -38,6 +32,11 @@ void quit(int code){
 
 // status of the database and handles flags.
 int main(const int argument_count, const char *argument_list[]){ 
+	if(PLATFORM_NOT_SUPPORTED){
+		printf("your platform is not supported\neither use _WIN32 or __unix__ platforms\n");
+		exit(-1);
+	}
+
 	argument* clean = NULL;
 	set_argument(&clean,(set_argument_options){
 			.FLAG_NAME = "--clean",
@@ -211,4 +210,3 @@ int main(const int argument_count, const char *argument_list[]){
 	} else phelp();
 	quit(0);
 }
-#endif
