@@ -70,7 +70,7 @@ int database() {
 	
 	printf("User %s has these loans:\n",name);
 	for(int i = 0;i<id_to_member(memberid).loan.loan_index;i++)
-		printf("#%d (loanid %d): Bookid %d, fee %d\n",i,
+		printf("#%d (loanid %d): Bookid %d, fee $%d\n",i,
 				id_to_member(memberid).loan.loan_ids[i],
 				db_loans[id_to_member(memberid).loan.loan_ids[i]].bookid,
 				db_loans[id_to_member(memberid).loan.loan_ids[i]].amount);
