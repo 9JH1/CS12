@@ -1,3 +1,13 @@
+/*
+TODO: 
+for some reason the program crashes on FIRST write, i think this has something to do with 
+the members write function but im not sure. 
+
+finish writing the wizard functions.
+*/
+
+
+
 // 3rd party imports
 #include "lib/data.h"
 #include "lib/lib.h"

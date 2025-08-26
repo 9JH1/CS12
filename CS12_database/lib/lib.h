@@ -7,6 +7,12 @@
 // for bool, true and false.
 #include <stdio.h>
 
+// for strdup 
+#include <string.h>
+
+// for free 
+#include <stdlib.h>
+
 // constants
 #define SECURITY_CODE_LENGTH 3 // read ../main.c 
 #define DATA_DIR "./db/" // folder name of the database 
@@ -15,8 +21,8 @@
 #define DATA_MEMBERS_FNAME "members.bin"
 
 // macros
-#define isdate(a) (a == {-1}) ? true : false
-
+#define s strdup
+#define free free
 
 // global variables for the database.
 extern loan *db_loans;
