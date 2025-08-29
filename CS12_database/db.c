@@ -2,7 +2,7 @@
 #include "lib/lib.h"
 
 // data setup
-int setup() {
+int init() {
   // =====================================================
   // CREATE AUTHORS
   // =====================================================
@@ -259,6 +259,7 @@ int setup() {
       .count = 10,
   });
 
+
   // =====================================================
   // CREATE USERS
   // =====================================================
@@ -427,14 +428,13 @@ int setup() {
                                              .phone_number = s("555-0110"),
                                              .time_created = date_now()});
 
-  return 0;
 
   // ======================================================
   // CREATE STAFF
   // ======================================================
   const int member_1 = member_add((member){.type = STAFF,
-                                           .first_name = s("James"),
-                                           .last_name = s("Park"),
+                                           .first_name = s("Tim"),
+                                           .last_name = s("Buck"),
                                            .dob =
                                                (date){
                                                    .year = 1987,
@@ -444,8 +444,8 @@ int setup() {
                                                    .minute = 0,
                                                    .second = 0,
                                                },
-                                           .email = s("james.park@email.com"),
-                                           .phone_number = s("555-0110"),
+                                           .email = s("Tim.Buck2@email.com"),
+                                           .phone_number = s("555-01112"),
                                            .time_created = date_now(),
                                            .o.staff = {
                                                .member_code = db_members_index,
@@ -642,6 +642,8 @@ int setup() {
                                                 .member_id = db_members_index,
                                                 .is_hired = true,
                                             }});
+
+	return 0;
 }
 
 // database code
