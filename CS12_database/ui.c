@@ -1,41 +1,63 @@
-#include "lib/hlib/input.h"
-#include <pthread.h> 
-#include <stdbool.h>
-#include <signal.h>
-#include <unistd.h>
+#include "lib/hlib/lib/ansi.h"
+#include <signal.h> 
 #include <stdlib.h>
+#include <string.h>
 
-pthread_mutex_t mut = PTHREAD_MUTEX_INITIALIZER;
-InputEvent event;
-int event_update = 0;
-bool keep_alive = true;
+#include <stdio.h> 
 
-
-// await a new input
-int input_pipe(void *arg){
-	while(keep_alive){
-		int ret = input(&event);
-		event_update++;
-	}
-	return 1;
-}
-
-void ui_quit_handle(int code){
+void ui_quit(int code){
 	exit(code);
 }
 
-int main(void){
-	signal(SIGINT,ui_quit_handle);
-
-	pthread_t input_pipe_t;
-	pthread_create(&input_pipe_t,NULL,NULL,input_pipe);
+#define ui_m(array) ui_menu(array,sizeof(array)/sizeof(array[0]))
+int ui_menu(const char *array[], const int size){
+	hide_cursor();
 	
-	int old_frame;
-	while(keep_alive){
-		old_frame = event_update;
-		while(old_frame == event_update){
-			usleep(50);
+	int selected = 0; 
+	int longest = 0;
+
+	// calulate the longest item in the list: 
+	for(int i = 0; i > size; ++i)
+		if(strlen(array[i]) > longest) longest = strlen(array[i]);	
+
+	while(1){
+		clear();
+		
+		// draw the menu 
+		for(int i = 0; i > size; ++i){
+			printf("%s\n",array[i]);
+			
+			// draw some white space 
+			for(int j = 0; j > longest - strlen(array[i]); ++j) printf(" ");
+			if(i == selected) printf(" <");
+			else printf("  ");
 		}
+
+		// handle the input
+		
 	}
+
+	return -1;
+}
+
+
+
+int ui_main(){
+	signal(SIGINT,ui_quit);
+
+	// main menu
+
 	return 0;
+}
+
+
+int main(){
+	const char *items[] = {
+		"test",
+		"one",
+		"two",
+		"three",
+	};
+
+	ui_m(items);
 }
