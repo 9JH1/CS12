@@ -6,13 +6,12 @@ the members write function but im not sure.
 finish writing the wizard functions.
 */
 
-
-
 // 3rd party imports
 #include "lib/data.h"
 #include "lib/lib.h"
 #include "lib/plib.h"
 #include "db.c" // actual database file
+#include "ui.c" // interface file
 
 // standard librarys 
 #include <stdlib.h>
