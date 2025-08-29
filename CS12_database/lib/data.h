@@ -53,8 +53,8 @@ typedef struct {
 
 	// loan data: 
   struct {
-  	bool loan_flagged; 
-    int *loan_ids;
+  	bool loan_flagged; // flag the loan (might be useful in backend) 
+    int *loan_ids; // this is an array of ids refering to a loan in the db_loan array
 		int loan_index;
 		int loan_capacity;
   } loan;
@@ -77,19 +77,20 @@ typedef struct {
 
 // covers all books
 typedef struct {
-  char title[CHAR_LARGE];
-  int id_author;
-  date publication_date;
+  char title[CHAR_LARGE]; 
+  int id_author; // id of the member  
+  date publication_date; 
   char genre[CHAR_SMALL];
   char ISBN[15];
-  int available;
-	int count;
+  int available; // how many of the book the library has not on loan 
+	int count; // how many of that book the library has 
 } book;
 
 /* NOTE: This is the perfect set of structures, there is no double up data 
  * eg there is no member list in each book struct, this is because using 
  * a more hands on object based database means that you can just implement 
- * any features that you want to. 
+ * any features that you want to.This also means less bloating of things that 
+ * you do not need. 
  */
 
 #endif // DATA_TYPES_H

@@ -28,6 +28,8 @@
 extern loan *db_loans;
 extern book *db_books;
 extern member *db_members;
+
+// used for memory allocation
 extern int db_loans_index; 
 extern int db_books_index;
 extern int db_members_index;
@@ -76,8 +78,10 @@ void members_write(FILE *a, member *arr,const int size);
 int init_db(void);
 
 /* CREATE: 
- * these functions will create a item in the 
- * RAM.
+ * these functions will append an item in the 
+ * db_* array, these functions will return the 
+ * index at which the new item was appended, 
+ * this is used in linking data between more data
  * */
 int book_add(const book a);
 int member_add(const member a);
@@ -103,11 +107,13 @@ void free_member(member *m);
 // print the date and time 
 void print_datetime(date a);
 
-/* create a symbolic loan this function 
- * is different to the loan_add func as 
- * this function adds it directly to a 
- * member, and the other one just adds
- * a new loan to the db. */ 
+/* this function is a wrapper for the loan_add function 
+ * all this function does is it takes in a member a loan 
+ * it then uses the loan_add function to add the new loan 
+ * to the db_loans array then it links the loan to the member 
+ * by adding the new loans id to the members loan_ids array. 
+ * this would be around 17 lines of code to do without the 
+ * function so this function is quite important. */ 
 void loan_new(member *a, loan b);
 
 // show the total loan fee owing from a user.
