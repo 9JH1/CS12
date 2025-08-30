@@ -283,7 +283,8 @@ int init_db() {
   } else {
     db_loans = read_loans(loans_path, &db_loans_index);
     db_loans_capacity = (db_loans_index + 1) * 2;
-		printf("Imported %s to db_loans\n",DATA_LOANS_FNAME);
+  	printf("Imported %d Loans (capacity: %d) from %s to db_loans\n", db_loans_index, db_loans_capacity,DATA_LOANS_FNAME);
+
   }
 
   if (books_path == NULL) {
@@ -296,7 +297,7 @@ int init_db() {
   } else {
     db_books = read_books(books_path, &db_books_index);
     db_books_capacity = (db_books_index + 1) * 2;
-		printf("Imported %s to db_books\n",DATA_BOOKS_FNAME);
+  	printf("Imported %d Books (capacity: %d) from %s to db_loans\n", db_books_index, db_books_capacity,DATA_BOOKS_FNAME);
   }
 
   if (members_path == NULL) {
@@ -309,7 +310,7 @@ int init_db() {
   } else {
     db_members = read_members(members_path, &db_members_index);
     db_members_capacity = (db_members_index + 1) * 2;
-		printf("Imported %s to db_members\n",DATA_MEMBERS_FNAME);
+  	printf("Imported %d members (capacity: %d) from %s to db_members\n", db_members_index, db_members_capacity, DATA_MEMBERS_FNAME);
   }
 
   free(loans_path_char);
@@ -318,9 +319,6 @@ int init_db() {
 
   if (error_flag == true) return 1;
 
-  printf("Imported %d Loans (capacity: %d)\n", db_loans_index, db_loans_capacity);
-  printf("Imported %d Books (capacity: %d)\n", db_books_index, db_books_capacity);
-  printf("Imported %d members (capacity: %d)\n", db_members_index, db_members_capacity);
   return 0;
 }
 
