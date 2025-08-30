@@ -161,4 +161,5 @@ member id_to_member(const int a);
 	
 	int dir_exist(const char *path);
 	int file_exist(const char *path); 
+	int achar(void);
 #endif // PLATFORM_H

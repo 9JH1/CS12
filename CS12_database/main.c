@@ -152,6 +152,10 @@ int main(const int argument_count, const char *argument_list[]){
 			printf("\nEND OF DATABASE OUTPUT (exited with code %d)\n",ret);
 			fflush(stdout);
 		}
+
+		if(argument_run(view)==0){
+			ui_main();
+		}
 		
 		// save the database 
 		dinit_db();
