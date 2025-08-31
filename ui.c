@@ -72,6 +72,17 @@ int ui_main(){
 		"Delete Data",
 	};
 
+	const char *create[] = {
+		"Member",
+		"Book",
+		"Loan",
+	};
+
+	const char *read[] = {
+		"Members",
+
+	};
+
 
 	int ret = ui_m(main_menu,"Please select the database macro\n");
 	return 0;
