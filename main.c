@@ -159,6 +159,12 @@ int main(const int argument_count, const char *argument_list[]){
 		
 		// save the database 
 		dinit_db();
+		free(db_members);
+    free(db_loans);
+    free(db_books);
+    db_members = NULL;
+    db_loans = NULL;
+    db_books = NULL;
 	} else phelp();
 	quit(0);
 }
