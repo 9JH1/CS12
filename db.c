@@ -643,8 +643,95 @@ int init() {
                                                 .is_hired = true,
                                             }});
 
+	// =============================================
+	// ATTACH LOANS
+	// =============================================
+	loan_new(id_to_member_ptr(member_1),(loan){
+			.bookid = old_man_and_sea,
+			.issued = date_now(),
+			.return_date = (date){
+				.year = 3000,
+				.month = 1,
+				.day = 1,
+				
+				.hour = 1,
+				.minute = 1,
+				.second = 1,
+			},
+			.active = true,
+			.note = s("This user is an owner and can have a book for a long time"),
+			.amount = 0, // owes nothing
+			});
+
+	loan_new(id_to_member_ptr(member_2),(loan){
+			.bookid = the_hobbit,
+			.issued = date_now(),
+			.return_date = (date){
+				.year = 2026,
+				.month = 7,
+				.day = 26,
+
+				.hour = 5,
+				.minute = 3,
+				.second = 56,
+			},
+
+				.active = true,
+				.amount = 3, // three (credits)
+			});
 	return 0;
 }
 
 // database code
-int database() { return 12; }
+int database() {
+	printf("Here is all the data held:\n");
+	for(int i = 0;i<db_members_index; i++){
+		member cur_member = id_to_member(i);
+		char *name = member_name(cur_member);
+		printf("%2i. %s\n",i,name);
+
+		printf("Member has these loans:");
+		for(int ii = 0; ii<cur_member.loan.loan_index;ii++){
+			loan cur_loan = db_loans[cur_member.loan.loan_ids[ii]];
+			book cur_book = db_books[cur_loan.bookid];
+			member cur_author = id_to_member(cur_book.id_author);
+			char *author_name = member_name(cur_author);
+
+			printf("%2i - Loan for book %s\n",ii,cur_book.title);
+			printf("%2i - This loan costs $%d\n",ii,cur_loan.amount);
+			printf("%2i - This loan was issued at %d/%d/%d, %d:%d:%d\n",ii,
+					cur_loan.issued.year,
+					cur_loan.issued.month,
+					cur_loan.issued.day,
+					cur_loan.issued.hour,
+					cur_loan.issued.minute,
+					cur_loan.issued.second);
+
+			printf("%2i - This loan is due at %d/%d/%d, %d:%d:%d\n",ii,
+					cur_loan.return_date.year,
+					cur_loan.return_date.month,
+					cur_loan.return_date.day,
+					cur_loan.return_date.hour,
+					cur_loan.return_date.minute,
+					cur_loan.return_date.second);
+
+			printf("%2i - This book in particular was published %d/%d/%d, %d:%d:%d\n",ii,
+					cur_book.publication_date.year, 
+					cur_book.publication_date.month, 
+					cur_book.publication_date.day, 
+					cur_book.publication_date.hour, 
+					cur_book.publication_date.minute, 
+					cur_book.publication_date.second);
+
+			printf("%2i - This book was written by %s\n",ii,author_name);
+		}
+
+		free(name);
+	}
+
+		// show all loans show total owing 
+		// show all books and their genres and the amount available 
+		// show all members and how many loans they have and how much they owe
+
+
+	return 12; }
