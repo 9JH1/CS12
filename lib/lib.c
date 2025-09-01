@@ -596,3 +596,22 @@ int loan_add(const loan a) {
   printf("created new loan at index %d\n", db_loans_index - 1);
   return db_loans_index - 1;
 }
+
+int book_add(const book a) {
+  if (db_books_index == db_books_capacity) {
+    db_books_capacity *= 2;
+    book *temp = realloc(db_books, db_books_capacity * sizeof(book));
+    if (!temp) {
+      printf("Error allocating memory for book\n");
+      return -1;
+    }
+    db_books = temp;
+  }
+
+	if(db_books == NULL) printf("Error db_books is unininitialized\n");
+
+  db_books[db_books_index] = a;
+  db_books_index++;
+	printf("created new book at index %d\n",db_books_index-1);
+  return db_books_index - 1;
+}
