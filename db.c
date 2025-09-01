@@ -684,6 +684,8 @@ int init() {
 
 // database code
 int database() {
+
+	init();
 	printf("Here is all the data held:\n");
 	for(int i = 0;i<db_members_index; i++){
 		member cur_member = id_to_member(i);
