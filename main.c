@@ -139,9 +139,13 @@ int main(const int argument_count, const char *argument_list[]){
 				// re-import the database 
 				if(init_db() == 1)
 					printf("Error occured with database, unsure of cause\n");
+					exit(1);
+				break;
+
 			case -5: 
 				printf("fatal database import error\n");
 				exit(-5);
+				break;
 		}
 
 		if(argument_run(setup)==0){
