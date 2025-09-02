@@ -7,9 +7,6 @@
 // for bool, true and false.
 #include <stdio.h>
 
-// for strdup 
-#include <string.h>
-
 // for free 
 #include <stdlib.h>
 #define DEFAULT_DB_CAPACITY 5
@@ -21,7 +18,6 @@
 #define DATA_MEMBERS_FNAME "members.bin"
 
 // macros
-#define s strdup
 #define free free
 
 // global variables for the database.

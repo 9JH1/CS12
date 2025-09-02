@@ -549,10 +549,10 @@ member id_to_member(const int a){
 
 
 member member_wizard(void){
-	char first_name[CHAR_LARGE+1];
-	char last_name[CHAR_LARGE+1];
-	char email[CHAR_SMALL+1];
-	char phone_number[CHAR_SMALL+1];
+	char first_name[CHAR_SMALL];
+	char last_name[CHAR_SMALL];
+	char email[CHAR_SMALL];
+	char phone_number[CHAR_SMALL];
 	
 	// take string input
 	input(first_name,CHAR_LARGE,"First Name: ");
