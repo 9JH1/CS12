@@ -20,18 +20,6 @@ finish writing the wizard functions.
 #include <string.h>
 #include <stdbool.h>
 
-// local database 
-loan *db_loans;
-int db_loans_index;
-int db_loans_capacity;
-
-member *db_members;
-int db_members_index;
-int db_members_capacity;
-
-book *db_books;
-int db_books_index;
-int db_books_capacity;
 
 void quit(int code){
 	printf("\rexiting program with code %d ..\n",code);

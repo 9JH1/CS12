@@ -5,6 +5,20 @@
 #include <string.h>
 #include <time.h>
 
+// local database 
+loan *db_loans = NULL;
+int db_loans_index = 0;
+int db_loans_capacity = 0;
+
+member *db_members = NULL;
+int db_members_index = 0 ;
+int db_members_capacity = 0;
+
+book *db_books;
+int db_books_index;
+int db_books_capacity;
+
+
 void input(char *buffer, int size, char *prompt) {
   printf("%s", prompt);
   if (fgets(buffer, size, stdin) != NULL) {
