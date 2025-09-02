@@ -573,7 +573,7 @@ int member_add(const member a) {
 	}
 
   if (db_members_index == db_members_capacity) {
-    db_members_capacity *= 2;
+    db_members_capacity = db_members_capacity * 2;
     member *temp = realloc(db_members, db_members_index * sizeof(member));
 
     if (!temp) {
