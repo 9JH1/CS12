@@ -342,34 +342,33 @@ int book_add(const book a) {
 }
 
 int member_add(const member a) {
-    // Check if db_members is uninitialized or capacity is 0
+    // Check for uninitialized array or zero capacity
     if (db_members == NULL || db_members_capacity == 0) {
-        // Initial allocation
-        db_members_capacity = db_members_capacity == 0 ? 4 : db_members_capacity; // Start with reasonable capacity
+        db_members_capacity = 4; // Initial capacity
         db_members = malloc(db_members_capacity * sizeof(member));
         if (!db_members) {
             printf("Error allocating initial memory for members\n");
             return -1;
         }
-        db_members_index = 0; // Ensure index is reset
+        db_members_index = 0;
     }
 
     printf("verbose: %d %d\n", db_members_index, db_members_capacity);
 
     // Check if array is full
     if (db_members_index >= db_members_capacity) {
-        // Double capacity, or set to 1 if still 0
-        db_members_capacity = db_members_capacity > 0 ? db_members_capacity * 2 : 1;
-        member *temp = realloc(db_members, db_members_capacity * sizeof(member));
+        size_t new_capacity = db_members_capacity > 0 ? db_members_capacity * 2 : 1;
+        member *temp = realloc(db_members, new_capacity * sizeof(member));
         if (!temp) {
             printf("Error reallocating memory for members\n");
             return -1;
         }
         db_members = temp;
+        db_members_capacity = new_capacity;
     }
 
-    // Add member to array
-    db_members[db_members_index] = a; // Assumes shallow copy is sufficient
+    // Add member
+    db_members[db_members_index] = a;
     db_members_index++;
     printf("created new member at index %d\n", db_members_index - 1);
     return db_members_index - 1;
