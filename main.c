@@ -138,6 +138,9 @@ int main(const int argument_count, const char *argument_list[]){
 				printf("fatal database import error\n");
 				exit(-5);
 				break;
+
+			default: 
+				break;
 		}
 
 		if(argument_run(run)==0){
