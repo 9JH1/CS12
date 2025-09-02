@@ -567,34 +567,26 @@ member member_wizard(void){
 */ 
 
 int member_add(const member a) {
-    // Initialize array if unallocated or capacity is 0
-    if (db_members == NULL || db_members_capacity == 0) {
-        db_members_capacity = 4; // Reasonable initial capacity
-        db_members = malloc(db_members_capacity * sizeof(member));
-        if (!db_members) {
-            printf("Error allocating initial memory for members\n");
-            return -1;
-        }
-        db_members_index = 0;
+	if(db_members == NULL){
+		printf("Error db_members is unininitialized\n");
+		return -1;
+	}
+
+  if (db_members_index == db_members_capacity) {
+    db_members_capacity *= 2;
+    member *temp = realloc(db_members, db_members_index * sizeof(member));
+
+    if (!temp) {
+      printf("Error allocating memory for members\n");
+      return -1;
     }
 
-    printf("verbose: %d %d\n", db_members_index, db_members_capacity);
+    db_members = temp;
+  }
+	
 
-    // Resize array if full
-    if (db_members_index >= db_members_capacity) {
-        size_t new_capacity = db_members_capacity > 0 ? db_members_capacity * 2 : 1;
-        member *temp = realloc(db_members, new_capacity * sizeof(member));
-        if (!temp) {
-            printf("Error reallocating memory for members\n");
-            return -1;
-        }
-        db_members = temp;
-        db_members_capacity = new_capacity;
-    }
-
-    // Add member
-    db_members[db_members_index] = a;
-    db_members_index++;
-    printf("created new member at index %d\n", db_members_index - 1);
-    return db_members_index - 1;
+  db_members[db_members_index] = a;
+  db_members_index++;
+	printf("created new member at index %d\n",db_members_index-1);
+  return db_members_index - 1;
 }
