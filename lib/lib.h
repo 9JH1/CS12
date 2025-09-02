@@ -12,7 +12,7 @@
 
 // for free 
 #include <stdlib.h>
-
+#define DEFAULT_DB_CAPACITY 5
 // constants
 #define SECURITY_CODE_LENGTH 3 // read ../main.c 
 #define DATA_DIR "./db/" // folder name of the database 

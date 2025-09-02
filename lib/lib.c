@@ -288,7 +288,7 @@ int init_db() {
     db_loans = read_loans(loans_path, &db_loans_index);
 		if(db_loans == NULL){
 			printf("db_loans dident load any data\ninitializing now...\n");
-			db_loans_capacity = 2;
+			db_loans_capacity = DEFAULT_DB_CAPACITY;
 			db_loans = malloc(db_loans_capacity * sizeof(loan));
 			if(db_loans == NULL){
 				printf("db_loans could not be initialized\n");
@@ -309,7 +309,7 @@ int init_db() {
     db_books = read_books(books_path, &db_books_index);
 		if (db_books == NULL){
 			printf("db_books dident load any data\ninitializing now...\n");
-			db_books_capacity = 2;
+			db_books_capacity = DEFAULT_DB_CAPACITY;
 			db_books = malloc(db_books_capacity * sizeof(book));
 			if(db_books == NULL){
 				printf("db_books could not be initialized\n");
@@ -330,7 +330,7 @@ int init_db() {
     db_members = read_members(members_path, &db_members_index);
 		if(db_members == NULL){
 			printf("db_members dident load any data\ninitializing now...\n");
-			db_members_capacity = 2;
+			db_members_capacity = DEFAULT_DB_CAPACITY;
 			db_members = malloc(db_members_capacity * sizeof(member));
 			if(db_members == NULL){
 				printf("db_members could not be initialized\n");
