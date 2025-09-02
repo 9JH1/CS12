@@ -575,7 +575,7 @@ int member_add(const member a) {
     if (db_members_index >= db_members_capacity) {
         // Double the capacity or set a minimum to avoid frequent reallocations
         size_t new_capacity = (db_members_capacity == 0) ? 2 : db_members_capacity * 2;
-        member *temp = realloc(db_members, new_capacity * sizeof(member));
+        member *temp = (member *)realloc(db_members, new_capacity * sizeof(member));
 
         if (!temp) {
             printf("Error allocating memory for members\n");
