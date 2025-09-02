@@ -142,12 +142,6 @@ void write_members(FILE *a, member *arr, int size) {
   }
 }
 
-void free_member(member *m) {
-  if (!m) return;
-  if (m->loan.loan_ids) free(m->loan.loan_ids);
-  if (m->type == AUTHOR) free(m->o.author.genre);
-}
-
 member *read_members(FILE *a, int *out_size) {
   FILE *fp = (FILE *)a;
   int size = 0;
