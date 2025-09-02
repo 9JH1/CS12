@@ -7,73 +7,73 @@ int database() {
   // CREATE AUTHORS
   // =====================================================
   const int tolkien = member_add((member){
-      .first_name = s("J.R.R."),
-      .last_name = s("Tolkien"),
+      .first_name = "J.R.R.",
+      .last_name = "Tolkien",
       .type = AUTHOR,
-      .o.author.genre = s("Fantasy"),
+      .o.author.genre = "Fantasy",
   });
 
   const int rowling = member_add((member){
-      .first_name = s("Joanne"),
-      .last_name = s("Rowling"),
+      .first_name = "Joanne",
+      .last_name = "Rowling",
       .type = AUTHOR,
-      .o.author.genre = s("Fantasy"),
+      .o.author.genre = "Fantasy",
   });
 
   const int king = member_add((member){
-      .first_name = s("Stephen"),
-      .last_name = s("King"),
+      .first_name = "Stephen",
+      .last_name = "King",
       .type = AUTHOR,
-      .o.author.genre = s("Horror"),
+      .o.author.genre = "Horror",
   });
 
   const int austen = member_add((member){
-      .first_name = s("Jane"),
-      .last_name = s("Austen"),
+      .first_name = "Jane",
+      .last_name = "Austen",
       .type = AUTHOR,
-      .o.author.genre = s("Romance"),
+      .o.author.genre = "Romance",
   });
 
   const int orwell = member_add((member){
-      .first_name = s("George"),
-      .last_name = s("Orwell"),
+      .first_name = "George",
+      .last_name = "Orwell",
       .type = AUTHOR,
-      .o.author.genre = s("Dystopian"),
+      .o.author.genre = "Dystopian",
   });
 
   const int hemingway = member_add((member){
-      .first_name = s("Ernest"),
-      .last_name = s("Hemingway"),
+      .first_name = "Ernest",
+      .last_name = "Hemingway",
       .type = AUTHOR,
-      .o.author.genre = s("Literary Fiction"),
+      .o.author.genre = "Literary Fiction",
   });
 
   const int christie = member_add((member){
-      .first_name = s("Agatha"),
-      .last_name = s("Christie"),
+      .first_name = "Agatha",
+      .last_name = "Christie",
       .type = AUTHOR,
-      .o.author.genre = s("Mystery"),
+      .o.author.genre = "Mystery",
   });
 
   const int asimov = member_add((member){
-      .first_name = s("Isaac"),
-      .last_name = s("Asimov"),
+      .first_name = "Isaac",
+      .last_name = "Asimov",
       .type = AUTHOR,
-      .o.author.genre = s("Science Fiction"),
+      .o.author.genre = "Science Fiction",
   });
 
   const int dickens = member_add((member){
-      .first_name = s("Charles"),
-      .last_name = s("Dickens"),
+      .first_name = "Charles",
+      .last_name = "Dickens",
       .type = AUTHOR,
-      .o.author.genre = s("Historical Fiction"),
+      .o.author.genre = "Historical Fiction",
   });
 
   const int adams = member_add((member){
-      .first_name = s("Douglas"),
-      .last_name = s("Adams"),
+      .first_name = "Douglas",
+      .last_name = "Adams",
       .type = AUTHOR,
-      .o.author.genre = s("Science Fiction"),
+      .o.author.genre = "Science Fiction",
   });
 
   // =====================================================
@@ -264,8 +264,8 @@ int database() {
   // CREATE USERS
   // =====================================================
   const int alice_smith =
-      member_add((member){.first_name = s("Alice"),
-                          .last_name = s("Smith"),
+      member_add((member){.first_name = "Alice",
+                          .last_name = "Smith",
                           .dob =
                               (date){
                                   .year = 1990,
@@ -276,13 +276,13 @@ int database() {
                                   .second = 0,
                               },
                           .type = MEMBER,
-                          .email = s("alice.smith@email.com"),
-                          .phone_number = s("555-0101"),
+                          .email = "alice.smith@email.com",
+                          .phone_number = "555-0101",
                           .time_created = date_now()});
 
   const int bob_johnson =
-      member_add((member){.first_name = s("Bob"),
-                          .last_name = s("Johnson"),
+      member_add((member){.first_name = "Bob",
+                          .last_name = "Johnson",
                           .dob =
                               (date){
                                   .year = 1985,
@@ -293,12 +293,12 @@ int database() {
                                   .second = 0,
                               },
                           .type = MEMBER,
-                          .email = s("bob.johnson@email.com"),
-                          .phone_number = s("555-0102"),
+                          .email = "bob.johnson@email.com",
+                          .phone_number = "555-0102",
                           .time_created = date_now()});
 
-  const int clara_wong = member_add((member){.first_name = s("Clara"),
-                                             .last_name = s("Wong"),
+  const int clara_wong = member_add((member){.first_name = "Clara",
+                                             .last_name = "Wong",
                                              .dob =
                                                  (date){
                                                      .year = 1995,
@@ -309,13 +309,13 @@ int database() {
                                                      .second = 0,
                                                  },
                                              .type = MEMBER,
-                                             .email = s("clara.wong@email.com"),
-                                             .phone_number = s("555-0103"),
+                                             .email = "clara.wong@email.com",
+                                             .phone_number = "555-0103",
                                              .time_created = date_now()});
 
   const int david_martinez =
-      member_add((member){.first_name = s("David"),
-                          .last_name = s("Martinez"),
+      member_add((member){.first_name = "David",
+                          .last_name = "Martinez",
                           .dob =
                               (date){
                                   .year = 1988,
@@ -326,12 +326,12 @@ int database() {
                                   .second = 0,
                               },
                           .type = MEMBER,
-                          .email = s("david.martinez@email.com"),
-                          .phone_number = s("555-0104"),
+                          .email = "david.martinez@email.com",
+                          .phone_number = "555-0104",
                           .time_created = date_now()});
 
-  const int emma_brown = member_add((member){.first_name = s("Emma"),
-                                             .last_name = s("Brown"),
+  const int emma_brown = member_add((member){.first_name = "Emma",
+                                             .last_name = "Brown",
                                              .dob =
                                                  (date){
                                                      .year = 1992,
@@ -342,12 +342,12 @@ int database() {
                                                      .second = 0,
                                                  },
                                              .type = MEMBER,
-                                             .email = s("emma.brown@email.com"),
-                                             .phone_number = s("555-0105"),
+                                             .email = "emma.brown@email.com",
+                                             .phone_number = "555-0105",
                                              .time_created = date_now()});
 
-  const int frank_lee = member_add((member){.first_name = s("Frank"),
-                                            .last_name = s("Lee"),
+  const int frank_lee = member_add((member){.first_name = "Frank",
+                                            .last_name = "Lee",
                                             .dob =
                                                 (date){
                                                     .year = 1983,
@@ -358,12 +358,12 @@ int database() {
                                                     .second = 0,
                                                 },
                                             .type = MEMBER,
-                                            .email = s("frank.lee@email.com"),
-                                            .phone_number = s("555-0106"),
+                                            .email = "frank.lee@email.com",
+                                            .phone_number = "555-0106",
                                             .time_created = date_now()});
 
-  const int grace_kim = member_add((member){.first_name = s("Grace"),
-                                            .last_name = s("Kim"),
+  const int grace_kim = member_add((member){.first_name = "Grace",
+                                            .last_name = "Kim",
                                             .dob =
                                                 (date){
                                                     .year = 1998,
@@ -374,13 +374,13 @@ int database() {
                                                     .second = 0,
                                                 },
                                             .type = MEMBER,
-                                            .email = s("grace.kim@email.com"),
-                                            .phone_number = s("555-0107"),
+                                            .email = "grace.kim@email.com",
+                                            .phone_number = "555-0107",
                                             .time_created = date_now()});
 
   const int henry_davis =
-      member_add((member){.first_name = s("Henry"),
-                          .last_name = s("Davis"),
+      member_add((member){.first_name = "Henry",
+                          .last_name = "Davis",
                           .dob =
                               (date){
                                   .year = 1980,
@@ -391,13 +391,13 @@ int database() {
                                   .second = 0,
                               },
                           .type = MEMBER,
-                          .email = s("henry.davis@email.com"),
-                          .phone_number = s("555-0108"),
+                          .email = "henry.davis@email.com",
+                          .phone_number = "555-0108",
                           .time_created = date_now()});
 
   const int isabella_nguyen =
-      member_add((member){.first_name = s("Isabella"),
-                          .last_name = s("Nguyen"),
+      member_add((member){.first_name = "Isabella",
+                          .last_name = "Nguyen",
                           .dob =
                               (date){
                                   .year = 1993,
@@ -408,12 +408,12 @@ int database() {
                                   .second = 0,
                               },
                           .type = MEMBER,
-                          .email = s("isabella.nguyen@email.com"),
-                          .phone_number = s("555-0109"),
+                          .email = "isabella.nguyen@email.com",
+                          .phone_number = "555-0109",
                           .time_created = date_now()});
 
-  const int james_park = member_add((member){.first_name = s("James"),
-                                             .last_name = s("Park"),
+  const int james_park = member_add((member){.first_name = "James",
+                                             .last_name = "Park",
                                              .dob =
                                                  (date){
                                                      .year = 1987,
@@ -424,8 +424,8 @@ int database() {
                                                      .second = 0,
                                                  },
                                              .type = MEMBER,
-                                             .email = s("james.park@email.com"),
-                                             .phone_number = s("555-0110"),
+                                             .email = "james.park@email.com",
+                                             .phone_number = "555-0110",
                                              .time_created = date_now()});
 
 
@@ -433,8 +433,8 @@ int database() {
   // CREATE STAFF
   // ======================================================
   const int member_1 = member_add((member){.type = STAFF,
-                                           .first_name = s("Tim"),
-                                           .last_name = s("Buck"),
+                                           .first_name = "Tim",
+                                           .last_name = "Buck",
                                            .dob =
                                                (date){
                                                    .year = 1987,
@@ -444,8 +444,8 @@ int database() {
                                                    .minute = 0,
                                                    .second = 0,
                                                },
-                                           .email = s("Tim.Buck2@email.com"),
-                                           .phone_number = s("555-01112"),
+                                           .email = "Tim.Buck2@email.com",
+                                           .phone_number = "555-01112",
                                            .time_created = date_now(),
                                            .o.staff = {
                                                .member_code = db_members_index,
@@ -454,8 +454,8 @@ int database() {
                                            }});
 
   const int member_2 = member_add((member){.type = STAFF,
-                                           .first_name = s("Emma"),
-                                           .last_name = s("Wilson"),
+                                           .first_name = "Emma",
+                                           .last_name = "Wilson",
                                            .dob =
                                                (date){
                                                    .year = 1990,
@@ -465,8 +465,8 @@ int database() {
                                                    .minute = 0,
                                                    .second = 0,
                                                },
-                                           .email = s("emma.wilson@email.com"),
-                                           .phone_number = s("555-0111"),
+                                           .email = "emma.wilson@email.com",
+                                           .phone_number = "555-0111",
                                            .time_created = date_now(),
                                            .o.staff = {
                                                .member_code = db_members_index,
@@ -475,8 +475,8 @@ int database() {
                                            }});
 
   const int member_3 = member_add((member){.type = STAFF,
-                                           .first_name = s("Liam"),
-                                           .last_name = s("Chen"),
+                                           .first_name = "Liam",
+                                           .last_name = "Chen",
                                            .dob =
                                                (date){
                                                    .year = 1985,
@@ -486,8 +486,8 @@ int database() {
                                                    .minute = 0,
                                                    .second = 0,
                                                },
-                                           .email = s("liam.chen@email.com"),
-                                           .phone_number = s("555-0112"),
+                                           .email = "liam.chen@email.com",
+                                           .phone_number = "555-0112",
                                            .time_created = date_now(),
                                            .o.staff = {
                                                .member_code = db_members_index,
@@ -497,8 +497,8 @@ int database() {
 
   const int member_4 =
       member_add((member){.type = STAFF,
-                          .first_name = s("Sophia"),
-                          .last_name = s("Martinez"),
+                          .first_name = "Sophia",
+                          .last_name = "Martinez",
                           .dob =
                               (date){
                                   .year = 1992,
@@ -508,8 +508,8 @@ int database() {
                                   .minute = 0,
                                   .second = 0,
                               },
-                          .email = s("sophia.martinez@email.com"),
-                          .phone_number = s("555-0113"),
+                          .email = "sophia.martinez@email.com",
+                          .phone_number = "555-0113",
                           .time_created = date_now(),
                           .o.staff = {
                               .member_code = db_members_index,
@@ -518,8 +518,8 @@ int database() {
                           }});
 
   const int member_5 = member_add((member){.type = STAFF,
-                                           .first_name = s("Noah"),
-                                           .last_name = s("Davis"),
+                                           .first_name = "Noah",
+                                           .last_name = "Davis",
                                            .dob =
                                                (date){
                                                    .year = 1988,
@@ -529,8 +529,8 @@ int database() {
                                                    .minute = 0,
                                                    .second = 0,
                                                },
-                                           .email = s("noah.davis@email.com"),
-                                           .phone_number = s("555-0114"),
+                                           .email = "noah.davis@email.com",
+                                           .phone_number = "555-0114",
                                            .time_created = date_now(),
                                            .o.staff = {
                                                .member_code = db_members_index,
@@ -539,8 +539,8 @@ int database() {
                                            }});
 
   const int member_6 = member_add((member){.type = STAFF,
-                                           .first_name = s("Olivia"),
-                                           .last_name = s("Brown"),
+                                           .first_name = "Olivia",
+                                           .last_name = "Brown",
                                            .dob =
                                                (date){
                                                    .year = 1995,
@@ -550,8 +550,8 @@ int database() {
                                                    .minute = 0,
                                                    .second = 0,
                                                },
-                                           .email = s("olivia.brown@email.com"),
-                                           .phone_number = s("555-0115"),
+                                           .email = "olivia.brown@email.com",
+                                           .phone_number = "555-0115",
                                            .time_created = date_now(),
                                            .o.staff = {
                                                .member_code = db_members_index,
@@ -560,8 +560,8 @@ int database() {
                                            }});
 
   const int member_7 = member_add((member){.type = STAFF,
-                                           .first_name = s("Ethan"),
-                                           .last_name = s("Taylor"),
+                                           .first_name = "Ethan",
+                                           .last_name = "Taylor",
                                            .dob =
                                                (date){
                                                    .year = 1983,
@@ -571,8 +571,8 @@ int database() {
                                                    .minute = 0,
                                                    .second = 0,
                                                },
-                                           .email = s("ethan.taylor@email.com"),
-                                           .phone_number = s("555-0116"),
+                                           .email = "ethan.taylor@email.com",
+                                           .phone_number = "555-0116",
                                            .time_created = date_now(),
                                            .o.staff = {
                                                .member_code = db_members_index,
@@ -581,8 +581,8 @@ int database() {
                                            }});
 
   const int member_8 = member_add((member){.type = STAFF,
-                                           .first_name = s("Ava"),
-                                           .last_name = s("Lee"),
+                                           .first_name = "Ava",
+                                           .last_name = "Lee",
                                            .dob =
                                                (date){
                                                    .year = 1991,
@@ -592,8 +592,8 @@ int database() {
                                                    .minute = 0,
                                                    .second = 0,
                                                },
-                                           .email = s("ava.lee@email.com"),
-                                           .phone_number = s("555-0117"),
+                                           .email = "ava.lee@email.com",
+                                           .phone_number = "555-0117",
                                            .time_created = date_now(),
                                            .o.staff = {
                                                .member_code = db_members_index,
@@ -602,8 +602,8 @@ int database() {
                                            }});
 
   const int member_9 = member_add((member){.type = STAFF,
-                                           .first_name = s("Lucas"),
-                                           .last_name = s("Garcia"),
+                                           .first_name = "Lucas",
+                                           .last_name = "Garcia",
                                            .dob =
                                                (date){
                                                    .year = 1989,
@@ -613,8 +613,8 @@ int database() {
                                                    .minute = 0,
                                                    .second = 0,
                                                },
-                                           .email = s("lucas.garcia@email.com"),
-                                           .phone_number = s("555-0118"),
+                                           .email = "lucas.garcia@email.com",
+                                           .phone_number = "555-0118",
                                            .time_created = date_now(),
                                            .o.staff = {
                                                .member_code = db_members_index,
@@ -623,8 +623,8 @@ int database() {
                                            }});
 
   const int member_10 = member_add((member){.type = STAFF,
-                                            .first_name = s("Mia"),
-                                            .last_name = s("Johnson"),
+                                            .first_name = "Mia",
+                                            .last_name = "Johnson",
                                             .dob =
                                                 (date){
                                                     .year = 1994,
@@ -634,8 +634,8 @@ int database() {
                                                     .minute = 0,
                                                     .second = 0,
                                                 },
-                                            .email = s("mia.johnson@email.com"),
-                                            .phone_number = s("555-0119"),
+                                            .email = "mia.johnson@email.com",
+                                            .phone_number = "555-0119",
                                             .time_created = date_now(),
                                             .o.staff = {
                                                 .member_code = db_members_index,
@@ -659,7 +659,7 @@ int database() {
 				.second = 1,
 			},
 			.active = true,
-			.note = s("This user is an owner and can have a book for a long time"),
+			.note = "This user is an owner and can have a book for a long time",
 			.amount = 0, // owes nothing
 			});
 
