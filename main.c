@@ -70,14 +70,6 @@ int main(const int argument_count, const char *argument_list[]){
 			.takes_value = 0,
 			});
 
-	argument *setup = NULL;
-	set_argument(&setup,(set_argument_options){
-			.FLAG_NAME = "--init",
-			.FLAG_CATAGORY = "base",
-			.DESCRIPTION = "run the setup code, this is where the hardcoded init is located",
-			.takes_value = 0,
-			});
-	
 	// process arguments
 	if(parse_arguments(argument_count,argument_list)==0){
 
@@ -146,12 +138,6 @@ int main(const int argument_count, const char *argument_list[]){
 				printf("fatal database import error\n");
 				exit(-5);
 				break;
-		}
-
-		if(argument_run(setup)==0){
-			printf("SETUP OUTPUT:\n\n");
-			int ret = init();
-			printf("\nEND OF DATABASE OUTPUT (exited with code %d)\n",ret);
 		}
 
 		if(argument_run(run)==0){
