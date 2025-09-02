@@ -147,10 +147,6 @@ int main(const int argument_count, const char *argument_list[]){
 			fflush(stdout);
 		}
 
-		if(argument_run(view)==0){
-			//ui_main();
-		}
-		
 		// save the database 
 		dinit_db();
 		free(db_members);
