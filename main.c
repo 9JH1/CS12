@@ -11,7 +11,7 @@ finish writing the wizard functions.
 #include "lib/lib.h"
 #include "lib/plib.h"
 #include "db.c" // actual database file
-#include "ui.c" // interface file
+//#include "ui.c" // interface file
 
 // standard librarys 
 #include <stdlib.h>
@@ -154,7 +154,7 @@ int main(const int argument_count, const char *argument_list[]){
 		}
 
 		if(argument_run(view)==0){
-			ui_main();
+			//ui_main();
 		}
 		
 		// save the database 
