@@ -547,7 +547,7 @@ member id_to_member(const int a){
 	return db_members[a];
 }
 
-
+/*
 member member_wizard(void){
 	char first_name[CHAR_SMALL];
 	char last_name[CHAR_SMALL];
@@ -565,13 +565,13 @@ member member_wizard(void){
 	if(strcmp(type,"author")==0){
 	}
 	
-	return (member){
-		.first_name = first_name,
-		.last_name = last_name,
+	return (member){first_name,last_name,
 		.email = email,
 		.phone_number = phone_number,
 	};
 }
+*/ 
+
 int member_add(const member a) {
     // Initialize array if unallocated or capacity is 0
     if (db_members == NULL || db_members_capacity == 0) {
