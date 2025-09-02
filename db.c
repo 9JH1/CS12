@@ -2,7 +2,7 @@
 #include "lib/lib.h"
 
 // data setup
-int init() {
+int database() {
   // =====================================================
   // CREATE AUTHORS
   // =====================================================
@@ -679,11 +679,8 @@ int init() {
 				.active = true,
 				.amount = 3, // three (credits)
 			});
-	return 0;
-}
-
-// database code
-int database() {
+	
+	// actual database
 	printf("Here is all the data held:\n");
 	for(int i = 0;i<db_members_index; i++){
 		member cur_member = id_to_member(i);
