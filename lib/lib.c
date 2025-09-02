@@ -341,39 +341,6 @@ int book_add(const book a) {
   return db_books_index - 1;
 }
 
-int member_add(const member a) {
-    // Check for uninitialized array or zero capacity
-    if (db_members == NULL || db_members_capacity == 0) {
-        db_members_capacity = 4; // Initial capacity
-        db_members = malloc(db_members_capacity * sizeof(member));
-        if (!db_members) {
-            printf("Error allocating initial memory for members\n");
-            return -1;
-        }
-        db_members_index = 0;
-    }
-
-    printf("verbose: %d %d\n", db_members_index, db_members_capacity);
-
-    // Check if array is full
-    if (db_members_index >= db_members_capacity) {
-        size_t new_capacity = db_members_capacity > 0 ? db_members_capacity * 2 : 1;
-        member *temp = realloc(db_members, new_capacity * sizeof(member));
-        if (!temp) {
-            printf("Error reallocating memory for members\n");
-            return -1;
-        }
-        db_members = temp;
-        db_members_capacity = new_capacity;
-    }
-
-    // Add member
-    db_members[db_members_index] = a;
-    db_members_index++;
-    printf("created new member at index %d\n", db_members_index - 1);
-    return db_members_index - 1;
-}
-
 int loan_add(const loan a) {
   if (db_loans_index == db_loans_capacity) {
     db_loans_capacity *= 2;
@@ -604,4 +571,37 @@ member member_wizard(void){
 		.email = email,
 		.phone_number = phone_number,
 	};
+}
+
+int member_add(const member a) {
+    // Initialize array if unallocated or capacity is 0
+    if (db_members == NULL || db_members_capacity == 0) {
+        db_members_capacity = 4; // Reasonable initial capacity
+        db_members = malloc(db_members_capacity * sizeof(member));
+        if (!db_members) {
+            printf("Error allocating initial memory for members\n");
+            return -1;
+        }
+        db_members_index = 0;
+    }
+
+    printf("verbose: %d %d\n", db_members_index, db_members_capacity);
+
+    // Resize array if full
+    if (db_members_index >= db_members_capacity) {
+        size_t new_capacity = db_members_capacity > 0 ? db_members_capacity * 2 : 1;
+        member *temp = realloc(db_members, new_capacity * sizeof(member));
+        if (!temp) {
+            printf("Error reallocating memory for members\n");
+            return -1;
+        }
+        db_members = temp;
+        db_members_capacity = new_capacity;
+    }
+
+    // Add member
+    db_members[db_members_index] = a;
+    db_members_index++;
+    printf("created new member at index %d\n", db_members_index - 1);
+    return db_members_index - 1;
 }
