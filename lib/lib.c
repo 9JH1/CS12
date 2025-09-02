@@ -343,7 +343,13 @@ int book_add(const book a) {
 
 int member_add(const member a) {
 	printf("verbose: %d %d\n",db_members_index, db_members_capacity);
-  if (db_members_index == db_members_capacity) {
+	
+	if(db_members == NULL){
+		printf("Error db_members is unininitialized\n");
+		return -1;
+	}
+  
+	if (db_members_index == db_members_capacity) {
     db_members_capacity *= 2;
     member *temp = realloc(db_members, db_members_index * sizeof(member));
 
@@ -355,10 +361,7 @@ int member_add(const member a) {
     db_members = temp;
   }
 	
-	if(db_members == NULL){
-		printf("Error db_members is unininitialized\n");
-		return -1;
-	}
+
 
   db_members[db_members_index] = a;
   db_members_index++;
