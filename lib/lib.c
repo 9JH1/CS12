@@ -267,6 +267,10 @@ int init_db() {
   char *books_path_char = combine(DATA_DIR, DATA_BOOKS_FNAME);
   char *members_path_char = combine(DATA_DIR, DATA_MEMBERS_FNAME);
 
+	db_loans = NULL;
+	db_books = NULL;
+	db_members = NULL;
+
   FILE *loans_path = fopen(loans_path_char, "rb");
   FILE *books_path = fopen(books_path_char, "rb");
   FILE *members_path = fopen(members_path_char, "rb");
@@ -282,9 +286,16 @@ int init_db() {
     error_flag = true;
   } else {
     db_loans = read_loans(loans_path, &db_loans_index);
-    db_loans_capacity = (db_loans_index + 1) * 2;
-  	printf("Imported %d Loans (capacity: %d) from %s to db_loans\n", db_loans_index, db_loans_capacity,DATA_LOANS_FNAME);
-
+		if(db_loans == NULL){
+			printf("db_loans dident load any data\ninitializing now...\n");
+			db_loans_capacity = 2;
+			db_loans = malloc(db_loans_capacity * sizeof(loan));
+			if(db_loans == NULL){
+				printf("db_loans could not be initialized\n");
+				return -5;
+			}
+		} else db_loans_capacity = (db_loans_index + 1) * 2;
+		printf("Imported %d Loans (capacity: %d) from %s to db_loans\n", db_loans_index, db_loans_capacity,DATA_LOANS_FNAME);
   }
 
   if (books_path == NULL) {
@@ -296,8 +307,16 @@ int init_db() {
     error_flag = true;
   } else {
     db_books = read_books(books_path, &db_books_index);
-    db_books_capacity = (db_books_index + 1) * 2;
-  	printf("Imported %d Books (capacity: %d) from %s to db_loans\n", db_books_index, db_books_capacity,DATA_BOOKS_FNAME);
+		if (db_books == NULL){
+			printf("db_books dident load any data\ninitializing now...\n");
+			db_books_capacity = 2;
+			db_books = malloc(db_books_capacity * sizeof(book));
+			if(db_books == NULL){
+				printf("db_books could not be initialized\n");
+				return -5;
+			}
+		} else db_books_capacity = (db_books_index + 1) * 2;	
+		printf("Imported %d Books (capacity: %d) from %s to db_loans\n", db_books_index, db_books_capacity,DATA_BOOKS_FNAME);
   }
 
   if (members_path == NULL) {
@@ -309,7 +328,15 @@ int init_db() {
     error_flag = true;
   } else {
     db_members = read_members(members_path, &db_members_index);
-    db_members_capacity = (db_members_index + 1) * 2;
+		if(db_members == NULL){
+			printf("db_members dident load any data\ninitializing now...\n");
+			db_members_capacity = 2;
+			db_members = malloc(db_members_capacity * sizeof(member));
+			if(db_members == NULL){
+				printf("db_members could not be initialized\n");
+				return -5;
+			}
+		} else db_members_capacity = (db_members_index + 1) * 2;
   	printf("Imported %d members (capacity: %d) from %s to db_members\n", db_members_index, db_members_capacity, DATA_MEMBERS_FNAME);
   }
 
