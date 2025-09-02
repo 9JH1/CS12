@@ -2,8 +2,8 @@
 #define DATA_TYPES_H
 #include <stdbool.h> // for (true|false) and boolian type.
 
-#define CHAR_LARGE 255
-#define CHAR_SMALL 127
+#define CHAR_LARGE 1028
+#define CHAR_SMALL 256
 #define MAX_LOANS 3
 
 typedef enum {

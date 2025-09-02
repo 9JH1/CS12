@@ -253,7 +253,7 @@ int init_db() {
     error_flag = true;
   } else {
     db_loans = read_loans(loans_path, &db_loans_index);
-		if(db_loans == NULL){
+		if(db_loans == NULL || db_loans_index == 0){
 			printf("db_loans dident load any data\ninitializing now...\n");
 			db_loans_capacity = DEFAULT_DB_CAPACITY;
 			db_loans = malloc(db_loans_capacity * sizeof(loan));
@@ -274,7 +274,7 @@ int init_db() {
     error_flag = true;
   } else {
     db_books = read_books(books_path, &db_books_index);
-		if (db_books == NULL){
+		if (db_books == NULL || db_books_index == 0){
 			printf("db_books dident load any data\ninitializing now...\n");
 			db_books_capacity = DEFAULT_DB_CAPACITY;
 			db_books = malloc(db_books_capacity * sizeof(book));
@@ -295,7 +295,7 @@ int init_db() {
     error_flag = true;
   } else {
     db_members = read_members(members_path, &db_members_index);
-		if(db_members == NULL){
+		if(db_members == NULL || db_members_index == 0){
 			printf("db_members dident load any data\ninitializing now...\n");
 			db_members_capacity = DEFAULT_DB_CAPACITY;
 			db_members = malloc(db_members_capacity * sizeof(member));
@@ -573,9 +573,9 @@ int member_add(const member a) {
     }
 
     if (db_members_index >= db_members_capacity) {
-        // Double the capacity or set a minimum to avoid frequent reallocations
-        size_t new_capacity = (db_members_capacity == 0) ? 2 : db_members_capacity * 2;
-        member *temp = (member *)realloc(db_members, new_capacity * sizeof(member));
+        db_members_capacity *= 2;
+        printf("capacity of members has been changed to %s\n",db_members_capacity);
+        member *temp = (member *)realloc(db_members, db_members_capacity * sizeof(member));
 
         if (!temp) {
             printf("Error allocating memory for members\n");
@@ -583,7 +583,6 @@ int member_add(const member a) {
         }
 
         db_members = temp;
-        db_members_capacity = new_capacity;
     }
 
     db_members[db_members_index] = a;
