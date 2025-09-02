@@ -572,7 +572,6 @@ member member_wizard(void){
 		.phone_number = phone_number,
 	};
 }
-
 int member_add(const member a) {
     // Initialize array if unallocated or capacity is 0
     if (db_members == NULL || db_members_capacity == 0) {
