@@ -29,7 +29,7 @@ typedef struct {
   date return_date; // when the book NEEDs to be returned by
 	int bookid;       // id to the book.
 	bool active;      // if the loan has been fulfilled.
-	char *note;       // note of loan
+	char note[CHAR_LARGE]; // note of loan
   union {
     bool payed;
     bool covered;
@@ -39,10 +39,10 @@ typedef struct {
 // covers members staff and authors
 typedef struct {
 	// contact info: 
-  char *first_name;
-  char *last_name;
-  char *email;
-  char *phone_number;
+  char first_name[CHAR_SMALL];
+  char last_name[CHAR_SMALL];
+  char email[CHAR_SMALL];
+  char phone_number[CHAR_SMALL];
 
 	// extra info:
   date dob;
@@ -68,7 +68,7 @@ typedef struct {
       int member_code;
     } staff;
     struct {
-      char *genre;
+      char genre[CHAR_SMALL];
       date dod;
       bool is_alive;
     } author;

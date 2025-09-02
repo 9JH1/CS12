@@ -68,7 +68,7 @@ loan *read_loans(FILE *fp, int *out_count) {
 		fread(&arr[i].return_date,sizeof(date),1,fp);
 		fread(&arr[i].bookid,sizeof(int),1,fp);
     fread(&arr[i].active, sizeof(bool), 1, fp);
-    arr[i].note = read_string(fp);
+    fread(&arr[i].note, CHAR_LARGE,1,fp);
     fread(&arr[i].is.payed, sizeof(bool), 1, fp);
   }
   return arr;
@@ -100,30 +100,6 @@ book *read_books(FILE *fp, int *out_count) {
   return arr;
 }
 
-
-// Helper macro to write strings safely
-#define WRITE_STRING(s)                                                        \
-  do {                                                                         \
-    int len = (s != NULL) ? (int)strlen(s) + 1 : 0;                            \
-    fwrite(&len, sizeof(int), 1, a);                                           \
-    if (len > 0) {                                                             \
-      fwrite(s, sizeof(char), len, a);                                         \
-    }                                                                          \
-  } while (0)
-
-// Read strings with length
-#define READ_STRING(s)                                                         \
-  do {                                                                         \
-    int len;                                                                   \
-    fread(&len, sizeof(int), 1, fp);                                           \
-    if (len > 0) {                                                             \
-      s = malloc(len);                                                         \
-      fread(s, sizeof(char), len, fp);                                         \
-    } else {                                                                   \
-      s = NULL;                                                                \
-    }                                                                          \
-  } while (0)
-
 void write_members(FILE *a, member *arr, int size) {
   if (!a || !arr || size < 0) return;
 	for(int i = 0;i < size; ++i) if(db_members[i].account_to_delete == true) size--;
@@ -133,10 +109,10 @@ void write_members(FILE *a, member *arr, int size) {
     const member *m = &arr[i];
 		if(m->account_to_delete) continue;
 
-    WRITE_STRING(m->first_name);
-    WRITE_STRING(m->last_name);
-    WRITE_STRING(m->email);
-    WRITE_STRING(m->phone_number);
+		fwrite(&m->first_name,CHAR_SMALL,1,a);
+		fwrite(&m->last_name, CHAR_SMALL,1,a);
+		fwrite(&m->email,CHAR_SMALL,1,a);
+		fwrite(&m->phone_number,CHAR_SMALL,1,a);
 
     fwrite(&m->dob, sizeof(date), 1, a);
     fwrite(&m->time_created, sizeof(date), 1, a);
@@ -158,7 +134,7 @@ void write_members(FILE *a, member *arr, int size) {
       fwrite(&m->o.staff.member_id, sizeof(int), 1, a);
       fwrite(&m->o.staff.member_code, sizeof(int), 1, a);
     } else if (m->type == AUTHOR) {
-      WRITE_STRING(m->o.author.genre);
+      fwrite(&m->o.author.genre,CHAR_SMALL,1,a);
       fwrite(&m->o.author.dod, sizeof(date), 1, a);
       fwrite(&m->o.author.is_alive, sizeof(bool), 1, a);
     }
@@ -168,10 +144,6 @@ void write_members(FILE *a, member *arr, int size) {
 
 void free_member(member *m) {
   if (!m) return;
-	if(m->first_name) free(m->first_name);
-  if(m->last_name) free(m->last_name);
-  if(m->email) free(m->email);
-  if(m->phone_number) free(m->phone_number);
   if (m->loan.loan_ids) free(m->loan.loan_ids);
   if (m->type == AUTHOR) free(m->o.author.genre);
 }
@@ -188,10 +160,11 @@ member *read_members(FILE *a, int *out_size) {
   member *arr = calloc(size, sizeof(member));
   for (int i = 0; i < size; ++i) {
     member *m = &arr[i];
-    READ_STRING(m->first_name);
-    READ_STRING(m->last_name);
-    READ_STRING(m->email);
-    READ_STRING(m->phone_number);
+
+		fread(&m->first_name,CHAR_SMALL,1,fp);
+		fread(&m->last_name,CHAR_SMALL,1,fp);
+		fread(&m->email,CHAR_SMALL,1,fp);
+		fread(&m->phone_number,CHAR_SMALL,1,fp);
 
     fread(&m->dob, sizeof(date), 1, fp);
     fread(&m->time_created, sizeof(date), 1, fp);
@@ -213,7 +186,7 @@ member *read_members(FILE *a, int *out_size) {
       fread(&m->o.staff.member_id, sizeof(int), 1, fp);
       fread(&m->o.staff.member_code, sizeof(int), 1, fp);
     } else if (m->type == AUTHOR) {
-      READ_STRING(m->o.author.genre);
+      fread(&m->o.author.genre,CHAR_SMALL,1,fp);
       fread(&m->o.author.dod, sizeof(date), 1, fp);
       fread(&m->o.author.is_alive, sizeof(bool), 1, fp);
     }
