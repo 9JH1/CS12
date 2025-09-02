@@ -4,107 +4,6 @@
 #include <string.h>
 #include <stdlib.h>
 
-// returns &member to the id provided 
-member *id_to_member_ptr(const int a){
-	return  &db_members[a];
-}
-
-char *member_name(member a){
-	int size = snprintf(NULL,0,"%s %s",a.first_name,a.last_name);
-	char *name = (char *)malloc(size);
-	sprintf(name,"%s %s",a.first_name,a.last_name);
-
-	return name;
-}
-
-// returns member to the id provided
-member id_to_member(const int a){
-	return db_members[a];
-}
-
-int eatoi(const char *a){
-	int out = atoi(a);
-	if(out == 0 && strcmp(a,"0")!=0) return -1;
-	return out;
-}
-
-date date_wizard(){
-	char year[CHAR_SMALL+1];
-	char month[CHAR_SMALL+1];
-	char day[CHAR_SMALL+1];
-	char hour[CHAR_SMALL+1];
-	char minute[CHAR_SMALL+1];
-	char second[CHAR_SMALL+1];
-	
-	// tip
-	printf("Ensure any values of 0 are formatted like '0' not '00' or otherwise\n");
-
-	// take inputs
-	input(year,CHAR_SMALL,"Enter Year: ");
-	input(month,CHAR_SMALL,"Enter Month (1-12): ");
-	input(day, CHAR_SMALL,"Enter Day (0-31): ");
-	input(hour, CHAR_SMALL,"Enter Hour (0-23): ");
-	input(minute,CHAR_SMALL, "Enter Minute (0-59): ");
-	input(second, CHAR_SMALL, "Enter Second (0-59): ");
-	
-	// convert chars to ints ( with error checking )
-	int iyear = eatoi(year);
-	int imonth = eatoi(month);
-	int iday = eatoi(day);
-	int ihour = eatoi(hour);
-	int iminute = eatoi(minute);
-	int isecond = eatoi(second);
-	
-	// catch errors 
-	if(
-			iyear == -1 || 
-			imonth == -1 || 
-			iday == -1 || 
-			ihour == -1 || 
-			iminute == -1 || 
-			isecond == -1) return (date){};
-
-	// create date object
-	date newdate = {
-		.year = iyear,
-		.month = imonth,
-		.day = iday,
-		.hour = ihour,
-		.minute = iminute,
-		.second = isecond,
-	};
-
-	// return the created date
-	return newdate;
-}
-
-member member_wizard(){
-	char first_name[CHAR_LARGE+1];
-	char last_name[CHAR_LARGE+1];
-	char email[CHAR_SMALL+1];
-	char phone_number[CHAR_SMALL+1];
-	
-	// take string input
-	input(first_name,CHAR_LARGE,"First Name: ");
-	input(last_name,CHAR_LARGE,"Last Name: ");
-	input(email,CHAR_SMALL,"Email: ");
-	input(phone_number,CHAR_SMALL,"Phone Number: ");
-
-	char type[CHAR_SMALL+1];
-	input(type,CHAR_SMALL,"Enter Account type (MEMBER/author/staff): ");
-	if(strcmp(type,"author")==0){
-		
-	}
-	
-	return (member){
-		.first_name = first_name,
-		.last_name = last_name,
-		.email = email,
-		.phone_number = phone_number,
-	};
-}
-
-
 /*
 this is the code that is run when the database is imported
 any added data is saved to the local storage when this function
@@ -116,10 +15,10 @@ int database() {
 	int memberid = member_add((member){
 
 		// contact information: 
-    .first_name = strdup("Alice"),
-    .last_name = strdup("Johnson"),
-    .email = strdup("alice.johnson@example.com"),
-    .phone_number = strdup("+1234567890"),
+    .first_name = "Alice",
+    .last_name = "Johnson",
+    .email = "alice.johnson@example.com",
+    .phone_number = "+1234567890",
 
 		// time settings: 
     .dob = {
@@ -132,7 +31,7 @@ int database() {
 		// member type settings: 
 		.type = AUTHOR,
 		.o.author = {
-			.genre = strdup("test"),
+			.genre ="test",
 			.dod = date_now(),
 			.is_alive = false,
 		}
