@@ -342,6 +342,7 @@ int book_add(const book a) {
 }
 
 int member_add(const member a) {
+	printf("verbose: %d %d\n",db_members_index, db_members_capacity);
   if (db_members_index == db_members_capacity) {
     db_members_capacity *= 2;
     member *temp = realloc(db_members, db_members_index * sizeof(member));
