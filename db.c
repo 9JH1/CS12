@@ -776,7 +776,6 @@ int database() {
 
 			member author = db_members[book_cur.id_author];
 			printf("Author Name: %s %s\n",author.first_name, author.last_name);
-			achar();
 		}
 	}
 
