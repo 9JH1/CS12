@@ -1,5 +1,6 @@
 #include "lib/data.h"
 #include "lib/lib.h"
+#include "ui.c"
 
 // data setup
 int database() {
@@ -259,43 +260,40 @@ int database() {
       .count = 10,
   });
 
-
   // =====================================================
   // CREATE USERS
   // =====================================================
-  const int alice_smith =
-      member_add((member){.first_name = "Alice",
-                          .last_name = "Smith",
-                          .dob =
-                              (date){
-                                  .year = 1990,
-                                  .month = 3,
-                                  .day = 15,
-                                  .hour = 0,
-                                  .minute = 0,
-                                  .second = 0,
-                              },
-                          .type = MEMBER,
-                          .email = "alice.smith@email.com",
-                          .phone_number = "555-0101",
-                          .time_created = date_now()});
+  const int alice_smith = member_add((member){.first_name = "Alice",
+                                              .last_name = "Smith",
+                                              .dob =
+                                                  (date){
+                                                      .year = 1990,
+                                                      .month = 3,
+                                                      .day = 15,
+                                                      .hour = 0,
+                                                      .minute = 0,
+                                                      .second = 0,
+                                                  },
+                                              .type = MEMBER,
+                                              .email = "alice.smith@email.com",
+                                              .phone_number = "555-0101",
+                                              .time_created = date_now()});
 
-  const int bob_johnson =
-      member_add((member){.first_name = "Bob",
-                          .last_name = "Johnson",
-                          .dob =
-                              (date){
-                                  .year = 1985,
-                                  .month = 7,
-                                  .day = 22,
-                                  .hour = 0,
-                                  .minute = 0,
-                                  .second = 0,
-                              },
-                          .type = MEMBER,
-                          .email = "bob.johnson@email.com",
-                          .phone_number = "555-0102",
-                          .time_created = date_now()});
+  const int bob_johnson = member_add((member){.first_name = "Bob",
+                                              .last_name = "Johnson",
+                                              .dob =
+                                                  (date){
+                                                      .year = 1985,
+                                                      .month = 7,
+                                                      .day = 22,
+                                                      .hour = 0,
+                                                      .minute = 0,
+                                                      .second = 0,
+                                                  },
+                                              .type = MEMBER,
+                                              .email = "bob.johnson@email.com",
+                                              .phone_number = "555-0102",
+                                              .time_created = date_now()});
 
   const int clara_wong = member_add((member){.first_name = "Clara",
                                              .last_name = "Wong",
@@ -378,22 +376,21 @@ int database() {
                                             .phone_number = "555-0107",
                                             .time_created = date_now()});
 
-  const int henry_davis =
-      member_add((member){.first_name = "Henry",
-                          .last_name = "Davis",
-                          .dob =
-                              (date){
-                                  .year = 1980,
-                                  .month = 6,
-                                  .day = 25,
-                                  .hour = 0,
-                                  .minute = 0,
-                                  .second = 0,
-                              },
-                          .type = MEMBER,
-                          .email = "henry.davis@email.com",
-                          .phone_number = "555-0108",
-                          .time_created = date_now()});
+  const int henry_davis = member_add((member){.first_name = "Henry",
+                                              .last_name = "Davis",
+                                              .dob =
+                                                  (date){
+                                                      .year = 1980,
+                                                      .month = 6,
+                                                      .day = 25,
+                                                      .hour = 0,
+                                                      .minute = 0,
+                                                      .second = 0,
+                                                  },
+                                              .type = MEMBER,
+                                              .email = "henry.davis@email.com",
+                                              .phone_number = "555-0108",
+                                              .time_created = date_now()});
 
   const int isabella_nguyen =
       member_add((member){.first_name = "Isabella",
@@ -427,7 +424,6 @@ int database() {
                                              .email = "james.park@email.com",
                                              .phone_number = "555-0110",
                                              .time_created = date_now()});
-
 
   // ======================================================
   // CREATE STAFF
@@ -495,27 +491,26 @@ int database() {
                                                .is_hired = true,
                                            }});
 
-  const int member_4 =
-      member_add((member){.type = STAFF,
-                          .first_name = "Sophia",
-                          .last_name = "Martinez",
-                          .dob =
-                              (date){
-                                  .year = 1992,
-                                  .month = 3,
-                                  .day = 7,
-                                  .hour = 0,
-                                  .minute = 0,
-                                  .second = 0,
-                              },
-                          .email = "sophia.martinez@email.com",
-                          .phone_number = "555-0113",
-                          .time_created = date_now(),
-                          .o.staff = {
-                              .member_code = db_members_index,
-                              .member_id = db_members_index,
-                              .is_hired = true,
-                          }});
+  const int member_4 = member_add((member){.type = STAFF,
+                                           .first_name = "Sophia",
+                                           .last_name = "Martinez",
+                                           .dob =
+                                               (date){
+                                                   .year = 1992,
+                                                   .month = 3,
+                                                   .day = 7,
+                                                   .hour = 0,
+                                                   .minute = 0,
+                                                   .second = 0,
+                                               },
+                                           .email = "sophia.martinez@email.com",
+                                           .phone_number = "555-0113",
+                                           .time_created = date_now(),
+                                           .o.staff = {
+                                               .member_code = db_members_index,
+                                               .member_id = db_members_index,
+                                               .is_hired = true,
+                                           }});
 
   const int member_5 = member_add((member){.type = STAFF,
                                            .first_name = "Noah",
@@ -643,95 +638,120 @@ int database() {
                                                 .is_hired = true,
                                             }});
 
-	// =============================================
-	// ATTACH LOANS
-	// =============================================
-	loan_new(id_to_member_ptr(frank_lee),(loan){
-			.bookid = old_man_and_sea,
-			.issued = date_now(),
-			.return_date = (date){
-				.year = 3000,
-				.month = 1,
-				.day = 1,
-				
-				.hour = 1,
-				.minute = 1,
-				.second = 1,
-			},
-			.active = true,
-			.note = "This user is an owner and can have a book for a long time",
-			.amount = 0, // owes nothing
-			});
+  // =============================================
+  // ATTACH LOANS
+  // =============================================
+  loan_new(
+      id_to_member_ptr(frank_lee),
+      (loan){
+          .bookid = old_man_and_sea,
+          .issued = date_now(),
+          .return_date =
+              (date){
+                  .year = 3000,
+                  .month = 1,
+                  .day = 1,
 
-	loan_new(id_to_member_ptr(frank_lee),(loan){
-			.bookid = the_hobbit,
-			.issued = date_now(),
-			.return_date = (date){
-				.year = 2026,
-				.month = 7,
-				.day = 26,
+                  .hour = 1,
+                  .minute = 1,
+                  .second = 1,
+              },
+          .active = true,
+          .note = "This user is an owner and can have a book for a long time",
+          .amount = 0, // owes nothing
+      });
 
-				.hour = 5,
-				.minute = 3,
-				.second = 56,
-			},
+  loan_new(id_to_member_ptr(frank_lee), (loan){
+                                            .bookid = the_hobbit,
+                                            .issued = date_now(),
+                                            .return_date =
+                                                (date){
+                                                    .year = 2026,
+                                                    .month = 7,
+                                                    .day = 26,
 
-				.active = true,
-				.amount = 3, // three (credits)
-			});
-	
-	// actual database
-	printf("Here is all the data held:\n");
-	for(int i = 0;i<db_members_index; i++){
-		member cur_member = id_to_member(i);
+                                                    .hour = 5,
+                                                    .minute = 3,
+                                                    .second = 56,
+                                                },
 
-		if(cur_member.type != MEMBER) continue;
+                                            .active = true,
+                                            .amount = 3, // three (credits)
+                                        });
 
-		char *name = member_name(cur_member);
-		printf("%2i. %s\n",i,name);
+  int ret;
+  const char *main_menu[] = {
+      "full report",
+      "individual report",
+  };
 
-		printf("Member has these loans:\n");
-		for(int ii = 0; ii<cur_member.loan.loan_index;ii++){
-			loan cur_loan = db_loans[cur_member.loan.loan_ids[ii]];
-			book cur_book = db_books[cur_loan.bookid];
-			member cur_author = id_to_member(cur_book.id_author);
-			char *author_name = member_name(cur_author);
+  ret = ui_m(main_menu, "select option");
+  if (ret == 0) {
 
-			printf("%2i - Loan for book %s\n",ii,cur_book.title);
-			printf("%2i - This loan costs $%d\n",ii,cur_loan.amount);
-			printf("%2i - This loan was issued at %d/%d/%d, %d:%d:%d\n",ii,
-					cur_loan.issued.year,
-					cur_loan.issued.month,
-					cur_loan.issued.day,
-					cur_loan.issued.hour,
-					cur_loan.issued.minute,
-					cur_loan.issued.second);
+    // actual database
+    printf("Here is all the data held:\n");
+    for (int i = 0; i < db_members_index; i++) {
+      member cur_member = id_to_member(i);
 
-			printf("%2i - This loan is due at %d/%d/%d, %d:%d:%d\n",ii,
-					cur_loan.return_date.year,
-					cur_loan.return_date.month,
-					cur_loan.return_date.day,
-					cur_loan.return_date.hour,
-					cur_loan.return_date.minute,
-					cur_loan.return_date.second);
+      if (cur_member.type != MEMBER)
+        continue;
 
-			printf("%2i - This book in particular was published %d/%d/%d, %d:%d:%d\n",ii,
-					cur_book.publication_date.year, 
-					cur_book.publication_date.month, 
-					cur_book.publication_date.day, 
-					cur_book.publication_date.hour, 
-					cur_book.publication_date.minute, 
-					cur_book.publication_date.second);
+      char *name = member_name(cur_member);
+      printf("%2i. %s\n", i, name);
 
-			printf("%2i - This book was written by %s\n",ii,author_name);
+      printf("Member has these loans:\n");
+      for (int ii = 0; ii < cur_member.loan.loan_index; ii++) {
+        loan cur_loan = db_loans[cur_member.loan.loan_ids[ii]];
+        book cur_book = db_books[cur_loan.bookid];
+        member cur_author = id_to_member(cur_book.id_author);
+        char *author_name = member_name(cur_author);
+
+        printf("%2i - Loan for book %s\n", ii, cur_book.title);
+        printf("%2i - This loan costs $%d\n", ii, cur_loan.amount);
+        printf("%2i - This loan was issued at %d/%d/%d, %d:%d:%d\n", ii,
+               cur_loan.issued.year, cur_loan.issued.month, cur_loan.issued.day,
+               cur_loan.issued.hour, cur_loan.issued.minute,
+               cur_loan.issued.second);
+
+        printf("%2i - This loan is due at %d/%d/%d, %d:%d:%d\n", ii,
+               cur_loan.return_date.year, cur_loan.return_date.month,
+               cur_loan.return_date.day, cur_loan.return_date.hour,
+               cur_loan.return_date.minute, cur_loan.return_date.second);
+
+        printf(
+            "%2i - This book in particular was published %d/%d/%d, %d:%d:%d\n",
+            ii, cur_book.publication_date.year, cur_book.publication_date.month,
+            cur_book.publication_date.day, cur_book.publication_date.hour,
+            cur_book.publication_date.minute, cur_book.publication_date.second);
+
+        printf("%2i - This book was written by %s\n", ii, author_name);
+      }
+
+      free(name);
+    }
+  } else if (ret == 1){
+		printf("generating reports...\n");
+		char *member_menu[db_members_index];
+		for(int i = 0; i < db_members_index; i++){
+			member_menu[i] = db_members[i].last_name;
 		}
+		printf("Generated member list");
 
-		free(name);
+		const char *list_menu[] = {
+			"view members",
+			"view loans",
+			"view books",
+		};
+
+		ret = ui_m(list_menu,"What db do you want to view\n");
+		if(ret == 0){
+			ret = ui_m(member_menu,"View Members\n");
+		}
 	}
 
-		// show all loans show total owing 
-		// show all books and their genres and the amount available 
-		// show all members and how many loans they have and how much they owe
+  // show all loans show total owing
+  // show all books and their genres and the amount available
+  // show all members and how many loans they have and how much they owe
 
-
-	return 12; }
+  return 12;
+}

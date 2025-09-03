@@ -1,3 +1,8 @@
+/* @file ui.c  
+ * @breif mini ui library
+ * @details this file contains all ui related functions used by the database 
+ **/
+
 #include "lib/hlib/lib/ansi.h"
 #include "lib/lib.h"
 #include <signal.h> 
@@ -12,7 +17,26 @@ void ui_quit(int code){
 	exit(code);
 }
 
+/** 
+ * @breif wrapper function for ui_menu
+ * @param array array of strings used in menu 
+ * @param prompt prompt string shown at top of menu 
+ * @return ui_menu 
+ * @details wraps around ui_menu using a macro which removes the need for the 
+ * 					user to enter the array size.
+ **/
 #define ui_m(array, prompt) ui_menu(array,sizeof(array)/sizeof(array[0]),prompt);
+
+/** 
+ * @brief draws a interactive menu 
+ * @param *array[] array of strings used in menu 
+ * @param size amount of items in *array[]
+ * @param *prompt prompt strings shown at top of menu 
+ * @return returns the selected index int of the menu
+ * @details uses an array of strings as items and draws a menu, use of UPARROW 
+ * 					and DOWNARROW can navigate the menu pressing enter returns the 
+ * 					selected integer index of the array
+ **/
 int ui_menu(const char *array[], const int size, const char *prompt){
 	hide_cursor();
 	
