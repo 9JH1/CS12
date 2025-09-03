@@ -622,3 +622,72 @@ int member_add(const member a) {
     printf("Created new member at index %i\n", db_members_index - 1);
     return db_members_index - 1;
 }
+
+
+void print_book_data(book book_cur) {
+  printf("\nBook Metadata:\n");
+  printf("title: %s\n", book_cur.title);
+  printf("id_author: %d (id linking to the author of the book)\n",
+         book_cur.id_author);
+  printf("ISBN: %s\n", book_cur.ISBN);
+  printf("genre: %s\n", book_cur.genre);
+  printf("publication_date: %2d/%2d/%d, %2d:%2d:%2d\n",
+         book_cur.publication_date.day, book_cur.publication_date.month,
+         book_cur.publication_date.year, book_cur.publication_date.hour,
+         book_cur.publication_date.minute, book_cur.publication_date.second);
+
+  printf("available: %d (how many of this book are currently on loan)\n",
+         book_cur.available);
+  printf("count: %d (how many of this book there is in total)\n",
+         book_cur.count);
+  printf("-----------\n");
+  printf("Symbolic Metadata:\n");
+
+  member author = db_members[book_cur.id_author];
+  printf("Author Name: %s %s\n", author.first_name, author.last_name);
+}
+
+void print_member_data(member member_cur) {
+  printf("\nMember Metadata:\n");
+  printf("first_name: %s\n", member_cur.first_name);
+  printf("last_name: %s\n", member_cur.last_name);
+  printf("DOB: %0d/%0d/%d, %0d:%0d:%0d\n", member_cur.dob.day,
+         member_cur.dob.month, member_cur.dob.year, member_cur.dob.hour,
+         member_cur.dob.minute, member_cur.dob.second);
+
+  printf("email: %s\n", member_cur.email);
+  printf("phone_number: %s\n", member_cur.phone_number);
+  printf("account_available: %d (0 = false, 1 = true)\n",
+         member_cur.account_available);
+  printf("account_to_delete: %d (0 = false, 1 = true)\n",
+         member_cur.account_to_delete);
+  if (member_cur.type == STAFF) {
+    printf("type: STAFF\n");
+    printf("o.staff.member_code: %d\n", member_cur.o.staff.member_code);
+    printf("o.staff.staff_id: %d\n", member_cur.o.staff.member_id);
+    printf("o.staff.is_hired: %d (0 = false, 1 = true)\n",
+           member_cur.o.staff.is_hired);
+  } else if (member_cur.type == AUTHOR) {
+    printf("type: AUTHOR\n");
+    printf("o.author.genre: %s\n", member_cur.o.author.genre);
+    if (member_cur.o.author.is_alive) {
+      printf("Author is alive\n");
+    } else
+      printf("Author died %d/%d/%d, %d:%d:%d\n", member_cur.o.author.dod.day,
+             member_cur.o.author.dod.month, member_cur.o.author.dod.year,
+             member_cur.o.author.dod.hour, member_cur.o.author.dod.minute,
+             member_cur.o.author.dod.second);
+  } else
+    printf("type: MEMBER\n");
+  printf("------------\n");
+  printf("Symbolic metadata\n");
+
+  if (member_cur.type == AUTHOR) {
+    int count = 0;
+    for (int i = 0; i < db_books_index; i++)
+      if (db_books[i].id_author == ret)
+        count++;
+    printf("Author Book Count: %d\n", count);
+  } else
+    printf("NA\n");
+}
