@@ -761,7 +761,7 @@ int database() {
 
 		ret = ui_m(list_menu,"What db do you want to view\n");
 		if(ret == 0){
-			ret = ui_menu((const char **)member_menu,db_members_index,"View Members\n");
+			ret = ui_menu((const char **)member_menu,db_members_index,"View Members (showing last names and sorted by time_created)\n");
 			member member_cur = db_members[ret];
 		
 			printf("\nMember Metadata:\n");
@@ -800,12 +800,14 @@ int database() {
 			} else printf("type: MEMBER\n");
 			printf("------------\n");
 			printf("Symbolic metadata\n");
+
 			if(member_cur.type == AUTHOR){
 				int count = 0;
 				for(int i = 0; i < db_books_index;i++)
 					if(db_books[i].id_author == ret) count++;
 				printf("Author Book Count: %d\n",count);
 			} else printf("NA\n");
+
 		} else {
 			ret = ui_menu((const char **)book_menu,db_books_index,"View Books\n");
 			book book_cur = db_books[ret];
