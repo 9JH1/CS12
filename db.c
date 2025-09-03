@@ -755,7 +755,7 @@ int database() {
 			ret = ui_menu((const char **)book_menu,db_books_index,"View Books\n");
 			book book_cur = db_books[ret];
 
-			printf("Book Metadata:\n");
+			printf("\nBook Metadata:\n");
 			printf("title: %s\n",book_cur.title);
 			printf("id_author: %d (id linking to the author of the book)\n",book_cur.id_author);
 			printf("ISBN: %s\n",book_cur.ISBN);
@@ -775,7 +775,7 @@ int database() {
 			printf("Book Symbolic Metadata:\n");
 
 			member author = db_members[book_cur.id_author];
-			printf("Author Name: %s %s",author.first_name, author.last_name);
+			printf("Author Name: %s %s\n",author.first_name, author.last_name);
 			achar();
 		}
 	}
