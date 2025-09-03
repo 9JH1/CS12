@@ -745,7 +745,7 @@ int database() {
 
 		ret = ui_m(list_menu,"What db do you want to view\n");
 		if(ret == 0){
-			ret = ui_menu(member_menu,db_members_index,"View Members\n");
+			ret = ui_menu((const char **)member_menu,db_members_index,"View Members\n");
 		}
 	}
 
