@@ -759,7 +759,7 @@ int database() {
       ret = ui_menu(
           (const char **)member_menu, db_members_index,
           "View Members (showing last names and sorted by time_created)\n");
-      print_member_data(db_members[ret]);
+      print_member_data(db_members[ret],ret);
 
     } else {
       ret = ui_menu((const char **)book_menu, db_books_index, "View Books\n");
