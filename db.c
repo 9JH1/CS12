@@ -755,9 +755,9 @@ int database() {
 			ret = ui_menu((const char **)book_menu,db_books_index,"View Books\n");
 			book book_cur = db_books[ret];
 
-			printf("Book Data:\n");
+			printf("Book Metadata:\n");
 			printf("title: %s\n",book_cur.title);
-			printf("id_author: %d\n",book_cur.id_author);
+			printf("id_author: %d (id linking to the author of the book)\n",book_cur.id_author);
 			printf("ISBN: %s\n",book_cur.ISBN);
 			printf("genre: %s\n",book_cur.genre);
 			printf("publication_date: %2d/%2d/%d, %2d/%2d/%2d\n",
@@ -769,8 +769,13 @@ int database() {
 					book_cur.publication_date.second
 					);
 
-			printf("available: %d\n",book_cur.available);
-			printf("count: %d\n",book_cur.count);
+			printf("available: %d (how many of this book are currently on loan)\n",book_cur.available);
+			printf("count: %d (how many of this book there is in total)\n",book_cur.count);
+			printf("-----------\n");
+			printf("Book Symbolic Metadata:\n");
+
+			member author = db_members[book_cur.id_author];
+			printf("Author Name: %s %s",author.first_name, author.last_name);
 			achar();
 		}
 	}
