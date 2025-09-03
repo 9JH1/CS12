@@ -1,0 +1,12 @@
+in order to run this program you need a compiler, for windows i would recommend tdm-GCC,
+to install tdm-GCC go to https://jmeubank.github.io/tdm-gcc/download/ and download the
+tdm-gcc-webdl.exe file, run this file and go through setup options to install tdm-GCC, 
+after install you should be able to run the following command to compile the database:
+
+gcc -o out main.c lib/*.c -g -O2  
+
+after this run the following:
+
+./out.exe --run
+
+use the arrow up/down keys to navigate menus.
