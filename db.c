@@ -737,15 +737,22 @@ int database() {
 		}
 		printf("Generated member list");
 
+		char *book_menu[db_books_index];
+		for(int i = 0; i < db_books_index;i++){
+			book_menu[i] = db_books[i].title;
+		}
+		printf("Generated book list");
+
 		const char *list_menu[] = {
 			"view members",
-			"view loans",
 			"view books",
 		};
 
 		ret = ui_m(list_menu,"What db do you want to view\n");
 		if(ret == 0){
 			ret = ui_menu((const char **)member_menu,db_members_index,"View Members\n");
+		} else {
+			ret = ui_menu((const char **)book_menu,db_books_index,"View Books\n");
 		}
 	}
 
