@@ -817,7 +817,7 @@ int database() {
 			printf("id_author: %d (id linking to the author of the book)\n",book_cur.id_author);
 			printf("ISBN: %s\n",book_cur.ISBN);
 			printf("genre: %s\n",book_cur.genre);
-			printf("publication_date: %2d/%2d/%d, %2d/%2d/%2d\n",
+			printf("publication_date: %2d/%2d/%d, %2d:%2d:%2d\n",
 					book_cur.publication_date.day,
 					book_cur.publication_date.month,
 					book_cur.publication_date.year,	
