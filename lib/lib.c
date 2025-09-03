@@ -647,7 +647,7 @@ void print_book_data(book book_cur) {
   printf("Author Name: %s %s\n", author.first_name, author.last_name);
 }
 
-void print_member_data(member member_cur) {
+void print_member_data(member member_cur,const int ret) {
   printf("\nMember Metadata:\n");
   printf("first_name: %s\n", member_cur.first_name);
   printf("last_name: %s\n", member_cur.last_name);
