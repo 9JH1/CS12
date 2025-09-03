@@ -687,7 +687,7 @@ int database() {
 		char *name = member_name(cur_member);
 		printf("%2i. %s\n",i,name);
 
-		printf("Member has these loans:");
+		printf("Member has these loans:\n");
 		for(int ii = 0; ii<cur_member.loan.loan_index;ii++){
 			loan cur_loan = db_loans[cur_member.loan.loan_ids[ii]];
 			book cur_book = db_books[cur_loan.bookid];
