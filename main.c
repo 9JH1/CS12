@@ -10,6 +10,7 @@ finish writing the wizard functions.
 #include "lib/data.h"
 #include "lib/lib.h"
 #include "lib/plib.h"
+#include "lib/hlib/lib/ansi.h"
 #include "db.c" // actual database file
 //#include "ui.c" // interface file
 
@@ -23,6 +24,7 @@ finish writing the wizard functions.
 
 void quit(int code){
 	printf("\rexiting program with code %d ..\n",code);
+	show_cursor();
 	dinit_argument_list();
 	exit(code);
 }

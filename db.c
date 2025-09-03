@@ -685,7 +685,7 @@ int database() {
       "individual report",
   };
 
-  ret = ui_m(main_menu, "select option");
+  ret = ui_m(main_menu, "select option\n");
   if (ret == 0) {
 
     // actual database
