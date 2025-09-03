@@ -803,7 +803,7 @@ int database() {
 			if(member_cur.type == AUTHOR){
 				int count = 0;
 				for(int i = 0; i < db_books_index;i++)
-					if(db_books[i].memberid == ret) count++;
+					if(db_books[i].id_author == ret) count++;
 				printf("Author Book Count: %d\n",count);
 			}
 		} else {
