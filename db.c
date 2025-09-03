@@ -753,6 +753,25 @@ int database() {
 			ret = ui_menu((const char **)member_menu,db_members_index,"View Members\n");
 		} else {
 			ret = ui_menu((const char **)book_menu,db_books_index,"View Books\n");
+			book book_cur = db_books[ret];
+
+			printf("Book Data:\n");
+			printf("title: %s\n",book_cur.title);
+			printf("id_author: %d\n",book_cur.id_author);
+			printf("ISBN: %s\n",book_cur.ISBN);
+			printf("genre: %s\n",book_cur.genre);
+			printf("publication_date: %2d/%2d/%d, %2d/%2d/%2d\n",
+					book_cur.publication_date.day,
+					book_cur.publication_date.month,
+					book_cur.publication_date.year,	
+					book_cur.publication_date.hour,
+					book_cur.publication_date.minute,
+					book_cur.publication_date.second
+					);
+
+			printf("available: %d\n",book_cur.available);
+			printf("count: %d\n",book_cur.count);
+			achar();
 		}
 	}
 
