@@ -11,6 +11,11 @@ int database() {
       .first_name = "J.R.R.",
       .last_name = "Tolkien",
       .type = AUTHOR,
+			.dob = (date){
+				.year = 1892,
+				.month = 1,
+				.day = 3
+			},
       .o.author.genre = "Fantasy",
 			.o.author.is_alive = false,
 			.o.author.dod = (date){
