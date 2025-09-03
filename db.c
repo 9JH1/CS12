@@ -12,6 +12,12 @@ int database() {
       .last_name = "Tolkien",
       .type = AUTHOR,
       .o.author.genre = "Fantasy",
+			.o.author.is_alive = false,
+			.o.author.dod = (date){
+				.year = 1971,
+				.month = 9,
+				.day = 2,
+			}
   });
 
   const int rowling = member_add((member){
