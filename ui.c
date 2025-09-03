@@ -37,7 +37,7 @@ void ui_quit(int code){
  * 					and DOWNARROW can navigate the menu pressing enter returns the 
  * 					selected integer index of the array
  **/
-int ui_menu(const char *array[], const int size, const char *prompt){
+int ui_menu(const char **array, const int size, const char *prompt){
 	hide_cursor();
 	
 	int selected = 0; 
