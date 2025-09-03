@@ -136,7 +136,7 @@ char *member_name(member a);
 member id_to_member(const int a);
 
 // print data of types: 
-void print_member_data(member member_cur);
+void print_member_data(member member_cur, int const ret);
 void print_book_data(book book_cur);
 
 
