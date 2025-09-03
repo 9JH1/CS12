@@ -123,10 +123,10 @@ void write_members(FILE *a, member *arr, int size) {
     const member *m = &arr[i];
 		if(m->account_to_delete) continue;
 
-		fwrite(&m->first_name,CHAR_SMALL,1,a);
-		fwrite(&m->last_name, CHAR_SMALL,1,a);
-		fwrite(&m->email,CHAR_SMALL,1,a);
-		fwrite(&m->phone_number,CHAR_SMALL,1,a);
+		fwrite(m->first_name,CHAR_SMALL,1,a);
+		fwrite(m->last_name, CHAR_SMALL,1,a);
+		fwrite(m->email,CHAR_SMALL,1,a);
+		fwrite(m->phone_number,CHAR_SMALL,1,a);
 
     fwrite(&m->dob, sizeof(date), 1, a);
     fwrite(&m->time_created, sizeof(date), 1, a);
@@ -169,10 +169,10 @@ member *read_members(FILE *a, int *out_size) {
   for (int i = 0; i < size; ++i) {
     member *m = &arr[i];
 
-		fread(&m->first_name,CHAR_SMALL,1,fp);
-		fread(&m->last_name,CHAR_SMALL,1,fp);
-		fread(&m->email,CHAR_SMALL,1,fp);
-		fread(&m->phone_number,CHAR_SMALL,1,fp);
+		fread(m->first_name,CHAR_SMALL,1,fp);
+		fread(m->last_name,CHAR_SMALL,1,fp);
+		fread(m->email,CHAR_SMALL,1,fp);
+		fread(m->phone_number,CHAR_SMALL,1,fp);
 
     fread(&m->dob, sizeof(date), 1, fp);
     fread(&m->time_created, sizeof(date), 1, fp);
@@ -585,21 +585,27 @@ int member_add(const member a) {
         printf("Error: db_members is uninitialized\n");
         return -1;
     }
-
     if (db_members_index >= db_members_capacity) {
         db_members_capacity *= 2;
-        printf("capacity of members has been changed to %s\n",db_members_capacity);
+        printf("capacity of members has been changed to %d\n", db_members_capacity);
         member *temp = (member *)realloc(db_members, db_members_capacity * sizeof(member));
-
         if (!temp) {
             printf("Error allocating memory for members\n");
             return -1;
         }
-
         db_members = temp;
     }
-
     db_members[db_members_index] = a;
+    if (a.loan.loan_capacity > 0 && a.loan.loan_ids != NULL) {
+        db_members[db_members_index].loan.loan_ids = malloc(a.loan.loan_capacity * sizeof(int));
+        if (!db_members[db_members_index].loan.loan_ids) {
+            printf("Error allocating memory for loan_ids\n");
+            return -1;
+        }
+        memcpy(db_members[db_members_index].loan.loan_ids, a.loan.loan_ids, a.loan.loan_capacity * sizeof(int));
+    } else {
+        db_members[db_members_index].loan.loan_ids = NULL;
+    }
     db_members_index++;
     printf("Created new member at index %i\n", db_members_index - 1);
     return db_members_index - 1;

@@ -2,7 +2,16 @@
 #include "lib/lib.h"
 #include <stdio.h>
 #include <string.h>
-#include <stdlib.h>
+
+char *set_string(char *dest, const char *src, size_t size) {
+    if (dest == NULL || src == NULL || size == 0) {
+        return dest; // Return unchanged dest for safety
+    }
+    strncpy(dest, src, size - 1);
+    dest[size - 1] = '\0'; // Ensure null-termination
+    return dest;
+}
+
 
 /*
 this is the code that is run when the database is imported
@@ -12,14 +21,7 @@ int database() {
 	
 	// setup a member form (type of author) 
 	// the member id is a key to the new member 
-	int memberid = member_add((member){
-
-		// contact information: 
-    .first_name = "Alice",
-    .last_name = "Johnson",
-    .email = "alice.johnson@example.com",
-    .phone_number = "+1234567890",
-
+	member m = {
 		// time settings: 
     .dob = {
 			.day = 15,
@@ -35,8 +37,11 @@ int database() {
 			.dod = date_now(),
 			.is_alive = false,
 		}
+	};
+	set_string(m.first_name,"John",CHAR_SMALL);
+	set_string(m.last_name,"Doe",CHAR_SMALL);
 
-	});
+	const int memberid = member_add(m); 
 
 	member_add((member){.first_name = "test"});
 	member_add((member){.first_name = "test"});
