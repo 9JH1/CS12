@@ -805,7 +805,7 @@ int database() {
 				for(int i = 0; i < db_books_index;i++)
 					if(db_books[i].id_author == ret) count++;
 				printf("Author Book Count: %d\n",count);
-			}
+			} else printf("NA\n");
 		} else {
 			ret = ui_menu((const char **)book_menu,db_books_index,"View Books\n");
 			book book_cur = db_books[ret];
