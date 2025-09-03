@@ -684,6 +684,9 @@ int database() {
 	printf("Here is all the data held:\n");
 	for(int i = 0;i<db_members_index; i++){
 		member cur_member = id_to_member(i);
+
+		if(cur_member.type == AUTHOR) continue;
+
 		char *name = member_name(cur_member);
 		printf("%2i. %s\n",i,name);
 
