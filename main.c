@@ -139,7 +139,7 @@ int main(const int argument_count, const char *argument_list[]){
 		}
 
 		// save the database 
-		dinit_db();
+		//dinit_db();
 		free(db_members);
     free(db_loans);
     free(db_books);
