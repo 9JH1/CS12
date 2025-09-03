@@ -751,6 +751,42 @@ int database() {
 		ret = ui_m(list_menu,"What db do you want to view\n");
 		if(ret == 0){
 			ret = ui_menu((const char **)member_menu,db_members_index,"View Members\n");
+			member member_cur = db_members[ret];
+		
+			printf("\nMember Metadata:\n");
+			printf("first_name: %s\n",member_cur.first_name);
+			printf("last_name: %s\n",member_cur.last_name);
+			printf("DOB: %0d/%0d/%d, %0d:%0d:%0d\n",
+					member_cur.dob.day,
+					member_cur.dob.month,
+					member_cur.dob.year, 
+					member_cur.dob.hour,
+					member_cur.dob.minute,
+					member_cur.dob.second
+					);
+
+			printf("email: %s\n",member_cur.email);
+			printf("phone_number: %s\n",member_cur.phone_number);
+			printf("account_available: %d (0 = false, 1 = true)\n",member_cur.account_available);
+			printf("account_to_delete: %d (0 = false, 1 = true)\n",member_cur.account_to_delete);
+			if(member_cur.type == STAFF){
+				printf("type: STAFF\n");
+				printf("o.staff.member_code: %d\n",member_cur.o.staff.member_code);
+				printf("o.staff.staff_id: %d\n",member_cur.o.staff.member_id);
+				printf("o.staff.is_hired: %d (0 = false, 1 = true)\n",member_cur.o.staff.is_hired);
+			} else if (member_cur.type == AUTHOR){
+				printf("type: AUTHOR\n");
+				printf("o.author.genre: %s\n",member_cur.o.author.genre);
+				if(member_cur.o.author.is_alive){
+					printf("Author is alive\n");
+				} else printf("Author died %d/%d/%d, %d:%d:%d\n",
+						member_cur.o.author.dod.day,
+						member_cur.o.author.dod.month,
+						member_cur.o.author.dod.year, 
+						member_cur.o.author.dod.hour,
+						member_cur.o.author.dod.minute,
+						member_cur.o.author.dod.second);
+			} else printf("type: MEMBER\n");
 		} else {
 			ret = ui_menu((const char **)book_menu,db_books_index,"View Books\n");
 			book book_cur = db_books[ret];
