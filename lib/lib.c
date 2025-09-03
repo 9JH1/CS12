@@ -117,22 +117,30 @@ book *read_books(FILE *fp, int *out_count) {
 
 void write_members(FILE *a, member *arr, int size) {
   if (!a || !arr || size < 0) return;
-	for(int i = 0;i < size; ++i) if(db_members[i].account_to_delete == true) size--;
-  fwrite(&size, sizeof(int), 1, a);
 
+  // Count non-deleted members
+  int effective_size = 0;
+  for (int i = 0; i < size; ++i) {
+    if (!arr[i].account_to_delete) effective_size++;
+  }
+
+  // Write the effective size
+  fwrite(&effective_size, sizeof(int), 1, a);
+
+  // Write non-deleted members
   for (int i = 0; i < size; ++i) {
     const member *m = &arr[i];
-		if(m->account_to_delete) continue;
+    if (m->account_to_delete) continue;
 
-		fwrite(m->first_name,CHAR_SMALL,1,a);
-		fwrite(m->last_name, CHAR_SMALL,1,a);
-		fwrite(m->email,CHAR_SMALL,1,a);
-		fwrite(m->phone_number,CHAR_SMALL,1,a);
+    fwrite(m->first_name, CHAR_SMALL, 1, a);
+    fwrite(m->last_name, CHAR_SMALL, 1, a);
+    fwrite(m->email, CHAR_SMALL, 1, a);
+    fwrite(m->phone_number, CHAR_SMALL, 1, a);
 
     fwrite(&m->dob, sizeof(date), 1, a);
     fwrite(&m->time_created, sizeof(date), 1, a);
     fwrite(&m->type, sizeof(memberType), 1, a);
-		fwrite(&m->account_available,sizeof(bool), 1, a);
+    fwrite(&m->account_available, sizeof(bool), 1, a);
 
     // Write loan data
     fwrite(&m->loan.loan_flagged, sizeof(bool), 1, a);
@@ -149,11 +157,10 @@ void write_members(FILE *a, member *arr, int size) {
       fwrite(&m->o.staff.member_id, sizeof(int), 1, a);
       fwrite(&m->o.staff.member_code, sizeof(int), 1, a);
     } else if (m->type == AUTHOR) {
-      fwrite(m->o.author.genre,CHAR_SMALL,1,a);  // Fixed: Remove &
+      fwrite(m->o.author.genre, CHAR_SMALL, 1, a);
       fwrite(&m->o.author.dod, sizeof(date), 1, a);
       fwrite(&m->o.author.is_alive, sizeof(bool), 1, a);
     }
-
   }
 }
 
