@@ -1,110 +1,734 @@
 #include "lib/data.h"
 #include "lib/lib.h"
-#include <stdio.h>
-#include <string.h>
 
-char *set_string(char *dest, const char *src, size_t size) {
-    if (dest == NULL || src == NULL || size == 0) {
-        return dest; // Return unchanged dest for safety
-    }
-    strncpy(dest, src, size - 1);
-    dest[size - 1] = '\0'; // Ensure null-termination
-    return dest;
-}
-
-
-/*
-this is the code that is run when the database is imported
-any added data is saved to the local storage when this function
-exits */
+// data setup
 int database() {
-	
-	// setup a member form (type of author) 
-	// the member id is a key to the new member 
-	member m = {
-		// time settings: 
-    .dob = {
-			.day = 15,
-			.month = 5,
-			.year = 1990 
-		},
-    .time_created = date_now(),
-    
-		// member type settings: 
-		.type = AUTHOR,
-		.o.author = {
-			.genre ="test",
-			.dod = date_now(),
-			.is_alive = false,
-		}
-	};
-	set_string(m.first_name,"John",CHAR_SMALL);
-	set_string(m.last_name,"Doe",CHAR_SMALL);
+  // =====================================================
+  // CREATE AUTHORS
+  // =====================================================
+  const int tolkien = member_add((member){
+      .first_name = "J.R.R.",
+      .last_name = "Tolkien",
+      .type = AUTHOR,
+      .o.author.genre = "Fantasy",
+  });
 
-	const int memberid = member_add(m); 
+  const int rowling = member_add((member){
+      .first_name = "Joanne",
+      .last_name = "Rowling",
+      .type = AUTHOR,
+      .o.author.genre = "Fantasy",
+  });
 
-	member_add((member){0});
-	member_add((member){0});
+  const int king = member_add((member){
+      .first_name = "Stephen",
+      .last_name = "King",
+      .type = AUTHOR,
+      .o.author.genre = "Horror",
+  });
 
-	// copy member name
-	char *name = member_name(id_to_member(memberid));
+  const int austen = member_add((member){
+      .first_name = "Jane",
+      .last_name = "Austen",
+      .type = AUTHOR,
+      .o.author.genre = "Romance",
+  });
 
+  const int orwell = member_add((member){
+      .first_name = "George",
+      .last_name = "Orwell",
+      .type = AUTHOR,
+      .o.author.genre = "Dystopian",
+  });
 
-	// create a new book and link it to our new author 
-	int bookid = book_add((book){
+  const int hemingway = member_add((member){
+      .first_name = "Ernest",
+      .last_name = "Hemingway",
+      .type = AUTHOR,
+      .o.author.genre = "Literary Fiction",
+  });
 
-      .title = "test",
-			.available = true,
-			.genre = "test",
-			.id_author = memberid, // use the member key from before
-			.ISBN = "testtest", 
-			.publication_date = date_wizard(),
+  const int christie = member_add((member){
+      .first_name = "Agatha",
+      .last_name = "Christie",
+      .type = AUTHOR,
+      .o.author.genre = "Mystery",
+  });
 
+  const int asimov = member_add((member){
+      .first_name = "Isaac",
+      .last_name = "Asimov",
+      .type = AUTHOR,
+      .o.author.genre = "Science Fiction",
+  });
+
+  const int dickens = member_add((member){
+      .first_name = "Charles",
+      .last_name = "Dickens",
+      .type = AUTHOR,
+      .o.author.genre = "Historical Fiction",
+  });
+
+  const int adams = member_add((member){
+      .first_name = "Douglas",
+      .last_name = "Adams",
+      .type = AUTHOR,
+      .o.author.genre = "Science Fiction",
+  });
+
+  // =====================================================
+  // CREATE BOOKS
+  // =====================================================
+  const int the_hobbit = book_add((book){
+      .title = "The Hobbit",
+      .id_author = tolkien,
+      .publication_date =
+          (date){
+              .year = 1937,
+              .month = 9,
+              .day = 21,
+              .hour = 0,
+              .minute = 0,
+              .second = 0,
+          },
+      .ISBN = "978-0261102217",
+      .genre = "Fantasy",
+      .available = 10,
+      .count = 10,
+  });
+
+  const int harry_potter = book_add((book){
+      .title = "Harry Potter and the Philosopher's Stone",
+      .id_author = rowling,
+      .publication_date =
+          (date){
+              .year = 1997,
+              .month = 6,
+              .day = 26,
+              .hour = 0,
+              .minute = 0,
+              .second = 0,
+          },
+      .ISBN = "978-0747532699",
+      .genre = "Fantasy",
+      .available = 10,
+      .count = 10,
+  });
+
+  const int the_shining = book_add((book){
+      .title = "The Shining",
+      .id_author = king,
+      .publication_date =
+          (date){
+              .year = 1977,
+              .month = 1,
+              .day = 28,
+              .hour = 0,
+              .minute = 0,
+              .second = 0,
+          },
+      .ISBN = "978-0385121675",
+      .genre = "Horror",
+      .available = 10,
+      .count = 10,
+  });
+
+  const int pride_and_prejudice = book_add((book){
+      .title = "Pride and Prejudice",
+      .id_author = austen,
+      .publication_date =
+          (date){
+              .year = 1813,
+              .month = 1,
+              .day = 28,
+              .hour = 0,
+              .minute = 0,
+              .second = 0,
+          },
+      .ISBN = "978-0141439518",
+      .genre = "Romance",
+      .available = 10,
+      .count = 10,
+  });
+
+  const int nineteen_eighty_four = book_add((book){
+      .title = "1984",
+      .id_author = orwell,
+      .publication_date =
+          (date){
+              .year = 1949,
+              .month = 6,
+              .day = 8,
+              .hour = 0,
+              .minute = 0,
+              .second = 0,
+          },
+      .ISBN = "978-0451524935",
+      .genre = "Dystopian",
+      .available = 10,
+      .count = 10,
+  });
+
+  const int old_man_and_sea = book_add((book){
+      .title = "The Old Man and the Sea",
+      .id_author = hemingway,
+      .publication_date =
+          (date){
+              .year = 1952,
+              .month = 9,
+              .day = 1,
+              .hour = 0,
+              .minute = 0,
+              .second = 0,
+          },
+      .ISBN = "978-0684830490",
+      .genre = "Literary Fiction",
+      .available = 10,
+      .count = 10,
+  });
+
+  const int poirot_murder = book_add((book){
+      .title = "Murder on the Orient Express",
+      .id_author = christie,
+      .publication_date =
+          (date){
+              .year = 1934,
+              .month = 1,
+              .day = 1,
+              .hour = 0,
+              .minute = 0,
+              .second = 0,
+          },
+      .ISBN = "978-0062693662",
+      .genre = "Mystery",
+      .available = 10,
+      .count = 10,
+  });
+
+  const int foundation = book_add((book){
+      .title = "Foundation",
+      .id_author = asimov,
+      .publication_date =
+          (date){
+              .year = 1951,
+              .month = 5,
+              .day = 1,
+              .hour = 0,
+              .minute = 0,
+              .second = 0,
+          },
+      .ISBN = "978-0553293357",
+      .genre = "Science Fiction",
+      .available = 10,
+      .count = 10,
+  });
+
+  const int great_expectations = book_add((book){
+      .title = "Great Expectations",
+      .id_author = dickens,
+      .publication_date =
+          (date){
+              .year = 1861,
+              .month = 8,
+              .day = 1,
+              .hour = 0,
+              .minute = 0,
+              .second = 0,
+          },
+      .ISBN = "978-0141439563",
+      .genre = "Historical Fiction",
+      .available = 10,
+      .count = 10,
+  });
+
+  const int hitchhiker = book_add((book){
+      .title = "The Hitchhiker's Guide to the Galaxy",
+      .id_author = adams,
+      .publication_date =
+          (date){
+              .year = 1979,
+              .month = 10,
+              .day = 12,
+              .hour = 0,
+              .minute = 0,
+              .second = 0,
+          },
+      .ISBN = "978-0345391803",
+      .genre = "Science Fiction",
+      .available = 10,
+      .count = 10,
   });
 
 
-	// create a loan 
-	loan_new(id_to_member_ptr(memberid),(loan){
+  // =====================================================
+  // CREATE USERS
+  // =====================================================
+  const int alice_smith =
+      member_add((member){.first_name = "Alice",
+                          .last_name = "Smith",
+                          .dob =
+                              (date){
+                                  .year = 1990,
+                                  .month = 3,
+                                  .day = 15,
+                                  .hour = 0,
+                                  .minute = 0,
+                                  .second = 0,
+                              },
+                          .type = MEMBER,
+                          .email = "alice.smith@email.com",
+                          .phone_number = "555-0101",
+                          .time_created = date_now()});
 
+  const int bob_johnson =
+      member_add((member){.first_name = "Bob",
+                          .last_name = "Johnson",
+                          .dob =
+                              (date){
+                                  .year = 1985,
+                                  .month = 7,
+                                  .day = 22,
+                                  .hour = 0,
+                                  .minute = 0,
+                                  .second = 0,
+                              },
+                          .type = MEMBER,
+                          .email = "bob.johnson@email.com",
+                          .phone_number = "555-0102",
+                          .time_created = date_now()});
+
+  const int clara_wong = member_add((member){.first_name = "Clara",
+                                             .last_name = "Wong",
+                                             .dob =
+                                                 (date){
+                                                     .year = 1995,
+                                                     .month = 11,
+                                                     .day = 8,
+                                                     .hour = 0,
+                                                     .minute = 0,
+                                                     .second = 0,
+                                                 },
+                                             .type = MEMBER,
+                                             .email = "clara.wong@email.com",
+                                             .phone_number = "555-0103",
+                                             .time_created = date_now()});
+
+  const int david_martinez =
+      member_add((member){.first_name = "David",
+                          .last_name = "Martinez",
+                          .dob =
+                              (date){
+                                  .year = 1988,
+                                  .month = 4,
+                                  .day = 30,
+                                  .hour = 0,
+                                  .minute = 0,
+                                  .second = 0,
+                              },
+                          .type = MEMBER,
+                          .email = "david.martinez@email.com",
+                          .phone_number = "555-0104",
+                          .time_created = date_now()});
+
+  const int emma_brown = member_add((member){.first_name = "Emma",
+                                             .last_name = "Brown",
+                                             .dob =
+                                                 (date){
+                                                     .year = 1992,
+                                                     .month = 9,
+                                                     .day = 12,
+                                                     .hour = 0,
+                                                     .minute = 0,
+                                                     .second = 0,
+                                                 },
+                                             .type = MEMBER,
+                                             .email = "emma.brown@email.com",
+                                             .phone_number = "555-0105",
+                                             .time_created = date_now()});
+
+  const int frank_lee = member_add((member){.first_name = "Frank",
+                                            .last_name = "Lee",
+                                            .dob =
+                                                (date){
+                                                    .year = 1983,
+                                                    .month = 2,
+                                                    .day = 19,
+                                                    .hour = 0,
+                                                    .minute = 0,
+                                                    .second = 0,
+                                                },
+                                            .type = MEMBER,
+                                            .email = "frank.lee@email.com",
+                                            .phone_number = "555-0106",
+                                            .time_created = date_now()});
+
+  const int grace_kim = member_add((member){.first_name = "Grace",
+                                            .last_name = "Kim",
+                                            .dob =
+                                                (date){
+                                                    .year = 1998,
+                                                    .month = 12,
+                                                    .day = 5,
+                                                    .hour = 0,
+                                                    .minute = 0,
+                                                    .second = 0,
+                                                },
+                                            .type = MEMBER,
+                                            .email = "grace.kim@email.com",
+                                            .phone_number = "555-0107",
+                                            .time_created = date_now()});
+
+  const int henry_davis =
+      member_add((member){.first_name = "Henry",
+                          .last_name = "Davis",
+                          .dob =
+                              (date){
+                                  .year = 1980,
+                                  .month = 6,
+                                  .day = 25,
+                                  .hour = 0,
+                                  .minute = 0,
+                                  .second = 0,
+                              },
+                          .type = MEMBER,
+                          .email = "henry.davis@email.com",
+                          .phone_number = "555-0108",
+                          .time_created = date_now()});
+
+  const int isabella_nguyen =
+      member_add((member){.first_name = "Isabella",
+                          .last_name = "Nguyen",
+                          .dob =
+                              (date){
+                                  .year = 1993,
+                                  .month = 8,
+                                  .day = 17,
+                                  .hour = 0,
+                                  .minute = 0,
+                                  .second = 0,
+                              },
+                          .type = MEMBER,
+                          .email = "isabella.nguyen@email.com",
+                          .phone_number = "555-0109",
+                          .time_created = date_now()});
+
+  const int james_park = member_add((member){.first_name = "James",
+                                             .last_name = "Park",
+                                             .dob =
+                                                 (date){
+                                                     .year = 1987,
+                                                     .month = 1,
+                                                     .day = 10,
+                                                     .hour = 0,
+                                                     .minute = 0,
+                                                     .second = 0,
+                                                 },
+                                             .type = MEMBER,
+                                             .email = "james.park@email.com",
+                                             .phone_number = "555-0110",
+                                             .time_created = date_now()});
+
+
+  // ======================================================
+  // CREATE STAFF
+  // ======================================================
+  const int member_1 = member_add((member){.type = STAFF,
+                                           .first_name = "Tim",
+                                           .last_name = "Buck",
+                                           .dob =
+                                               (date){
+                                                   .year = 1987,
+                                                   .month = 1,
+                                                   .day = 10,
+                                                   .hour = 0,
+                                                   .minute = 0,
+                                                   .second = 0,
+                                               },
+                                           .email = "Tim.Buck2@email.com",
+                                           .phone_number = "555-01112",
+                                           .time_created = date_now(),
+                                           .o.staff = {
+                                               .member_code = db_members_index,
+                                               .member_id = db_members_index,
+                                               .is_hired = true,
+                                           }});
+
+  const int member_2 = member_add((member){.type = STAFF,
+                                           .first_name = "Emma",
+                                           .last_name = "Wilson",
+                                           .dob =
+                                               (date){
+                                                   .year = 1990,
+                                                   .month = 5,
+                                                   .day = 22,
+                                                   .hour = 0,
+                                                   .minute = 0,
+                                                   .second = 0,
+                                               },
+                                           .email = "emma.wilson@email.com",
+                                           .phone_number = "555-0111",
+                                           .time_created = date_now(),
+                                           .o.staff = {
+                                               .member_code = db_members_index,
+                                               .member_id = db_members_index,
+                                               .is_hired = true,
+                                           }});
+
+  const int member_3 = member_add((member){.type = STAFF,
+                                           .first_name = "Liam",
+                                           .last_name = "Chen",
+                                           .dob =
+                                               (date){
+                                                   .year = 1985,
+                                                   .month = 8,
+                                                   .day = 15,
+                                                   .hour = 0,
+                                                   .minute = 0,
+                                                   .second = 0,
+                                               },
+                                           .email = "liam.chen@email.com",
+                                           .phone_number = "555-0112",
+                                           .time_created = date_now(),
+                                           .o.staff = {
+                                               .member_code = db_members_index,
+                                               .member_id = db_members_index,
+                                               .is_hired = true,
+                                           }});
+
+  const int member_4 =
+      member_add((member){.type = STAFF,
+                          .first_name = "Sophia",
+                          .last_name = "Martinez",
+                          .dob =
+                              (date){
+                                  .year = 1992,
+                                  .month = 3,
+                                  .day = 7,
+                                  .hour = 0,
+                                  .minute = 0,
+                                  .second = 0,
+                              },
+                          .email = "sophia.martinez@email.com",
+                          .phone_number = "555-0113",
+                          .time_created = date_now(),
+                          .o.staff = {
+                              .member_code = db_members_index,
+                              .member_id = db_members_index,
+                              .is_hired = true,
+                          }});
+
+  const int member_5 = member_add((member){.type = STAFF,
+                                           .first_name = "Noah",
+                                           .last_name = "Davis",
+                                           .dob =
+                                               (date){
+                                                   .year = 1988,
+                                                   .month = 11,
+                                                   .day = 30,
+                                                   .hour = 0,
+                                                   .minute = 0,
+                                                   .second = 0,
+                                               },
+                                           .email = "noah.davis@email.com",
+                                           .phone_number = "555-0114",
+                                           .time_created = date_now(),
+                                           .o.staff = {
+                                               .member_code = db_members_index,
+                                               .member_id = db_members_index,
+                                               .is_hired = true,
+                                           }});
+
+  const int member_6 = member_add((member){.type = STAFF,
+                                           .first_name = "Olivia",
+                                           .last_name = "Brown",
+                                           .dob =
+                                               (date){
+                                                   .year = 1995,
+                                                   .month = 7,
+                                                   .day = 19,
+                                                   .hour = 0,
+                                                   .minute = 0,
+                                                   .second = 0,
+                                               },
+                                           .email = "olivia.brown@email.com",
+                                           .phone_number = "555-0115",
+                                           .time_created = date_now(),
+                                           .o.staff = {
+                                               .member_code = db_members_index,
+                                               .member_id = db_members_index,
+                                               .is_hired = true,
+                                           }});
+
+  const int member_7 = member_add((member){.type = STAFF,
+                                           .first_name = "Ethan",
+                                           .last_name = "Taylor",
+                                           .dob =
+                                               (date){
+                                                   .year = 1983,
+                                                   .month = 2,
+                                                   .day = 25,
+                                                   .hour = 0,
+                                                   .minute = 0,
+                                                   .second = 0,
+                                               },
+                                           .email = "ethan.taylor@email.com",
+                                           .phone_number = "555-0116",
+                                           .time_created = date_now(),
+                                           .o.staff = {
+                                               .member_code = db_members_index,
+                                               .member_id = db_members_index,
+                                               .is_hired = true,
+                                           }});
+
+  const int member_8 = member_add((member){.type = STAFF,
+                                           .first_name = "Ava",
+                                           .last_name = "Lee",
+                                           .dob =
+                                               (date){
+                                                   .year = 1991,
+                                                   .month = 9,
+                                                   .day = 12,
+                                                   .hour = 0,
+                                                   .minute = 0,
+                                                   .second = 0,
+                                               },
+                                           .email = "ava.lee@email.com",
+                                           .phone_number = "555-0117",
+                                           .time_created = date_now(),
+                                           .o.staff = {
+                                               .member_code = db_members_index,
+                                               .member_id = db_members_index,
+                                               .is_hired = true,
+                                           }});
+
+  const int member_9 = member_add((member){.type = STAFF,
+                                           .first_name = "Lucas",
+                                           .last_name = "Garcia",
+                                           .dob =
+                                               (date){
+                                                   .year = 1989,
+                                                   .month = 4,
+                                                   .day = 5,
+                                                   .hour = 0,
+                                                   .minute = 0,
+                                                   .second = 0,
+                                               },
+                                           .email = "lucas.garcia@email.com",
+                                           .phone_number = "555-0118",
+                                           .time_created = date_now(),
+                                           .o.staff = {
+                                               .member_code = db_members_index,
+                                               .member_id = db_members_index,
+                                               .is_hired = true,
+                                           }});
+
+  const int member_10 = member_add((member){.type = STAFF,
+                                            .first_name = "Mia",
+                                            .last_name = "Johnson",
+                                            .dob =
+                                                (date){
+                                                    .year = 1994,
+                                                    .month = 6,
+                                                    .day = 28,
+                                                    .hour = 0,
+                                                    .minute = 0,
+                                                    .second = 0,
+                                                },
+                                            .email = "mia.johnson@email.com",
+                                            .phone_number = "555-0119",
+                                            .time_created = date_now(),
+                                            .o.staff = {
+                                                .member_code = db_members_index,
+                                                .member_id = db_members_index,
+                                                .is_hired = true,
+                                            }});
+
+	// =============================================
+	// ATTACH LOANS
+	// =============================================
+	loan_new(id_to_member_ptr(member_1),(loan){
+			.bookid = old_man_and_sea,
 			.issued = date_now(),
-			.amount = 0,
-			.bookid = bookid,
-			
-			}); 
+			.return_date = (date){
+				.year = 3000,
+				.month = 1,
+				.day = 1,
+				
+				.hour = 1,
+				.minute = 1,
+				.second = 1,
+			},
+			.active = true,
+			.note = "This user is an owner and can have a book for a long time",
+			.amount = 0, // owes nothing
+			});
 
-
-	// create a second loan
-	loan_new(id_to_member_ptr(memberid),(loan){
-
+	loan_new(id_to_member_ptr(member_2),(loan){
+			.bookid = the_hobbit,
 			.issued = date_now(),
-			.amount = 0,
-			.bookid = bookid,
+			.return_date = (date){
+				.year = 2026,
+				.month = 7,
+				.day = 26,
 
+				.hour = 5,
+				.minute = 3,
+				.second = 56,
+			},
+
+				.active = true,
+				.amount = 3, // three (credits)
 			});
 	
-	for(int i = 0;i<id_to_member(memberid).loan.loan_index;i++)
-		printf("%s Loans: %d\n",name, id_to_member(memberid).loan.loan_ids[i]);
+	// actual database
+	printf("Here is all the data held:\n");
+	for(int i = 0;i<db_members_index; i++){
+		member cur_member = id_to_member(i);
+		char *name = member_name(cur_member);
+		printf("%2i. %s\n",i,name);
 
-	// print the total owed to the new member 
-	printf("Total Owed: %d By member %s\n",total_loan(id_to_member(memberid)),name);
-	
+		printf("Member has these loans:");
+		for(int ii = 0; ii<cur_member.loan.loan_index;ii++){
+			loan cur_loan = db_loans[cur_member.loan.loan_ids[ii]];
+			book cur_book = db_books[cur_loan.bookid];
+			member cur_author = id_to_member(cur_book.id_author);
+			char *author_name = member_name(cur_author);
+
+			printf("%2i - Loan for book %s\n",ii,cur_book.title);
+			printf("%2i - This loan costs $%d\n",ii,cur_loan.amount);
+			printf("%2i - This loan was issued at %d/%d/%d, %d:%d:%d\n",ii,
+					cur_loan.issued.year,
+					cur_loan.issued.month,
+					cur_loan.issued.day,
+					cur_loan.issued.hour,
+					cur_loan.issued.minute,
+					cur_loan.issued.second);
+
+			printf("%2i - This loan is due at %d/%d/%d, %d:%d:%d\n",ii,
+					cur_loan.return_date.year,
+					cur_loan.return_date.month,
+					cur_loan.return_date.day,
+					cur_loan.return_date.hour,
+					cur_loan.return_date.minute,
+					cur_loan.return_date.second);
+
+			printf("%2i - This book in particular was published %d/%d/%d, %d:%d:%d\n",ii,
+					cur_book.publication_date.year, 
+					cur_book.publication_date.month, 
+					cur_book.publication_date.day, 
+					cur_book.publication_date.hour, 
+					cur_book.publication_date.minute, 
+					cur_book.publication_date.second);
+
+			printf("%2i - This book was written by %s\n",ii,author_name);
+		}
+
+		free(name);
+	}
+
+		// show all loans show total owing 
+		// show all books and their genres and the amount available 
+		// show all members and how many loans they have and how much they owe
 
 
-	free(name);
-  return 0;
-}
-
-
-/*
-member member_wizard(const int id);
-book book_wizard(const int id);
-loan loan_wizard(const int id);
-
-void member_update(const int id);
-void book_update(const int id);
-void loan_update(const int id);
-
-void member_delete(const int id);
-void book_delete(const int id);
-void loan_delete(const int id);
-*/
+	return 12; }
