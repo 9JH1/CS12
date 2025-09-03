@@ -43,8 +43,8 @@ int database() {
 
 	const int memberid = member_add(m); 
 
-	member_add((member){.first_name = "test"});
-	member_add((member){.first_name = "test"});
+	member_add((member){0});
+	member_add((member){0});
 
 	// copy member name
 	char *name = member_name(id_to_member(memberid));
