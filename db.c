@@ -646,7 +646,7 @@ int database() {
 	// =============================================
 	// ATTACH LOANS
 	// =============================================
-	loan_new(id_to_member_ptr(member_1),(loan){
+	loan_new(id_to_member_ptr(frank_lee),(loan){
 			.bookid = old_man_and_sea,
 			.issued = date_now(),
 			.return_date = (date){
@@ -663,7 +663,7 @@ int database() {
 			.amount = 0, // owes nothing
 			});
 
-	loan_new(id_to_member_ptr(member_2),(loan){
+	loan_new(id_to_member_ptr(frank_lee),(loan){
 			.bookid = the_hobbit,
 			.issued = date_now(),
 			.return_date = (date){
