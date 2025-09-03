@@ -157,51 +157,66 @@ void write_members(FILE *a, member *arr, int size) {
 }
 
 member *read_members(FILE *a, int *out_size) {
-  FILE *fp = (FILE *)a;
-  int size = 0;
-	fread(&size, sizeof(int), 1,fp);
-	if(size == 0){
-		*out_size = 0;
-		return malloc(sizeof(member));
-	}
-
-  member *arr = calloc(size, sizeof(member));
-  for (int i = 0; i < size; ++i) {
-    member *m = &arr[i];
-
-		fread(m->first_name,CHAR_SMALL,1,fp);
-		fread(m->last_name,CHAR_SMALL,1,fp);
-		fread(m->email,CHAR_SMALL,1,fp);
-		fread(m->phone_number,CHAR_SMALL,1,fp);
-
-    fread(&m->dob, sizeof(date), 1, fp);
-    fread(&m->time_created, sizeof(date), 1, fp);
-    fread(&m->type, sizeof(memberType), 1, fp);
-
-    // Loan
-    fread(&m->loan.loan_flagged, sizeof(bool), 1, fp);
-    fread(&m->loan.loan_index, sizeof(int), 1, fp);
-    fread(&m->loan.loan_capacity, sizeof(int), 1, fp);
-
-    if (m->loan.loan_capacity > 0) {
-      m->loan.loan_ids = malloc(m->loan.loan_capacity * sizeof(int));
-      fread(m->loan.loan_ids, sizeof(int), m->loan.loan_capacity, fp);
-    } else m->loan.loan_ids = NULL;
-
-    // Union
-    if (m->type == STAFF) {
-      fread(&m->o.staff.is_hired, sizeof(bool), 1, fp);
-      fread(&m->o.staff.member_id, sizeof(int), 1, fp);
-      fread(&m->o.staff.member_code, sizeof(int), 1, fp);
-    } else if (m->type == AUTHOR) {
-      fread(&m->o.author.genre,CHAR_SMALL,1,fp);
-      fread(&m->o.author.dod, sizeof(date), 1, fp);
-      fread(&m->o.author.is_alive, sizeof(bool), 1, fp);
+    FILE *fp = (FILE *)a;
+    int size = 0;
+    if (fread(&size, sizeof(int), 1, fp) != 1 || size < 0) {
+        printf("Error: Invalid size in members file\n");
+        *out_size = 0;
+        return malloc(sizeof(member));
     }
-  }
-
-  *out_size = size;
-  return arr;
+    if (size == 0) {
+        *out_size = 0;
+        return malloc(sizeof(member));
+    }
+    member *arr = calloc(size, sizeof(member));
+    if (!arr) {
+        printf("Error: Failed to allocate memory for members\n");
+        *out_size = 0;
+        return NULL;
+    }
+    for (int i = 0; i < size; ++i) {
+        member *m = &arr[i];
+        fread(m->first_name, CHAR_SMALL, 1, fp);
+        fread(m->last_name, CHAR_SMALL, 1, fp);
+        fread(m->email, CHAR_SMALL, 1, fp);
+        fread(m->phone_number, CHAR_SMALL, 1, fp);
+        fread(&m->dob, sizeof(date), 1, fp);
+        fread(&m->time_created, sizeof(date), 1, fp);
+        fread(&m->type, sizeof(memberType), 1, fp);
+        fread(&m->account_available, sizeof(bool), 1, fp);
+        fread(&m->loan.loan_flagged, sizeof(bool), 1, fp);
+        fread(&m->loan.loan_index, sizeof(int), 1, fp);
+        fread(&m->loan.loan_capacity, sizeof(int), 1, fp);
+        if (m->loan.loan_capacity < 0 || m->loan.loan_capacity > 10000) {
+            printf("Error: Invalid loan_capacity %d for member %d\n", m->loan.loan_capacity, i);
+            free(arr);
+            *out_size = 0;
+            return NULL;
+        }
+        if (m->loan.loan_capacity > 0) {
+            m->loan.loan_ids = malloc(m->loan.loan_capacity * sizeof(int));
+            if (!m->loan.loan_ids) {
+                printf("Error allocating loan_ids\n");
+                free(arr);
+                *out_size = 0;
+                return NULL;
+            }
+            fread(m->loan.loan_ids, sizeof(int), m->loan.loan_capacity, fp);
+        } else {
+            m->loan.loan_ids = NULL;
+        }
+        if (m->type == STAFF) {
+            fread(&m->o.staff.is_hired, sizeof(bool), 1, fp);
+            fread(&m->o.staff.member_id, sizeof(int), 1, fp);
+            fread(&m->o.staff.member_code, sizeof(int), 1, fp);
+        } else if (m->type == AUTHOR) {
+            fread(m->o.author.genre, CHAR_SMALL, 1, fp);
+            fread(&m->o.author.dod, sizeof(date), 1, fp);
+            fread(&m->o.author.is_alive, sizeof(bool), 1, fp);
+        }
+    }
+    *out_size = size;
+    return arr;
 }
 
 char *combine_with_space(const char *a, const char *b) {
@@ -243,91 +258,117 @@ int dinit_db() {
 }
 
 int init_db() {
-  printf("Importing Database..\n");
-  char *loans_path_char = combine(DATA_DIR, DATA_LOANS_FNAME);
-  char *books_path_char = combine(DATA_DIR, DATA_BOOKS_FNAME);
-  char *members_path_char = combine(DATA_DIR, DATA_MEMBERS_FNAME);
+    printf("Importing Database..\n");
+    char *loans_path_char = combine(DATA_DIR, DATA_LOANS_FNAME);
+    char *books_path_char = combine(DATA_DIR, DATA_BOOKS_FNAME);
+    char *members_path_char = combine(DATA_DIR, DATA_MEMBERS_FNAME);
 
-	db_loans = NULL;
-	db_books = NULL;
-	db_members = NULL;
+    db_loans = NULL;
+    db_books = NULL;
+    db_members = NULL;
 
-  FILE *loans_path = fopen(loans_path_char, "rb");
-  FILE *books_path = fopen(books_path_char, "rb");
-  FILE *members_path = fopen(members_path_char, "rb");
+    FILE *loans_path = fopen(loans_path_char, "rb");
+    FILE *books_path = fopen(books_path_char, "rb");
+    FILE *members_path = fopen(members_path_char, "rb");
 
-  bool error_flag = false;
+    bool error_flag = false;
 
-  if (loans_path == NULL) {
-    printf("Couldent open \"%s\"\n", loans_path_char);
-  	char *com = combine_with_space(MKFILE_COMMAND, loans_path_char);
-		system(com);
-		free(com);
-    printf("Created \"%s\" file\n", loans_path_char);
-    error_flag = true;
-  } else {
-    db_loans = read_loans(loans_path, &db_loans_index);
-		if(db_loans == NULL || db_loans_index == 0){
-			printf("db_loans dident load any data\ninitializing now...\n");
-			db_loans_capacity = DEFAULT_DB_CAPACITY;
-			db_loans = malloc(db_loans_capacity * sizeof(loan));
-			if(db_loans == NULL){
-				printf("db_loans could not be initialized\n");
-				return -5;
-			}
-		} else db_loans_capacity = (db_loans_index + 1) * 2;
-		printf("Imported %d Loans (capacity: %d) from %s to db_loans\n", db_loans_index, db_loans_capacity,DATA_LOANS_FNAME);
-  }
+    if (loans_path == NULL) {
+        printf("Couldent open \"%s\"\n", loans_path_char);
+        char *com = combine_with_space(MKFILE_COMMAND, loans_path_char);
+        system(com);
+        free(com);
+        printf("Created \"%s\" file\n", loans_path_char);
+        db_loans_capacity = DEFAULT_DB_CAPACITY;
+        db_loans = malloc(db_loans_capacity * sizeof(loan));
+        if (db_loans == NULL) {
+            printf("db_loans could not be initialized\n");
+            return -5;
+        }
+        db_loans_index = 0;
+        error_flag = true;
+    } else {
+        db_loans = read_loans(loans_path, &db_loans_index);
+        if (db_loans == NULL || db_loans_index == 0) {
+            printf("db_loans dident load any data\ninitializing now...\n");
+            db_loans_capacity = DEFAULT_DB_CAPACITY;
+            db_loans = malloc(db_loans_capacity * sizeof(loan));
+            if (db_loans == NULL) {
+                printf("db_loans could not be initialized\n");
+                return -5;
+            }
+        } else {
+            db_loans_capacity = (db_loans_index + 1) * 2;
+        }
+        printf("Imported %d Loans (capacity: %d) from %s to db_loans\n", db_loans_index, db_loans_capacity, DATA_LOANS_FNAME);
+    }
 
-  if (books_path == NULL) {
-    printf("Couldent open \"%s\"\n", books_path_char);
-    char *com = combine_with_space(MKFILE_COMMAND, books_path_char);
-		system(com);
-		free(com);
-    printf("Created \"%s\" file\n", books_path_char);
-    error_flag = true;
-  } else {
-    db_books = read_books(books_path, &db_books_index);
-		if (db_books == NULL || db_books_index == 0){
-			printf("db_books dident load any data\ninitializing now...\n");
-			db_books_capacity = DEFAULT_DB_CAPACITY;
-			db_books = malloc(db_books_capacity * sizeof(book));
-			if(db_books == NULL){
-				printf("db_books could not be initialized\n");
-				return -5;
-			}
-		} else db_books_capacity = (db_books_index + 1) * 2;	
-		printf("Imported %d Books (capacity: %d) from %s to db_loans\n", db_books_index, db_books_capacity,DATA_BOOKS_FNAME);
-  }
+    if (books_path == NULL) {
+        printf("Couldent open \"%s\"\n", books_path_char);
+        char *com = combine_with_space(MKFILE_COMMAND, books_path_char);
+        system(com);
+        free(com);
+        printf("Created \"%s\" file\n", books_path_char);
+        db_books_capacity = DEFAULT_DB_CAPACITY;
+        db_books = malloc(db_books_capacity * sizeof(book));
+        if (db_books == NULL) {
+            printf("db_books could not be initialized\n");
+            return -5;
+        }
+        db_books_index = 0;
+        error_flag = true;
+    } else {
+        db_books = read_books(books_path, &db_books_index);
+        if (db_books == NULL || db_books_index == 0) {
+            printf("db_books dident load any data\ninitializing now...\n");
+            db_books_capacity = DEFAULT_DB_CAPACITY;
+            db_books = malloc(db_books_capacity * sizeof(book));
+            if (db_books == NULL) {
+                printf("db_books could not be initialized\n");
+                return -5;
+            }
+        } else {
+            db_books_capacity = (db_books_index + 1) * 2;
+        }
+        printf("Imported %d Books (capacity: %d) from %s to db_loans\n", db_books_index, db_books_capacity, DATA_BOOKS_FNAME);
+    }
 
-  if (members_path == NULL) {
-    printf("Couldent open \"%s\"\n", members_path_char);
-    char *com = combine_with_space(MKFILE_COMMAND, members_path_char);
-		system(com);
-		free(com);
-    printf("Created \"%s\" file\n", members_path_char);
-    error_flag = true;
-  } else {
-    db_members = read_members(members_path, &db_members_index);
-		if(db_members == NULL || db_members_index == 0){
-			printf("db_members dident load any data\ninitializing now...\n");
-			db_members_capacity = DEFAULT_DB_CAPACITY;
-			db_members = malloc(db_members_capacity * sizeof(member));
-			if(db_members == NULL){
-				printf("db_members could not be initialized\n");
-				return -5;
-			}
-		} else db_members_capacity = (db_members_index + 1) * 2;
-  	printf("Imported %d members (capacity: %d) from %s to db_members\n", db_members_index, db_members_capacity, DATA_MEMBERS_FNAME);
-  }
+    if (members_path == NULL) {
+        printf("Couldent open \"%s\"\n", members_path_char);
+        char *com = combine_with_space(MKFILE_COMMAND, members_path_char);
+        system(com);
+        free(com);
+        printf("Created \"%s\" file\n", members_path_char);
+        db_members_capacity = DEFAULT_DB_CAPACITY;
+        db_members = malloc(db_members_capacity * sizeof(member));
+        if (db_members == NULL) {
+            printf("db_members could not be initialized\n");
+            return -5;
+        }
+        db_members_index = 0;
+        error_flag = true;
+    } else {
+        db_members = read_members(members_path, &db_members_index);
+        if (db_members == NULL || db_members_index == 0) {
+            printf("db_members dident load any data\ninitializing now...\n");
+            db_members_capacity = DEFAULT_DB_CAPACITY;
+            db_members = malloc(db_members_capacity * sizeof(member));
+            if (db_members == NULL) {
+                printf("db_members could not be initialized\n");
+                return -5;
+            }
+        } else {
+            db_members_capacity = (db_members_index + 1) * 2;
+        }
+        printf("Imported %d members (capacity: %d) from %s to db_members\n", db_members_index, db_members_capacity, DATA_MEMBERS_FNAME);
+    }
 
-  free(loans_path_char);
-  free(books_path_char);
-  free(members_path_char);
+    free(loans_path_char);
+    free(books_path_char);
+    free(members_path_char);
 
-  if (error_flag == true) return 1;
-
-  return 0;
+    if (error_flag) return 1;
+    return 0;
 }
 
 int book_add(const book a) {
@@ -588,7 +629,7 @@ int member_add(const member a) {
     if (db_members_index >= db_members_capacity) {
         db_members_capacity *= 2;
         printf("capacity of members has been changed to %d\n", db_members_capacity);
-        member *temp = (member *)realloc(db_members, db_members_capacity * sizeof(member));
+        member *temp = realloc(db_members, db_members_capacity * sizeof(member));
         if (!temp) {
             printf("Error allocating memory for members\n");
             return -1;
@@ -596,7 +637,12 @@ int member_add(const member a) {
         db_members = temp;
     }
     db_members[db_members_index] = a;
+
     if (a.loan.loan_capacity > 0 && a.loan.loan_ids != NULL) {
+        if (a.loan.loan_capacity > 10000) { // Arbitrary limit to prevent invalid sizes
+            printf("Error: Invalid loan_capacity %d\n", a.loan.loan_capacity);
+            return -1;
+        }
         db_members[db_members_index].loan.loan_ids = malloc(a.loan.loan_capacity * sizeof(int));
         if (!db_members[db_members_index].loan.loan_ids) {
             printf("Error allocating memory for loan_ids\n");
