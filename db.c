@@ -798,6 +798,14 @@ int database() {
 						member_cur.o.author.dod.minute,
 						member_cur.o.author.dod.second);
 			} else printf("type: MEMBER\n");
+			printf("------------\n");
+			printf("Symbolic metadata\n");
+			if(member_cur.type == AUTHOR){
+				int count = 0;
+				for(int i = 0; i < db_books_index;i++)
+					if(books_db[i].memberid == ret) count++;
+				printf("Author Book Count: %d\n",count);
+			}
 		} else {
 			ret = ui_menu((const char **)book_menu,db_books_index,"View Books\n");
 			book book_cur = db_books[ret];
@@ -819,7 +827,7 @@ int database() {
 			printf("available: %d (how many of this book are currently on loan)\n",book_cur.available);
 			printf("count: %d (how many of this book there is in total)\n",book_cur.count);
 			printf("-----------\n");
-			printf("Book Symbolic Metadata:\n");
+			printf("Symbolic Metadata:\n");
 
 			member author = db_members[book_cur.id_author];
 			printf("Author Name: %s %s\n",author.first_name, author.last_name);
