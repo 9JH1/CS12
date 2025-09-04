@@ -769,6 +769,8 @@ int database() {
   } else if (ret == 2) {
     // simple column sort
 
+
+
     typedef struct {
       const char *genre;
       int count;
@@ -778,7 +780,6 @@ int database() {
     int cap = 2;
     column_sort *genres = (column_sort *)malloc(cap * sizeof(column_sort));
 
-
 		// for each book
     for (int i = 0; i < db_books_index; i++) {
       book cur_book = db_books[i];
@@ -786,12 +787,10 @@ int database() {
 
       // for each genres
       for (int ii = 0; ii < index; ii++) 
-				// if current book has same genre as loop item
         if (strcmp(genres[ii].genre, cur_book.genre) == 0)
 					found = true;
 				
 			if(!found){
-				// else check memory and add new genre
 				printf("allocating more mem\n");
         if (index == cap) {
           cap *= 2;
@@ -810,8 +809,6 @@ int database() {
         index++;
       }
     }
-
-		printf("test %d %d\n",db_books_index, index);
 
     for (int i = 0; i < index; i++) {
       printf("%s: %d\n", genres[i].genre, genres[i].count);
