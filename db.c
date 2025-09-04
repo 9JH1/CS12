@@ -767,10 +767,10 @@ int database() {
       print_book_data(db_books[ret]);
     }
   } else if (ret == 2) {
-    // simple tower sort
+    // simple column sort
 
     typedef struct {
-      char *genre;
+      const char *genre;
       int count;
     } column_sort;
 
@@ -788,9 +788,10 @@ int database() {
 
       // search array for genre
       for (int ii = 0; ii < index; ii++) {
-        if (strcmp(genres[ii].genre, cur_book.genre) == 0)
+        if (strcmp(genres[ii].genre, cur_book.genre) == 0){
           genres[ii].count++;
-        else {
+				
+				} else {
           if (index == cap) {
             cap *= 2;
             column_sort *temp = realloc(genres, cap * sizeof(column_sort));
@@ -809,6 +810,8 @@ int database() {
         }
       }
     }
+
+		printf("test");
 
     for (int i = 0; i < index; i++) {
       printf("%s: %d\n", genres[i].genre, genres[i].count);
