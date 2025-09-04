@@ -853,16 +853,21 @@ int database() {
 			return -1;
 		}
 		printf("you have these loans: \n");
-		loan loans[member_cur.loan.loan_index];
+		char *loans[member_cur.loan.loan_index];
 		for(int i = 0;i < member_cur.loan.loan_index; i++){
-			loans[i] = db_loans[member_cur.loan.loan_ids[i]];
-			printf("Loan #%2d: %s, Due %d/%d/%d\n",i+1,db_books[loans[i].bookid].title,
-					loans[i].return_date.day,
-					loans[i].return_date.month,
-					loans[i].return_date.year);
-		}
+			loan loan_cur = db_loans[member_cur.loan.loan_ids[i]];
 
-		// print loans 
+			loans[i] = db_books[loan_cur.bookid].title;
+			printf("Loan #%2d: %s, Due %d/%d/%d\n",i+1,loans[i],
+					loan_cur.return_date.day,
+					loan_cur.return_date.month,
+					loan_cur.return_date.year);
+		}
+		printf("Press any key to show selection menu.\n");
+		achar();
+
+		ret = ui_menu((const char **)loans,member_cur.loan.loan_index,"What loan do you want to remove\n");
+		db_loans[member_cur.loan.loan_ids[ret]].returned = date_now();
 	}
 
   // show all loans show total owing
