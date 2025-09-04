@@ -804,6 +804,7 @@ int database() {
 					// increment that genres count
           genres[ii].count++;
 					printf("%d %s == %s\n",index,cur_book.genre,genres[ii].genre);
+					index++;
 				
 				} else {
 
