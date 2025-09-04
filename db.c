@@ -824,9 +824,40 @@ int database() {
 			"Show all members"
 		};
 
-		int ret = ui_m((char **)opts,"Select Option:\n");
+		int ret = ui_menu((const char **)opts,2,"Select Option:\n");
+		int sel_idx = -1;
+		if(ret == 0){
 			char buffer[100];
-		input(buffer,100,"Enter your name");
+			input(buffer,100,"Enter your LAST name: ");
+			// search for name 
+			for(int i = 0; i < db_members_index; i++){
+				if(strcmp(db_members[i].last_name,buffer)==0){
+					// name found 
+					sel_idx = i;
+				} 
+			}
+			if(sel_idx == -1){
+				printf("last name \"%s\" not found\n",buffer);
+				return -1;
+			}
+		} else {
+			sel_idx = ui_m((const char **)member_menu,"Search Member\n");	
+		}
+
+		member member_cur  = db_members[sel_idx];
+
+		// generate loans 
+		printf("you have these loans: \n");
+		loan loans[member_cur.loan.loan_index];
+		for(int i = 0;i < member_cur.loan.loan_index; i++){
+			loans[i] = db_loans[member_cur.loan.loan_ids[i]];
+			printf("Loan #%2d: %s, Due %d/%d/%d\n",i+1,db_books[loans[i].bookid].title,
+					loans[i].return_date.day,
+					loans[i].return_date.month,
+					loans[i].return_date.year);
+		}
+
+		// print loans 
 	}
 
   // show all loans show total owing
