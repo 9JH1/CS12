@@ -783,6 +783,7 @@ int database() {
 
       if (index == 0){
         genres[0].genre = cur_book.genre;
+				index++;
 				continue; 
 			}
 
