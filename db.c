@@ -824,7 +824,7 @@ int database() {
 			"Show all members"
 		};
 
-		int ret = ui_m((char *)opts,"Select Option:\n");
+		int ret = ui_m((char **)opts,"Select Option:\n");
 			char buffer[100];
 		input(buffer,100,"Enter your name");
 	}
