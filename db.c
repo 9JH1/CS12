@@ -783,12 +783,13 @@ int database() {
 
       if (index == 0){
         genres[0].genre = cur_book.genre;
+				genres[0].count = 1;
 				index++;
 				continue; 
 			}
 
       // search array for genre
-      for (int ii = 0; ii < index-1; ii++) {
+      for (int ii = 0; ii < index; ii++) {
         if (strcmp(genres[ii].genre, cur_book.genre) == 0){
           genres[ii].count++;
 				
@@ -806,7 +807,7 @@ int database() {
           }
 
           genres[index].genre = cur_book.genre;
-          genres[index].count++;
+          genres[index].count = 1;
           index++;
         }
       }
