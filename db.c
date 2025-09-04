@@ -783,17 +783,14 @@ int database() {
 		// for each book
     for (int i = 0; i < db_books_index; i++) {
       book cur_book = db_books[i];
-			bool found = false;
+			int found = -1;
 
       // for each genres
       for (int ii = 0; ii < index; ii++) 
-        if (strcmp(genres[ii].genre, cur_book.genre) == 0){
-					found = true;
-	        genres[index].count = 1;
-  	      index++;
-				}
+        if (strcmp(genres[ii].genre, cur_book.genre) == 0)
+					found = ii;
 
-			if(!found){
+			if(found == -1){
         if (index == cap) {
           cap *= 2;
           column_sort *temp = realloc(genres, cap * sizeof(column_sort));
@@ -809,7 +806,9 @@ int database() {
         genres[index].genre = strdup(cur_book.genre);
         genres[index].count = 1;
         index++;
-      }
+      } else {
+	  		genres[found].count++;
+			}
     }
 
     for (int i = 0; i < index; i++) {
