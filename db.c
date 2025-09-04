@@ -787,9 +787,12 @@ int database() {
 
       // for each genres
       for (int ii = 0; ii < index; ii++) 
-        if (strcmp(genres[ii].genre, cur_book.genre) == 0)
+        if (strcmp(genres[ii].genre, cur_book.genre) == 0){
 					found = true;
-				
+	        genres[index].count = 1;
+  	      index++;
+				}
+
 			if(!found){
         if (index == cap) {
           cap *= 2;
