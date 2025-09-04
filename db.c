@@ -782,46 +782,32 @@ int database() {
 		// for each book
     for (int i = 0; i < db_books_index; i++) {
       book cur_book = db_books[i];
-
-			// first encountered genre
-      if (index == 0){
-        genres[0].genre = cur_book.genre;
-				genres[0].count = 1;
-				index++;
-				continue; 
-			}
+			bool found = false;
 
       // for each genres
-      for (int ii = 0; ii < index; ii++) {
-
+      for (int ii = 0; ii < index; ii++) 
 				// if current book has same genre as loop item
-        if (strcmp(genres[ii].genre, cur_book.genre) == 0){
-
-					// increment that genres count
-          genres[ii].count++;
-					printf("%d %s == %s\n",index,cur_book.genre,genres[ii].genre);
-					continue;
+        if (strcmp(genres[ii].genre, cur_book.genre) == 0)
+					found = true;
 				
-				} else {
+			if(found){
+				// else check memory and add new genre
+				printf("allocating more mem\n");
+        if (index == cap) {
+          cap *= 2;
+          column_sort *temp = realloc(genres, cap * sizeof(column_sort));
 
-					// else check memory and add new genre
-					printf("allocating more mem\n");
-          if (index == cap) {
-            cap *= 2;
-            column_sort *temp = realloc(genres, cap * sizeof(column_sort));
-
-            if (!temp) {
-              printf("Error couldent allocate memory for column search\n");
-              return -1;
-            }
-
-            genres = temp;
+          if (!temp) {
+            printf("Error couldent allocate memory for column search\n");
+            return -1;
           }
 
-          genres[index].genre = cur_book.genre;
-          genres[index].count = 1;
-          index++;
+          genres = temp;
         }
+
+        genres[index].genre = strdup(cur_book.genre);
+        genres[index].count = 1;
+        index++;
       }
     }
 
@@ -829,6 +815,7 @@ int database() {
 
     for (int i = 0; i < index; i++) {
       printf("%s: %d\n", genres[i].genre, genres[i].count);
+			free((char *)genres[i].genre);
     }
   }
 
