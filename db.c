@@ -790,7 +790,7 @@ int database() {
         if (strcmp(genres[ii].genre, cur_book.genre) == 0)
 					found = true;
 				
-			if(found){
+			if(!found){
 				// else check memory and add new genre
 				printf("allocating more mem\n");
         if (index == cap) {
