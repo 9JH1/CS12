@@ -792,7 +792,7 @@ int database() {
       for (int ii = 0; ii < index; ii++) {
         if (strcmp(genres[ii].genre, cur_book.genre) == 0){
           genres[ii].count++;
-					printf("%d %s\n",index,cur_book.genre);
+					printf("%d %s == %s\n",index,cur_book.genre,genres[ii].genre);
 				
 				} else {
           if (index == cap) {
