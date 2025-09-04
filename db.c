@@ -690,6 +690,7 @@ int database() {
       "full report",
       "individual report",
       "count books by genre",
+			"return a book",
   };
 
     printf("generating reports...\n");
