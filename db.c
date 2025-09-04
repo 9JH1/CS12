@@ -842,7 +842,7 @@ int database() {
 				return -1;
 			}
 		} else {
-			sel_idx = ui_m((const char **)member_menu,"Search Member\n");	
+			sel_idx = ui_menu((const char **)member_menu,db_members_index,"Search Member\n");	
 		}
 
 		member member_cur  = db_members[sel_idx];
