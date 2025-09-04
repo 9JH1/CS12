@@ -848,6 +848,10 @@ int database() {
 		member member_cur  = db_members[sel_idx];
 
 		// generate loans 
+		if(member_cur.loan.loan_index <= 0){
+			printf("the memeber you selected has zero loans\n");
+			return -1;
+		}
 		printf("you have these loans: \n");
 		loan loans[member_cur.loan.loan_index];
 		for(int i = 0;i < member_cur.loan.loan_index; i++){
