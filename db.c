@@ -811,7 +811,7 @@ int database() {
       }
     }
 
-		printf("test");
+		printf("test %d\n",db_books_index);
 
     for (int i = 0; i < index; i++) {
       printf("%s: %d\n", genres[i].genre, genres[i].count);
