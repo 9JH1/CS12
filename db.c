@@ -789,7 +789,7 @@ int database() {
 			}
 
       // search array for genre
-      for (int ii = 0; ii < index-1; ii++) {
+      for (int ii = 0; ii < index; ii++) {
         if (strcmp(genres[ii].genre, cur_book.genre) == 0){
           genres[ii].count++;
 					printf("%d %s == %s\n",index,cur_book.genre,genres[ii].genre);
