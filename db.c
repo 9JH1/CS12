@@ -791,7 +791,6 @@ int database() {
 					found = true;
 				
 			if(!found){
-				printf("allocating more mem\n");
         if (index == cap) {
           cap *= 2;
           column_sort *temp = realloc(genres, cap * sizeof(column_sort));
