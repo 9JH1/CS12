@@ -778,9 +778,12 @@ int database() {
     int cap = 2;
     column_sort *genres = (column_sort *)malloc(cap * sizeof(column_sort));
 
+
+		// for each book
     for (int i = 0; i < db_books_index; i++) {
       book cur_book = db_books[i];
 
+			// first encountered genre
       if (index == 0){
         genres[0].genre = cur_book.genre;
 				genres[0].count = 1;
@@ -788,13 +791,23 @@ int database() {
 				continue; 
 			}
 
-      // search array for genre
+      // for each genres
       for (int ii = 0; ii < index; ii++) {
+				if(genres[ii].genre == NULL){
+					printf("GOTCHA\n");
+				}
+
+
+				// if current book has same genre as loop item
         if (strcmp(genres[ii].genre, cur_book.genre) == 0){
+
+					// increment that genres count
           genres[ii].count++;
 					printf("%d %s == %s\n",index,cur_book.genre,genres[ii].genre);
 				
 				} else {
+
+					// else check memory and add new genre
 					printf("allocating more mem\n");
           if (index == cap) {
             cap *= 2;
