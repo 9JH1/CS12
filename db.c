@@ -784,7 +784,7 @@ int database() {
       book cur_book = db_books[i];
 
 			// first encountered genre
-      if (index < 0){
+      if (index == 0){
         genres[0].genre = cur_book.genre;
 				genres[0].count = 1;
 				index++;
@@ -800,7 +800,7 @@ int database() {
 					// increment that genres count
           genres[ii].count++;
 					printf("%d %s == %s\n",index,cur_book.genre,genres[ii].genre);
-					index++;
+					continue;
 				
 				} else {
 
