@@ -868,6 +868,7 @@ int database() {
 
 		ret = ui_menu((const char **)loans,member_cur.loan.loan_index,"What loan do you want to remove\n");
 		db_loans[member_cur.loan.loan_ids[ret]].returned = date_now();
+		printf("Loan has been returned\n");
 	}
 
   // show all loans show total owing
