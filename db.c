@@ -795,6 +795,7 @@ int database() {
 					printf("%d %s == %s\n",index,cur_book.genre,genres[ii].genre);
 				
 				} else {
+					printf("allocating more mem\n");
           if (index == cap) {
             cap *= 2;
             column_sort *temp = realloc(genres, cap * sizeof(column_sort));
