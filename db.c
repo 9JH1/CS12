@@ -689,6 +689,7 @@ int database() {
   const char *main_menu[] = {
       "full report",
       "individual report",
+			"count books by genre",
   };
 
   ret = ui_m(main_menu, "select option\n");
@@ -765,8 +766,90 @@ int database() {
       ret = ui_menu((const char **)book_menu, db_books_index, "View Books\n");
       print_book_data(db_books[ret]);
     }
-  }
+  } else if (ret == 2){
+		// simple tower sort
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		typedef struct {
+			char *genre;
+			int count;
+		} column_sort;
+
+
+		int index = 0;
+		int cap = 2;
+		column_sort *genres = (column_sort *)malloc(cap * sizeof(column_sort));
+
+
+		for(int i = 0;i<db_books_index;i++){
+			book cur_book = db_books[i];
+
+			// search array for genre 
+			if(index > 0){
+				for(int ii = 0;ii < index; ii++){
+					if(strcmp(genres[ii].genre,cur_book.genre)==0)
+						genres[ii].count++;
+					else {
+						if(index == cap){
+							cap *= 2;
+							column_sort *temp = realloc(genres,cap * sizeof(column_sort));
+							
+							if (!temp){
+								printf("Error couldent allocate memory for column search\n");
+								return -1;
+							}
+
+							genres = temp;
+						}
+
+						genres[index].genre = cur_book.genre;
+						genres[index].count++;
+						index++;
+					}
+				}
+			} else genres[0].genre = cur_book.genre;
+		}
+
+		for(int i = 0 ; i < index; i++){
+			printf("%s: %d\n",genres[i].genre, genres[i].count);
+		}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	}
+	
   // show all loans show total owing
   // show all books and their genres and the amount available
   // show all members and how many loans they have and how much they owe
