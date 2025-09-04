@@ -692,6 +692,20 @@ int database() {
       "count books by genre",
   };
 
+    printf("generating reports...\n");
+    char *member_menu[db_members_index];
+    for (int i = 0; i < db_members_index; i++) {
+      member_menu[i] = db_members[i].last_name;
+    }
+    printf("Generated member list");
+
+    char *book_menu[db_books_index];
+    for (int i = 0; i < db_books_index; i++) {
+      book_menu[i] = db_books[i].title;
+    }
+    printf("Generated book list");
+
+
   ret = ui_m(main_menu, "select option\n");
   if (ret == 0) {
 
@@ -737,18 +751,6 @@ int database() {
       free(name);
     }
   } else if (ret == 1) {
-    printf("generating reports...\n");
-    char *member_menu[db_members_index];
-    for (int i = 0; i < db_members_index; i++) {
-      member_menu[i] = db_members[i].last_name;
-    }
-    printf("Generated member list");
-
-    char *book_menu[db_books_index];
-    for (int i = 0; i < db_books_index; i++) {
-      book_menu[i] = db_books[i].title;
-    }
-    printf("Generated book list");
 
     const char *list_menu[] = {
         "view members",
@@ -815,7 +817,17 @@ int database() {
       printf("%s: %d\n", genres[i].genre, genres[i].count);
 			free((char *)genres[i].genre);
     }
-  }
+  } if (ret == 3){
+		// return books 
+		char *opts[] = {
+			"Enter Name",
+			"Show all members"
+		};
+
+		int ret = ui_m((char *)opts,"Select Option:\n");
+			char buffer[100];
+		input(buffer,100,"Enter your name");
+	}
 
   // show all loans show total owing
   // show all books and their genres and the amount available
