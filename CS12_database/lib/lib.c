@@ -679,8 +679,8 @@ void print_loan_data(loan loan_cur){
 	printf("is.covered (has the loan been payed) %d\n", loan_cur.is.covered);
 	printf("note: %s\n",loan_cur.note);
 	printf("SYMBOLIC DATA ===============\n");
-	printf("Book information:\n");
 	print_book_data(db_books[loan_cur.bookid]);
+	printf("\n");
 }
 
 void print_member_data(member member_cur,const int ret) {
