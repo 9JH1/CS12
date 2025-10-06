@@ -684,13 +684,17 @@ int database() {
                                             .active = true,
                                             .amount = 3, // three (credits)
                                         });
+	return 0;
+}
 
+int ui_main_main(){
   int ret;
   const char *main_menu[] = {
       "full report",
       "individual report",
       "count books by genre",
       "return a book",
+			"run a form"
   };
 
   printf("generating reports...\n");
@@ -709,7 +713,9 @@ int database() {
   ret = ui_m(main_menu, "select option\n");
   if (ret == 0) {
 		for(int i = 0; i < db_members_index; i++){
+			printf("PRINTING DATA FOR MEMBER: %02d\n",i+1);
 			print_member_data(db_members[i], i);
+			printf("\n");
 		}
   } else if (ret == 1) {
 
