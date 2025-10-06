@@ -103,6 +103,8 @@ void free_member(member *m);
 // print the date and time 
 void print_datetime(date a);
 
+
+
 /* this function is a wrapper for the loan_add function 
  * all this function does is it takes in a member a loan 
  * it then uses the loan_add function to add the new loan 
@@ -138,7 +140,7 @@ member id_to_member(const int a);
 // print data of types: 
 void print_member_data(member member_cur, int const ret);
 void print_book_data(book book_cur);
-
+void print_loan_data(loan loan_cur);
 
 #endif // DATABASE_LIB 
 

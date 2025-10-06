@@ -1,6 +1,7 @@
 #include "lib/data.h"
 #include "lib/lib.h"
 #include "ui.c"
+#include <asm-generic/errno.h>
 
 int ui_main_main();
 
@@ -724,6 +725,13 @@ int ui_main_main(){
 		for(int i = 0; i < db_members_index; i++){
 			printf("PRINTING DATA FOR MEMBER: %02d\n",i+1);
 			print_member_data(db_members[i], i);
+			if(db_members[i].loan.loan_index > 0){
+				printf("MEMBER HAS %02d LOANS: \n",db_members[i].loan.loan_index+1);
+				for(int ii = 0; ii < db_members[i].loan.loan_index;ii++){
+					printf("Loan %02d:\n",ii+1);
+					print_loan_data(db_loans[db_members[i].loan.loan_ids[ii]]);	
+				}
+			}
 			printf("\n");
 		}
   } else if (ret == 1) {
