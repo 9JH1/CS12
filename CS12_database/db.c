@@ -806,7 +806,7 @@ int ui_main_main(){
       free((char *)genres[i].genre);
     }
   } else if (ret == 4) {
-		char *form_menu[] = {
+		const char *form_menu[] = {
 			"date",
 			"member",
 			"loan",
