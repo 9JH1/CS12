@@ -1,3 +1,27 @@
+/* the database works as follows, there are several arrays that hold each type of data,
+ * db_loans 
+ * db_members 
+ * db_books 
+ *
+ * each slice's type is viewable in the data.h file.
+ *
+ * How to symbolic links work. data in the database is linked using 
+ * indexs, for example if we have zero items in db_loans and we add 
+ * a new member to the fist item in the array (index of 0) then that 
+ * new member has an id of 0. This system is used in all of the links 
+ * for example 
+ * one to one: 
+ * loan bookid => book index 
+ * loan member => member index 
+ *
+ * one to many 
+ * author books => array of book indexs 
+ * member loans => array of loan indexs 
+ * 
+ * and so on. this is why if you run a form wizard it will print out 
+ * what index the new object has been made at. */
+
+
 #ifndef DATABASE_LIB 
 #define DATABASE_LIB
 
