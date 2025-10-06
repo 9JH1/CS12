@@ -118,6 +118,7 @@ int main(const int argument_count, const char *argument_list[]){
 		// import the database
 		switch(init_db()){
 			case 1:
+
 				// re-import the database 
 				if(init_db() == 1)
 					printf("Error occured with database, unsure of cause\n");
