@@ -694,6 +694,7 @@ int database() {
 		ret = ui_main_main();
 		input(buf, 5,"Press any key to return to main ui");
 	}
+	printf("writing database, this may take a few seconds, if it takes too long spam-press control+c to force quit\n");
 	return -12;
 }
 
