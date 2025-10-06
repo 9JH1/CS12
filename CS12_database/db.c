@@ -692,6 +692,7 @@ int database() {
 	int ret = 0;
 	while(ret != -1){
 		ret = ui_main_main();
+		input(buf, 5,"Press any key to return to main ui");
 	}
 	return 0;
 }
