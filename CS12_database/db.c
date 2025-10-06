@@ -686,7 +686,12 @@ int database() {
                                             .active = true,
                                             .amount = 3, // three (credits)
                                         });
-	ui_main_main();
+	char buf[5];
+	input(buf, 5, "Press any key to run main ui");
+	int ret = 0;
+	while(ret != -1){
+		ui_main_main();
+	}
 	return 0;
 }
 
