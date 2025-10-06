@@ -690,7 +690,7 @@ int database() {
 	input(buf, 5, "Press any key to run main ui");
 	int ret = 0;
 	while(ret != -1){
-		ui_main_main();
+		ret = ui_main_main();
 	}
 	return 0;
 }
