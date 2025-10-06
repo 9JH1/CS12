@@ -2,6 +2,8 @@
 #include "lib/lib.h"
 #include "ui.c"
 
+int ui_main_main();
+
 // data setup
 int database() {
   // =====================================================
@@ -684,6 +686,7 @@ int database() {
                                             .active = true,
                                             .amount = 3, // three (credits)
                                         });
+	ui_main_main();
 	return 0;
 }
 
