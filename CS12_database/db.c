@@ -694,6 +694,7 @@ int database() {
 		ret = ui_main_main();
 		input(buf, 5,"Press any key to return to main ui");
 	}
+
 	printf("writing database, this may take a few seconds, if it takes too long spam-press control+c to force quit\n");
 	return -12;
 }
@@ -792,7 +793,7 @@ int ui_main_main(){
           genres = temp;
         }
 
-        genres[index].genre = strdup(cur_book.genre);
+  			genres[index].genre = strdup(cur_book.genre);
         genres[index].count = 1;
         index++;
       } else {
@@ -804,7 +805,28 @@ int ui_main_main(){
       printf("%s: %d\n", genres[i].genre, genres[i].count);
       free((char *)genres[i].genre);
     }
-  } else if (ret == 5){
+  } else if (ret == 4) {
+		char *form_menu[] = {
+			"date",
+			"member",
+			"loan",
+			"book",
+		};
+
+		int form = ui_m(form_menu,"What form do you want to run?");
+		
+		if(form == 0){
+			printf("date form\n");
+		} else if(form == 1){
+			printf("member form\n");
+		} else if (form == 2){
+			printf("loan form\n");
+		} else if (form == 3 ){
+			printf("book form\n");
+		}
+
+
+	} else if (ret == 5){
 		printf("exiting main ui loop...\n");
 		return -1;
 	}
