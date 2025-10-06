@@ -727,9 +727,9 @@ int ui_main_main(){
 			printf("PRINTING DATA FOR MEMBER: %02d\n",i+1);
 			print_member_data(db_members[i], i);
 			if(db_members[i].loan.loan_index > 0){
-				printf("MEMBER HAS %02d LOANS: \n",db_members[i].loan.loan_index+1);
-				for(int ii = 0; ii < db_members[i].loan.loan_index;ii++){
-					printf("Loan %02d:\n",ii+1);
+				printf("MEMBER HAS %d LOANS: \n",db_members[i].loan.loan_index+1);
+				for(int ii = 0; ii < db_members[i].loan.loan_index; ii++){
+					printf("\nLoan %02d:\n",ii+1);
 					print_loan_data(db_loans[db_members[i].loan.loan_ids[ii]]);	
 				}
 			}
