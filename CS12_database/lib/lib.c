@@ -727,3 +727,302 @@ void print_member_data(member member_cur,const int ret) {
   } else
     printf("NA\n");
 }
+
+// Function to create a member object with user input and error checking
+member member_wizard() {
+    char first_name[CHAR_SMALL+1];
+    char last_name[CHAR_SMALL+1];
+    char email[CHAR_SMALL+1];
+    char phone_number[CHAR_SMALL+1];
+    char type_input[CHAR_SMALL+1];
+    char genre[CHAR_SMALL+1];
+    char is_hired_input[CHAR_SMALL+1];
+    char is_alive_input[CHAR_SMALL+1];
+    char member_id_input[CHAR_SMALL+1];
+    char member_code_input[CHAR_SMALL+1];
+    member new_member = {.account_available = false, .account_to_delete = false};
+
+    // Tip for input formatting
+    printf("Ensure any values of 0 are formatted like '0' not '00' or otherwise\n");
+
+    // Input for first name
+    input(first_name, CHAR_SMALL, "Enter First Name: ");
+    if (strlen(first_name) == 0) {
+        printf("first_name \"%s\" is invalid\n", first_name);
+        return new_member;
+    }
+
+    // Input for last name
+    input(last_name, CHAR_SMALL, "Enter Last Name: ");
+    if (strlen(last_name) == 0) {
+        printf("last_name \"%s\" is invalid\n", last_name);
+        return new_member;
+    }
+
+    // Input for email
+    input(email, CHAR_SMALL, "Enter Email: ");
+    if (strlen(email) == 0 || strchr(email, '@') == NULL) {
+        printf("email \"%s\" is invalid\n", email);
+        return new_member;
+    }
+
+    // Input for phone number
+    input(phone_number, CHAR_SMALL, "Enter Phone Number: ");
+    if (strlen(phone_number) == 0) {
+        printf("phone_number \"%s\" is invalid\n", phone_number);
+        return new_member;
+    }
+
+    // Input for date of birth
+    printf("Enter Date of Birth:\n");
+    new_member.dob = date_wizard();
+    if (new_member.dob.year == -1) {
+        printf("Invalid date of birth\n");
+        return new_member;
+    }
+
+    // Input for member type
+    input(type_input, CHAR_SMALL, "Enter Member Type (0=Member, 1=Author, 2=Staff): ");
+    int itype = eatoi(type_input);
+    if (itype < 0 || itype > 2) {
+        printf("member type \"%s\" is invalid\n", type_input);
+        return new_member;
+    }
+    new_member.type = (memberType)itype;
+
+    // Handle type-specific fields
+    if (new_member.type == STAFF) {
+        // Staff-specific inputs
+        input(is_hired_input, CHAR_SMALL, "Is Staff Hired (0=false, 1=true): ");
+        int is_hired = eatoi(is_hired_input);
+        if (is_hired == -1 || is_hired < 0 || is_hired > 1) {
+            printf("is_hired \"%s\" is invalid\n", is_hired_input);
+            return new_member;
+        }
+        input(member_id_input, CHAR_SMALL, "Enter Staff Member ID: ");
+        int member_id = eatoi(member_id_input);
+        if (member_id == -1) {
+            printf("member_id \"%s\" is invalid\n", member_id_input);
+            return new_member;
+        }
+        input(member_code_input, CHAR_SMALL, "Enter Staff Member Code: ");
+        int member_code = eatoi(member_code_input);
+        if (member_code == -1) {
+            printf("member_code \"%s\" is invalid\n", member_code_input);
+            return new_member;
+        }
+        new_member.o.staff.is_hired = (bool)is_hired;
+        new_member.o.staff.member_id = member_id;
+        new_member.o.staff.member_code = member_code;
+    } else if (new_member.type == AUTHOR) {
+        // Author-specific inputs
+        input(genre, CHAR_SMALL, "Enter Author Genre: ");
+        if (strlen(genre) == 0) {
+            printf("genre \"%s\" is invalid\n", genre);
+            return new_member;
+        }
+        input(is_alive_input, CHAR_SMALL, "Is Author Alive (0=false, 1=true): ");
+        int is_alive = eatoi(is_alive_input);
+        if (is_alive == -1 || is_alive < 0 || is_alive > 1) {
+            printf("is_alive \"%s\" is invalid\n", is_alive_input);
+            return new_member;
+        }
+        printf("Enter Date of Death (if applicable, else enter invalid date):\n");
+        new_member.o.author.dod = date_wizard();
+        if (is_alive && new_member.o.author.dod.year != -1) {
+            printf("Date of death provided but author is marked alive\n");
+            return new_member;
+        }
+        strncpy(new_member.o.author.genre, genre, CHAR_SMALL);
+        new_member.o.author.is_alive = (bool)is_alive;
+    }
+
+    // Initialize loan data
+    new_member.loan.loan_flagged = false;
+    new_member.loan.loan_ids = NULL;
+    new_member.loan.loan_index = 0;
+    new_member.loan.loan_capacity = 0;
+
+    // Set other fields
+    new_member.account_available = true;
+    new_member.account_to_delete = false;
+    new_member.time_created = date_wizard(); // Assuming current time for creation
+    if (new_member.time_created.year == -1) {
+        printf("Invalid creation date\n");
+        return new_member;
+    }
+
+    // Copy strings to member struct
+    strncpy(new_member.first_name, first_name, CHAR_SMALL);
+    strncpy(new_member.last_name, last_name, CHAR_SMALL);
+    strncpy(new_member.email, email, CHAR_SMALL);
+    strncpy(new_member.phone_number, phone_number, CHAR_SMALL);
+
+    return new_member;
+}
+
+// Function to create a loan object with user input and error checking
+loan loan_wizard() {
+    char amount_input[CHAR_SMALL+1];
+    char bookid_input[CHAR_SMALL+1];
+    char active_input[CHAR_SMALL+1];
+    char payed_input[CHAR_SMALL+1];
+    char note[CHAR_LARGE+1];
+    loan new_loan = {.active = false, .is.payed = false};
+
+    // Tip for input formatting
+    printf("Ensure any values of 0 are formatted like '0' not '00' or otherwise\n");
+
+    // Input for amount
+    input(amount_input, CHAR_SMALL, "Enter Loan Amount: ");
+    int iamount = eatoi(amount_input);
+    if (iamount == -1 || iamount < 0) {
+        printf("amount \"%s\" is invalid\n", amount_input);
+        return new_loan;
+    }
+
+    // Input for book ID
+    input(bookid_input, CHAR_SMALL, "Enter Book ID: ");
+    int ibookid = eatoi(bookid_input);
+    if (ibookid == -1) {
+        printf("bookid \"%s\" is invalid\n", bookid_input);
+        return new_loan;
+    }
+
+    // Input for issued date
+    printf("Enter Issued Date:\n");
+    new_loan.issued = date_wizard();
+    if (new_loan.issued.year == -1) {
+        printf("Invalid issued date\n");
+        return new_loan;
+    }
+
+    // Input for return date
+    printf("Enter Return Date:\n");
+    new_loan.return_date = date_wizard();
+    if (new_loan.return_date.year == -1) {
+        printf("Invalid return date\n");
+        return new_loan;
+    }
+
+    // Input for returned date (optional, can be invalid if not returned)
+    printf("Enter Returned Date (if applicable, else enter invalid date):\n");
+    new_loan.returned = date_wizard();
+
+    // Input for active status
+    input(active_input, CHAR_SMALL, "Is Loan Active (0=false, 1=true): ");
+    int iactive = eatoi(active_input);
+    if (iactive == -1 || iactive < 0 || iactive > 1) {
+        printf("active \"%s\" is invalid\n", active_input);
+        return new_loan;
+    }
+
+    // Input for payed/covered status
+    input(payed_input, CHAR_SMALL, "Is Loan Payed/Covered (0=false, 1=true): ");
+    int ipayed = eatoi(payed_input);
+    if (ipayed == -1 || ipayed < 0 || ipayed > 1) {
+        printf("payed \"%s\" is invalid\n", payed_input);
+        return new_loan;
+    }
+
+    // Input for note
+    input(note, CHAR_LARGE, "Enter Loan Note: ");
+    if (strlen(note) == 0) {
+        printf("note \"%s\" is invalid\n", note);
+        return new_loan;
+    }
+
+    // Create loan object
+    new_loan = (loan){
+        .amount = iamount,
+        .bookid = ibookid,
+        .issued = new_loan.issued,
+        .returned = new_loan.returned,
+        .return_date = new_loan.return_date,
+        .active = (bool)iactive,
+        .is.payed = (bool)ipayed
+    };
+    strncpy(new_loan.note, note, CHAR_LARGE);
+
+    return new_loan;
+}
+
+// Function to create a book object with user input and error checking
+book book_wizard() {
+    char title[CHAR_LARGE+1];
+    char id_author_input[CHAR_SMALL+1];
+    char genre[CHAR_SMALL+1];
+    char ISBN[15+1];
+    char available_input[CHAR_SMALL+1];
+    char count_input[CHAR_SMALL+1];
+    book new_book = {.available = -1, .count = -1};
+
+    // Tip for input formatting
+    printf("Ensure any values of 0 are formatted like '0' not '00' or otherwise\n");
+
+    // Input for title
+    input(title, CHAR_LARGE, "Enter Book Title: ");
+    if (strlen(title) == 0) {
+        printf("title \"%s\" is invalid\n", title);
+        return new_book;
+    }
+
+    // Input for author ID
+    input(id_author_input, CHAR_SMALL, "Enter Author ID: ");
+    int iid_author = eatoi(id_author_input);
+    if (iid_author == -1) {
+        printf("author ID \"%s\" is invalid\n", id_author_input);
+        return new_book;
+    }
+
+    // Input for publication date
+    printf("Enter Publication Date:\n");
+    new_book.publication_date = date_wizard();
+    if (new_book.publication_date.year == -1) {
+        printf("Invalid publication date\n");
+        return new_book;
+    }
+
+    // Input for genre
+    input(genre, CHAR_SMALL, "Enter Genre: ");
+    if (strlen(genre) == 0) {
+        printf("genre \"%s\" is invalid\n", genre);
+        return new_book;
+    }
+
+    // Input for ISBN
+    input(ISBN, 15, "Enter ISBN (13 digits): ");
+    if (strlen(ISBN) != 13) {
+        printf("ISBN \"%s\" is invalid (must be 13 digits)\n", ISBN);
+        return new_book;
+    }
+
+    // Input for available count
+    input(available_input, CHAR_SMALL, "Enter Number of Books Available: ");
+    int iavailable = eatoi(available_input);
+    if (iavailable == -1 || iavailable < 0) {
+        printf("available count \"%s\" is invalid\n", available_input);
+        return new_book;
+    }
+
+    // Input for total count
+    input(count_input, CHAR_SMALL, "Enter Total Number of Books: ");
+    int icount = eatoi(count_input);
+    if (icount == -1 || icount < iavailable) {
+        printf("total count \"%s\" is invalid or less than available count\n", count_input);
+        return new_book;
+    }
+
+    // Create book object
+    new_book = (book){
+        .id_author = iid_author,
+        .publication_date = new_book.publication_date,
+        .available = iavailable,
+        .count = icount
+    };
+    strncpy(new_book.title, title, CHAR_LARGE);
+    strncpy(new_book.genre, genre, CHAR_SMALL);
+    strncpy(new_book.ISBN, ISBN, 15);
+
+    return new_book;
+}

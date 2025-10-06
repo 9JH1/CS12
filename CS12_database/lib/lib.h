@@ -127,6 +127,8 @@ int eatoi(const char *a);
  * for realtime data. */
 date date_wizard(void);
 member member_wizard(void);
+loan loan_wizard(void);
+book book_wizard(void);
 
 // return a pointer to a member using an memberid.
 member *id_to_member_ptr(const int a);

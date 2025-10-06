@@ -808,7 +808,6 @@ int ui_main_main(){
     }
   } else if (ret == 4) {
 		const char *form_menu[] = {
-			"date",
 			"member",
 			"loan",
 			"book",
@@ -817,13 +816,11 @@ int ui_main_main(){
 		int form = ui_m(form_menu,"What form do you want to run?\n");
 		
 		if(form == 0){
-			printf("date form\n");
+			member_add(member_wizard());
 		} else if(form == 1){
-			printf("member form\n");
+			loan_add(loan_wizard());
 		} else if (form == 2){
-			printf("loan form\n");
-		} else if (form == 3 ){
-			printf("book form\n");
+			book_add(book_wizard());
 		}
 
 
