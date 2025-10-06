@@ -702,7 +702,8 @@ int ui_main_main(){
       "individual report",
       "count books by genre",
       "return a book",
-			"run a form"
+			"run a form",
+			"exit"
   };
 
   printf("generating reports...\n");
@@ -790,7 +791,10 @@ int ui_main_main(){
       printf("%s: %d\n", genres[i].genre, genres[i].count);
       free((char *)genres[i].genre);
     }
-  }
+  } else if (ret == 5){
+		printf("exiting main ui loop...\n");
+		return -1;
+	}
   if (ret == 3) {
     // return books
     char *opts[] = {"Enter Name", "Show all members"};
