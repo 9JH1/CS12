@@ -674,7 +674,7 @@ void print_loan_data(loan loan_cur){
 			loan_cur.returned.second);
 
 	printf("bookid %d\n",loan_cur.bookid);
-	printf("active (is the loan currently not returned) %d ( 0 = false 1 = true)\n ",loan_cur.active);
+	printf("active (is the loan currently not returned) %d ( 0 = false 1 = true)\n",loan_cur.active);
 	printf("is.payed (has the loan be payed) %d\n", loan_cur.is.payed);
 	printf("is.covered (has the loan been payed) %d\n", loan_cur.is.covered);
 	printf("note: %s\n",loan_cur.note);
