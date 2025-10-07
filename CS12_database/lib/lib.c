@@ -212,11 +212,15 @@ member *read_members(FILE *a, int *out_size) {
   return arr;
 }
 
-char *combine_with_space(const char *a, const char *b) {
-  const int size = snprintf(NULL, 0, "%s %s", a, b);
-  char *out = malloc(size + 1);
-  sprintf(out, "%s %s", a, b);
-  return out;
+char *combine_with_space(const char *cmd, const char *path) {
+  char *quoted_path = malloc(strlen(path) + 3);  // +2 quotes +1 nul
+  if (!quoted_path) return NULL;
+  sprintf(quoted_path, "\"%s\"", path);
+  char *com = malloc(strlen(cmd) + 1 + strlen(quoted_path) + 1);
+  if (!com) { free(quoted_path); return NULL; }
+  sprintf(com, "%s %s", cmd, quoted_path);
+  free(quoted_path);
+  return com;
 }
 
 char *combine(const char *a, const char *b) {

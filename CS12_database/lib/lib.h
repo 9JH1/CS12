@@ -181,9 +181,9 @@ void print_loan_data(loan loan_cur);
 		#define PLATFORM_NOT_SUPPORTED 0
 	#elif _WIN32
 		// if on windows
-		#define DELETE_COMMAND "del /s /q"
-		#define MKDIR_COMMAND "mkdir" // or md
-		#define MKFILE_COMMAND "echo '' >"
+		#define DELETE_COMMAND "del /q"  // Drop /s unless recursive needed
+		#define MKDIR_COMMAND "mkdir"
+		#define MKFILE_COMMAND "type nul >"  // Truly empty file
 		#define PLATFORM_NOT_SUPPORTED 0
 	#else 
 		#define PLATFORM_NOT_SUPPORTED 1

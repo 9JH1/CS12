@@ -1,5 +1,4 @@
 #include "lib.h"
-
 #ifdef __unix__
 #include <dirent.h>
 #include <termios.h>
