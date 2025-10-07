@@ -181,7 +181,7 @@ void print_loan_data(loan loan_cur);
 		#define PLATFORM_NOT_SUPPORTED 0
 	#elif _WIN32
 		// if on windows
-		#define DELETE_DOMMAND "del /s /q"
+		#define DELETE_COMMAND "del /s /q"
 		#define MKDIR_COMMAND "mkdir" // or md
 		#define MKFILE_COMMAND "echo '' >"
 	#else 
