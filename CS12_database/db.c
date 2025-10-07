@@ -1,7 +1,6 @@
 #include "lib/data.h"
 #include "lib/lib.h"
 #include "ui.c"
-#include <asm-generic/errno.h>
 
 int ui_main_main();
 

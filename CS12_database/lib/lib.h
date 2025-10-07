@@ -184,6 +184,7 @@ void print_loan_data(loan loan_cur);
 		#define DELETE_COMMAND "del /s /q"
 		#define MKDIR_COMMAND "mkdir" // or md
 		#define MKFILE_COMMAND "echo '' >"
+		#define PLATFORM_NOT_SUPPORTED 0
 	#else 
 		#define PLATFORM_NOT_SUPPORTED 1
 	#endif
