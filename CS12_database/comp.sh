@@ -6,7 +6,7 @@ if [ ! -d "src" ];then
 	mkdir src 
 fi 
 read -p "Enter database flags: " db_flags
-extra_flags="# -v -g"
+extra_flags=""
 
 if [[ "$1" = "FIXWIN" ]]; then
 	icacls "." /reset /T
@@ -19,9 +19,9 @@ elif [[ "$1" = "_WIN32" ]] || [[ "$1" = "_MINGW32" ]];then
 	fi 
 
 	if [[ "$1" = "_MINGW32" ]];then 
-		wine ./src/database.exe $db_flags 
+		wine ./src/database.exe $db_flags || echo "database failed to run"
 	else 
-		./src/database.exe $db_flags 
+		./src/database.exe $db_flags || echo "database failed to run"
 	fi
 
 else 
@@ -35,7 +35,7 @@ else
 		echo "$1 compilation failed"
 		exit 1
 	fi 
-	./src/database $db_flags
+	./src/database $db_flags || echo "database failed to run"
 
 	if [[ ! "$1" = "_NOGIT" ]];then 
 		git push &>/dev/null
