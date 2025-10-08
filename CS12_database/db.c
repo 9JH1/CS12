@@ -1,31 +1,44 @@
 #include "lib/data.h"
 #include "lib/lib.h"
 #include "ui.c"
-#include <unistd.h>
 #include <ctype.h>
+#include <unistd.h>
 
 // dont forget to free!
-char* lower(const char *in){
-	const int in_s = strlen(in);
-	char *out = malloc(in_s * sizeof(char));
+char *lower(const char *in) {
+  if (in == NULL || *in == '\0') {
+    char *out = malloc(1);
+    if (out == NULL) {
+      return NULL;
+    }
+    out[0] = '\0';
+    return out;
+  }
 
-	for(int i = 0; i < in_s; i++){
-		char cur = in[i];
-		if(isalpha(cur)){
-			out[i] = tolower(in[i]);
-		} else out[i] = in[i];
-	}
+  size_t in_s = strlen(in);
+  char *out = malloc((in_s + 1) * sizeof(char));
+  if (out == NULL) {
+    return NULL; 
+  }
 
-	return out;
+  for (size_t i = 0; i < in_s; i++) {
+    if (isalpha((unsigned char)in[i])) {
+      out[i] = tolower((unsigned char)in[i]);
+    } else {
+      out[i] = in[i];
+    }
+  }
+  out[in_s] = '\0'; 
+
+  return out;
 }
-
 int ui_main_main();
 
 int loan_menu(const int cur) {
-	member member_cur = db_members[cur];
+  member member_cur = db_members[cur];
   char *loans[member_cur.loan.loan_index];
-  
-	for (int i = 0; i < member_cur.loan.loan_index; i++) {
+
+  for (int i = 0; i < member_cur.loan.loan_index; i++) {
     loan loan_cur = db_loans[member_cur.loan.loan_ids[i]];
 
     loans[i] = db_books[loan_cur.bookid].title;
@@ -35,10 +48,10 @@ int loan_menu(const int cur) {
   }
 
   int ret = ui_menu((const char **)loans, member_cur.loan.loan_index,
-                (const char **)loans, "What loan do you want to remove");
+                    (const char **)loans, "What loan do you want to remove");
   db_loans[member_cur.loan.loan_ids[ret]].returned = date_now();
 
-	return ret;
+  return ret;
 }
 
 void full_report() {
@@ -934,19 +947,19 @@ int ui_main_main() {
 
     if (ret == 0) {
       // ENTER LAST NAME
-      
-			char buffer[100];
+
+      char buffer[100];
       input(buffer, 100, "Enter your LAST name: ");
-			char *l_buffer = lower(buffer);
+      char *l_buffer = lower(buffer);
 
       for (int i = 0; i < db_members_index; i++) {
-				char *l_name   = lower(db_members[i].last_name);
-        if (strcmp(l_name, l_buffer) == 0){
+        char *l_name = lower(db_members[i].last_name);
+        if (strcmp(l_name, l_buffer) == 0) {
           sel_idx = i;
-					break;
-				}
+          break;
+        }
 
-				free(l_name);
+        free(l_name);
       }
 
       if (sel_idx == -1) {
@@ -954,9 +967,9 @@ int ui_main_main() {
         return 1;
       }
     } else if (ret == 1) {
-			// SHOW MEMBER LIST
-      
-			sel_idx = member_menu();
+      // SHOW MEMBER LIST
+
+      sel_idx = member_menu();
     }
 
     member member_cur = db_members[sel_idx];
@@ -965,8 +978,8 @@ int ui_main_main() {
       printf("the member you selected has zero loans\n");
       return -1;
     }
-		
-		ret = loan_menu(sel_idx);
+
+    ret = loan_menu(sel_idx);
     db_loans[member_cur.loan.loan_ids[ret]].returned = date_now();
     printf("Loan has been returned\n");
 
