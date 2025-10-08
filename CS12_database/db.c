@@ -1,8 +1,125 @@
 #include "lib/data.h"
 #include "lib/lib.h"
 #include "ui.c"
+#include <unistd.h>
 
 int ui_main_main();
+
+int book_menu() {
+  char *books[db_books_index];
+  char *desc[db_books_index];
+  for (int i = 0; i < db_books_index; i++) {
+    book *loc = &db_books[i];
+
+    books[i] = loc->title;
+
+    desc[i] = malloc(COL_SIZE_2 * sizeof(char *));
+    sprintf(desc[i], "ISBN: %s", loc->ISBN);
+  }
+
+  int ret = ui_menu((const char **)books, db_books_index, (const char **)desc,
+                    "Books:");
+
+  for (int i = 0; i < db_books_index; i++) {
+    free(desc[i]);
+  }
+
+  return ret;
+}
+
+int member_menu() {
+  char *members[db_members_index];
+  char *desc[db_members_index];
+
+  for (int i = 0; i < db_members_index; i++) {
+    members[i] = malloc(COL_SIZE * sizeof(char *));
+    desc[i] = malloc(COL_SIZE_2 * sizeof(char *));
+
+    member *loc = &db_members[i];
+    sprintf(members[i], "%s %s", loc->first_name, loc->last_name);
+    sprintf(desc[i], "Phone: %s",
+            (strlen(loc->phone_number) > 0) ? loc->phone_number
+                                            : "No Phone Number");
+  }
+
+  int ret = ui_menu((const char **)members, db_members_index,
+                    (const char **)desc, "Members:");
+
+  for (int i = 0; i < db_members_index; i++) {
+    free(members[i]);
+    free(desc[i]);
+  }
+
+  return ret;
+}
+
+void books_genre_sort() {
+  typedef struct {
+    const char *genre;
+    int count;
+  } column_sort;
+
+  int index = 0;
+  int cap = 2;
+  column_sort *genres = (column_sort *)malloc(cap * sizeof(column_sort));
+
+  // for each book
+  for (int i = 0; i < db_books_index; i++) {
+    book cur_book = db_books[i];
+    int found = -1;
+
+    // for each genres
+    for (int ii = 0; ii < index; ii++)
+      if (strcmp(genres[ii].genre, cur_book.genre) == 0)
+        found = ii;
+
+    if (found == -1) {
+      if (index == cap) {
+        cap *= 2;
+        column_sort *temp = realloc(genres, cap * sizeof(column_sort));
+
+        if (!temp) {
+          printf("Error couldent allocate memory for column search\n");
+          return;
+        }
+
+        genres = temp;
+      }
+
+      genres[index].genre = strdup(cur_book.genre);
+      genres[index].count = 1;
+      index++;
+    } else {
+      genres[found].count++;
+    }
+  }
+
+  printf("Books by genre:\n");
+
+  char *genre_dat[index]; // base stats
+  char *genre_dec[index]; // description
+
+  for (int i = 0; i < index; i++) {
+    printf("doing this..\n");
+    genre_dat[i] = malloc(COL_SIZE * sizeof(char));
+    genre_dec[i] = malloc(COL_SIZE_2 * sizeof(char));
+
+    sprintf(genre_dat[i], "%s: %02d", genres[i].genre, genres[i].count);
+    sprintf(genre_dec[i], "which is %0.2f%% (%d total)",
+            (genres[i].count / (float)db_books_index * 100), db_books_index);
+  }
+
+  ui_menu((const char **)genre_dat, index, (const char **)genre_dec,
+          "View books, Press enter to return to menu");
+
+  for (int i = 0; i < index; i++) {
+    free(genre_dat[i]);
+    free(genre_dec[i]);
+    free((char *)genres[i].genre);
+  }
+
+  return;
+}
 
 // data setup
 int database() {
@@ -686,152 +803,114 @@ int database() {
                                             .active = true,
                                             .amount = 3, // three (credits)
                                         });
-	char buf[5];
-	input(buf, 5, "Press any key to run main ui");
-	int ret = 0;
-	while(ret != -1){
-		ret = ui_main_main();
-		if(ret != -1)
-			input(buf, 5,"Press any key to return to main ui");
-	}
+  char buf[5];
+  sleep(1);
+  int ret = 0;
+  while (ret != -1) {
+    ret = ui_main_main();
+    if (ret != -1)
+      input(buf, 5, "Press any key to return to main ui");
+  }
 
-	printf("writing database, this may take a few seconds, if it takes too long spam-press control+c to force quit\n");
-	return -12;
+  printf("\n\nwriting database, this may take a few seconds, if it takes too long "
+         "spam-press control+c to force quit\n");
+  return -12;
 }
 
-int ui_main_main(){
+int ui_main_main() {
   int ret;
   const char *main_menu[] = {
-      "full report",
-      "individual report",
-      "count books by genre",
-      "return a book",
-			"run a form",
-			"exit"
+      "full report",   "individual report", "count books by genre",
+      "return a book", "run a form",        "exit",
+      "HELP"};
+
+  const char *main_menu_desc[] = {
+      "print all data held in the database",
+      "select an individual user or book to view info on",
+      "Show the statistical book genre counts",
+      "",
+      "run a form to enter data to database",
+      "exit program",
+      "how to do things"};
+
+  const char *list_menu[] = {
+      "view members",
+      "view books",
   };
 
-  printf("generating reports...\n");
-  char *member_menu[db_members_index];
-  for (int i = 0; i < db_members_index; i++) {
-    member_menu[i] = db_members[i].last_name;
-  }
-  printf("Generated member list");
-
-  char *book_menu[db_books_index];
-  for (int i = 0; i < db_books_index; i++) {
-    book_menu[i] = db_books[i].title;
-  }
+  const char *list_menu_desc[] = {"", ""};
   printf("Generated book list");
 
-  ret = ui_m(main_menu, "select option\n");
+  ret = ui_m(main_menu, main_menu_desc, "Select Option");
+
   if (ret == 0) {
-		for(int i = 0; i < db_members_index; i++){
-			printf("PRINTING DATA FOR MEMBER: %02d\n",i+1);
-			print_member_data(db_members[i], i);
-			if(db_members[i].loan.loan_index > 0){
-				printf("MEMBER HAS %d LOANS: \n",db_members[i].loan.loan_index+1);
-				for(int ii = 0; ii < db_members[i].loan.loan_index; ii++){
-					printf("\nLoan %02d:\n",ii+1);
-					print_loan_data(db_loans[db_members[i].loan.loan_ids[ii]]);	
-				}
-			}
-			printf("\n");
-		}
+    for (int i = 0; i < db_members_index; i++) {
+      printf("PRINTING DATA FOR MEMBER: %02d\n", i + 1);
+      print_member_data(db_members[i], i);
+      if (db_members[i].loan.loan_index > 0) {
+        printf("MEMBER HAS %d LOANS: \n", db_members[i].loan.loan_index + 1);
+        for (int ii = 0; ii < db_members[i].loan.loan_index; ii++) {
+          printf("\nLoan %02d:\n", ii + 1);
+          print_loan_data(db_loans[db_members[i].loan.loan_ids[ii]]);
+        }
+      }
+      printf("\n");
+    }
   } else if (ret == 1) {
 
-    const char *list_menu[] = {
-        "view members",
-        "view books",
-    };
-
-    ret = ui_m(list_menu, "What db do you want to view\n");
+    // VIEW SCREEN
+    ret = ui_m(list_menu, list_menu_desc, "What database do you want to view?");
     if (ret == 0) {
-      ret = ui_menu(
-          (const char **)member_menu, db_members_index,
-          "View Members (showing last names and sorted by time_created)\n");
+      ret = member_menu();
+
       print_member_data(db_members[ret], ret);
-			for(int i = 0; i < db_members[ret].loan.loan_index; i++){
-				print_loan_data(db_loans[db_members[ret].loan.loan_ids[i]]);
-			}
+      for (int i = 0; i < db_members[ret].loan.loan_index; i++) {
+        print_loan_data(db_loans[db_members[ret].loan.loan_ids[i]]);
+      }
 
     } else {
-      ret = ui_menu((const char **)book_menu, db_books_index, "View Books\n");
+      ret = book_menu();
       print_book_data(db_books[ret]);
     }
   } else if (ret == 2) {
-    // simple column sort
+    books_genre_sort();
 
-    typedef struct {
-      const char *genre;
-      int count;
-    } column_sort;
-
-    int index = 0;
-    int cap = 2;
-    column_sort *genres = (column_sort *)malloc(cap * sizeof(column_sort));
-
-    // for each book
-    for (int i = 0; i < db_books_index; i++) {
-      book cur_book = db_books[i];
-      int found = -1;
-
-      // for each genres
-      for (int ii = 0; ii < index; ii++)
-        if (strcmp(genres[ii].genre, cur_book.genre) == 0)
-          found = ii;
-
-      if (found == -1) {
-        if (index == cap) {
-          cap *= 2;
-          column_sort *temp = realloc(genres, cap * sizeof(column_sort));
-
-          if (!temp) {
-            printf("Error couldent allocate memory for column search\n");
-            return -1;
-          }
-
-          genres = temp;
-        }
-
-  			genres[index].genre = strdup(cur_book.genre);
-        genres[index].count = 1;
-        index++;
-      } else {
-        genres[found].count++;
-      }
-    }
-
-    for (int i = 0; i < index; i++) {
-      printf("%s: %d\n", genres[i].genre, genres[i].count);
-      free((char *)genres[i].genre);
-    }
   } else if (ret == 4) {
-		const char *form_menu[] = {
-			"member",
-			"loan",
-			"book",
-		};
+    const char *form_menu[] = {
+        "member",
+        "loan",
+        "book",
+    };
 
-		int form = ui_m(form_menu,"What form do you want to run?\n");
-		
-		if(form == 0){
-			member_add(member_wizard());
-		} else if(form == 1){
-			loan_add(loan_wizard());
-		} else if (form == 2){
-			book_add(book_wizard());
-		}
+    int form = ui_m(form_menu, form_menu, "What form do you want to run?");
 
+    if (form == 0) {
+      member_add(member_wizard());
+    } else if (form == 1) {
+      loan_add(loan_wizard());
+    } else if (form == 2) {
+      book_add(book_wizard());
+    }
 
-	} else if (ret == 5){
-		printf("exiting main ui loop...\n");
+  } else if (ret == 5) {
+    printf("exiting main ui loop...\n");
+    return -1;
+  } else if (ret == 6) {
+		ui_print(
+				"Use the arrow keys to move around menus, use enter to select an item on a menu."
+				"The menus have three collumns, one for the index number, one for the item name"
+				"and one for the description."
+				);
+
+		achar();
 		return -1;
 	}
   if (ret == 3) {
     // return books
     char *opts[] = {"Enter Name", "Show all members"};
 
-    int ret = ui_menu((const char **)opts, 2, "Select Option:\n");
+    int ret =
+        ui_menu((const char **)opts, 2, (const char **)opts, "Select Option");
     int sel_idx = -1;
     if (ret == 0) {
       char buffer[100];
@@ -848,9 +927,6 @@ int ui_main_main(){
         return -1;
       }
     } else {
-      sel_idx =
-          ui_menu((const char **)member_menu, db_members_index,
-                  "Search Member (Frank Lee is the only MEMBER with loans)\n");
     }
 
     member member_cur = db_members[sel_idx];
@@ -874,7 +950,7 @@ int ui_main_main(){
     achar();
 
     ret = ui_menu((const char **)loans, member_cur.loan.loan_index,
-                  "What loan do you want to remove\n");
+                  (const char **)loans, "What loan do you want to remove");
     db_loans[member_cur.loan.loan_ids[ret]].returned = date_now();
     printf("Loan has been returned\n");
   }

@@ -1,141 +1,170 @@
-/* @file ui.c  
+/* @file ui.c
  * @breif mini ui library
- * @details this file contains all ui related functions used by the database 
+ * @details this file contains all ui related functions used by the database
  **/
 
 #include "lib/hlib/lib/ansi.h"
+#include "lib/hlib/lib/draw.h"
 #include "lib/lib.h"
-#include <signal.h> 
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <stdio.h> 
+#include <unistd.h>
 
-#define DEFAULT_PROMPT "Use the up/down arrows to navigate, press enter to submit entry\n"
-
-void ui_quit(int code){
-	show_cursor();
-	exit(code);
+#define COL_SIZE_2 50
+#define COL_SIZE 40
+void ui_quit(int code) {
+  show_cursor();
+  exit(code);
 }
 
-/** 
+void ui_print(const char *in);
+
+/**
  * @breif wrapper function for ui_menu
- * @param array array of strings used in menu 
- * @param prompt prompt string shown at top of menu 
- * @return ui_menu 
- * @details wraps around ui_menu using a macro which removes the need for the 
+ * @param array array of strings used in menu
+ * @param prompt prompt string shown at top of menu
+ * @return ui_menu
+ * @details wraps around ui_menu using a macro which removes the need for the
  * 					user to enter the array size.
  **/
-#define ui_m(array, prompt) ui_menu(array,sizeof(array)/sizeof(array[0]),prompt);
+#define as(a) sizeof(a) / sizeof(a[0])
+#define ui_m(a1, a2, p) ui_menu(a1, as(a1), a2, p);
 
-/** 
- * @brief draws a interactive menu 
- * @param *array[] array of strings used in menu 
+int run_count;
+
+
+/**
+ * @brief draws a interactive menu
+ * @param *array[] array of strings used in menu
  * @param size amount of items in *array[]
- * @param *prompt prompt strings shown at top of menu 
+ * @param *prompt prompt strings shown at top of menu
  * @return returns the selected index int of the menu
- * @details uses an array of strings as items and draws a menu, use of UPARROW 
- * 					and DOWNARROW can navigate the menu pressing enter returns the 
- * 					selected integer index of the array
+ * @details uses an array of strings as items and draws a menu, use of UPARROW
+ * 					and DOWNARROW can navigate the menu
+ *pressing enter returns the selected integer index of the array
  **/
-int ui_menu(const char *array[], const int size, const char *prompt){
-	hide_cursor();
-	
-	int selected = 0; 
-	int longest = 0;
+int ui_menu(const char *array1[], const int size, const char *array2[],
+            const char *prompt) {
+  hide_cursor();
+	run_count = 0;
 
-	// calulate the longest item in the list: 
-	for(int i = 0; i < size; i++)
-		if(strlen(array[i]) > longest) longest = strlen(array[i]);	
+  // calculate longest
+  int x, y, selected;
+  y = size;
+  x = 9 + COL_SIZE + COL_SIZE_2;
+  selected = 0;
 
-	while(1){
-		clear();
-		printf("%s",prompt);
+  solid_opt box_s = {
+      .width = x + 2,
+      .height = y + 2,
+      .x = 1,
+      .y = 1,
+  };
+
+  border_opt bor_s = {
+      .bottom = ".",
+      .top = ".",
+      .left = "|",
+      .right = "|",
+      .bottom_left_corner = "`",
+      .bottom_right_corner = "'",
+      .top_left_corner = ",",
+      .top_right_corner = ".",
+  };
+
+  border(box_s, &bor_s);
+
+  while (1) {
+    clear();
+    printf("%s\033[0m\n", bor_s.string);
+    gotoxy(0, 0);
+
+    printf("%s (%d total)\n", prompt, size);
+
+    // draw the menu
+    for (int i = 0; i < size; i++) {
+      gotoxy(1, i + 1);
+      if (i == selected)
+        printf("\033[30;42;1m");
+
+      printf("%2d. | %s", i + 1, array1[i]);
+
+      for (int j = 0; j < COL_SIZE - strlen(array1[i]); ++j)
+        printf(" ");
+			printf(" | ");
+			if(run_count == 0) ui_print(array2[i]);
+			else printf("%s",array2[i]);
+
+      for (int j = 0; j < COL_SIZE_2 - strlen(array2[i]); ++j)
+        printf(" ");
+      printf("\033[0m\n");
+    }
+
+    // handle the input
+    int ch = achar();
+    switch (ch) {
+    case 'B':
+      if (selected == size - 1)
+        selected = 0;
+      else
+        selected++;
+      break;
+
+    case 'A':
+      if (selected == 0)
+        selected = size - 1;
+      else
+        selected--;
+      break;
+
+    case 10:
+      show_cursor();
+      free(bor_s.string);
+      printf("\n\n");
+      return selected;
+    }
 		
-		// draw the menu 
-		for(int i = 0; i < size; i++){
-			printf(" %2d. %s",i+1,array[i]);
-			
-			// draw some white space 
-			for(int j = 0; j < longest - strlen(array[i]); ++j) printf(" ");
-			if(i == selected) printf(" <\n");
-			else printf("  \n");
-		}
+		run_count++;
+  }
 
-
-		// handle the input
-		int ch = achar();
-		switch(ch){
-			case 'B':
-				if(selected==size-1) selected = 0;
-				else selected++;
-				break;
-			
-			case 'A':
-				if(selected==0) selected=size-1;
-				else selected--;
-				break;
-
-			case 10:
-				show_cursor();
-				return selected;
-		}
-	}
-
-	show_cursor();
-	return -1;
+  free(bor_s.string);
+  show_cursor();
+  printf("\n\n");
+  return -1;
 }
 
+void ui_print(const char *in) {
+  int line_size = 0;
+  int enter_flag = 0;
+  size_t len = strlen(in); // Cache the string length
 
+  for (size_t i = 0; i < len; i++) {
+		usleep(2000);
+		fflush(stdout);
+    const char cur = in[i];
 
-int ui_main(){
-	// main menu
-	const char *main_menu[] = {
-		"Create Data",
-		"Read Data",
-		"Update Data", 
-		"Delete Data",
-	};
+    // Handle existing newlines in the input
+    if (cur == '\n') {
+      printf("\n");
+      line_size = 0;
+      enter_flag = 0;
+      continue;
+    }
 
-	const char *create[] = {
-		"Member",
-		"Book",
-		"Loan",
-	};
+    // Check if line length exceeds the threshold
+    if (line_size >= COL_SIZE + COL_SIZE_2) {
+      enter_flag = 1;
+    }
 
-	const char *read[] = {
-		"Members",
-
-	};
-
-
-	int ret = ui_m(main_menu,"Please select the database macro\n");
-	return 0;
+    // If enter_flag is set and current character is a space, insert newline
+    if (enter_flag && cur == ' ') {
+      printf("\n");
+      line_size = 0;
+      enter_flag = 0;
+    } else {
+      printf("%c", cur);
+      line_size++; // Increment line_size for each character printed
+    }
+  }
 }
-
-
-int ui_test(){
-	signal(SIGINT,ui_quit);
-
-	// define items for the menu
-	const char *list[] = {
-		"one",
-		"two",
-		"three",
-		"four",
-		"five",
-		"six",
-		"seven",
-		"eight",
-		"nine",
-		"ten",
-	};
-	
-	// use the menu function to ask the user for input
-	const int sel = ui_m(list,DEFAULT_PROMPT);
-
-	// display the chosen item
-	printf("You picked %s!\n",list[sel]);
-	
-	return 0;
-}
-

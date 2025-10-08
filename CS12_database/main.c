@@ -1,18 +1,8 @@
-/*
-TODO: 
-for some reason the program crashes on FIRST write, i think this has something to do with 
-the members write function but im not sure. 
-
-finish writing the wizard functions.
-*/
-
-// 3rd party imports
 #include "lib/data.h"
 #include "lib/lib.h"
 #include "lib/plib.h"
 #include "lib/hlib/lib/ansi.h"
-#include "db.c" // actual database file
-//#include "ui.c" // interface file
+#include "db.c" 
 
 // standard librarys 
 #include <stdlib.h>
