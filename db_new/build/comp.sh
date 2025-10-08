@@ -1,16 +1,18 @@
 #!/bin/bash
 
-rm -rf src/
+build_path="build/src/"
+extra_flags="-Wall -Wextra"
+file_name="db"
+main_flags="main.c lib/*.c remote/plib/*.c -o $build_path$file_name $extra_flags"
 
-if [ ! -d "src" ];then 
-	mkdir src 
+# handle path
+rm -rf "$build_path"
+if [ ! -d "$build_path" ];then 
+	mkdir "$build_path"
 fi 
 
 CALL="$1"
 shift 
-extra_flags="-Wall -Wextra"
-file_name="db"
-main_flags="main.c lib/*.c remote/plib/*.c -o db $extra_flags"
 
 if [[ "$CALL" = "_WIN32" ]] || [[ "$CALL" = "_MINGW32" ]];then
 	if [[ "$CALL" = "_MINGW32" ]];then 
