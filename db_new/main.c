@@ -25,6 +25,12 @@ void help(){
 	pl_help();
 }
 
+typedef enum {
+	SUCCESS = 0,
+	FAIL = 1,
+	HELP_MENU_REF = 2,
+} return_codes;
+
 /* 
  * @breif main database loop
  * @description this function is the first bit of 
@@ -43,17 +49,14 @@ int main(const int c, const char *v[]){
 
 	if((ret = pl_proc(c,v)) == PL_SUCCESS){
 		printf("Hello World!");
-
-	} else {
-		// handle errors
-
+	} else { // handle errors
+		help();
 		printf("error: '%s' from argument '%s'\n",
 				PL_E(ret), // error code stringify'd
 				PL_LAST_ARG); // the last arg parsed in plib 
-		
-		help();
+		quit(HELP_MENU_REF);
 	}
 
-	return 0;
+	quit(SUCCESS);
 }
 
