@@ -37,6 +37,7 @@ else
 	if [[ ! "$CALL" = "NOGIT" ]];then 
 		git add . &>/dev/null 
 		git commit -m "$(date)" &>/dev/null 
+	else 
 		shift 
 	fi
 
