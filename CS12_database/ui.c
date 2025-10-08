@@ -11,8 +11,8 @@
 #include <string.h>
 #include <unistd.h>
 
-#define COL_SIZE_2 60
-#define COL_SIZE 50
+#define COL_SIZE_2 65
+#define COL_SIZE 55
 void ui_quit(int code) {
   show_cursor();
   exit(code);
