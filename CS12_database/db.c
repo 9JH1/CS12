@@ -274,15 +274,16 @@ int loan_menu(const int cur) {
 }
 
 void full_report() {
+	ui_print("On the following menu press enter on any item on the form to continue to the next person, press 'back' to return to the main menu");
   printf("Members:\n");
   for (int i = 0; i < db_members_index; i++) {
-    print_member_data(i);
+    if(print_member_data(i) == -2) return;
   }
 
   printf("Books:\n");
 
   for (int i = 0; i < db_books_index; i++) {
-    print_book_data(i);
+    if(print_book_data(i) == -2) return;
   }
 
   return;
