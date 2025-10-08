@@ -1259,6 +1259,10 @@ int ui_main_main() {
             .note = "This user is an owner and can have a book for a long time",
             .amount = 0, // owes nothing
         });
-  }
+  } else if (ret == -2){
+		ui_print("There is nothing to go back too..");
+		ui_print("Press any key.");
+		achar();
+	}
   return 12;
 }

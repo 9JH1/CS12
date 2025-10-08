@@ -145,6 +145,8 @@ int ui_menu(const char *array1[], const int size, const char *array2[],
       show_cursor();
       free(bor_s.string);
       printf("\n\n");
+			if(selected == size)
+				return -2;
       return selected;
     }
 
