@@ -1153,7 +1153,7 @@ int ui_main_main() {
       ret = member_menu();
       print_member_data(ret);
       for (int i = 0; i < db_members[ret].loan.loan_index; i++) {
-        print_loan_data(db_members[ret].loan.loan_ids[i]);
+        print_loan_data(db_loans[db_members[ret].loan.loan_ids[i]]);
       }
 
     } else {
