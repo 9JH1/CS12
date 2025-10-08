@@ -419,7 +419,8 @@ int member_selector_menu() {
   const char *return_desc[] = {"", "", ""};
   int ret = ui_menu((const char **)return_menu, 2, (const char **)return_desc,
                     "Select Option");
-
+  if (ret == -2)
+    return ret;
   int sel_idx = -1;
 
   if (ret == 0) {
@@ -447,7 +448,6 @@ int member_selector_menu() {
 
     sel_idx = member_menu();
   }
-
   member *member_cur = &db_members[sel_idx];
 
   if (member_cur->loan.loan_index <= 0) {
