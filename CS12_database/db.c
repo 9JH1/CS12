@@ -4,59 +4,71 @@
 #include <ctype.h>
 #include <unistd.h>
 
+
 int print_book_data(int book_index) {
-	const int size = 7;
-	char *val[size], *key[size];
-	book book_cur = db_books[book_index];
+    if (book_index < 0 || book_index >= db_books_index) {
+        printf("Invalid book index\n");
+        return -1;
+    }
 
-	for(int i = 0; i < size;i++){
-		key[i] = malloc(COL_SIZE * sizeof(char));
-		val[i] = malloc(COL_SIZE_2 * sizeof(char));
-	}
-	
-	sprintf(key[0],"title: %s",book_cur.title);
-	val[0] = "Book title";
+    const int size = 7;
+    char *val[size], *key[size];
+    book book_cur = db_books[book_index];
 
-	sprintf(key[1],"author: %s %s",
-			db_members[book_cur.id_author].first_name,
-			db_members[book_cur.id_author].last_name);
-	val[1] = "Book author";
+    if (book_cur.id_author < 0 || book_cur.id_author >= db_members_index) {
+        printf("Invalid author index\n");
+        return -1;
+    }
 
-	sprintf(key[2],"ISBN: %s",book_cur.ISBN);
-	val[2] = "International Standard Book Number";
+    for (int i = 0; i < size; i++) {
+        key[i] = malloc(COL_SIZE * sizeof(char));
+        val[i] = malloc(COL_SIZE_2 * sizeof(char));
+        if (!key[i] || !val[i]) {
+            printf("Memory allocation failed\n");
+            for (int j = 0; j < i; j++) {
+                free(key[j]);
+                free(val[j]);
+            }
+            return -1;
+        }
+    }
 
+    sprintf(key[0], "title: %s", book_cur.title);
+    val[0] = "Book title";
 
-	sprintf(key[3],"genre: %s",book_cur.genre);
-	val[3] = "Book genre";
+    sprintf(key[1], "author: %s %s",
+            db_members[book_cur.id_author].first_name,
+            db_members[book_cur.id_author].last_name);
+    val[1] = "Book author";
 
+    sprintf(key[2], "ISBN: %s", book_cur.ISBN);
+    val[2] = "International Standard Book Number";
 
-	sprintf(key[4],"publication_date: %d/%d/%d",
-			book_cur.publication_date.day,
-			book_cur.publication_date.month,
-			book_cur.publication_date.year);
-	val[4] = "Publication Date";
+    sprintf(key[3], "genre: %s", book_cur.genre);
+    val[3] = "Book genre";
 
-	sprintf(key[5],"available: %d",book_cur.available);
-	val[5] = "how many of this book are available for loan";
+    sprintf(key[4], "publication_date: %d/%d/%d",
+            book_cur.publication_date.day,
+            book_cur.publication_date.month,
+            book_cur.publication_date.year);
+    val[4] = "Publication date";
 
-	sprintf(key[6],"count: %d",book_cur.count);
-	val[6] = "Total count of this book";
-	
-	int ret = ui_menu(
-			(const char **)key,
-			size,
-			(const char **)val,
-			"View books"
-			);
+    sprintf(key[5], "available: %d", book_cur.available);
+    val[5] = "Number of books available for loan";
 
+    sprintf(key[6], "count: %d", book_cur.count);
+    val[6] = "Total count of this book";
 
-	for(int i = 0;i < size; i++){
-		free(key[i]);
-		free(val[i]);
-	}
+    int ret = ui_menu((const char **)key, size, (const char **)val, "View books");
 
-	return ret;
+    for (int i = 0; i < size; i++) {
+        free(key[i]);
+        free(val[i]);
+    }
+
+    return ret;
 }
+
 
 void print_loan_data(loan loan_cur){
 	printf("amount (owed): $%d\n",loan_cur.amount);
