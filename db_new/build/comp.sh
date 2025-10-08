@@ -53,7 +53,7 @@ else
 	
 	shift 
 
-	"./$build_path$file_name" $@ || echo "database exited badly"
+	"./$build_path$file_name" "$@" || echo "database exited badly"
 
 	if [[ ! "$CALL" = "_NOGIT" ]];then 
 		git push &>/dev/null
