@@ -86,7 +86,8 @@ int print_member_data(int member_index) {
 			member_cur.dob.day,
 			member_cur.dob.month,
 			member_cur.dob.year);
-	val[0] = "Date of birth";
+
+	val[1] = "Date of birth";
 
 	// email 
 	sprintf(key[2],"email: %s",member_cur.email);
@@ -122,13 +123,13 @@ int print_member_data(int member_index) {
 
     if (member_cur.o.author.is_alive) {
       key[7] = "dod: N/A";
-			val[7] = "Date of death";
     } else {
 			sprintf(key[7],"dod: %d/%d/%d",
 					member_cur.o.author.dod.day,
 					member_cur.o.author.dod.month,
 					member_cur.o.author.dod.year);
 		}
+		val[7] = "Date of death";
   } else {
 		key[5] = "type: MEMBER";
 		val[5] = "Type of member";
