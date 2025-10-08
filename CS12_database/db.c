@@ -7,7 +7,7 @@
 // dont forget to free!
 char* lower(const char *in){
 	const int in_s = strlen(in);
-	char *out = malloc(in_s * sizeof(char *));
+	char *out = malloc(in_s * sizeof(char));
 
 	for(int i = 0; i < in_s; i++){
 		char cur = in[i];
@@ -18,6 +18,7 @@ char* lower(const char *in){
 
 	return out;
 }
+
 int ui_main_main();
 
 int loan_menu(const int cur) {
