@@ -137,7 +137,7 @@ int print_loan_data(int loan_id) {
   snprintf(num_str, sizeof(num_str), "%d", loan_cur.active);
   strcpy(key[5], "active: ");
   strcat(key[5], num_str);
-  strcpy(val[5], "Is the loan currently active? (0 = false, 1 = true)");
+  strcpy(val[5], "Is the loan currently active?");
 
   snprintf(num_str, sizeof(num_str), "%d", loan_cur.is.payed);
   strcpy(key[6], "is.payed: ");
