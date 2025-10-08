@@ -148,7 +148,7 @@ void ui_print(const char *in) {
   size_t len = strlen(in); // Cache the string length
 
   for (size_t i = 0; i < len; i++) {
-		usleep(10000);
+		usleep(2000);
 		fflush(stdout);
     const char cur = in[i];
 
