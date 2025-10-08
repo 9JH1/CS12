@@ -5,6 +5,26 @@
 
 int ui_main_main();
 
+// 0 = book 
+// 1 = member 
+// 2 = loan
+#define MOM_idx(a) (a > db_books_index) ? 0 : ((a > db_members_index) ? 1 : ((a > db_loans_index) ? 2 : -1))
+
+void full_report(){
+	printf("Members:\n");
+	for(int i = 0;i < db_members_index; i++){
+		print_member_data(db_members[i],0);
+	}
+
+	printf("Books:\n");
+
+	for(int i = 0;i < db_books_index; i++){
+			print_book_data(db_books[i]);
+	}
+
+	return;
+}
+
 int book_menu() {
   char *books[db_books_index];
   char *desc[db_books_index];
@@ -840,13 +860,16 @@ int ui_main_main() {
       "View books",
   };
 
-  char *return_menu[] = {
-		"Enter name",
-		"Show members list"
+  const char *return_menu[] = {
+		"Search by name",
+		"Show members list",
+		"Live search"
 	};
-  char *return_desc[] = {
-		"search for name",
+
+  const char *return_desc[] = {
 		"",
+		"",
+		""
 	};
 
 	const char *list_menu_desc[] = {"", ""};
@@ -855,11 +878,12 @@ int ui_main_main() {
   ret = ui_m(main_menu, main_menu_desc, "Select Option");
 
   if (ret == 0) {
-		// PRINT FULL REPORT: 
-	
+		// PRINT FULL REPORT:
+		full_report();
+
 	} else if (ret == 1) {
     // INDIVIDUAL VIEW SCREEN
-		//
+		
     ret = ui_m(list_menu, list_menu_desc, "What database do you want to view?");
     if (ret == 0) {
 			// INDIVIDUAL MEMBER 
@@ -892,21 +916,22 @@ int ui_main_main() {
 
     int sel_idx = -1;
     if (ret == 0) {
+			// ENTER LAST NAME
       char buffer[100];
       input(buffer, 100, "Enter your LAST name: ");
 
-      // search for name
       for (int i = 0; i < db_members_index; i++) {
-        if (strcmp(db_members[i].last_name, buffer) == 0) {
-          // name found
+        if (strcmp(db_members[i].last_name, buffer) == 0)
           sel_idx = i;
-        }
       }
       if (sel_idx == -1) {
         printf("last name \"%s\" not found\n", buffer);
-        return -1;
+        return 1;
       }
-    }
+    } else if (ret == 1){
+			// SHOW MEMBER LIST 
+			sel_idx = member_menu();
+		} 
 
     member member_cur = db_members[sel_idx];
 
@@ -931,9 +956,11 @@ int ui_main_main() {
     ret = ui_menu((const char **)loans, member_cur.loan.loan_index,
                   (const char **)loans, "What loan do you want to remove");
     db_loans[member_cur.loan.loan_ids[ret]].returned = date_now();
+
     printf("Loan has been returned\n");
   } else if (ret == 4){
 		// RUN FORMS
+
   } else if (ret == 5) {
 		// EXIT UI CODE 
 		return -1;
