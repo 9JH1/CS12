@@ -1261,8 +1261,6 @@ int ui_main_main() {
         });
   } else if (ret == -2){
 		ui_print("There is nothing to go back too..");
-		ui_print("Press any key.");
-		achar();
 	}
   return 12;
 }
