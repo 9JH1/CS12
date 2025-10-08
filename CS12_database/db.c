@@ -65,7 +65,7 @@ int print_book_data(int book_index) {
         free(key[i]);
         free(val[i]);
     }
-
+		printf("exiting..");
     return ret;
 }
 
