@@ -58,4 +58,4 @@ else
 	fi
 fi
 
-echo "$CALL finished"
+echo "$@ finished"
