@@ -165,7 +165,7 @@ member id_to_member(const int a);
 
 // remove item from an array (used for removing loans)
 //
-void remove_element(int *array, int index, int array_length){
+void remove_element(int *array, int index, int array_length);
 
 #endif // DATABASE_LIB 
 
