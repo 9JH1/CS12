@@ -8,7 +8,8 @@ int ui_main_main();
 int loan_menu(const int cur) {
 	member member_cur = db_members[cur];
   char *loans[member_cur.loan.loan_index];
-  for (int i = 0; i < member_cur.loan.loan_index; i++) {
+  
+	for (int i = 0; i < member_cur.loan.loan_index; i++) {
     loan loan_cur = db_loans[member_cur.loan.loan_ids[i]];
 
     loans[i] = db_books[loan_cur.bookid].title;
@@ -16,8 +17,6 @@ int loan_menu(const int cur) {
            loan_cur.return_date.day, loan_cur.return_date.month,
            loan_cur.return_date.year);
   }
-  printf("Press any key to show selection menu.\n");
-  achar();
 
   int ret = ui_menu((const char **)loans, member_cur.loan.loan_index,
                 (const char **)loans, "What loan do you want to remove");
@@ -941,7 +940,7 @@ int ui_main_main() {
       printf("the memeber you selected has zero loans\n");
       return -1;
     }
-    achar();
+		
 		ret = loan_menu(sel_idx);
     db_loans[member_cur.loan.loan_ids[ret]].returned = date_now();
 
