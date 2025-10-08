@@ -44,7 +44,7 @@ int print_book_data(int book_index) {
 	
 	int ret = ui_menu(
 			(const char **)key,
-			size-1,
+			size,
 			(const char **)val,
 			"View books"
 			);
