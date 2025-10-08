@@ -3,6 +3,7 @@
 #include "ui.c"
 #include <ctype.h>
 #include <unistd.h>
+
 int print_book_data(int book_index) {
   if (book_index < 0 || book_index >= db_books_index) {
     printf("Invalid book index: %d\n", book_index);
@@ -79,89 +80,43 @@ int print_book_data(int book_index) {
   return ret;
 }
 
-int print_loan_data(int loan_id) {
-  loan loan_cur = db_loans[loan_id];
-  const int size = 9;
-  char *key[size], *val[size];
+void print_loan_data(loan loan_cur){
+	printf("amount (owed): $%d\n",loan_cur.amount);
+	printf("issued: %d/%d/%d - %d:%d:%d\n",
+			loan_cur.issued.day,
+			loan_cur.issued.month,
+			loan_cur.issued.year,
+			loan_cur.issued.hour,
+			loan_cur.issued.minute,
+			loan_cur.issued.second
+	);
+	printf("return_date (due date): %d/%d/%d - %d:%d:%d\n",
+			loan_cur.return_date.day,
+			loan_cur.return_date.month,
+			loan_cur.return_date.year,
+			loan_cur.return_date.hour,
+			loan_cur.return_date.minute,
+			loan_cur.return_date.second);
 
-  for (int i = 0; i < size; i++) {
-    key[i] = malloc(COL_SIZE * sizeof(char));
-    val[i] = malloc(COL_SIZE_2 * sizeof(char));
-    if (!key[i] || !val[i]) {
-      printf("Memory allocation failed\n");
-      for (int j = 0; j < i; j++) {
-        free(key[j]);
-        free(val[j]);
-      }
-      return -1;
-    }
-  }
+	printf("returned (when user returned book): %d/%d/%d - %d:%d:%d\n",
+			loan_cur.returned.day,
+			loan_cur.returned.month,
+			loan_cur.returned.year,
+			loan_cur.returned.hour,
+			loan_cur.returned.minute,
+			loan_cur.returned.second);
 
-  char num_str[16];
-  char date_str[32];
-
-  snprintf(num_str, sizeof(num_str), "$%d", loan_cur.amount);
-  strcpy(key[0], "amount (owed): ");
-  strcat(key[0], num_str);
-  strcpy(val[0], "Amount owed for the loan");
-
-  snprintf(date_str, sizeof(date_str), "%d/%d/%d - %d:%d:%d",
-           loan_cur.issued.day, loan_cur.issued.month, loan_cur.issued.year,
-           loan_cur.issued.hour, loan_cur.issued.minute,
-           loan_cur.issued.second);
-  strcpy(key[1], "issued: ");
-  strcat(key[1], date_str);
-  strcpy(val[1], "Date and time loan was issued");
-
-  snprintf(date_str, sizeof(date_str), "%d/%d/%d - %d:%d:%d",
-           loan_cur.return_date.day, loan_cur.return_date.month,
-           loan_cur.return_date.year, loan_cur.return_date.hour,
-           loan_cur.return_date.minute, loan_cur.return_date.second);
-  strcpy(key[2], "return_date (due date): ");
-  strcat(key[2], date_str);
-  strcpy(val[2], "Due date for book return");
-
-  snprintf(date_str, sizeof(date_str), "%d/%d/%d - %d:%d:%d",
-           loan_cur.returned.day, loan_cur.returned.month,
-           loan_cur.returned.year, loan_cur.returned.hour,
-           loan_cur.returned.minute, loan_cur.returned.second);
-  strcpy(key[3], "returned: ");
-  strcat(key[3], date_str);
-  strcpy(val[3], "Date and time book was returned");
-
-  snprintf(num_str, sizeof(num_str), "%d", loan_cur.bookid);
-  strcpy(key[4], "bookid: ");
-  strcat(key[4], num_str);
-  strcpy(val[4], "Book identifier");
-
-  snprintf(num_str, sizeof(num_str), "%d", loan_cur.active);
-  strcpy(key[5], "active: ");
-  strcat(key[5], num_str);
-  strcpy(val[5], "Is the loan currently active?");
-
-  snprintf(num_str, sizeof(num_str), "%d", loan_cur.is.payed);
-  strcpy(key[6], "is.payed: ");
-  strcat(key[6], num_str);
-  strcpy(val[6], "Has the loan been paid?");
-
-  snprintf(num_str, sizeof(num_str), "%d", loan_cur.is.covered);
-  strcpy(key[7], "is.covered: ");
-  strcat(key[7], num_str);
-  strcpy(val[7], "Has the loan been covered?");
-
-  strcpy(key[8], "note: ");
-  strcat(key[8], loan_cur.note);
-  strcpy(val[8], "Additional notes about the loan");
-
-  int ret =
-      ui_menu((const char **)key, size, (const char **)val, "View loan data");
-
-  for (int i = 0; i < size; i++) {
-    free(key[i]);
-    free(val[i]);
-  }
-  return ret;
+	printf("bookid %d\n",loan_cur.bookid);
+	printf("active (is the loan currently not returned) %d ( 0 = false 1 = true)\n",loan_cur.active);
+	printf("is.payed (has the loan be payed) %d\n", loan_cur.is.payed);
+	printf("is.covered (has the loan been payed) %d\n", loan_cur.is.covered);
+	printf("note: %s\n",loan_cur.note);
+	printf("press any key to view book information\n");
+	achar();
+	print_book_data(loan_cur.bookid);
+	printf("\n");
 }
+
 
 int print_member_data(int member_index) {
   member member_cur = db_members[member_index];
