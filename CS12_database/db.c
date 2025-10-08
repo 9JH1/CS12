@@ -1260,7 +1260,7 @@ int ui_main_main() {
             .amount = 0, // owes nothing
         });
   } else if (ret == -2){
-		ui_print("There is nothing to go back too..");
+		ui_print("There is nothing to go back too..\n");
 	}
   return 12;
 }
