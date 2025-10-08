@@ -1,0 +1,101 @@
+USE ADVANCED TECHNIQUES TO DEVELOP A DATABASE:
+- designing the structure of data -> lib/data.h 
+- using appropriate tools and advanced techniques
+  to organise, query and present data for a purpose
+  and end users
+	-> to organize     : yes
+	-> to query        : yes
+	-> to present data : yes
+
+- Applying appropriate data integrity and 
+  testing procedures 
+	-> has been tested
+	-> data integrity held using git version control 
+
+- explaining relevant implications: yes
+
+USE ADVANCED TECHNIQUES TO DEVELOP AN INFORMED DATABASE:
+- use ionformation from testing procedures to 
+  improve the quality of the database -> yes
+
+- structuring, organizing and querying the data logically
+  -> structuring : yes
+	-> organizing  : yes
+	-> querying    : yes
+
+USE ADVANED TECHNIQUES TO DEVELOP A REFINED DATABASE:
+- iterative improvement throughout the design, 
+  development and testing process
+	-> iterative improvement : yes
+
+- presenting the data effectivly for purpose and 
+  end use : no
+
+IMPLICATIONS USED:
+- social                              : no 
+- cultural                            : no
+- legal                               : yes
+  -> security is maintained 
+
+- ethical                             : yes
+  -> security is maintained 
+
+- intellectual property               : yes
+  -> the database is written from scratch which negates this 
+	   issue, others may use access which may involve legal 
+		 concern 
+
+- privacy                             : yes
+  -> data is secured.
+
+- acessibility                        : yes
+  -> linked to usability 
+
+- usability                           : yes
+  -> database has concise and easy to read ui statements 
+
+- functionality                       : yes
+  -> code works as described 
+
+- aesthetics                          : yes
+  -> ui has been iteratively developed.
+
+- sustainability and furture proofing : yes
+  -> database uses static dependancies which 
+	   maintains this.
+
+- end-user considerations             : yes
+  -> was made for a theoretical client
+
+- heath and safety                    : yes
+
+ADVANCED TECHNIQUES USED:
+- linking data in related tables or nodes using queries or keys
+  -> used id keys to link data between structured tables.
+
+- writing custom queries to filder and/or sort data 
+  -> a custom column sort function is used to get 
+	   the book genre data, also when printing any report
+		 the symbolic metadata part is all queryed data using 
+		 the custom id keys mentioned previously.
+	
+- using logical mathmatical and/or wildcard operators:
+	-> because my database is using a NoSQL based system
+		 there is no way to do querys like so.
+
+- customizing the persentation of data 
+  -> the ui code is hand written from scratch and has been 
+	   highly customized, as I am making a TUI, not a UI using 
+		 microsoft access or another software, I have full control 
+		 and responsibility over how my project looks, at one point 
+		 the ui was not very appealing but was later changed after 
+		 feedback was given.
+
+- Using custom forms to add user input to the database 
+  -> forms are available off of the databases main menu.
+
+- setting validation rules for data entry 
+  -> forms have a few bound condition checks to ensure that 
+	   data is entered correctly.
+
+

@@ -820,101 +820,81 @@ int database() {
 int ui_main_main() {
   int ret;
   const char *main_menu[] = {
-      "full report",   "individual report", "count books by genre",
-      "return a book", "run a form",        "exit",
-      "HELP"};
+      "Full report",
+			"Individual report",
+			"Count books by genre",
+      "Return a book",
+			"Run a form",
+			"Exit"};
 
   const char *main_menu_desc[] = {
-      "print all data held in the database",
-      "select an individual user or book to view info on",
+      "Print all data held in the database",
+      "Select an individual user or book to view info on",
       "Show the statistical book genre counts",
       "",
-      "run a form to enter data to database",
-      "exit program",
-      "how to do things"};
+      "Run a form to enter data to database",
+      "Exit program"};
 
   const char *list_menu[] = {
-      "view members",
-      "view books",
+      "View members",
+      "View books",
   };
 
-  const char *list_menu_desc[] = {"", ""};
+  char *return_menu[] = {
+		"Enter name",
+		"Show members list"
+	};
+  char *return_desc[] = {
+		"search for name",
+		"",
+	};
+
+	const char *list_menu_desc[] = {"", ""};
   printf("Generated book list");
 
   ret = ui_m(main_menu, main_menu_desc, "Select Option");
 
   if (ret == 0) {
-    for (int i = 0; i < db_members_index; i++) {
-      printf("PRINTING DATA FOR MEMBER: %02d\n", i + 1);
-      print_member_data(db_members[i], i);
-      if (db_members[i].loan.loan_index > 0) {
-        printf("MEMBER HAS %d LOANS: \n", db_members[i].loan.loan_index + 1);
-        for (int ii = 0; ii < db_members[i].loan.loan_index; ii++) {
-          printf("\nLoan %02d:\n", ii + 1);
-          print_loan_data(db_loans[db_members[i].loan.loan_ids[ii]]);
-        }
-      }
-      printf("\n");
-    }
-  } else if (ret == 1) {
-
-    // VIEW SCREEN
+		// PRINT FULL REPORT: 
+	
+	} else if (ret == 1) {
+    // INDIVIDUAL VIEW SCREEN
+		//
     ret = ui_m(list_menu, list_menu_desc, "What database do you want to view?");
     if (ret == 0) {
-      ret = member_menu();
+			// INDIVIDUAL MEMBER 
 
+      ret = member_menu();
       print_member_data(db_members[ret], ret);
       for (int i = 0; i < db_members[ret].loan.loan_index; i++) {
         print_loan_data(db_loans[db_members[ret].loan.loan_ids[i]]);
       }
 
     } else {
+			// INDIVIDUAL BOOKS
+
       ret = book_menu();
       print_book_data(db_books[ret]);
     }
   } else if (ret == 2) {
+		// SHOW BOOKS BY GENRE
     books_genre_sort();
+	
+	} else if (ret == 3) {
+    // RETURN BOOK DIALOGS
 
-  } else if (ret == 4) {
-    const char *form_menu[] = {
-        "member",
-        "loan",
-        "book",
-    };
+    int ret = ui_menu(
+				(const char **)return_menu,
+				2,
+				(const char **)return_desc,
+				"Select Option");
 
-    int form = ui_m(form_menu, form_menu, "What form do you want to run?");
 
-    if (form == 0) {
-      member_add(member_wizard());
-    } else if (form == 1) {
-      loan_add(loan_wizard());
-    } else if (form == 2) {
-      book_add(book_wizard());
-    }
-
-  } else if (ret == 5) {
-    printf("exiting main ui loop...\n");
-    return -1;
-  } else if (ret == 6) {
-		ui_print(
-				"Use the arrow keys to move around menus, use enter to select an item on a menu."
-				"The menus have three collumns, one for the index number, one for the item name"
-				"and one for the description."
-				);
-
-		achar();
-		return -1;
-	}
-  if (ret == 3) {
-    // return books
-    char *opts[] = {"Enter Name", "Show all members"};
-
-    int ret =
-        ui_menu((const char **)opts, 2, (const char **)opts, "Select Option");
     int sel_idx = -1;
     if (ret == 0) {
       char buffer[100];
       input(buffer, 100, "Enter your LAST name: ");
+
       // search for name
       for (int i = 0; i < db_members_index; i++) {
         if (strcmp(db_members[i].last_name, buffer) == 0) {
@@ -926,7 +906,6 @@ int ui_main_main() {
         printf("last name \"%s\" not found\n", buffer);
         return -1;
       }
-    } else {
     }
 
     member member_cur = db_members[sel_idx];
@@ -953,11 +932,11 @@ int ui_main_main() {
                   (const char **)loans, "What loan do you want to remove");
     db_loans[member_cur.loan.loan_ids[ret]].returned = date_now();
     printf("Loan has been returned\n");
-  }
-
-  // show all loans show total owing
-  // show all books and their genres and the amount available
-  // show all members and how many loans they have and how much they owe
-
+  } else if (ret == 4){
+		// RUN FORMS
+  } else if (ret == 5) {
+		// EXIT UI CODE 
+		return -1;
+	}
   return 12;
 }
