@@ -163,11 +163,6 @@ char *member_name(member a);
 // copy a member (non pointer) from an id
 member id_to_member(const int a);
 
-// print data of types: 
-void print_member_data(member member_cur, int const ret);
-void print_book_data(book book_cur);
-void print_loan_data(loan loan_cur);
-
 #endif // DATABASE_LIB 
 
 // platform code 
