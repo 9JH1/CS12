@@ -3,7 +3,7 @@
 build_path="build/src/"
 extra_flags="-Wall -Wextra"
 file_name="db"
-main_flags="main.c remote/*.c remote/plib/*.c -o $build_path$file_name $extra_flags"
+main_flags="main.c src/*.c src/remote/plib/*.c -o $build_path$file_name $extra_flags"
 
 # handle path
 rm -rf "$build_path"
