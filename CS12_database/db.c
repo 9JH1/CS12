@@ -4,10 +4,10 @@
 #include <ctype.h>
 #include <unistd.h>
 
-
 int print_book_data(int book_index) {
+    // Validate book_index
     if (book_index < 0 || book_index >= db_books_index) {
-        printf("Invalid book index\n");
+        printf("Invalid book index: %d\n", book_index);
         return -1;
     }
 
@@ -15,11 +15,13 @@ int print_book_data(int book_index) {
     char *val[size], *key[size];
     book book_cur = db_books[book_index];
 
+    // Validate author index
     if (book_cur.id_author < 0 || book_cur.id_author >= db_members_index) {
-        printf("Invalid author index\n");
+        printf("Invalid author index: %d\n", book_cur.id_author);
         return -1;
     }
 
+    // Allocate memory with error checking
     for (int i = 0; i < size; i++) {
         key[i] = malloc(COL_SIZE * sizeof(char));
         val[i] = malloc(COL_SIZE_2 * sizeof(char));
@@ -33,6 +35,7 @@ int print_book_data(int book_index) {
         }
     }
 
+    // Populate fields
     sprintf(key[0], "title: %s", book_cur.title);
     val[0] = "Book title";
 
@@ -51,7 +54,7 @@ int print_book_data(int book_index) {
             book_cur.publication_date.day,
             book_cur.publication_date.month,
             book_cur.publication_date.year);
-    val[4] = "Publication date";
+    val[4] = "Publication date"; // Added description
 
     sprintf(key[5], "available: %d", book_cur.available);
     val[5] = "Number of books available for loan";
@@ -59,16 +62,17 @@ int print_book_data(int book_index) {
     sprintf(key[6], "count: %d", book_cur.count);
     val[6] = "Total count of this book";
 
+    // Call ui_menu with correct size
     int ret = ui_menu((const char **)key, size, (const char **)val, "View books");
 
+    // Clean up
     for (int i = 0; i < size; i++) {
         free(key[i]);
         free(val[i]);
     }
-		printf("exiting..");
+
     return ret;
 }
-
 
 void print_loan_data(loan loan_cur){
 	printf("amount (owed): $%d\n",loan_cur.amount);
