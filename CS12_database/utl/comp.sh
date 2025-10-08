@@ -7,7 +7,7 @@ if [ ! -d "src" ];then
 fi 
 
 CALL="$1"
-extra_flags=""
+extra_flags="-g -Wall"
 main_flags="main.c lib/*.c lib/hlib/lib/draw.c -o src/database $extra_flags"
 
 if [[ "$CALL" = "_WIN32" ]] || [[ "$CALL" = "_MINGW32" ]];then
