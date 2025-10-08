@@ -1179,6 +1179,7 @@ int ui_main_main() {
 
     ret = loan_menu(sel_idx);
     db_loans[member_cur.loan.loan_ids[ret]].returned = date_now();
+		db_loans[]
     printf("Loan has been returned\n");
 
   } else if (ret == 4) {

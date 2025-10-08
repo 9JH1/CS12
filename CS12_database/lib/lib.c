@@ -927,3 +927,9 @@ book book_wizard() {
 
     return new_book;
 }
+
+void remove_element(int *array, int index, int array_length){
+   int i;
+   for(i = index; i < array_length - 1; i++) array[i] = array[i + 1];
+}
+
