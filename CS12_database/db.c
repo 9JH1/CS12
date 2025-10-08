@@ -930,6 +930,7 @@ int ui_main_main() {
                       "Select Option");
 
     int sel_idx = -1;
+
     if (ret == 0) {
       // ENTER LAST NAME
       
@@ -941,6 +942,7 @@ int ui_main_main() {
 				char *l_name   = lower(db_members[i].last_name);
         if (strcmp(l_name, l_buffer) == 0){
           sel_idx = i;
+					break;
 				}
 
 				free(l_name);
