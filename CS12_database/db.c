@@ -5,7 +5,7 @@
 #include <unistd.h>
 
 int print_book_data(int book_index) {
-	const int size = 6;
+	const int size = 7;
 	char *val[size], *key[size];
 	book book_cur = db_books[book_index];
 
@@ -30,17 +30,17 @@ int print_book_data(int book_index) {
 	val[3] = "Book genre";
 
 
-	sprintf(key[3],"publication_date: %d/%d/%d",
+	sprintf(key[4],"publication_date: %d/%d/%d",
 			book_cur.publication_date.day,
 			book_cur.publication_date.month,
 			book_cur.publication_date.year);
-	val[3] = "";
+	val[4] = "";
 
-	sprintf(key[4],"available %d",book_cur.available);
-	val[4] = "how many of this book are available for loan";
+	sprintf(key[5],"available %d",book_cur.available);
+	val[5] = "how many of this book are available for loan";
 
-	sprintf(key[5],"count: %d",book_cur.count);
-	val[5] = "Total count of this book";
+	sprintf(key[6],"count: %d",book_cur.count);
+	val[6] = "Total count of this book";
 	
 	int ret = ui_menu(
 			(const char **)key,
