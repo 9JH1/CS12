@@ -30,9 +30,9 @@ if [[ "$CALL" = "_WIN32" ]] || [[ "$CALL" = "_MINGW32" ]];then
 	shift 
 	
 	if [[ "$CALL" = "_MINGW32" ]];then 
-		wine "./src/$file_name.exe" $@ || echo "database failed to run"
+		wine "./$build_path$file_name.exe" $@ || echo "database exited badly"
 	else 
-		"./src/$file_name.exe" $@ || echo "database failed to run"
+		"./$build_path$file_name.exe" $@ || echo "database exited badly"
 	fi
 
 else 
@@ -51,7 +51,7 @@ else
 	
 	shift 
 
-	./src/$file_name "$@" || echo "database failed to run"
+	"./$build_path$file_name" $@ || echo "database exited badly"
 
 	if [[ ! "$CALL" = "_NOGIT" ]];then 
 		git push &>/dev/null
