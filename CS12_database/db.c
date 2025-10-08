@@ -1229,14 +1229,16 @@ int ui_main_main() {
   } else if (ret == 3) {
     // RETURN BOOK DIALOGS
     int sel_idx = member_selector_menu();
-    member *member_cur = &db_members[sel_idx];
-    ret = loan_menu(sel_idx);
-    db_loans[member_cur->loan.loan_ids[ret]].returned = date_now();
-    remove_element(member_cur->loan.loan_ids, ret, member_cur->loan.loan_index);
-    member_cur->loan.loan_index--;
+    if (sel_idx != -2) {
+      member *member_cur = &db_members[sel_idx];
+      ret = loan_menu(sel_idx);
+      db_loans[member_cur->loan.loan_ids[ret]].returned = date_now();
+      remove_element(member_cur->loan.loan_ids, ret,
+                     member_cur->loan.loan_index);
+      member_cur->loan.loan_index--;
 
-    printf("Loan has been returned\n");
-
+      printf("Loan has been returned\n");
+    }
   } else if (ret == 4) {
     // RUN FORMS
     ret = ui_m(form_menu, form_desc, "What form do you want to run?");
