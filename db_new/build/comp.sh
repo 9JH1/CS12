@@ -1,7 +1,7 @@
 #!/bin/bash
 
 build_path="build/src/"
-extra_flags="-Wall -Wextra"
+extra_flags="-Wall -Wextra -Wno-unused-function"
 file_name="db"
 main_flags="main.c src/*.c src/remote/plib/*.c -o $build_path$file_name $extra_flags"
 
