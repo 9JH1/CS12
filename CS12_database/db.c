@@ -63,50 +63,102 @@ void print_loan_data(loan loan_cur){
 	printf("\n");
 }
 
-void print_member_data(member member_cur,const int ret) {
+int print_member_data(int member_index) {
+	member member_cur = db_members[member_index];
+	const int size = 20;
+	int end_size = 0;
+	char *key[size], *val[size];
 
-  printf("\nMember Metadata:\n");
-  printf("Name: %s %s\n", member_cur.first_name, member_cur.last_name);
+	for(int i = 0; i < size; i++){
+		key[i] = malloc(COL_SIZE * sizeof(char));
+		val[i] = malloc(COL_SIZE_2 * sizeof(char));
+	}
 
-  printf("DOB: %0d/%0d/%d\n", member_cur.dob.day,
-         member_cur.dob.month, member_cur.dob.year);
+	// name: 
+	sprintf(key[0], "first_name,last_name: %s %s",
+			member_cur.first_name,
+			member_cur.last_name);
+	val[0] = "First and last name";
 
-  printf("Email: %s\n", member_cur.email);
-  printf("Phone Number: %s\n", member_cur.phone_number);
-  printf("account_available: %d (0 = false, 1 = true)\n",
-         member_cur.account_available);
-  printf("account_to_delete: %d (0 = false, 1 = true)\n",
-         member_cur.account_to_delete);
+
+	// dob 
+	sprintf(key[1],"dob: %d/%d/%d",
+			member_cur.dob.day,
+			member_cur.dob.month,
+			member_cur.dob.year);
+	val[0] = "Date of birth";
+
+	// email 
+	sprintf(key[2],"email: %s",member_cur.email);
+	val[2] = "Member Email";
+
+	// phone 
+	sprintf(key[3],"phone_number: %s",member_cur.phone_number);
+	val[3] = "Member phone number";
+	
+	// account to delete
+	sprintf(key[4],"account_to_delete: %s",(member_cur.account_available) ? "False" : "True");
+	val[4] = "Is the account to be deleted?";
+
   if (member_cur.type == STAFF) {
-    printf("type: STAFF\n");
-    printf("o.staff.member_code: %d\n", member_cur.o.staff.member_code);
-    printf("o.staff.staff_id: %d\n", member_cur.o.staff.member_id);
-    printf("o.staff.is_hired: %d (0 = false, 1 = true)\n",
-           member_cur.o.staff.is_hired);
+		key[5] = "type: STAFF";
+		val[5] = "Type of member";
+		
+		sprintf(key[6],"member_code: %d",member_cur.o.staff.member_code);
+		val[6] = "Non-unique staff-only code";
+
+		sprintf(key[7],"staff_id: %d",member_cur.o.staff.member_id);
+		val[7] = "Unique staff identifier";
+		
+		sprintf(key[8],"is_hired: %s",(member_cur.o.staff.is_hired) ? "True" : "False");
+		val[8] = "Is the staff member hired?";
+		end_size = 8;
   } else if (member_cur.type == AUTHOR) {
-    printf("type: AUTHOR\n");
-    printf("o.author.genre: %s\n", member_cur.o.author.genre);
+		key[5] = "type: AUTHOR";
+		val[5] = "Type of member";
+
+		sprintf(key[6],"genre: %s",member_cur.o.author.genre);
+		val[6] = "Authors average genre";
+
     if (member_cur.o.author.is_alive) {
-      printf("Author is alive\n");
-    } else
-      printf("Author died %d/%d/%d, %d:%d:%d\n", member_cur.o.author.dod.day,
-             member_cur.o.author.dod.month, member_cur.o.author.dod.year,
-             member_cur.o.author.dod.hour, member_cur.o.author.dod.minute,
-             member_cur.o.author.dod.second);
-  } else
-    printf("type: MEMBER\n");
-  printf("------------\n");
-  printf("Symbolic metadata\n");
+      key[7] = "dod: N/A";
+			val[7] = "Date of death";
+    } else {
+			sprintf(key[7],"dod: %d/%d/%d",
+					member_cur.o.author.dod.day,
+					member_cur.o.author.dod.month,
+					member_cur.o.author.dod.year);
+		}
+  } else {
+		key[5] = "type: MEMBER";
+		val[5] = "Type of member";
+		end_size = 5;
+	}
 
   if (member_cur.type == AUTHOR) {
     int count = 0;
     for (int i = 0; i < db_books_index; i++)
-      if (db_books[i].id_author == ret)
+      if (db_books[i].id_author == member_index)
         count++;
-    printf("Author Book Count: %d\n", count);
-  } else
-    printf("NA\n");
+
+		sprintf(key[8],"Author has %d books", count);
+		val[8] = "Author book count";
+		end_size = 8;
+  }
+
+
+
+	int ret = ui_menu(
+			(const char **)key,
+			end_size,
+			(const char **)val,
+			"Viewing Member Data"
+			);
+
+	return ret;
 }
+
+
 // dont forget to free!
 char *lower(const char *in) {
   if (in == NULL || *in == '\0') {
@@ -167,7 +219,7 @@ int loan_menu(const int cur) {
 void full_report() {
   printf("Members:\n");
   for (int i = 0; i < db_members_index; i++) {
-    print_member_data(db_members[i], 0);
+    print_member_data(i);
   }
 
   printf("Books:\n");
@@ -1031,7 +1083,7 @@ int ui_main_main() {
       // INDIVIDUAL MEMBER
 
       ret = member_menu();
-      print_member_data(db_members[ret], ret);
+      print_member_data(ret);
       for (int i = 0; i < db_members[ret].loan.loan_index; i++) {
         print_loan_data(db_loans[db_members[ret].loan.loan_ids[i]]);
       }
