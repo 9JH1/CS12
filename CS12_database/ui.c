@@ -86,7 +86,7 @@ int ui_menu(const char *array1[], const int size, const char *array2[],
            rn.second);
 
     // draw the menu
-    for (int i = 0; i < size - 1; i++) {
+    for (int i = 0; i < size + 1; i++) {
       gotoxy(1, i + 1);
       if (i == selected)
         printf("\033[30;42;1m");
