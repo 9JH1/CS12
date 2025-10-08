@@ -60,4 +60,4 @@ else
 	fi
 fi
 
-echo "$1 finished"
+echo "$@ finished"
