@@ -275,6 +275,8 @@ int loan_menu(const int cur) {
 
 void full_report() {
 	ui_print("On the following menu press enter on any item on the form to continue to the next person, press 'back' to return to the main menu");
+	ui_print("press any key to continue\n");
+	achar();
   printf("Members:\n");
   for (int i = 0; i < db_members_index; i++) {
     if(print_member_data(i) == -2) return;
