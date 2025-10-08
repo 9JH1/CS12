@@ -5,7 +5,7 @@
 #include <unistd.h>
 
 int print_book_data(int book_index) {
-	const int size = 5;
+	const int size = 6;
 	char *val[size], *key[size];
 	book book_cur = db_books[book_index];
 
@@ -27,7 +27,7 @@ int print_book_data(int book_index) {
 
 
 	sprintf(key[3],"genre: %s",book_cur.genre);
-	val[2] = "Book genre";
+	val[3] = "Book genre";
 
 
 	sprintf(key[3],"publication_date: %d/%d/%d",
@@ -44,7 +44,7 @@ int print_book_data(int book_index) {
 	
 	int ret = ui_menu(
 			(const char **)key,
-			size,
+			size-1,
 			(const char **)val,
 			"View books"
 			);
@@ -96,7 +96,7 @@ void print_loan_data(loan loan_cur){
 
 int print_member_data(int member_index) {
 	member member_cur = db_members[member_index];
-	const int size = 20;
+	const int size = 9;
 	int end_size = 0;
 	char *key[size], *val[size];
 
@@ -380,6 +380,8 @@ void books_genre_sort() {
     free(genre_dec[i]);
     free((char *)genres[i].genre);
   }
+
+	free(genres);
 
   return;
 }
