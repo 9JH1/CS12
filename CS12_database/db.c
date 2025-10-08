@@ -1206,16 +1206,20 @@ int ui_main_main() {
         // INDIVIDUAL MEMBER
 
         ret = member_menu();
-        print_member_data(ret);
-        for (int i = 0; i < db_members[ret].loan.loan_index; i++) {
-          print_loan_data(db_loans[db_members[ret].loan.loan_ids[i]]);
+        if (ret != -2) {
+          print_member_data(ret);
+          for (int i = 0; i < db_members[ret].loan.loan_index; i++) {
+            print_loan_data(db_loans[db_members[ret].loan.loan_ids[i]]);
+          }
         }
 
       } else {
         // INDIVIDUAL BOOKS
 
         ret = book_menu();
-        print_book_data(ret);
+        if (ret != -2) {
+          print_book_data(ret);
+        }
       }
     }
   } else if (ret == 2) {
