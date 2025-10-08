@@ -5,7 +5,7 @@
 #include <unistd.h>
 
 int print_book_data(int book_index) {
-	const int size = 5;
+	const int size = 6;
 	char *val[size], *key[size];
 	book book_cur = db_books[book_index];
 
@@ -44,7 +44,7 @@ int print_book_data(int book_index) {
 	
 	int ret = ui_menu(
 			(const char **)key,
-			size,
+			size-1,
 			(const char **)val,
 			"View books"
 			);
