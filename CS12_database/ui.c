@@ -33,7 +33,6 @@ void ui_print(const char *in);
 
 int run_count;
 
-
 /**
  * @brief draws a interactive menu
  * @param *array[] array of strings used in menu
@@ -47,11 +46,11 @@ int run_count;
 int ui_menu(const char *array1[], const int size, const char *array2[],
             const char *prompt) {
   hide_cursor();
-	run_count = 0;
+  run_count = 0;
 
   // calculate longest
   int x, y, selected;
-  y = size;
+  y = size + 1;
   x = 9 + COL_SIZE + COL_SIZE_2;
   selected = 0;
 
@@ -77,47 +76,48 @@ int ui_menu(const char *array1[], const int size, const char *array2[],
 
   while (1) {
     clear();
-		date rn = date_now();
+    date rn = date_now();
 
     printf("%s\033[0m\n", bor_s.string);
     gotoxy(0, 0);
 
-    printf("%s (%d total lines) (current datetime: %d/%d/%d %d:%d:%d)\n", prompt, size,
-				rn.day,
-				rn.month,
-				rn.year,
-				rn.hour,
-				rn.minute,
-				rn.second);
+    printf("%s (%d total lines) (current datetime: %d/%d/%d %d:%d:%d)\n",
+           prompt, size, rn.day, rn.month, rn.year, rn.hour, rn.minute,
+           rn.second);
 
     // draw the menu
-    for (int i = 0; i < size; i++) {
+    for (int i = 0; i < size + 1; i++) {
       gotoxy(1, i + 1);
       if (i == selected)
         printf("\033[30;42;1m");
 
       printf("%2d. | %s", i + 1, array1[i]);
-			if((COL_SIZE - strlen(array1[i])) <= 0){
-				printf("Error line too long: '%s'\n",array1[i]);
-				achar();
-				continue;
+      if ((COL_SIZE - strlen(array1[i])) <= 0) {
+        printf("Error line too long: '%s'\n", array1[i]);
+        achar();
+        continue;
+      }
+
+      if ((COL_SIZE - strlen(array2[i])) <= 0) {
+        printf("Error line too long: '%s'\n", array2[i]);
+        achar();
+        continue;
+      }
+      if (i != size) {
+        for (int j = 0; j < COL_SIZE - strlen(array1[i]); ++j)
+          printf(" ");
+        printf(" | ");
+        if (run_count == 0)
+          ui_print(array2[i]);
+        else
+          printf("%s", array2[i]);
+
+        for (int j = 0; j < COL_SIZE_2 - strlen(array2[i]); ++j)
+          printf(" ");
+        printf("\033[0m\n");
+      } else {
+				printf("testitem\n");
 			}
-
-			if((COL_SIZE - strlen(array2[i])) <= 0){
-				printf("Error line too long: '%s'\n",array2[i]);
-				achar();
-				continue;
-			}
-
-      for (int j = 0; j < COL_SIZE - strlen(array1[i]); ++j)
-        printf(" ");
-			printf(" | ");
-			if(run_count == 0) ui_print(array2[i]);
-			else printf("%s",array2[i]);
-
-      for (int j = 0; j < COL_SIZE_2 - strlen(array2[i]); ++j)
-        printf(" ");
-      printf("\033[0m\n");
     }
 
     // handle the input
@@ -143,8 +143,8 @@ int ui_menu(const char *array1[], const int size, const char *array2[],
       printf("\n\n");
       return selected;
     }
-		
-		run_count++;
+
+    run_count++;
   }
 
   free(bor_s.string);
@@ -159,8 +159,8 @@ void ui_print(const char *in) {
   size_t len = strlen(in); // Cache the string length
 
   for (size_t i = 0; i < len; i++) {
-		usleep(5000);
-		fflush(stdout);
+    usleep(5000);
+    fflush(stdout);
     const char cur = in[i];
 
     // Handle existing newlines in the input

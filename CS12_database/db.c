@@ -1136,10 +1136,10 @@ int database() {
   int ret = 0;
   while (ret != -1) {
     ret = ui_main_main();
-    if (ret != -1){
-			printf("Press any key to return to main menu");
-			achar();
-		}
+    if (ret != -1) {
+      printf("Press any key to return to main menu");
+      achar();
+    }
   }
 
   printf("writing database, this may take a few seconds");
@@ -1216,8 +1216,8 @@ int ui_main_main() {
 
   } else if (ret == 3) {
     // RETURN BOOK DIALOGS
-		int sel_idx = member_selector_menu();
-		member *member_cur = &db_members[sel_idx];
+    int sel_idx = member_selector_menu();
+    member *member_cur = &db_members[sel_idx];
     ret = loan_menu(sel_idx);
     db_loans[member_cur->loan.loan_ids[ret]].returned = date_now();
     remove_element(member_cur->loan.loan_ids, ret, member_cur->loan.loan_index);
@@ -1238,7 +1238,27 @@ int ui_main_main() {
     // EXIT UI CODE
     return -1;
   } else if (ret == 6) {
-    ret = book_menu();
+    int bookid = book_menu();
+    int memberid = member_selector_menu();
+    loan_new(
+        id_to_member_ptr(memberid),
+        (loan){
+            .bookid = bookid,
+            .issued = date_now(),
+            .return_date =
+                (date){
+                    .year = 3000,
+                    .month = 1,
+                    .day = 1,
+
+                    .hour = 1,
+                    .minute = 1,
+                    .second = 1,
+                },
+            .active = true,
+            .note = "This user is an owner and can have a book for a long time",
+            .amount = 0, // owes nothing
+        });
   }
   return 12;
 }
