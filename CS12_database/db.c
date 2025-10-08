@@ -21,7 +21,7 @@ int print_book_data(int book_index) {
         return -1;
     }
 
-    // Allocate memory for key and val arrays
+    // Allocate memory with error checking
     for (int i = 0; i < size; i++) {
         key[i] = malloc(COL_SIZE * sizeof(char));
         val[i] = malloc(COL_SIZE_2 * sizeof(char));
@@ -35,35 +35,32 @@ int print_book_data(int book_index) {
         }
     }
 
-    // Populate key array
-    snprintf(key[0], COL_SIZE, "title: %s", book_cur.title);
-    snprintf(key[1], COL_SIZE, "author: %s %s",
-             db_members[book_cur.id_author].first_name,
-             db_members[book_cur.id_author].last_name);
-    snprintf(key[2], COL_SIZE, "ISBN: %s", book_cur.ISBN);
-    snprintf(key[3], COL_SIZE, "genre: %s", book_cur.genre);
-    snprintf(key[4], COL_SIZE, "publication_date: %d/%d/%d",
-             book_cur.publication_date.day,
-             book_cur.publication_date.month,
-             book_cur.publication_date.year);
-    snprintf(key[5], COL_SIZE, "available: %d", book_cur.available);
-    snprintf(key[6], COL_SIZE, "count: %d", book_cur.count);
+    // Populate fields
+    sprintf(key[0], "title: %s", book_cur.title);
+    val[0] = "Book title";
 
-    // Populate val array with dynamically allocated strings
-    strncpy(val[0], "Book title", COL_SIZE_2);
-    val[0][COL_SIZE_2 - 1] = '\0'; // Ensure null-termination
-    strncpy(val[1], "Book author", COL_SIZE_2);
-    val[1][COL_SIZE_2 - 1] = '\0';
-    strncpy(val[2], "International Standard Book Number", COL_SIZE_2);
-    val[2][COL_SIZE_2 - 1] = '\0';
-    strncpy(val[3], "Book genre", COL_SIZE_2);
-    val[3][COL_SIZE_2 - 1] = '\0';
-    strncpy(val[4], "Publication date", COL_SIZE_2);
-    val[4][COL_SIZE_2 - 1] = '\0';
-    strncpy(val[5], "Number of books available for loan", COL_SIZE_2);
-    val[5][COL_SIZE_2 - 1] = '\0';
-    strncpy(val[6], "Total count of this book", COL_SIZE_2);
-    val[6][COL_SIZE_2 - 1] = '\0';
+    sprintf(key[1], "author: %s %s",
+            db_members[book_cur.id_author].first_name,
+            db_members[book_cur.id_author].last_name);
+    val[1] = "Book author";
+
+    sprintf(key[2], "ISBN: %s", book_cur.ISBN);
+    val[2] = "International Standard Book Number";
+
+    sprintf(key[3], "genre: %s", book_cur.genre);
+    val[3] = "Book genre";
+
+    sprintf(key[4], "publication_date: %d/%d/%d",
+            book_cur.publication_date.day,
+            book_cur.publication_date.month,
+            book_cur.publication_date.year);
+    val[4] = "Publication date"; // Added description
+
+    sprintf(key[5], "available: %d", book_cur.available);
+    val[5] = "Number of books available for loan";
+
+    sprintf(key[6], "count: %d", book_cur.count);
+    val[6] = "Total count of this book";
 
     // Call ui_menu with correct size
     int ret = ui_menu((const char **)key, size, (const char **)val, "View books");
@@ -76,7 +73,6 @@ int print_book_data(int book_index) {
 
     return ret;
 }
-
 
 void print_loan_data(loan loan_cur){
 	printf("amount (owed): $%d\n",loan_cur.amount);
