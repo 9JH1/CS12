@@ -274,18 +274,22 @@ int loan_menu(const int cur) {
 }
 
 void full_report() {
-	ui_print("On the following menu press enter on any item on the form to continue to the next person, press 'back' to return to the main menu");
-	ui_print("press any key to continue\n");
-	achar();
+  ui_print(
+      "On the following menu press enter on any item on the form to continue "
+      "to the next person, press 'back' to return to the main menu");
+  ui_print("press any key to continue\n");
+  achar();
   printf("Members:\n");
   for (int i = 0; i < db_members_index; i++) {
-    if(print_member_data(i) == -2) return;
+    if (print_member_data(i) == -2)
+      return;
   }
 
   printf("Books:\n");
 
   for (int i = 0; i < db_books_index; i++) {
-    if(print_book_data(i) == -2) return;
+    if (print_book_data(i) == -2)
+      return;
   }
 
   return;
@@ -1196,22 +1200,23 @@ int ui_main_main() {
 
   } else if (ret == 1) {
     // INDIVIDUAL VIEW SCREEN
-
     ret = ui_m(list_menu, list_menu_desc, "What database do you want to view?");
-    if (ret == 0) {
-      // INDIVIDUAL MEMBER
+    if (ret != -2) {
+      if (ret == 0) {
+        // INDIVIDUAL MEMBER
 
-      ret = member_menu();
-      print_member_data(ret);
-      for (int i = 0; i < db_members[ret].loan.loan_index; i++) {
-        print_loan_data(db_loans[db_members[ret].loan.loan_ids[i]]);
+        ret = member_menu();
+        print_member_data(ret);
+        for (int i = 0; i < db_members[ret].loan.loan_index; i++) {
+          print_loan_data(db_loans[db_members[ret].loan.loan_ids[i]]);
+        }
+
+      } else {
+        // INDIVIDUAL BOOKS
+
+        ret = book_menu();
+        print_book_data(ret);
       }
-
-    } else {
-      // INDIVIDUAL BOOKS
-
-      ret = book_menu();
-      print_book_data(ret);
     }
   } else if (ret == 2) {
     // SHOW BOOKS BY GENRE
@@ -1262,8 +1267,8 @@ int ui_main_main() {
             .note = "This user is an owner and can have a book for a long time",
             .amount = 0, // owes nothing
         });
-  } else if (ret == -2){
-		ui_print("There is nothing to go back too..\n");
-	}
+  } else if (ret == -2) {
+    ui_print("There is nothing to go back too..\n");
+  }
   return 12;
 }
