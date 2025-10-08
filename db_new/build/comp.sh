@@ -12,9 +12,9 @@ if [ ! -d "$build_path" ];then
 fi 
 
 CALL="$1"
-shift 
 
 if [[ "$CALL" = "_WIN32" ]] || [[ "$CALL" = "_MINGW32" ]];then
+	shift 
 	if [[ "$CALL" = "_MINGW32" ]];then 
 		x86_64-w64-mingw32-gcc $main_flags 
 	else 
@@ -39,6 +39,8 @@ else
 	if [[ ! "$CALL" = "NOGIT" ]];then 
 		git add . &>/dev/null 
 		git commit -m "$(date)" &>/dev/null 
+	else 
+		shift 
 	fi
 
 
