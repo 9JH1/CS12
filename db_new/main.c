@@ -25,6 +25,7 @@ void help(){
 	pl_help();
 }
 
+
 typedef enum {
 	SUCCESS = 0,
 	FAIL = 1,
@@ -48,7 +49,7 @@ int main(const int c, const char *v[]){
 	pl_r ret;
 
 	if((ret = pl_proc(c,v)) == PL_SUCCESS){
-		printf("Hello World!");
+		printf("Hello World!\n");
 	} else { // handle errors
 		help();
 		printf("error: '%s' from argument '%s'\n",
