@@ -405,6 +405,51 @@ void books_genre_sort() {
   return;
 }
 
+int member_selector_menu() {
+  const char *return_menu[] = {"Search by name", "Show members list",
+                               "Live search"};
+
+  const char *return_desc[] = {"", "", ""};
+  int ret = ui_menu((const char **)return_menu, 2, (const char **)return_desc,
+                    "Select Option");
+
+  int sel_idx = -1;
+
+  if (ret == 0) {
+    // ENTER LAST NAME
+    char buffer[100];
+    int sel_idx = 0;
+    input(buffer, 100, "Enter your LAST name: ");
+    char *l_buffer = lower(buffer);
+
+    for (int i = 0; i < db_members_index; i++) {
+      char *l_name = lower(db_members[i].last_name);
+      if (strcmp(l_name, l_buffer) == 0) {
+        sel_idx = i;
+        break;
+      }
+
+      free(l_name);
+    }
+    if (sel_idx == -1) {
+      printf("last name \"%s\" not found\n", buffer);
+      return 1;
+    }
+  } else if (ret == 1) {
+    // SHOW MEMBER LIST
+
+    sel_idx = member_menu();
+  }
+
+  member *member_cur = &db_members[sel_idx];
+
+  if (member_cur->loan.loan_index <= 0) {
+    printf("the member you selected has zero loans\n");
+    return -1;
+  }
+
+  return sel_idx;
+}
 // data setup
 int database() {
   // =====================================================
@@ -1087,13 +1132,14 @@ int database() {
                                             .active = true,
                                             .amount = 3, // three (credits)
                                         });
-  char buf[5];
   sleep(1);
   int ret = 0;
   while (ret != -1) {
     ret = ui_main_main();
-    if (ret != -1)
-      input(buf, 5, "Press any key to return to main ui");
+    if (ret != -1){
+			printf("Press any key to return to main menu");
+			achar();
+		}
   }
 
   printf("writing database, this may take a few seconds");
@@ -1104,7 +1150,8 @@ int ui_main_main() {
   int ret;
   const char *main_menu[] = {"Full report",          "Individual report",
                              "Count books by genre", "Return a book",
-                             "Run a form",           "Exit"};
+                             "Run a form",           "Exit",
+                             "Issue a book"};
 
   const char *main_menu_desc[] = {
       "Print all data held in the database",
@@ -1112,7 +1159,8 @@ int ui_main_main() {
       "Show the statistical book genre counts",
       "",
       "Run a form to enter data to database",
-      "Exit program"};
+      "Exit program",
+      "Create a loan"};
 
   const char *list_menu[] = {
       "View members",
@@ -1168,46 +1216,8 @@ int ui_main_main() {
 
   } else if (ret == 3) {
     // RETURN BOOK DIALOGS
-
-    int ret = ui_menu((const char **)return_menu, 2, (const char **)return_desc,
-                      "Select Option");
-
-    int sel_idx = -1;
-
-    if (ret == 0) {
-      // ENTER LAST NAME
-
-      char buffer[100];
-      input(buffer, 100, "Enter your LAST name: ");
-      char *l_buffer = lower(buffer);
-
-      for (int i = 0; i < db_members_index; i++) {
-        char *l_name = lower(db_members[i].last_name);
-        if (strcmp(l_name, l_buffer) == 0) {
-          sel_idx = i;
-          break;
-        }
-
-        free(l_name);
-      }
-
-      if (sel_idx == -1) {
-        printf("last name \"%s\" not found\n", buffer);
-        return 1;
-      }
-    } else if (ret == 1) {
-      // SHOW MEMBER LIST
-
-      sel_idx = member_menu();
-    }
-
-    member *member_cur = &db_members[sel_idx];
-
-    if (member_cur->loan.loan_index <= 0) {
-      printf("the member you selected has zero loans\n");
-      return -1;
-    }
-
+		int sel_idx = member_selector_menu();
+		member *member_cur = &db_members[sel_idx];
     ret = loan_menu(sel_idx);
     db_loans[member_cur->loan.loan_ids[ret]].returned = date_now();
     remove_element(member_cur->loan.loan_ids, ret, member_cur->loan.loan_index);
@@ -1227,6 +1237,8 @@ int ui_main_main() {
   } else if (ret == 5) {
     // EXIT UI CODE
     return -1;
+  } else if (ret == 6) {
+    ret = book_menu();
   }
   return 12;
 }
