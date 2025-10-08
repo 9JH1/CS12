@@ -53,7 +53,7 @@ int loan_menu(const int cur) {
   }
 
   int ret = ui_menu((const char **)loans, member_cur.loan.loan_index,
-                    (const char **)loans, "Loans");
+                    (const char **)desc, "Loans");
 
 	for(int i = 0 ;i < member_cur.loan.loan_index; i++)
 		free(desc[i]);
@@ -107,9 +107,10 @@ int member_menu() {
 
     member *loc = &db_members[i];
     sprintf(members[i], "%s %s", loc->first_name, loc->last_name);
-    sprintf(desc[i], "Phone: %s",
+    sprintf(desc[i], "Phone: %s, has %d loans",
             (strlen(loc->phone_number) > 0) ? loc->phone_number
-                                            : "No Phone Number");
+                                            : "No Phone Number",
+						loc->loan.loan_index);
   }
 
   int ret = ui_menu((const char **)members, db_members_index,
