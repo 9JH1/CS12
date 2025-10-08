@@ -2,7 +2,22 @@
 #include "lib/lib.h"
 #include "ui.c"
 #include <unistd.h>
+#include <ctype.h>
 
+// dont forget to free!
+char* lower(const char *in){
+	const int in_s = strlen(in);
+	char *out = malloc(in_s * sizeof(char *));
+
+	for(int i = 0; i < in_s; i++){
+		char cur = in[i];
+		if(isalpha(cur)){
+			out[i] = tolower(in[i]);
+		} else out[i] = in[i];
+	}
+
+	return out;
+}
 int ui_main_main();
 
 int loan_menu(const int cur) {
@@ -917,34 +932,41 @@ int ui_main_main() {
     int sel_idx = -1;
     if (ret == 0) {
       // ENTER LAST NAME
-      char buffer[100];
+      
+			char buffer[100];
       input(buffer, 100, "Enter your LAST name: ");
+			char *l_buffer = lower(buffer);
 
       for (int i = 0; i < db_members_index; i++) {
-        if (strcmp(db_members[i].last_name, buffer) == 0)
+				char *l_name   = lower(db_members[i].last_name);
+        if (strcmp(l_name, l_buffer) == 0){
           sel_idx = i;
+				}
+
+				free(l_name);
       }
+
       if (sel_idx == -1) {
         printf("last name \"%s\" not found\n", buffer);
         return 1;
       }
     } else if (ret == 1) {
-      // SHOW MEMBER LIST
-      sel_idx = member_menu();
+			// SHOW MEMBER LIST
+      
+			sel_idx = member_menu();
     }
 
     member member_cur = db_members[sel_idx];
 
-    // generate loans
     if (member_cur.loan.loan_index <= 0) {
-      printf("the memeber you selected has zero loans\n");
+      printf("the member you selected has zero loans\n");
       return -1;
     }
 		
 		ret = loan_menu(sel_idx);
     db_loans[member_cur.loan.loan_ids[ret]].returned = date_now();
-
     printf("Loan has been returned\n");
+
   } else if (ret == 4) {
     // RUN FORMS
 
