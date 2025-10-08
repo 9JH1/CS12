@@ -50,7 +50,6 @@ else
 		exit 1	
 	fi 
 	
-	shift 
 
 	"./$build_path$file_name" $@
 
