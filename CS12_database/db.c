@@ -80,43 +80,33 @@ int print_book_data(int book_index) {
   return ret;
 }
 
-void print_loan_data(loan loan_cur){
-	printf("amount (owed): $%d\n",loan_cur.amount);
-	printf("issued: %d/%d/%d - %d:%d:%d\n",
-			loan_cur.issued.day,
-			loan_cur.issued.month,
-			loan_cur.issued.year,
-			loan_cur.issued.hour,
-			loan_cur.issued.minute,
-			loan_cur.issued.second
-	);
-	printf("return_date (due date): %d/%d/%d - %d:%d:%d\n",
-			loan_cur.return_date.day,
-			loan_cur.return_date.month,
-			loan_cur.return_date.year,
-			loan_cur.return_date.hour,
-			loan_cur.return_date.minute,
-			loan_cur.return_date.second);
+void print_loan_data(loan loan_cur) {
+  printf("amount (owed): $%d\n", loan_cur.amount);
+  printf("issued: %d/%d/%d - %d:%d:%d\n", loan_cur.issued.day,
+         loan_cur.issued.month, loan_cur.issued.year, loan_cur.issued.hour,
+         loan_cur.issued.minute, loan_cur.issued.second);
+  printf("return_date (due date): %d/%d/%d - %d:%d:%d\n",
+         loan_cur.return_date.day, loan_cur.return_date.month,
+         loan_cur.return_date.year, loan_cur.return_date.hour,
+         loan_cur.return_date.minute, loan_cur.return_date.second);
 
-	printf("returned (when user returned book): %d/%d/%d - %d:%d:%d\n",
-			loan_cur.returned.day,
-			loan_cur.returned.month,
-			loan_cur.returned.year,
-			loan_cur.returned.hour,
-			loan_cur.returned.minute,
-			loan_cur.returned.second);
+  printf("returned (when user returned book): %d/%d/%d - %d:%d:%d\n",
+         loan_cur.returned.day, loan_cur.returned.month, loan_cur.returned.year,
+         loan_cur.returned.hour, loan_cur.returned.minute,
+         loan_cur.returned.second);
 
-	printf("bookid %d\n",loan_cur.bookid);
-	printf("active (is the loan currently not returned) %d ( 0 = false 1 = true)\n",loan_cur.active);
-	printf("is.payed (has the loan be payed) %d\n", loan_cur.is.payed);
-	printf("is.covered (has the loan been payed) %d\n", loan_cur.is.covered);
-	printf("note: %s\n",loan_cur.note);
-	printf("press any key to view book information\n");
-	achar();
-	print_book_data(loan_cur.bookid);
-	printf("\n");
+  printf("bookid %d\n", loan_cur.bookid);
+  printf(
+      "active (is the loan currently not returned) %d ( 0 = false 1 = true)\n",
+      loan_cur.active);
+  printf("is.payed (has the loan be payed) %d\n", loan_cur.is.payed);
+  printf("is.covered (has the loan been payed) %d\n", loan_cur.is.covered);
+  printf("note: %s\n", loan_cur.note);
+  printf("press any key to view book information\n");
+  achar();
+  print_book_data(loan_cur.bookid);
+  printf("\n");
 }
-
 
 int print_member_data(int member_index) {
   member member_cur = db_members[member_index];
@@ -1129,6 +1119,16 @@ int ui_main_main() {
       "View books",
   };
 
+  const char *form_menu[] = {
+      "member",
+      "book",
+  };
+
+  const char *form_desc[] = {
+      "Create a member",
+      "Create a book",
+  };
+
   const char *return_menu[] = {"Search by name", "Show members list",
                                "Live search"};
 
@@ -1217,6 +1217,12 @@ int ui_main_main() {
 
   } else if (ret == 4) {
     // RUN FORMS
+    ret = ui_m(form_menu, form_desc, "What form do you want to run?");
+    if (ret == 0) {
+      member_add(member_wizard());
+    } else if (ret == 1) {
+      book_add(book_wizard());
+    }
 
   } else if (ret == 5) {
     // EXIT UI CODE
