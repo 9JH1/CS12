@@ -875,9 +875,7 @@ int database() {
       input(buf, 5, "Press any key to return to main ui");
   }
 
-  printf(
-      "\n\nwriting database, this may take a few seconds, if it takes too long "
-      "spam-press control+c to force quit\n");
+  printf("writing database, this may take a few seconds");
   return -12;
 }
 
