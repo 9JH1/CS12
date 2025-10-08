@@ -4,27 +4,58 @@
 #include <ctype.h>
 #include <unistd.h>
 
-void print_book_data(book book_cur) {
-  printf("\nBook Metadata:\n");
-  printf("title: %s\n", book_cur.title);
-  printf("id_author: %d (id linking to the author of the book)\n",
-         book_cur.id_author);
-  printf("ISBN: %s\n", book_cur.ISBN);
-  printf("genre: %s\n", book_cur.genre);
-  printf("publication_date: %2d/%2d/%d, %2d:%2d:%2d\n",
-         book_cur.publication_date.day, book_cur.publication_date.month,
-         book_cur.publication_date.year, book_cur.publication_date.hour,
-         book_cur.publication_date.minute, book_cur.publication_date.second);
+int print_book_data(int book_index) {
+	const int size = 8;
+	char *val[size], *key[size];
+	book book_cur = db_books[book_index];
 
-  printf("available: %d (how many of this book are currently on loan)\n",
-         book_cur.available);
-  printf("count: %d (how many of this book there is in total)\n",
-         book_cur.count);
-  printf("-----------\n");
-  printf("Symbolic Metadata:\n");
+	for(int i = 0; i < size;i++){
+		key[i] = malloc(COL_SIZE * sizeof(char));
+		val[i] = malloc(COL_SIZE_2 * sizeof(char));
+	}
+	
+	sprintf(key[0],"title: %s",book_cur.title);
+	val[0] = "Book title";
 
-  member author = db_members[book_cur.id_author];
-  printf("Author Name: %s %s\n", author.first_name, author.last_name);
+	sprintf(key[1],"author: %s %s",
+			db_members[book_cur.id_author].first_name,
+			db_members[book_cur.id_author].last_name);
+	val[1] = "Book author";
+
+	sprintf(key[2],"ISBN: %s",book_cur.ISBN);
+	val[2] = "International Standard Book Number";
+
+
+	sprintf(key[3],"genre: %s",book_cur.genre);
+	val[2] = "Book genre";
+
+
+	sprintf(key[3],"publication_date: %d/%d/%d",
+			book_cur.publication_date.day,
+			book_cur.publication_date.month,
+			book_cur.publication_date.year);
+	val[3] = "";
+
+	sprintf(key[4],"available %d",book_cur.available);
+	val[4] = "how many of this book are available for loan";
+
+	sprintf(key[5],"count: %d",book_cur.count);
+	val[5] = "Total count of this book";
+	
+	int ret = ui_menu(
+			(const char **)key,
+			size,
+			(const char **)val,
+			"View books"
+			);
+
+
+	for(int i = 0;i < size; i++){
+		free(key[i]);
+		free(val[i]);
+	}
+
+	return ret;
 }
 
 void print_loan_data(loan loan_cur){
@@ -59,7 +90,7 @@ void print_loan_data(loan loan_cur){
 	printf("is.covered (has the loan been payed) %d\n", loan_cur.is.covered);
 	printf("note: %s\n",loan_cur.note);
 	printf("SYMBOLIC DATA ===============\n");
-	print_book_data(db_books[loan_cur.bookid]);
+	print_book_data(loan_cur.bookid);
 	printf("\n");
 }
 
@@ -156,6 +187,11 @@ int print_member_data(int member_index) {
 			"Viewing Member Data"
 			);
 
+	for(int i = 0;i < size;i++){
+		free(key[i]);
+		free(val[i]);
+	}
+
 	return ret;
 }
 
@@ -226,7 +262,7 @@ void full_report() {
   printf("Books:\n");
 
   for (int i = 0; i < db_books_index; i++) {
-    print_book_data(db_books[i]);
+    print_book_data(i);
   }
 
   return;
@@ -1093,7 +1129,7 @@ int ui_main_main() {
       // INDIVIDUAL BOOKS
 
       ret = book_menu();
-      print_book_data(db_books[ret]);
+      print_book_data(ret);
     }
   } else if (ret == 2) {
     // SHOW BOOKS BY GENRE
