@@ -12,7 +12,7 @@
 #include <unistd.h>
 
 #define COL_SIZE_2 60
-#define COL_SIZE 40
+#define COL_SIZE 50
 void ui_quit(int code) {
   show_cursor();
   exit(code);
