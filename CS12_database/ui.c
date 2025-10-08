@@ -86,26 +86,24 @@ int ui_menu(const char *array1[], const int size, const char *array2[],
            rn.second);
 
     // draw the menu
-    for (int i = 0; i < size; i++) {
+    for (int i = 0; i < size - 1; i++) {
       gotoxy(1, i + 1);
       if (i == selected)
         printf("\033[30;42;1m");
 
-      if ((COL_SIZE - strlen(array1[i])) <= 0) {
-        printf("Error line too long: '%s'\n", array1[i]);
-        continue;
-      }
-
-      if ((COL_SIZE - strlen(array2[i])) <= 0) {
-        printf("Error line too long: '%s'\n", array2[i]);
-        continue;
-      }
-
-
       if (i != size) {
-      	printf("%2d. | %s", i + 1, array1[i]);
-        
-				for (int j = 0; j < COL_SIZE - strlen(array1[i]); ++j)
+        if ((COL_SIZE - strlen(array1[i])) <= 0) {
+          printf("Error line too long: '%s'\n", array1[i]);
+          continue;
+        }
+
+        if ((COL_SIZE - strlen(array2[i])) <= 0) {
+          printf("Error line too long: '%s'\n", array2[i]);
+          continue;
+        }
+        printf("%2d. | %s", i + 1, array1[i]);
+
+        for (int j = 0; j < COL_SIZE - strlen(array1[i]); ++j)
           printf(" ");
         printf(" | ");
         if (run_count == 0)
@@ -117,12 +115,11 @@ int ui_menu(const char *array1[], const int size, const char *array2[],
           printf(" ");
         printf("\033[0m\n");
       } else {
-				/* printf("Back");
-				for(int j = 0; j < x - 4;j++)
-					printf(" ");
-				printf("\033[0m\n");
-				*/
-			}
+        printf("Back");
+        for(int j = 0; j < x - 4;j++)
+                printf(" ");
+        printf("\033[0m\n");
+      }
     }
 
     // handle the input
@@ -146,8 +143,8 @@ int ui_menu(const char *array1[], const int size, const char *array2[],
       show_cursor();
       free(bor_s.string);
       printf("\n\n");
-			if(selected == size)
-				return -2;
+      if (selected == size)
+        return -2;
       return selected;
     }
 
