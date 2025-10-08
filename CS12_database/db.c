@@ -18,7 +18,7 @@ char *lower(const char *in) {
   size_t in_s = strlen(in);
   char *out = malloc((in_s + 1) * sizeof(char));
   if (out == NULL) {
-    return NULL; 
+    return NULL;
   }
 
   for (size_t i = 0; i < in_s; i++) {
@@ -28,7 +28,7 @@ char *lower(const char *in) {
       out[i] = in[i];
     }
   }
-  out[in_s] = '\0'; 
+  out[in_s] = '\0';
 
   return out;
 }
@@ -37,19 +37,26 @@ int ui_main_main();
 int loan_menu(const int cur) {
   member member_cur = db_members[cur];
   char *loans[member_cur.loan.loan_index];
+  char *desc[member_cur.loan.loan_index];
 
   for (int i = 0; i < member_cur.loan.loan_index; i++) {
     loan loan_cur = db_loans[member_cur.loan.loan_ids[i]];
-
     loans[i] = db_books[loan_cur.bookid].title;
-    printf("Loan #%2d: %s, Due %d/%d/%d\n", i + 1, loans[i],
-           loan_cur.return_date.day, loan_cur.return_date.month,
-           loan_cur.return_date.year);
+    desc[i] = malloc(COL_SIZE_2 * sizeof(char));
+
+		sprintf(desc[i],"Costs: $%d must return by %d/%d/%d",
+				loan_cur.amount,
+				loan_cur.return_date.day, 
+				loan_cur.return_date.month,
+				loan_cur.return_date.year
+				);
   }
 
   int ret = ui_menu((const char **)loans, member_cur.loan.loan_index,
-                    (const char **)loans, "What loan do you want to remove");
-  db_loans[member_cur.loan.loan_ids[ret]].returned = date_now();
+                    (const char **)loans, "Loans");
+
+	for(int i = 0 ;i < member_cur.loan.loan_index; i++)
+		free(desc[i]);
 
   return ret;
 }
@@ -76,7 +83,7 @@ int book_menu() {
     book *loc = &db_books[i];
     books[i] = loc->title;
 
-    desc[i] = malloc(COL_SIZE_2 * sizeof(char *));
+    desc[i] = malloc(COL_SIZE_2 * sizeof(char));
     sprintf(desc[i], "ISBN: %s", loc->ISBN);
   }
 
@@ -95,8 +102,8 @@ int member_menu() {
   char *desc[db_members_index];
 
   for (int i = 0; i < db_members_index; i++) {
-    members[i] = malloc(COL_SIZE * sizeof(char *));
-    desc[i] = malloc(COL_SIZE_2 * sizeof(char *));
+    members[i] = malloc(COL_SIZE * sizeof(char));
+    desc[i] = malloc(COL_SIZE_2 * sizeof(char));
 
     member *loc = &db_members[i];
     sprintf(members[i], "%s %s", loc->first_name, loc->last_name);
