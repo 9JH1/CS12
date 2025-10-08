@@ -4,220 +4,274 @@
 #include <ctype.h>
 #include <unistd.h>
 int print_book_data(int book_index) {
-    if (book_index < 0 || book_index >= db_books_index) {
-        printf("Invalid book index: %d\n", book_index);
-        return -1;
+  if (book_index < 0 || book_index >= db_books_index) {
+    printf("Invalid book index: %d\n", book_index);
+    return -1;
+  }
+
+  const int size = 7;
+  char *key[size], *val[size];
+  book book_cur = db_books[book_index];
+
+  if (book_cur.id_author < 0 || book_cur.id_author >= db_members_index) {
+    printf("Invalid author index: %d\n", book_cur.id_author);
+    return -1;
+  }
+
+  for (int i = 0; i < size; i++) {
+    key[i] = malloc(COL_SIZE * sizeof(char));
+    val[i] = malloc(COL_SIZE_2 * sizeof(char));
+    if (!key[i] || !val[i]) {
+      printf("Memory allocation failed\n");
+      for (int j = 0; j < i; j++) {
+        free(key[j]);
+        free(val[j]);
+      }
+      return -1;
     }
+  }
 
-    const int size = 7;
-    char *key[size], *val[size];
-    book book_cur = db_books[book_index];
+  // Populate fields using strcpy and strcat
+  strcpy(key[0], "title: ");
+  strcat(key[0], book_cur.title);
+  strcpy(val[0], "Book title");
 
-    if (book_cur.id_author < 0 || book_cur.id_author >= db_members_index) {
-        printf("Invalid author index: %d\n", book_cur.id_author);
-        return -1;
-    }
+  strcpy(key[1], "author: ");
+  strcat(key[1], db_members[book_cur.id_author].first_name);
+  strcat(key[1], " ");
+  strcat(key[1], db_members[book_cur.id_author].last_name);
+  strcpy(val[1], "Book author");
 
-    for (int i = 0; i < size; i++) {
-        key[i] = malloc(COL_SIZE * sizeof(char));
-        val[i] = malloc(COL_SIZE_2 * sizeof(char));
-        if (!key[i] || !val[i]) {
-            printf("Memory allocation failed\n");
-            for (int j = 0; j < i; j++) {
-                free(key[j]);
-                free(val[j]);
-            }
-            return -1;
-        }
-    }
+  strcpy(key[2], "ISBN: ");
+  strcat(key[2], book_cur.ISBN);
+  strcpy(val[2], "International Standard Book Number");
 
-    // Populate fields using strcpy and strcat
-    strcpy(key[0], "title: ");
-    strcat(key[0], book_cur.title);
-    strcpy(val[0], "Book title");
+  strcpy(key[3], "genre: ");
+  strcat(key[3], book_cur.genre);
+  strcpy(val[3], "Book genre");
 
-    strcpy(key[1], "author: ");
-    strcat(key[1], db_members[book_cur.id_author].first_name);
-    strcat(key[1], " ");
-    strcat(key[1], db_members[book_cur.id_author].last_name);
-    strcpy(val[1], "Book author");
+  char date_str[16];
+  snprintf(date_str, sizeof(date_str), "%d/%d/%d",
+           book_cur.publication_date.day, book_cur.publication_date.month,
+           book_cur.publication_date.year);
+  strcpy(key[4], "publication_date: ");
+  strcat(key[4], date_str);
+  strcpy(val[4], "Publication date");
 
-    strcpy(key[2], "ISBN: ");
-    strcat(key[2], book_cur.ISBN);
-    strcpy(val[2], "International Standard Book Number");
+  char num_str[16];
+  snprintf(num_str, sizeof(num_str), "%d", book_cur.available);
+  strcpy(key[5], "available: ");
+  strcat(key[5], num_str);
+  strcpy(val[5], "Number of books available for loan");
 
-    strcpy(key[3], "genre: ");
-    strcat(key[3], book_cur.genre);
-    strcpy(val[3], "Book genre");
+  snprintf(num_str, sizeof(num_str), "%d", book_cur.count);
+  strcpy(key[6], "count: ");
+  strcat(key[6], num_str);
+  strcpy(val[6], "Total count of this book");
 
-    char date_str[16];
-    snprintf(date_str, sizeof(date_str), "%d/%d/%d",
-            book_cur.publication_date.day,
-            book_cur.publication_date.month,
-            book_cur.publication_date.year);
-    strcpy(key[4], "publication_date: ");
-    strcat(key[4], date_str);
-    strcpy(val[4], "Publication date");
+  int ret = ui_menu((const char **)key, size, (const char **)val, "View books");
 
-    char num_str[16];
-    snprintf(num_str, sizeof(num_str), "%d", book_cur.available);
-    strcpy(key[5], "available: ");
-    strcat(key[5], num_str);
-    strcpy(val[5], "Number of books available for loan");
+  for (int i = 0; i < size; i++) {
+    free(key[i]);
+    free(val[i]);
+  }
 
-    snprintf(num_str, sizeof(num_str), "%d", book_cur.count);
-    strcpy(key[6], "count: ");
-    strcat(key[6], num_str);
-    strcpy(val[6], "Total count of this book");
-
-    int ret = ui_menu((const char **)key, size, (const char **)val, "View books");
-
-    for (int i = 0; i < size; i++) {
-        free(key[i]);
-        free(val[i]);
-    }
-
-    return ret;
+  return ret;
 }
 
-void print_loan_data(loan loan_cur) {
-    char date_str[32];
-    snprintf(date_str, sizeof(date_str), "%d/%d/%d - %d:%d:%d",
-            loan_cur.issued.day, loan_cur.issued.month, loan_cur.issued.year,
-            loan_cur.issued.hour, loan_cur.issued.minute, loan_cur.issued.second);
-    
-    printf("amount (owed): $%d\n", loan_cur.amount);
-    printf("issued: %s\n", date_str);
-    
-    snprintf(date_str, sizeof(date_str), "%d/%d/%d - %d:%d:%d",
-            loan_cur.return_date.day, loan_cur.return_date.month, loan_cur.return_date.year,
-            loan_cur.return_date.hour, loan_cur.return_date.minute, loan_cur.return_date.second);
-    printf("return_date (due date): %s\n", date_str);
+int print_loan_data(int loan_id) {
+  loan loan_cur = db_loans[loan_id];
+  const int size = 9;
+  char *key[size], *val[size];
 
-    snprintf(date_str, sizeof(date_str), "%d/%d/%d - %d:%d:%d",
-            loan_cur.returned.day, loan_cur.returned.month, loan_cur.returned.year,
-            loan_cur.returned.hour, loan_cur.returned.minute, loan_cur.returned.second);
-    printf("returned (when user returned book): %s\n", date_str);
+  for (int i = 0; i < size; i++) {
+    key[i] = malloc(COL_SIZE * sizeof(char));
+    val[i] = malloc(COL_SIZE_2 * sizeof(char));
+    if (!key[i] || !val[i]) {
+      printf("Memory allocation failed\n");
+      for (int j = 0; j < i; j++) {
+        free(key[j]);
+        free(val[j]);
+      }
+      return -1;
+    }
+  }
 
-    printf("bookid %d\n", loan_cur.bookid);
-    printf("active (is the loan currently not returned) %d (0 = false 1 = true)\n", loan_cur.active);
-    printf("is.payed (has the loan been paid) %d\n", loan_cur.is.payed);
-    printf("is.covered (has the loan been paid) %d\n", loan_cur.is.covered);
-    printf("note: %s\n", loan_cur.note);
-    printf("SYMBOLIC DATA ===============\n");
-    print_book_data(loan_cur.bookid);
-    printf("\n");
+  char num_str[16];
+  char date_str[32];
+
+  snprintf(num_str, sizeof(num_str), "$%d", loan_cur.amount);
+  strcpy(key[0], "amount (owed): ");
+  strcat(key[0], num_str);
+  strcpy(val[0], "Amount owed for the loan");
+
+  snprintf(date_str, sizeof(date_str), "%d/%d/%d - %d:%d:%d",
+           loan_cur.issued.day, loan_cur.issued.month, loan_cur.issued.year,
+           loan_cur.issued.hour, loan_cur.issued.minute,
+           loan_cur.issued.second);
+  strcpy(key[1], "issued: ");
+  strcat(key[1], date_str);
+  strcpy(val[1], "Date and time loan was issued");
+
+  snprintf(date_str, sizeof(date_str), "%d/%d/%d - %d:%d:%d",
+           loan_cur.return_date.day, loan_cur.return_date.month,
+           loan_cur.return_date.year, loan_cur.return_date.hour,
+           loan_cur.return_date.minute, loan_cur.return_date.second);
+  strcpy(key[2], "return_date (due date): ");
+  strcat(key[2], date_str);
+  strcpy(val[2], "Due date for book return");
+
+  snprintf(date_str, sizeof(date_str), "%d/%d/%d - %d:%d:%d",
+           loan_cur.returned.day, loan_cur.returned.month,
+           loan_cur.returned.year, loan_cur.returned.hour,
+           loan_cur.returned.minute, loan_cur.returned.second);
+  strcpy(key[3], "returned: ");
+  strcat(key[3], date_str);
+  strcpy(val[3], "Date and time book was returned");
+
+  snprintf(num_str, sizeof(num_str), "%d", loan_cur.bookid);
+  strcpy(key[4], "bookid: ");
+  strcat(key[4], num_str);
+  strcpy(val[4], "Book identifier");
+
+  snprintf(num_str, sizeof(num_str), "%d", loan_cur.active);
+  strcpy(key[5], "active: ");
+  strcat(key[5], num_str);
+  strcpy(val[5], "Is the loan currently active? (0 = false, 1 = true)");
+
+  snprintf(num_str, sizeof(num_str), "%d", loan_cur.is.payed);
+  strcpy(key[6], "is.payed: ");
+  strcat(key[6], num_str);
+  strcpy(val[6], "Has the loan been paid?");
+
+  snprintf(num_str, sizeof(num_str), "%d", loan_cur.is.covered);
+  strcpy(key[7], "is.covered: ");
+  strcat(key[7], num_str);
+  strcpy(val[7], "Has the loan been covered?");
+
+  strcpy(key[8], "note: ");
+  strcat(key[8], loan_cur.note);
+  strcpy(val[8], "Additional notes about the loan");
+
+  int ret =
+      ui_menu((const char **)key, size, (const char **)val, "View loan data");
+
+  for (int i = 0; i < size; i++) {
+    free(key[i]);
+    free(val[i]);
+  }
+  return ret;
 }
 
 int print_member_data(int member_index) {
-    member member_cur = db_members[member_index];
-    const int size = 9; // Increased to handle all possible cases
-    char *key[size], *val[size];
-    int end_size = 0;
+  member member_cur = db_members[member_index];
+  const int size = 9; // Increased to handle all possible cases
+  char *key[size], *val[size];
+  int end_size = 0;
 
-    for (int i = 0; i < size; i++) {
-        key[i] = malloc(COL_SIZE * sizeof(char));
-        val[i] = malloc(COL_SIZE_2 * sizeof(char));
-        if (!key[i] || !val[i]) {
-            printf("Memory allocation failed\n");
-            for (int j = 0; j < i; j++) {
-                free(key[j]);
-                free(val[j]);
-            }
-            return -1;
-        }
+  for (int i = 0; i < size; i++) {
+    key[i] = malloc(COL_SIZE * sizeof(char));
+    val[i] = malloc(COL_SIZE_2 * sizeof(char));
+    if (!key[i] || !val[i]) {
+      printf("Memory allocation failed\n");
+      for (int j = 0; j < i; j++) {
+        free(key[j]);
+        free(val[j]);
+      }
+      return -1;
     }
+  }
 
-    strcpy(key[0], "first_name,last_name: ");
-    strcat(key[0], member_cur.first_name);
-    strcat(key[0], " ");
-    strcat(key[0], member_cur.last_name);
-    strcpy(val[0], "First and last name");
+  strcpy(key[0], "first_name,last_name: ");
+  strcat(key[0], member_cur.first_name);
+  strcat(key[0], " ");
+  strcat(key[0], member_cur.last_name);
+  strcpy(val[0], "First and last name");
 
-    char date_str[16];
-    snprintf(date_str, sizeof(date_str), "%d/%d/%d",
-            member_cur.dob.day, member_cur.dob.month, member_cur.dob.year);
-    strcpy(key[1], "dob: ");
-    strcat(key[1], date_str);
-    strcpy(val[1], "Date of birth");
+  char date_str[16];
+  snprintf(date_str, sizeof(date_str), "%d/%d/%d", member_cur.dob.day,
+           member_cur.dob.month, member_cur.dob.year);
+  strcpy(key[1], "dob: ");
+  strcat(key[1], date_str);
+  strcpy(val[1], "Date of birth");
 
-    strcpy(key[2], "email: ");
-    strcat(key[2], member_cur.email);
-    strcpy(val[2], "Member Email");
+  strcpy(key[2], "email: ");
+  strcat(key[2], member_cur.email);
+  strcpy(val[2], "Member Email");
 
-    strcpy(key[3], "phone_number: ");
-    strcat(key[3], member_cur.phone_number);
-    strcpy(val[3], "Member phone number");
+  strcpy(key[3], "phone_number: ");
+  strcat(key[3], member_cur.phone_number);
+  strcpy(val[3], "Member phone number");
 
-    strcpy(key[4], "account_to_delete: ");
-    strcat(key[4], member_cur.account_available ? "False" : "True");
-    strcpy(val[4], "Is the account to be deleted?");
+  strcpy(key[4], "account_to_delete: ");
+  strcat(key[4], member_cur.account_available ? "False" : "True");
+  strcpy(val[4], "Is the account to be deleted?");
 
-    if (member_cur.type == STAFF) {
-        strcpy(key[5], "type: STAFF");
-        strcpy(val[5], "Type of member");
+  if (member_cur.type == STAFF) {
+    strcpy(key[5], "type: STAFF");
+    strcpy(val[5], "Type of member");
 
-        char num_str[16];
-        snprintf(num_str, sizeof(num_str), "%d", member_cur.o.staff.member_code);
-        strcpy(key[6], "member_code: ");
-        strcat(key[6], num_str);
-        strcpy(val[6], "Non-unique staff-only code");
+    char num_str[16];
+    snprintf(num_str, sizeof(num_str), "%d", member_cur.o.staff.member_code);
+    strcpy(key[6], "member_code: ");
+    strcat(key[6], num_str);
+    strcpy(val[6], "Non-unique staff-only code");
 
-        snprintf(num_str, sizeof(num_str), "%d", member_cur.o.staff.member_id);
-        strcpy(key[7], "staff_id: ");
-        strcat(key[7], num_str);
-        strcpy(val[7], "Unique staff identifier");
+    snprintf(num_str, sizeof(num_str), "%d", member_cur.o.staff.member_id);
+    strcpy(key[7], "staff_id: ");
+    strcat(key[7], num_str);
+    strcpy(val[7], "Unique staff identifier");
 
-        strcpy(key[8], "is_hired: ");
-        strcat(key[8], member_cur.o.staff.is_hired ? "True" : "False");
-        strcpy(val[8], "Is the staff member hired?");
-        end_size = 9;
-    } else if (member_cur.type == AUTHOR) {
-        strcpy(key[5], "type: AUTHOR");
-        strcpy(val[5], "Type of member");
+    strcpy(key[8], "is_hired: ");
+    strcat(key[8], member_cur.o.staff.is_hired ? "True" : "False");
+    strcpy(val[8], "Is the staff member hired?");
+    end_size = 9;
+  } else if (member_cur.type == AUTHOR) {
+    strcpy(key[5], "type: AUTHOR");
+    strcpy(val[5], "Type of member");
 
-        strcpy(key[6], "genre: ");
-        strcat(key[6], member_cur.o.author.genre);
-        strcpy(val[6], "Authors average genre");
+    strcpy(key[6], "genre: ");
+    strcat(key[6], member_cur.o.author.genre);
+    strcpy(val[6], "Authors average genre");
 
-        if (member_cur.o.author.is_alive) {
-            strcpy(key[7], "dod: N/A");
-        } else {
-            snprintf(date_str, sizeof(date_str), "%d/%d/%d",
-                    member_cur.o.author.dod.day,
-                    member_cur.o.author.dod.month,
-                    member_cur.o.author.dod.year);
-            strcpy(key[7], "dod: ");
-            strcat(key[7], date_str);
-        }
-        strcpy(val[7], "Date of death");
-
-        int count = 0;
-        for (int i = 0; i < db_books_index; i++)
-            if (db_books[i].id_author == member_index)
-                count++;
-
-        char count_str[16];
-        snprintf(count_str, sizeof(count_str), "%d", count);
-        strcpy(key[8], "Author has ");
-        strcat(key[8], count_str);
-        strcat(key[8], " books");
-        strcpy(val[8], "Author book count");
-        end_size = 9;
+    if (member_cur.o.author.is_alive) {
+      strcpy(key[7], "dod: N/A");
     } else {
-        strcpy(key[5], "type: MEMBER");
-        strcpy(val[5], "Type of member");
-        end_size = 6;
+      snprintf(date_str, sizeof(date_str), "%d/%d/%d",
+               member_cur.o.author.dod.day, member_cur.o.author.dod.month,
+               member_cur.o.author.dod.year);
+      strcpy(key[7], "dod: ");
+      strcat(key[7], date_str);
     }
+    strcpy(val[7], "Date of death");
 
-    int ret = ui_menu((const char **)key, end_size, (const char **)val, "Viewing Member Data");
+    int count = 0;
+    for (int i = 0; i < db_books_index; i++)
+      if (db_books[i].id_author == member_index)
+        count++;
 
-    for (int i = 0; i < size; i++) {
-        free(key[i]);
-        free(val[i]);
-    }
+    char count_str[16];
+    snprintf(count_str, sizeof(count_str), "%d", count);
+    strcpy(key[8], "Author has ");
+    strcat(key[8], count_str);
+    strcat(key[8], " books");
+    strcpy(val[8], "Author book count");
+    end_size = 9;
+  } else {
+    strcpy(key[5], "type: MEMBER");
+    strcpy(val[5], "Type of member");
+    end_size = 6;
+  }
 
-    return ret;
+  int ret = ui_menu((const char **)key, end_size, (const char **)val,
+                    "Viewing Member Data");
+
+  for (int i = 0; i < size; i++) {
+    free(key[i]);
+    free(val[i]);
+  }
+
+  return ret;
 }
 
 // dont forget to free!
@@ -260,19 +314,16 @@ int loan_menu(const int cur) {
     loans[i] = db_books[loan_cur.bookid].title;
     desc[i] = malloc(COL_SIZE_2 * sizeof(char));
 
-		sprintf(desc[i],"Costs: $%d must return by %d/%d/%d",
-				loan_cur.amount,
-				loan_cur.return_date.day, 
-				loan_cur.return_date.month,
-				loan_cur.return_date.year
-				);
+    sprintf(desc[i], "Costs: $%d must return by %d/%d/%d", loan_cur.amount,
+            loan_cur.return_date.day, loan_cur.return_date.month,
+            loan_cur.return_date.year);
   }
 
   int ret = ui_menu((const char **)loans, member_cur.loan.loan_index,
                     (const char **)desc, "Loans");
 
-	for(int i = 0 ;i < member_cur.loan.loan_index; i++)
-		free(desc[i]);
+  for (int i = 0; i < member_cur.loan.loan_index; i++)
+    free(desc[i]);
 
   return ret;
 }
@@ -323,8 +374,7 @@ int member_menu() {
 
     member *loc = &db_members[i];
     sprintf(members[i], "%s %s", loc->first_name, loc->last_name);
-    sprintf(desc[i], "Has %02d loans, phone: %s",
-						loc->loan.loan_index,
+    sprintf(desc[i], "Has %02d loans, phone: %s", loc->loan.loan_index,
             (strlen(loc->phone_number) > 0) ? loc->phone_number
                                             : "No Phone Number");
   }
@@ -405,7 +455,7 @@ void books_genre_sort() {
     free((char *)genres[i].genre);
   }
 
-	free(genres);
+  free(genres);
 
   return;
 }
@@ -1148,7 +1198,7 @@ int ui_main_main() {
       ret = member_menu();
       print_member_data(ret);
       for (int i = 0; i < db_members[ret].loan.loan_index; i++) {
-        print_loan_data(db_loans[db_members[ret].loan.loan_ids[i]]);
+        print_loan_data(db_members[ret].loan.loan_ids[i]);
       }
 
     } else {
@@ -1205,10 +1255,10 @@ int ui_main_main() {
 
     ret = loan_menu(sel_idx);
     db_loans[member_cur->loan.loan_ids[ret]].returned = date_now();
-		remove_element(member_cur->loan.loan_ids, ret, member_cur->loan.loan_index);
-		member_cur->loan.loan_index--;
-    
-		printf("Loan has been returned\n");
+    remove_element(member_cur->loan.loan_ids, ret, member_cur->loan.loan_index);
+    member_cur->loan.loan_index--;
+
+    printf("Loan has been returned\n");
 
   } else if (ret == 4) {
     // RUN FORMS
