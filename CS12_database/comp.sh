@@ -7,11 +7,12 @@ if [ ! -d "src" ];then
 fi 
 
 CALL="$1"
-shift 
 extra_flags="-Wall -Wextra"
 main_flags="main.c lib/*.c lib/hlib/lib/draw.c -o src/database $extra_flags"
 
 if [[ "$CALL" = "_WIN32" ]] || [[ "$CALL" = "_MINGW32" ]];then
+	shift 
+	
 	if [[ "$CALL" = "_MINGW32" ]];then 
 		x86_64-w64-mingw32-gcc $main_flags 
 	else 
@@ -36,6 +37,7 @@ else
 	if [[ ! "$CALL" = "NOGIT" ]];then 
 		git add . &>/dev/null 
 		git commit -m "$(date)" &>/dev/null 
+		shift 
 	fi
 
 
