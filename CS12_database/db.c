@@ -1232,12 +1232,14 @@ int ui_main_main() {
     if (sel_idx != -2) {
       member *member_cur = &db_members[sel_idx];
       ret = loan_menu(sel_idx);
-      db_loans[member_cur->loan.loan_ids[ret]].returned = date_now();
-      remove_element(member_cur->loan.loan_ids, ret,
-                     member_cur->loan.loan_index);
-      member_cur->loan.loan_index--;
+      if (ret != -2) {
+        db_loans[member_cur->loan.loan_ids[ret]].returned = date_now();
+        remove_element(member_cur->loan.loan_ids, ret,
+                       member_cur->loan.loan_index);
+        member_cur->loan.loan_index--;
 
-      printf("Loan has been returned\n");
+        printf("Loan has been returned\n");
+      }
     }
   } else if (ret == 4) {
     // RUN FORMS
