@@ -1,8 +1,7 @@
 #!/bin/bash
-
 build_path="build/src/"
-extra_flags="-Wall -Wextra -Wno-unused-function -Wno-unused-variable" 
 file_name="db"
+extra_flags="-Wall -Wextra -Wno-unused-function -Wno-unused-variable" 
 main_flags="main.c src/*.c src/remote/plib/*.c -o $build_path$file_name $extra_flags"
 
 # handle path
@@ -30,9 +29,9 @@ if [[ "$CALL" = "_WIN32" ]] || [[ "$CALL" = "_MINGW32" ]];then
 	shift 
 	
 	if [[ "$CALL" = "_MINGW32" ]];then 
-		wine "./$build_path$file_name.exe" $@ || echo "database exited badly"
+		wine "./$build_path$file_name.exe" $@
 	else 
-		"./$build_path$file_name.exe" $@ || echo "database exited badly"
+		"./$build_path$file_name.exe" $@
 	fi
 
 else 
@@ -53,11 +52,11 @@ else
 	
 	shift 
 
-	"$build_path$file_name" $@ || echo "database exited badly"
+	"./$build_path$file_name" $@
 
 	if [[ ! "$CALL" = "_NOGIT" ]];then 
 		git push &>/dev/null
 	fi
 fi
 
-echo "$@ finished"
+echo "finished"
