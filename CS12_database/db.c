@@ -5,24 +5,40 @@
 
 int ui_main_main();
 
-// 0 = book 
-// 1 = member 
-// 2 = loan
-#define MOM_idx(a) (a > db_books_index) ? 0 : ((a > db_members_index) ? 1 : ((a > db_loans_index) ? 2 : -1))
+int loan_menu(const int cur) {
+	member member_cur = db_members[cur];
+  char *loans[member_cur.loan.loan_index];
+  for (int i = 0; i < member_cur.loan.loan_index; i++) {
+    loan loan_cur = db_loans[member_cur.loan.loan_ids[i]];
 
-void full_report(){
-	printf("Members:\n");
-	for(int i = 0;i < db_members_index; i++){
-		print_member_data(db_members[i],0);
-	}
+    loans[i] = db_books[loan_cur.bookid].title;
+    printf("Loan #%2d: %s, Due %d/%d/%d\n", i + 1, loans[i],
+           loan_cur.return_date.day, loan_cur.return_date.month,
+           loan_cur.return_date.year);
+  }
+  printf("Press any key to show selection menu.\n");
+  achar();
 
-	printf("Books:\n");
+  int ret = ui_menu((const char **)loans, member_cur.loan.loan_index,
+                (const char **)loans, "What loan do you want to remove");
+  db_loans[member_cur.loan.loan_ids[ret]].returned = date_now();
 
-	for(int i = 0;i < db_books_index; i++){
-			print_book_data(db_books[i]);
-	}
+	return ret;
+}
 
-	return;
+void full_report() {
+  printf("Members:\n");
+  for (int i = 0; i < db_members_index; i++) {
+    print_member_data(db_members[i], 0);
+  }
+
+  printf("Books:\n");
+
+  for (int i = 0; i < db_books_index; i++) {
+    print_book_data(db_books[i]);
+  }
+
+  return;
 }
 
 int book_menu() {
@@ -30,7 +46,6 @@ int book_menu() {
   char *desc[db_books_index];
   for (int i = 0; i < db_books_index; i++) {
     book *loc = &db_books[i];
-
     books[i] = loc->title;
 
     desc[i] = malloc(COL_SIZE_2 * sizeof(char *));
@@ -832,20 +847,17 @@ int database() {
       input(buf, 5, "Press any key to return to main ui");
   }
 
-  printf("\n\nwriting database, this may take a few seconds, if it takes too long "
-         "spam-press control+c to force quit\n");
+  printf(
+      "\n\nwriting database, this may take a few seconds, if it takes too long "
+      "spam-press control+c to force quit\n");
   return -12;
 }
 
 int ui_main_main() {
   int ret;
-  const char *main_menu[] = {
-      "Full report",
-			"Individual report",
-			"Count books by genre",
-      "Return a book",
-			"Run a form",
-			"Exit"};
+  const char *main_menu[] = {"Full report",          "Individual report",
+                             "Count books by genre", "Return a book",
+                             "Run a form",           "Exit"};
 
   const char *main_menu_desc[] = {
       "Print all data held in the database",
@@ -860,33 +872,26 @@ int ui_main_main() {
       "View books",
   };
 
-  const char *return_menu[] = {
-		"Search by name",
-		"Show members list",
-		"Live search"
-	};
+  const char *return_menu[] = {"Search by name", "Show members list",
+                               "Live search"};
 
-  const char *return_desc[] = {
-		"",
-		"",
-		""
-	};
+  const char *return_desc[] = {"", "", ""};
 
-	const char *list_menu_desc[] = {"", ""};
+  const char *list_menu_desc[] = {"", ""};
   printf("Generated book list");
 
   ret = ui_m(main_menu, main_menu_desc, "Select Option");
 
   if (ret == 0) {
-		// PRINT FULL REPORT:
-		full_report();
+    // PRINT FULL REPORT:
+    full_report();
 
-	} else if (ret == 1) {
+  } else if (ret == 1) {
     // INDIVIDUAL VIEW SCREEN
-		
+
     ret = ui_m(list_menu, list_menu_desc, "What database do you want to view?");
     if (ret == 0) {
-			// INDIVIDUAL MEMBER 
+      // INDIVIDUAL MEMBER
 
       ret = member_menu();
       print_member_data(db_members[ret], ret);
@@ -895,28 +900,24 @@ int ui_main_main() {
       }
 
     } else {
-			// INDIVIDUAL BOOKS
+      // INDIVIDUAL BOOKS
 
       ret = book_menu();
       print_book_data(db_books[ret]);
     }
   } else if (ret == 2) {
-		// SHOW BOOKS BY GENRE
+    // SHOW BOOKS BY GENRE
     books_genre_sort();
-	
-	} else if (ret == 3) {
+
+  } else if (ret == 3) {
     // RETURN BOOK DIALOGS
 
-    int ret = ui_menu(
-				(const char **)return_menu,
-				2,
-				(const char **)return_desc,
-				"Select Option");
-
+    int ret = ui_menu((const char **)return_menu, 2, (const char **)return_desc,
+                      "Select Option");
 
     int sel_idx = -1;
     if (ret == 0) {
-			// ENTER LAST NAME
+      // ENTER LAST NAME
       char buffer[100];
       input(buffer, 100, "Enter your LAST name: ");
 
@@ -928,10 +929,10 @@ int ui_main_main() {
         printf("last name \"%s\" not found\n", buffer);
         return 1;
       }
-    } else if (ret == 1){
-			// SHOW MEMBER LIST 
-			sel_idx = member_menu();
-		} 
+    } else if (ret == 1) {
+      // SHOW MEMBER LIST
+      sel_idx = member_menu();
+    }
 
     member member_cur = db_members[sel_idx];
 
@@ -940,30 +941,17 @@ int ui_main_main() {
       printf("the memeber you selected has zero loans\n");
       return -1;
     }
-    printf("you have these loans: \n");
-    char *loans[member_cur.loan.loan_index];
-    for (int i = 0; i < member_cur.loan.loan_index; i++) {
-      loan loan_cur = db_loans[member_cur.loan.loan_ids[i]];
-
-      loans[i] = db_books[loan_cur.bookid].title;
-      printf("Loan #%2d: %s, Due %d/%d/%d\n", i + 1, loans[i],
-             loan_cur.return_date.day, loan_cur.return_date.month,
-             loan_cur.return_date.year);
-    }
-    printf("Press any key to show selection menu.\n");
     achar();
-
-    ret = ui_menu((const char **)loans, member_cur.loan.loan_index,
-                  (const char **)loans, "What loan do you want to remove");
+		ret = loan_menu(sel_idx);
     db_loans[member_cur.loan.loan_ids[ret]].returned = date_now();
 
     printf("Loan has been returned\n");
-  } else if (ret == 4){
-		// RUN FORMS
+  } else if (ret == 4) {
+    // RUN FORMS
 
   } else if (ret == 5) {
-		// EXIT UI CODE 
-		return -1;
-	}
+    // EXIT UI CODE
+    return -1;
+  }
   return 12;
 }
