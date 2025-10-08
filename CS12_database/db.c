@@ -34,9 +34,9 @@ int print_book_data(int book_index) {
 			book_cur.publication_date.day,
 			book_cur.publication_date.month,
 			book_cur.publication_date.year);
-	val[4] = "";
+	val[4] = "Publication Date";
 
-	sprintf(key[5],"available %d",book_cur.available);
+	sprintf(key[5],"available: %d",book_cur.available);
 	val[5] = "how many of this book are available for loan";
 
 	sprintf(key[6],"count: %d",book_cur.count);
