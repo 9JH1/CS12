@@ -5,7 +5,7 @@
 #include <unistd.h>
 
 int print_book_data(int book_index) {
-	const int size = 6;
+	const int size = 5;
 	char *val[size], *key[size];
 	book book_cur = db_books[book_index];
 
@@ -44,7 +44,7 @@ int print_book_data(int book_index) {
 	
 	int ret = ui_menu(
 			(const char **)key,
-			size-1,
+			size,
 			(const char **)val,
 			"View books"
 			);
@@ -96,7 +96,7 @@ void print_loan_data(loan loan_cur){
 
 int print_member_data(int member_index) {
 	member member_cur = db_members[member_index];
-	const int size = 9;
+	const int size = 8;
 	int end_size = 0;
 	char *key[size], *val[size];
 
