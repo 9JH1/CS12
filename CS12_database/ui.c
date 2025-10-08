@@ -97,6 +97,11 @@ int ui_menu(const char *array1[], const int size, const char *array2[],
         printf("\033[30;42;1m");
 
       printf("%2d. | %s", i + 1, array1[i]);
+			if(COL_SIZE - strlen(array1[i]))
+				printf("Error line too long: '%s'\n",array1[i]);
+
+			if(COL_SIZE - strlen(array2[i]))
+				printf("Error line too long: '%s'\n",array2[i]);
 
       for (int j = 0; j < COL_SIZE - strlen(array1[i]); ++j)
         printf(" ");
