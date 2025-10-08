@@ -5,7 +5,7 @@
 #include <unistd.h>
 
 int print_book_data(int book_index) {
-	const int size = 8;
+	const int size = 5;
 	char *val[size], *key[size];
 	book book_cur = db_books[book_index];
 
