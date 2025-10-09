@@ -42,7 +42,6 @@ else
 		shift 
 	fi
 
-
 	gcc $main_flags
 	
 	if [ $? -ne 0 ]; then
@@ -58,4 +57,7 @@ else
 	fi
 fi
 
+doxygen .Doxy
+ln -s .Doxygen/html/index.html .
 echo "finished"
+
