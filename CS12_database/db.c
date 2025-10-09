@@ -441,7 +441,6 @@ int member_selector_menu() {
         sel_idx = i;
 				break;
       }
-			printf("%s != %s\n",l_name,l_buffer);
       free(l_name);
     }
 
@@ -1249,7 +1248,9 @@ int ui_main_main() {
           member_cur->loan.loan_index--;
 
           printf("Loan has been returned\n");
-        }
+        } else {
+					printf("error occured ret == -2\n");
+				}
       }
     }
   } else if (ret == 4) {
