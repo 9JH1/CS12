@@ -145,9 +145,22 @@ int ui_menu(const char *array1[], const int size, const char *array2[],
       show_cursor();
       free(bor_s.string);
       printf("\n\n");
-      if (selected == size)
+      if (selected == size){
         return -2;
-      return selected;
+			} else if(selected == size +1){
+				char buff[100];
+				printf("if you want to use a zero use '0' not '00' or otherwise\n");
+				input(buff,100,"Enter a index");
+				
+				int out = atoi(buff);
+				if(out == 0 && strcmp(buff,"0") != 0){
+					printf("number invalid\n");
+					printf("press any key to continue\n");
+					achar();
+				} else {
+					selected = out;
+				}
+			} else return selected;
     }
 
     run_count++;
