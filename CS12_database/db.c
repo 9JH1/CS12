@@ -446,7 +446,6 @@ int member_selector_menu() {
       free(l_name);
     }
 
-    free(l_buffer);
   } else if (ret == 1) {
     // SHOW MEMBER LIST
 
