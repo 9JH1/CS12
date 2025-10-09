@@ -90,278 +90,278 @@ $(function(){initNavTree('d3/db7/plib_8h_source.html','../../',''); });
 </div><!--header-->
 <div class="contents">
 <a href="../../d3/db7/plib_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span></div>
-<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span><span class="preprocessor">#ifndef PLIB_H</span></div>
-<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span><span class="preprocessor">#define PLIB_H</span></div>
-<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span><span class="preprocessor">#ifndef PL_INIT_ARG_ALLOC </span><span class="preprocessor"></span></div>
-<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span><span class="preprocessor">#define PL_INIT_ARG_ALLOC 2 </span><span class="comment">// initial amount of arguments</span></div>
-<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span> </div>
-<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span><span class="preprocessor">#ifdef PL_VERBOSE_ENABLE</span></div>
-<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span><span class="preprocessor">#define PL_VERBOSE 1 </span></div>
-<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span><span class="preprocessor">#else </span></div>
-<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span><span class="preprocessor">#define PL_VERBOSE 0</span></div>
-<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span><span class="preprocessor">#define PL_VERSION &quot;4.7&quot; </span></div>
-<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span> </div>
-<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span><span class="comment">/* This is the generic argument structure,</span></div>
-<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span><span class="comment"> * it contains all of the options that you </span></div>
-<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span><span class="comment"> * may need or want idk. */</span></div>
-<div class="line"><a id="l00115" name="l00115"></a><span class="lineno"><a class="line" href="../../d4/d1b/structpl__arg.html">  115</a></span><span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code hl_struct" href="../../d4/d1b/structpl__arg.html">pl_arg</a> {</div>
-<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>    <span class="keyword">const</span> <span class="keywordtype">char</span> *name;        <span class="comment">// the flag name eg --test or --help </span></div>
-<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>  <span class="keyword">const</span> <span class="keywordtype">char</span> *description; <span class="comment">// flag description (used in help page) </span></div>
-<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>    <span class="keywordtype">int</span> takes_value;         <span class="comment">// tell parser if flag takes arg, 0 = false, 1 = true</span></div>
-<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span> </div>
-<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>    <span class="comment">// used in the help page </span></div>
-<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>    <span class="keyword">const</span> <span class="keywordtype">char</span> *catagory; </div>
-<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span> </div>
-<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>  <span class="comment">/* shorthand of the same arg eg if the arg is</span></div>
-<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span><span class="comment">     * --help maybe the sorthand is -h */</span></div>
-<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>    <span class="keyword">const</span> <span class="keywordtype">char</span> *shorthand; </div>
-<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>    </div>
-<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>    <span class="comment">/* if you have takes_arg set to true you can add a </span></div>
-<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span><span class="comment">     * type string to the flag eg &quot;void&quot; or &quot;char *&quot;. </span></div>
-<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span><span class="comment">     * this is used in the help page */</span></div>
-<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>    <span class="keyword">const</span> <span class="keywordtype">char</span> *type;   </div>
-<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span> </div>
-<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>    <span class="comment">// other misc metadata (overwritten on pl_a)</span></div>
-<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>  <span class="keywordtype">char</span> **value;</div>
-<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>    <span class="keywordtype">int</span> value_cap;</div>
-<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>    <span class="keywordtype">int</span> value_idx;</div>
-<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span> </div>
-<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>  <span class="keywordtype">int</span> triggered;</div>
-<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>    <span class="keywordtype">int</span> shorthand_triggered;</div>
-<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>} <a class="code hl_struct" href="../../d4/d1b/structpl__arg.html">pl_arg</a>;</div>
-<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span> </div>
-<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span><span class="comment">// array of arguments </span></div>
-<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span><span class="keyword">extern</span> <a class="code hl_struct" href="../../d4/d1b/structpl__arg.html">pl_arg</a> *PL_ARGS;</div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span><span class="preprocessor">#ifndef PLIB_H</span></div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span><span class="preprocessor">#define PLIB_H</span></div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span><span class="preprocessor">#ifndef PL_INIT_ARG_ALLOC </span><span class="preprocessor"></span></div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span><span class="preprocessor">#define PL_INIT_ARG_ALLOC 2 </span><span class="comment">// initial amount of arguments</span></div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span> </div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span><span class="preprocessor">#ifdef PL_VERBOSE_ENABLE</span></div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span><span class="preprocessor">#define PL_VERBOSE 1 </span></div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span><span class="preprocessor">#else </span></div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span><span class="preprocessor">#define PL_VERBOSE 0</span></div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span><span class="preprocessor">#define PL_VERSION &quot;4.7&quot; </span></div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span> </div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span><span class="comment">/* This is the generic argument structure,</span></div>
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span><span class="comment"> * it contains all of the options that you </span></div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span><span class="comment"> * may need or want idk. */</span></div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno"><a class="line" href="../../d4/d1b/structpl__arg.html">  139</a></span><span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code hl_struct" href="../../d4/d1b/structpl__arg.html">pl_arg</a> {</div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>    <span class="keyword">const</span> <span class="keywordtype">char</span> *name;        <span class="comment">// the flag name eg --test or --help </span></div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span>  <span class="keyword">const</span> <span class="keywordtype">char</span> *description; <span class="comment">// flag description (used in help page) </span></div>
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span>    <span class="keywordtype">int</span> takes_value;         <span class="comment">// tell parser if flag takes arg, 0 = false, 1 = true</span></div>
 <div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span> </div>
-<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span><span class="comment">// amount of items in PL_ARGS </span></div>
-<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span><span class="keyword">extern</span> <span class="keywordtype">int</span> PL_ARGS_IDX;</div>
+<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span>    <span class="comment">// used in the help page </span></div>
+<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span>    <span class="keyword">const</span> <span class="keywordtype">char</span> *catagory; </div>
 <div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span> </div>
-<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span><span class="comment">// capacity of items in PL_ARGS </span></div>
-<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span><span class="keyword">extern</span> <span class="keywordtype">int</span> PL_ARGS_CAP;</div>
-<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span> </div>
-<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span><span class="comment">// a local copy of whatever is parsed into pl_proc  </span></div>
-<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span><span class="keyword">extern</span> <span class="keywordtype">char</span>** PL_ARGV;</div>
-<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span><span class="keyword">extern</span> <span class="keywordtype">int</span> PL_ARGC;</div>
-<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span> </div>
-<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span><span class="comment">// idx of last parsed argument</span></div>
-<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span><span class="keyword">extern</span> <span class="keywordtype">int</span> PL_PROC_END_ARGC; </div>
-<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span> </div>
-<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span> </div>
-<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span><span class="comment">/* most of the PLib functions use these codes </span></div>
-<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span><span class="comment"> * as return values */</span></div>
-<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span><span class="keyword">typedef</span> <span class="keyword">enum</span> {</div>
-<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span>    PL_ARG_NOT_FOUND = -1,</div>
-<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span>    PL_ARG_REQUIRES_VALUE = -2,</div>
-<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span>    PL_ARG_NO_REQUIRES_VALUE = -3,</div>
-<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span>    PL_NO_ARGUMENTS_GIVEN = -4,</div>
-<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span>    PL_MEM_ALLOC_ERROR = -5,</div>
-<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span>    PL_SUCCESS = -7,</div>
-<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span>    PL_ARG_INVALID_FORMAT = -8,</div>
-<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span>    PL_ARG_IS_NULL = -9,</div>
-<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span>    PL_FAILURE = -10,</div>
-<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span>    PL_ARG_PRE_EXISTS = -11,</div>
-<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span>    PL_ARG_MISSING_PARAM = -12,</div>
-<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span>} pl_r;</div>
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span>  <span class="comment">/* shorthand of the same arg eg if the arg is</span></div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span><span class="comment">     * --help maybe the sorthand is -h */</span></div>
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span>    <span class="keyword">const</span> <span class="keywordtype">char</span> *shorthand; </div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>    </div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>    <span class="comment">/* if you have takes_arg set to true you can add a </span></div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span><span class="comment">     * type string to the flag eg &quot;void&quot; or &quot;char *&quot;. </span></div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span><span class="comment">     * this is used in the help page */</span></div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span>    <span class="keyword">const</span> <span class="keywordtype">char</span> *type;   </div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span> </div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>    <span class="comment">// other misc metadata (overwritten on pl_a)</span></div>
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span>  <span class="keywordtype">char</span> **value;</div>
+<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span>    <span class="keywordtype">int</span> value_cap;</div>
+<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span>    <span class="keywordtype">int</span> value_idx;</div>
+<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span> </div>
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span>  <span class="keywordtype">int</span> triggered;</div>
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span>    <span class="keywordtype">int</span> shorthand_triggered;</div>
+<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span>} <a class="code hl_struct" href="../../d4/d1b/structpl__arg.html">pl_arg</a>;</div>
+<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span> </div>
+<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span><span class="comment">// array of arguments </span></div>
+<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span><span class="keyword">extern</span> <a class="code hl_struct" href="../../d4/d1b/structpl__arg.html">pl_arg</a> *PL_ARGS;</div>
+<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span> </div>
+<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span><span class="comment">// amount of items in PL_ARGS </span></div>
+<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span><span class="keyword">extern</span> <span class="keywordtype">int</span> PL_ARGS_IDX;</div>
+<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span> </div>
+<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span><span class="comment">// capacity of items in PL_ARGS </span></div>
+<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span><span class="keyword">extern</span> <span class="keywordtype">int</span> PL_ARGS_CAP;</div>
 <div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span> </div>
-<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span> </div>
-<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span><span class="comment">/* PL_INVERT is a silly function used to convert a negative </span></div>
-<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span><span class="comment"> * number above and not equal to zero into a positive num - 1 */</span></div>
-<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span><span class="preprocessor">#define PL_INVERT(n) ((n * -1) - 1)</span></div>
-<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span> </div>
-<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span> </div>
-<div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span><span class="comment">/* list of pl_r codes and a string version, this is used in error </span></div>
-<div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span><span class="comment"> * handling as you can call PL_E to get a return code as a string */</span></div>
-<div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span><span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">char</span> *pl_s[12] = {</div>
-<div class="line"><a id="l00183" name="l00183"></a><span class="lineno">  183</span>    [PL_INVERT(PL_ARG_NOT_FOUND)] = <span class="stringliteral">&quot;ARG_NOT_FOUND&quot;</span>,</div>
-<div class="line"><a id="l00184" name="l00184"></a><span class="lineno">  184</span>    [PL_INVERT(PL_ARG_REQUIRES_VALUE)] = <span class="stringliteral">&quot;ARG_REQUIRES_VALUE&quot;</span>,</div>
-<div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span>    [PL_INVERT(PL_ARG_NO_REQUIRES_VALUE)] = <span class="stringliteral">&quot;ARG_NO_REQUIRES_VALUE&quot;</span>,</div>
-<div class="line"><a id="l00186" name="l00186"></a><span class="lineno">  186</span>        [PL_INVERT(PL_NO_ARGUMENTS_GIVEN)] = <span class="stringliteral">&quot;NO_ARGUMENTS_GIVEN&quot;</span>,</div>
-<div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span>        [PL_INVERT(PL_MEM_ALLOC_ERROR)] = <span class="stringliteral">&quot;MEM_ALLOC_ERROR&quot;</span>,</div>
-<div class="line"><a id="l00188" name="l00188"></a><span class="lineno">  188</span>        [PL_INVERT(PL_SUCCESS)] = <span class="stringliteral">&quot;SUCCESS&quot;</span>,</div>
-<div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span>        [PL_INVERT(PL_ARG_INVALID_FORMAT)] = <span class="stringliteral">&quot;ARG_INVALID_FORMAT&quot;</span>,</div>
-<div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span>        [PL_INVERT(PL_ARG_IS_NULL)] = <span class="stringliteral">&quot;ARG_IS_NULL&quot;</span>,</div>
-<div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span>        [PL_INVERT(PL_FAILURE)] = <span class="stringliteral">&quot;FAILURE&quot;</span>,</div>
-<div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span>        [PL_INVERT(PL_ARG_PRE_EXISTS)] = <span class="stringliteral">&quot;ARG_PRE_EXISTS&quot;</span>,</div>
-<div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span>        [PL_INVERT(PL_ARG_MISSING_PARAM)] =  <span class="stringliteral">&quot;ARG_MISSING_PARAM&quot;</span></div>
-<div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span>};</div>
-<div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span> </div>
-<div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span> </div>
-<div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span><span class="comment">/* takes in a string name and searches PL_ARGS to check if </span></div>
-<div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span><span class="comment"> * the parsed string exists as a argument flag in the args </span></div>
-<div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span><span class="comment"> * array. if it does return PL_SUCCESS, if not return </span></div>
-<div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span><span class="comment"> * PL_FALIURE */</span></div>
-<div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span>pl_r pl_arg_exist(<span class="keyword">const</span> <span class="keywordtype">char</span> *name);</div>
+<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span><span class="comment">// a local copy of whatever is parsed into pl_proc  </span></div>
+<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span><span class="keyword">extern</span> <span class="keywordtype">char</span>** PL_ARGV;</div>
+<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span><span class="keyword">extern</span> <span class="keywordtype">int</span> PL_ARGC;</div>
+<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span> </div>
+<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span><span class="comment">// idx of last parsed argument</span></div>
+<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span><span class="keyword">extern</span> <span class="keywordtype">int</span> PL_PROC_END_ARGC; </div>
+<div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span> </div>
+<div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span> </div>
+<div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span><span class="comment">/* most of the PLib functions use these codes </span></div>
+<div class="line"><a id="l00183" name="l00183"></a><span class="lineno">  183</span><span class="comment"> * as return values */</span></div>
+<div class="line"><a id="l00184" name="l00184"></a><span class="lineno">  184</span><span class="keyword">typedef</span> <span class="keyword">enum</span> {</div>
+<div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span>    PL_ARG_NOT_FOUND = -1,</div>
+<div class="line"><a id="l00186" name="l00186"></a><span class="lineno">  186</span>    PL_ARG_REQUIRES_VALUE = -2,</div>
+<div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span>    PL_ARG_NO_REQUIRES_VALUE = -3,</div>
+<div class="line"><a id="l00188" name="l00188"></a><span class="lineno">  188</span>    PL_NO_ARGUMENTS_GIVEN = -4,</div>
+<div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span>    PL_MEM_ALLOC_ERROR = -5,</div>
+<div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span>    PL_SUCCESS = -7,</div>
+<div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span>    PL_ARG_INVALID_FORMAT = -8,</div>
+<div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span>    PL_ARG_IS_NULL = -9,</div>
+<div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span>    PL_FAILURE = -10,</div>
+<div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span>    PL_ARG_PRE_EXISTS = -11,</div>
+<div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span>    PL_ARG_MISSING_PARAM = -12,</div>
+<div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span>} pl_r;</div>
+<div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span> </div>
+<div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span> </div>
+<div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span><span class="comment">/* PL_INVERT is a silly function used to convert a negative </span></div>
+<div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span><span class="comment"> * number above and not equal to zero into a positive num - 1 */</span></div>
+<div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span><span class="preprocessor">#define PL_INVERT(n) ((n * -1) - 1)</span></div>
 <div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span> </div>
 <div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span> </div>
-<div class="line"><a id="l00204" name="l00204"></a><span class="lineno">  204</span><span class="comment">/* takes in an array of strings and a count and parses </span></div>
-<div class="line"><a id="l00205" name="l00205"></a><span class="lineno">  205</span><span class="comment"> * them in comparison to the arguments set using pl_a */</span> </div>
-<div class="line"><a id="l00206" name="l00206"></a><span class="lineno">  206</span>pl_r pl_proc(<span class="keyword">const</span> <span class="keywordtype">int</span> argc, <span class="keyword">const</span> <span class="keywordtype">char</span> *argv[]);</div>
-<div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span> </div>
-<div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span> </div>
-<div class="line"><a id="l00209" name="l00209"></a><span class="lineno">  209</span><span class="comment">/* see if an pl_arg has been triggered (run) */</span></div>
-<div class="line"><a id="l00210" name="l00210"></a><span class="lineno">  210</span>pl_r pl_arg_run(<span class="keyword">const</span> <a class="code hl_struct" href="../../d4/d1b/structpl__arg.html">pl_arg</a> *local);</div>
-<div class="line"><a id="l00211" name="l00211"></a><span class="lineno">  211</span> </div>
-<div class="line"><a id="l00212" name="l00212"></a><span class="lineno">  212</span> </div>
-<div class="line"><a id="l00213" name="l00213"></a><span class="lineno">  213</span><span class="comment">/* returns PL_SUCCESS of if ALL arguments set where used </span></div>
-<div class="line"><a id="l00214" name="l00214"></a><span class="lineno">  214</span><span class="comment"> * else return PL_FALIURE */</span></div>
-<div class="line"><a id="l00215" name="l00215"></a><span class="lineno">  215</span>pl_r pl_all_triggered(<span class="keywordtype">void</span>); </div>
-<div class="line"><a id="l00216" name="l00216"></a><span class="lineno">  216</span> </div>
-<div class="line"><a id="l00217" name="l00217"></a><span class="lineno">  217</span> </div>
-<div class="line"><a id="l00218" name="l00218"></a><span class="lineno">  218</span><span class="comment">/* prints out all set arguments and their info,</span></div>
-<div class="line"><a id="l00219" name="l00219"></a><span class="lineno">  219</span><span class="comment"> * very powerful and auto-adapting to whatever </span></div>
-<div class="line"><a id="l00220" name="l00220"></a><span class="lineno">  220</span><span class="comment"> * information is available or set in args, by </span></div>
-<div class="line"><a id="l00221" name="l00221"></a><span class="lineno">  221</span><span class="comment"> * this i mean if all of the arguments set do </span></div>
-<div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span><span class="comment"> * not specify a .type then no space or column </span></div>
-<div class="line"><a id="l00223" name="l00223"></a><span class="lineno">  223</span><span class="comment"> * will be printed for them but if one of the </span></div>
-<div class="line"><a id="l00224" name="l00224"></a><span class="lineno">  224</span><span class="comment"> * set args (or more) have the .type set then </span></div>
-<div class="line"><a id="l00225" name="l00225"></a><span class="lineno">  225</span><span class="comment"> * a column will be printed, all values printed </span></div>
-<div class="line"><a id="l00226" name="l00226"></a><span class="lineno">  226</span><span class="comment"> * are aligned and catagorized too. */</span> </div>
-<div class="line"><a id="l00227" name="l00227"></a><span class="lineno">  227</span><span class="keywordtype">void</span> pl_help(<span class="keywordtype">void</span>);</div>
-<div class="line"><a id="l00228" name="l00228"></a><span class="lineno">  228</span> </div>
-<div class="line"><a id="l00229" name="l00229"></a><span class="lineno">  229</span> </div>
-<div class="line"><a id="l00230" name="l00230"></a><span class="lineno">  230</span><span class="comment">/* when creating an argument a new slice of an </span></div>
-<div class="line"><a id="l00231" name="l00231"></a><span class="lineno">  231</span><span class="comment"> * array is allocated where the arguments data </span></div>
-<div class="line"><a id="l00232" name="l00232"></a><span class="lineno">  232</span><span class="comment"> * is held. also when an argument has a value </span></div>
-<div class="line"><a id="l00233" name="l00233"></a><span class="lineno">  233</span><span class="comment"> * parsed into it the .value of the arg has to </span></div>
-<div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span><span class="comment"> * be allocated too, the pl_exit function clears</span></div>
-<div class="line"><a id="l00235" name="l00235"></a><span class="lineno">  235</span><span class="comment"> * all of the memory from everything. this function </span></div>
-<div class="line"><a id="l00236" name="l00236"></a><span class="lineno">  236</span><span class="comment"> * will be automatically called on exit if the </span></div>
-<div class="line"><a id="l00237" name="l00237"></a><span class="lineno">  237</span><span class="comment"> * pl_proc function has been run */</span></div>
-<div class="line"><a id="l00238" name="l00238"></a><span class="lineno">  238</span><span class="keywordtype">void</span> pl_exit(<span class="keywordtype">void</span>);</div>
-<div class="line"><a id="l00239" name="l00239"></a><span class="lineno">  239</span> </div>
+<div class="line"><a id="l00204" name="l00204"></a><span class="lineno">  204</span><span class="comment">/* list of pl_r codes and a string version, this is used in error </span></div>
+<div class="line"><a id="l00205" name="l00205"></a><span class="lineno">  205</span><span class="comment"> * handling as you can call PL_E to get a return code as a string */</span></div>
+<div class="line"><a id="l00206" name="l00206"></a><span class="lineno">  206</span><span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">char</span> *pl_s[12] = {</div>
+<div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span>    [PL_INVERT(PL_ARG_NOT_FOUND)] = <span class="stringliteral">&quot;ARG_NOT_FOUND&quot;</span>,</div>
+<div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span>    [PL_INVERT(PL_ARG_REQUIRES_VALUE)] = <span class="stringliteral">&quot;ARG_REQUIRES_VALUE&quot;</span>,</div>
+<div class="line"><a id="l00209" name="l00209"></a><span class="lineno">  209</span>    [PL_INVERT(PL_ARG_NO_REQUIRES_VALUE)] = <span class="stringliteral">&quot;ARG_NO_REQUIRES_VALUE&quot;</span>,</div>
+<div class="line"><a id="l00210" name="l00210"></a><span class="lineno">  210</span>        [PL_INVERT(PL_NO_ARGUMENTS_GIVEN)] = <span class="stringliteral">&quot;NO_ARGUMENTS_GIVEN&quot;</span>,</div>
+<div class="line"><a id="l00211" name="l00211"></a><span class="lineno">  211</span>        [PL_INVERT(PL_MEM_ALLOC_ERROR)] = <span class="stringliteral">&quot;MEM_ALLOC_ERROR&quot;</span>,</div>
+<div class="line"><a id="l00212" name="l00212"></a><span class="lineno">  212</span>        [PL_INVERT(PL_SUCCESS)] = <span class="stringliteral">&quot;SUCCESS&quot;</span>,</div>
+<div class="line"><a id="l00213" name="l00213"></a><span class="lineno">  213</span>        [PL_INVERT(PL_ARG_INVALID_FORMAT)] = <span class="stringliteral">&quot;ARG_INVALID_FORMAT&quot;</span>,</div>
+<div class="line"><a id="l00214" name="l00214"></a><span class="lineno">  214</span>        [PL_INVERT(PL_ARG_IS_NULL)] = <span class="stringliteral">&quot;ARG_IS_NULL&quot;</span>,</div>
+<div class="line"><a id="l00215" name="l00215"></a><span class="lineno">  215</span>        [PL_INVERT(PL_FAILURE)] = <span class="stringliteral">&quot;FAILURE&quot;</span>,</div>
+<div class="line"><a id="l00216" name="l00216"></a><span class="lineno">  216</span>        [PL_INVERT(PL_ARG_PRE_EXISTS)] = <span class="stringliteral">&quot;ARG_PRE_EXISTS&quot;</span>,</div>
+<div class="line"><a id="l00217" name="l00217"></a><span class="lineno">  217</span>        [PL_INVERT(PL_ARG_MISSING_PARAM)] =  <span class="stringliteral">&quot;ARG_MISSING_PARAM&quot;</span></div>
+<div class="line"><a id="l00218" name="l00218"></a><span class="lineno">  218</span>};</div>
+<div class="line"><a id="l00219" name="l00219"></a><span class="lineno">  219</span> </div>
+<div class="line"><a id="l00220" name="l00220"></a><span class="lineno">  220</span> </div>
+<div class="line"><a id="l00221" name="l00221"></a><span class="lineno">  221</span><span class="comment">/* takes in a string name and searches PL_ARGS to check if </span></div>
+<div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span><span class="comment"> * the parsed string exists as a argument flag in the args </span></div>
+<div class="line"><a id="l00223" name="l00223"></a><span class="lineno">  223</span><span class="comment"> * array. if it does return PL_SUCCESS, if not return </span></div>
+<div class="line"><a id="l00224" name="l00224"></a><span class="lineno">  224</span><span class="comment"> * PL_FALIURE */</span></div>
+<div class="line"><a id="l00225" name="l00225"></a><span class="lineno">  225</span>pl_r pl_arg_exist(<span class="keyword">const</span> <span class="keywordtype">char</span> *name);</div>
+<div class="line"><a id="l00226" name="l00226"></a><span class="lineno">  226</span> </div>
+<div class="line"><a id="l00227" name="l00227"></a><span class="lineno">  227</span> </div>
+<div class="line"><a id="l00228" name="l00228"></a><span class="lineno">  228</span><span class="comment">/* takes in an array of strings and a count and parses </span></div>
+<div class="line"><a id="l00229" name="l00229"></a><span class="lineno">  229</span><span class="comment"> * them in comparison to the arguments set using pl_a */</span> </div>
+<div class="line"><a id="l00230" name="l00230"></a><span class="lineno">  230</span>pl_r pl_proc(<span class="keyword">const</span> <span class="keywordtype">int</span> argc, <span class="keyword">const</span> <span class="keywordtype">char</span> *argv[]);</div>
+<div class="line"><a id="l00231" name="l00231"></a><span class="lineno">  231</span> </div>
+<div class="line"><a id="l00232" name="l00232"></a><span class="lineno">  232</span> </div>
+<div class="line"><a id="l00233" name="l00233"></a><span class="lineno">  233</span><span class="comment">/* see if an pl_arg has been triggered (run) */</span></div>
+<div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span>pl_r pl_arg_run(<span class="keyword">const</span> <a class="code hl_struct" href="../../d4/d1b/structpl__arg.html">pl_arg</a> *local);</div>
+<div class="line"><a id="l00235" name="l00235"></a><span class="lineno">  235</span> </div>
+<div class="line"><a id="l00236" name="l00236"></a><span class="lineno">  236</span> </div>
+<div class="line"><a id="l00237" name="l00237"></a><span class="lineno">  237</span><span class="comment">/* returns PL_SUCCESS of if ALL arguments set where used </span></div>
+<div class="line"><a id="l00238" name="l00238"></a><span class="lineno">  238</span><span class="comment"> * else return PL_FALIURE */</span></div>
+<div class="line"><a id="l00239" name="l00239"></a><span class="lineno">  239</span>pl_r pl_all_triggered(<span class="keywordtype">void</span>); </div>
 <div class="line"><a id="l00240" name="l00240"></a><span class="lineno">  240</span> </div>
-<div class="line"><a id="l00241" name="l00241"></a><span class="lineno">  241</span><span class="comment">/* arguments can be run multiple times which results </span></div>
-<div class="line"><a id="l00242" name="l00242"></a><span class="lineno">  242</span><span class="comment"> * in multiple values, this function will get a value </span></div>
-<div class="line"><a id="l00243" name="l00243"></a><span class="lineno">  243</span><span class="comment"> * of a pl_arg using an index (i), to get the amount of </span></div>
-<div class="line"><a id="l00244" name="l00244"></a><span class="lineno">  244</span><span class="comment"> * values available (indexs) use pl_arg_value_count().*/</span> </div>
-<div class="line"><a id="l00245" name="l00245"></a><span class="lineno">  245</span><span class="keywordtype">char</span>* pl_arg_value(<span class="keyword">const</span> <a class="code hl_struct" href="../../d4/d1b/structpl__arg.html">pl_arg</a> *local, <span class="keyword">const</span> <span class="keywordtype">int</span> i);</div>
-<div class="line"><a id="l00246" name="l00246"></a><span class="lineno">  246</span> </div>
-<div class="line"><a id="l00247" name="l00247"></a><span class="lineno">  247</span><span class="comment">/* this is the main function used to create an argument </span></div>
-<div class="line"><a id="l00248" name="l00248"></a><span class="lineno">  248</span><span class="comment"> * there are many forms of this argument listed below.</span></div>
-<div class="line"><a id="l00249" name="l00249"></a><span class="lineno">  249</span><span class="comment"> * this function simply takes in a pl_arg and writes it </span></div>
-<div class="line"><a id="l00250" name="l00250"></a><span class="lineno">  250</span><span class="comment"> * to an array, this array is used as reference when </span></div>
-<div class="line"><a id="l00251" name="l00251"></a><span class="lineno">  251</span><span class="comment"> * calling pl_proc, as noted at the very top in the </span></div>
-<div class="line"><a id="l00252" name="l00252"></a><span class="lineno">  252</span><span class="comment"> * definition of pl_arg there are many values, now the </span></div>
-<div class="line"><a id="l00253" name="l00253"></a><span class="lineno">  253</span><span class="comment"> * only value actually required is .title, all of the </span></div>
-<div class="line"><a id="l00254" name="l00254"></a><span class="lineno">  254</span><span class="comment"> * other arguments are not required or some default to </span></div>
-<div class="line"><a id="l00255" name="l00255"></a><span class="lineno">  255</span><span class="comment"> * values like so:</span></div>
-<div class="line"><a id="l00256" name="l00256"></a><span class="lineno">  256</span><span class="comment"> * </span></div>
-<div class="line"><a id="l00257" name="l00257"></a><span class="lineno">  257</span><span class="comment"> * catagory = &quot;Options:&quot; </span></div>
-<div class="line"><a id="l00258" name="l00258"></a><span class="lineno">  258</span><span class="comment"> * takes_value = 0</span></div>
-<div class="line"><a id="l00259" name="l00259"></a><span class="lineno">  259</span><span class="comment"> *</span></div>
-<div class="line"><a id="l00260" name="l00260"></a><span class="lineno">  260</span><span class="comment"> * this function returns a integer index to the slice </span></div>
-<div class="line"><a id="l00261" name="l00261"></a><span class="lineno">  261</span><span class="comment"> * in the array at which the new argument has been </span></div>
-<div class="line"><a id="l00262" name="l00262"></a><span class="lineno">  262</span><span class="comment"> * made. </span></div>
-<div class="line"><a id="l00263" name="l00263"></a><span class="lineno">  263</span><span class="comment"> * */</span> </div>
-<div class="line"><a id="l00264" name="l00264"></a><span class="lineno">  264</span><span class="keywordtype">int</span>  pl_a(<a class="code hl_struct" href="../../d4/d1b/structpl__arg.html">pl_arg</a> in);</div>
-<div class="line"><a id="l00265" name="l00265"></a><span class="lineno">  265</span><span class="comment">/* as mentioned there are other ways of using pl_a, </span></div>
-<div class="line"><a id="l00266" name="l00266"></a><span class="lineno">  266</span><span class="comment"> * they are as follows: */</span> </div>
-<div class="line"><a id="l00267" name="l00267"></a><span class="lineno">  267</span> </div>
-<div class="line"><a id="l00268" name="l00268"></a><span class="lineno">  268</span><span class="comment">/* PL_A is a wrapper that allows you to enter the struct </span></div>
-<div class="line"><a id="l00269" name="l00269"></a><span class="lineno">  269</span><span class="comment"> * data directly into a function without needing to define </span></div>
-<div class="line"><a id="l00270" name="l00270"></a><span class="lineno">  270</span><span class="comment"> * the type of struct, here is the before and after: </span></div>
-<div class="line"><a id="l00271" name="l00271"></a><span class="lineno">  271</span><span class="comment"> * </span></div>
-<div class="line"><a id="l00272" name="l00272"></a><span class="lineno">  272</span><span class="comment"> * int ret = pl_a((pl_arg){.name=&quot;test&quot;,.takes_value=1});</span></div>
-<div class="line"><a id="l00273" name="l00273"></a><span class="lineno">  273</span><span class="comment"> * </span></div>
-<div class="line"><a id="l00274" name="l00274"></a><span class="lineno">  274</span><span class="comment"> * int ret = PL_A(.name=&quot;test&quot;,.takes_value=1);</span></div>
-<div class="line"><a id="l00275" name="l00275"></a><span class="lineno">  275</span><span class="comment"> *</span></div>
-<div class="line"><a id="l00276" name="l00276"></a><span class="lineno">  276</span><span class="comment"> * so much easier right?</span></div>
-<div class="line"><a id="l00277" name="l00277"></a><span class="lineno">  277</span><span class="comment"> * */</span></div>
-<div class="line"><a id="l00278" name="l00278"></a><span class="lineno">  278</span><span class="preprocessor">#define PL_A(...) pl_a((pl_arg){__VA_ARGS__})</span></div>
-<div class="line"><a id="l00279" name="l00279"></a><span class="lineno">  279</span> </div>
-<div class="line"><a id="l00280" name="l00280"></a><span class="lineno">  280</span><span class="comment">/* to understand why this macro exists along with its implicit </span></div>
-<div class="line"><a id="l00281" name="l00281"></a><span class="lineno">  281</span><span class="comment"> * pl_arg_global_ptr. originally pl_a returned a pointer pl_arg </span></div>
-<div class="line"><a id="l00282" name="l00282"></a><span class="lineno">  282</span><span class="comment"> * to the actual item in the arguments array, this was very bad </span></div>
-<div class="line"><a id="l00283" name="l00283"></a><span class="lineno">  283</span><span class="comment"> * as when the argument list reached capacity it would overwrite </span></div>
-<div class="line"><a id="l00284" name="l00284"></a><span class="lineno">  284</span><span class="comment"> * the pointers memory location which creates a dangling pointer.</span></div>
-<div class="line"><a id="l00285" name="l00285"></a><span class="lineno">  285</span><span class="comment"> * this pointer can still be interacted with without error, the </span></div>
-<div class="line"><a id="l00286" name="l00286"></a><span class="lineno">  286</span><span class="comment"> * issue with this is that the pointer that we think is pointing </span></div>
-<div class="line"><a id="l00287" name="l00287"></a><span class="lineno">  287</span><span class="comment"> * to an argument in our argument list is actually not existant </span></div>
-<div class="line"><a id="l00288" name="l00288"></a><span class="lineno">  288</span><span class="comment"> * which means that from a debug point of view if you created an </span></div>
-<div class="line"><a id="l00289" name="l00289"></a><span class="lineno">  289</span><span class="comment"> * argument and the list was re-allocated then now for some </span></div>
-<div class="line"><a id="l00290" name="l00290"></a><span class="lineno">  290</span><span class="comment"> * reason regardless of how you trigger that argument it still </span></div>
-<div class="line"><a id="l00291" name="l00291"></a><span class="lineno">  291</span><span class="comment"> * comes up as false when using pl_arg_run this is of course </span></div>
-<div class="line"><a id="l00292" name="l00292"></a><span class="lineno">  292</span><span class="comment"> * because the pointer is refering to something other then what </span></div>
-<div class="line"><a id="l00293" name="l00293"></a><span class="lineno">  293</span><span class="comment"> * it is suppost too. to combat this i changed the code so an </span></div>
-<div class="line"><a id="l00294" name="l00294"></a><span class="lineno">  294</span><span class="comment"> * index is returned instead of a pointer, then after all of the </span></div>
-<div class="line"><a id="l00295" name="l00295"></a><span class="lineno">  295</span><span class="comment"> * args are set you can use either &amp;PL_ARGS[index] or PL_GETI(i) </span></div>
-<div class="line"><a id="l00296" name="l00296"></a><span class="lineno">  296</span><span class="comment"> * to grab a pointer to an argument, now this was a good fix but </span></div>
-<div class="line"><a id="l00297" name="l00297"></a><span class="lineno">  297</span><span class="comment"> * now one line has turned into two lines, one for definition </span></div>
-<div class="line"><a id="l00298" name="l00298"></a><span class="lineno">  298</span><span class="comment"> * and a second for actually getting the pointer from the index. </span></div>
-<div class="line"><a id="l00299" name="l00299"></a><span class="lineno">  299</span><span class="comment"> * the way this is resolved is by using the following macro which </span></div>
-<div class="line"><a id="l00300" name="l00300"></a><span class="lineno">  300</span><span class="comment"> * is a copy of the PL_A macro but for the pl_arg_global_ptr func </span></div>
-<div class="line"><a id="l00301" name="l00301"></a><span class="lineno">  301</span><span class="comment"> * the pl_arg_global_ptr function will first check to see if the </span></div>
-<div class="line"><a id="l00302" name="l00302"></a><span class="lineno">  302</span><span class="comment"> * arg has been created if it has then it will search for it in </span></div>
-<div class="line"><a id="l00303" name="l00303"></a><span class="lineno">  303</span><span class="comment"> * the argument list and return a pointer to it if it finds it.</span></div>
-<div class="line"><a id="l00304" name="l00304"></a><span class="lineno">  304</span><span class="comment"> * if the arg has not been made then the arg will be offloaded</span></div>
-<div class="line"><a id="l00305" name="l00305"></a><span class="lineno">  305</span><span class="comment"> * into the pl_a function and then returned as a pointer. this </span></div>
-<div class="line"><a id="l00306" name="l00306"></a><span class="lineno">  306</span><span class="comment"> * means that if you initialize a var using the PL_P function </span></div>
-<div class="line"><a id="l00307" name="l00307"></a><span class="lineno">  307</span><span class="comment"> * every time you call the variable it will perform a search in </span></div>
-<div class="line"><a id="l00308" name="l00308"></a><span class="lineno">  308</span><span class="comment"> * the argument list for the argument which removes all risk of </span></div>
-<div class="line"><a id="l00309" name="l00309"></a><span class="lineno">  309</span><span class="comment"> * dangling pointers as the information is updated per-call and </span></div>
-<div class="line"><a id="l00310" name="l00310"></a><span class="lineno">  310</span><span class="comment"> * isent static and overwritable. */</span></div>
-<div class="line"><a id="l00311" name="l00311"></a><span class="lineno">  311</span><span class="preprocessor">#define PL_P(...) pl_arg_global_ptr((pl_arg){__VA_ARGS__})</span></div>
-<div class="line"><a id="l00312" name="l00312"></a><span class="lineno">  312</span><a class="code hl_struct" href="../../d4/d1b/structpl__arg.html">pl_arg</a> *pl_arg_global_ptr(<a class="code hl_struct" href="../../d4/d1b/structpl__arg.html">pl_arg</a> in);</div>
-<div class="line"><a id="l00313" name="l00313"></a><span class="lineno">  313</span> </div>
-<div class="line"><a id="l00314" name="l00314"></a><span class="lineno">  314</span> </div>
-<div class="line"><a id="l00315" name="l00315"></a><span class="lineno">  315</span><span class="comment">/* takes in a string of a flag name and searches for it in the </span></div>
-<div class="line"><a id="l00316" name="l00316"></a><span class="lineno">  316</span><span class="comment"> * argument list, if found it will return the pl_arg as a pointer </span></div>
-<div class="line"><a id="l00317" name="l00317"></a><span class="lineno">  317</span><span class="comment"> * or if not found it will return nothing. */</span> </div>
-<div class="line"><a id="l00318" name="l00318"></a><span class="lineno">  318</span><a class="code hl_struct" href="../../d4/d1b/structpl__arg.html">pl_arg</a> *pl_arg_by_name(<span class="keyword">const</span> <span class="keywordtype">char</span> *name);</div>
-<div class="line"><a id="l00319" name="l00319"></a><span class="lineno">  319</span> </div>
-<div class="line"><a id="l00320" name="l00320"></a><span class="lineno">  320</span> </div>
-<div class="line"><a id="l00321" name="l00321"></a><span class="lineno">  321</span><span class="comment">/* basic optimize macro for pl_arg_run, </span></div>
-<div class="line"><a id="l00322" name="l00322"></a><span class="lineno">  322</span><span class="comment"> * before after:</span></div>
-<div class="line"><a id="l00323" name="l00323"></a><span class="lineno">  323</span><span class="comment"> * </span></div>
-<div class="line"><a id="l00324" name="l00324"></a><span class="lineno">  324</span><span class="comment"> * if(pl_arg_run(arg) == PL_SUCCESS){</span></div>
-<div class="line"><a id="l00325" name="l00325"></a><span class="lineno">  325</span><span class="comment"> * ... </span></div>
-<div class="line"><a id="l00326" name="l00326"></a><span class="lineno">  326</span><span class="comment"> * }</span></div>
-<div class="line"><a id="l00327" name="l00327"></a><span class="lineno">  327</span><span class="comment"> *</span></div>
-<div class="line"><a id="l00328" name="l00328"></a><span class="lineno">  328</span><span class="comment"> * if(PL_R(arg)){</span></div>
-<div class="line"><a id="l00329" name="l00329"></a><span class="lineno">  329</span><span class="comment"> * ...</span></div>
-<div class="line"><a id="l00330" name="l00330"></a><span class="lineno">  330</span><span class="comment"> * }</span></div>
-<div class="line"><a id="l00331" name="l00331"></a><span class="lineno">  331</span><span class="comment"> * */</span></div>
-<div class="line"><a id="l00332" name="l00332"></a><span class="lineno">  332</span><span class="preprocessor">#define PL_R(arg) (pl_arg_run(arg) == PL_SUCCESS) ? 1 : 0 </span></div>
-<div class="line"><a id="l00333" name="l00333"></a><span class="lineno">  333</span> </div>
-<div class="line"><a id="l00334" name="l00334"></a><span class="lineno">  334</span> </div>
-<div class="line"><a id="l00335" name="l00335"></a><span class="lineno">  335</span><span class="comment">// wrapper for pl_arg_get_name...</span></div>
-<div class="line"><a id="l00336" name="l00336"></a><span class="lineno">  336</span><span class="preprocessor">#define PL_GETN(name) pl_arg_by_name(name)</span></div>
+<div class="line"><a id="l00241" name="l00241"></a><span class="lineno">  241</span> </div>
+<div class="line"><a id="l00242" name="l00242"></a><span class="lineno">  242</span><span class="comment">/* prints out all set arguments and their info,</span></div>
+<div class="line"><a id="l00243" name="l00243"></a><span class="lineno">  243</span><span class="comment"> * very powerful and auto-adapting to whatever </span></div>
+<div class="line"><a id="l00244" name="l00244"></a><span class="lineno">  244</span><span class="comment"> * information is available or set in args, by </span></div>
+<div class="line"><a id="l00245" name="l00245"></a><span class="lineno">  245</span><span class="comment"> * this i mean if all of the arguments set do </span></div>
+<div class="line"><a id="l00246" name="l00246"></a><span class="lineno">  246</span><span class="comment"> * not specify a .type then no space or column </span></div>
+<div class="line"><a id="l00247" name="l00247"></a><span class="lineno">  247</span><span class="comment"> * will be printed for them but if one of the </span></div>
+<div class="line"><a id="l00248" name="l00248"></a><span class="lineno">  248</span><span class="comment"> * set args (or more) have the .type set then </span></div>
+<div class="line"><a id="l00249" name="l00249"></a><span class="lineno">  249</span><span class="comment"> * a column will be printed, all values printed </span></div>
+<div class="line"><a id="l00250" name="l00250"></a><span class="lineno">  250</span><span class="comment"> * are aligned and catagorized too. */</span> </div>
+<div class="line"><a id="l00251" name="l00251"></a><span class="lineno">  251</span><span class="keywordtype">void</span> pl_help(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00252" name="l00252"></a><span class="lineno">  252</span> </div>
+<div class="line"><a id="l00253" name="l00253"></a><span class="lineno">  253</span> </div>
+<div class="line"><a id="l00254" name="l00254"></a><span class="lineno">  254</span><span class="comment">/* when creating an argument a new slice of an </span></div>
+<div class="line"><a id="l00255" name="l00255"></a><span class="lineno">  255</span><span class="comment"> * array is allocated where the arguments data </span></div>
+<div class="line"><a id="l00256" name="l00256"></a><span class="lineno">  256</span><span class="comment"> * is held. also when an argument has a value </span></div>
+<div class="line"><a id="l00257" name="l00257"></a><span class="lineno">  257</span><span class="comment"> * parsed into it the .value of the arg has to </span></div>
+<div class="line"><a id="l00258" name="l00258"></a><span class="lineno">  258</span><span class="comment"> * be allocated too, the pl_exit function clears</span></div>
+<div class="line"><a id="l00259" name="l00259"></a><span class="lineno">  259</span><span class="comment"> * all of the memory from everything. this function </span></div>
+<div class="line"><a id="l00260" name="l00260"></a><span class="lineno">  260</span><span class="comment"> * will be automatically called on exit if the </span></div>
+<div class="line"><a id="l00261" name="l00261"></a><span class="lineno">  261</span><span class="comment"> * pl_proc function has been run */</span></div>
+<div class="line"><a id="l00262" name="l00262"></a><span class="lineno">  262</span><span class="keywordtype">void</span> pl_exit(<span class="keywordtype">void</span>);</div>
+<div class="line"><a id="l00263" name="l00263"></a><span class="lineno">  263</span> </div>
+<div class="line"><a id="l00264" name="l00264"></a><span class="lineno">  264</span> </div>
+<div class="line"><a id="l00265" name="l00265"></a><span class="lineno">  265</span><span class="comment">/* arguments can be run multiple times which results </span></div>
+<div class="line"><a id="l00266" name="l00266"></a><span class="lineno">  266</span><span class="comment"> * in multiple values, this function will get a value </span></div>
+<div class="line"><a id="l00267" name="l00267"></a><span class="lineno">  267</span><span class="comment"> * of a pl_arg using an index (i), to get the amount of </span></div>
+<div class="line"><a id="l00268" name="l00268"></a><span class="lineno">  268</span><span class="comment"> * values available (indexs) use pl_arg_value_count().*/</span> </div>
+<div class="line"><a id="l00269" name="l00269"></a><span class="lineno">  269</span><span class="keywordtype">char</span>* pl_arg_value(<span class="keyword">const</span> <a class="code hl_struct" href="../../d4/d1b/structpl__arg.html">pl_arg</a> *local, <span class="keyword">const</span> <span class="keywordtype">int</span> i);</div>
+<div class="line"><a id="l00270" name="l00270"></a><span class="lineno">  270</span> </div>
+<div class="line"><a id="l00271" name="l00271"></a><span class="lineno">  271</span><span class="comment">/* this is the main function used to create an argument </span></div>
+<div class="line"><a id="l00272" name="l00272"></a><span class="lineno">  272</span><span class="comment"> * there are many forms of this argument listed below.</span></div>
+<div class="line"><a id="l00273" name="l00273"></a><span class="lineno">  273</span><span class="comment"> * this function simply takes in a pl_arg and writes it </span></div>
+<div class="line"><a id="l00274" name="l00274"></a><span class="lineno">  274</span><span class="comment"> * to an array, this array is used as reference when </span></div>
+<div class="line"><a id="l00275" name="l00275"></a><span class="lineno">  275</span><span class="comment"> * calling pl_proc, as noted at the very top in the </span></div>
+<div class="line"><a id="l00276" name="l00276"></a><span class="lineno">  276</span><span class="comment"> * definition of pl_arg there are many values, now the </span></div>
+<div class="line"><a id="l00277" name="l00277"></a><span class="lineno">  277</span><span class="comment"> * only value actually required is .title, all of the </span></div>
+<div class="line"><a id="l00278" name="l00278"></a><span class="lineno">  278</span><span class="comment"> * other arguments are not required or some default to </span></div>
+<div class="line"><a id="l00279" name="l00279"></a><span class="lineno">  279</span><span class="comment"> * values like so:</span></div>
+<div class="line"><a id="l00280" name="l00280"></a><span class="lineno">  280</span><span class="comment"> * </span></div>
+<div class="line"><a id="l00281" name="l00281"></a><span class="lineno">  281</span><span class="comment"> * catagory = &quot;Options:&quot; </span></div>
+<div class="line"><a id="l00282" name="l00282"></a><span class="lineno">  282</span><span class="comment"> * takes_value = 0</span></div>
+<div class="line"><a id="l00283" name="l00283"></a><span class="lineno">  283</span><span class="comment"> *</span></div>
+<div class="line"><a id="l00284" name="l00284"></a><span class="lineno">  284</span><span class="comment"> * this function returns a integer index to the slice </span></div>
+<div class="line"><a id="l00285" name="l00285"></a><span class="lineno">  285</span><span class="comment"> * in the array at which the new argument has been </span></div>
+<div class="line"><a id="l00286" name="l00286"></a><span class="lineno">  286</span><span class="comment"> * made. </span></div>
+<div class="line"><a id="l00287" name="l00287"></a><span class="lineno">  287</span><span class="comment"> * */</span> </div>
+<div class="line"><a id="l00288" name="l00288"></a><span class="lineno">  288</span><span class="keywordtype">int</span>  pl_a(<a class="code hl_struct" href="../../d4/d1b/structpl__arg.html">pl_arg</a> in);</div>
+<div class="line"><a id="l00289" name="l00289"></a><span class="lineno">  289</span><span class="comment">/* as mentioned there are other ways of using pl_a, </span></div>
+<div class="line"><a id="l00290" name="l00290"></a><span class="lineno">  290</span><span class="comment"> * they are as follows: */</span> </div>
+<div class="line"><a id="l00291" name="l00291"></a><span class="lineno">  291</span> </div>
+<div class="line"><a id="l00292" name="l00292"></a><span class="lineno">  292</span><span class="comment">/* PL_A is a wrapper that allows you to enter the struct </span></div>
+<div class="line"><a id="l00293" name="l00293"></a><span class="lineno">  293</span><span class="comment"> * data directly into a function without needing to define </span></div>
+<div class="line"><a id="l00294" name="l00294"></a><span class="lineno">  294</span><span class="comment"> * the type of struct, here is the before and after: </span></div>
+<div class="line"><a id="l00295" name="l00295"></a><span class="lineno">  295</span><span class="comment"> * </span></div>
+<div class="line"><a id="l00296" name="l00296"></a><span class="lineno">  296</span><span class="comment"> * int ret = pl_a((pl_arg){.name=&quot;test&quot;,.takes_value=1});</span></div>
+<div class="line"><a id="l00297" name="l00297"></a><span class="lineno">  297</span><span class="comment"> * </span></div>
+<div class="line"><a id="l00298" name="l00298"></a><span class="lineno">  298</span><span class="comment"> * int ret = PL_A(.name=&quot;test&quot;,.takes_value=1);</span></div>
+<div class="line"><a id="l00299" name="l00299"></a><span class="lineno">  299</span><span class="comment"> *</span></div>
+<div class="line"><a id="l00300" name="l00300"></a><span class="lineno">  300</span><span class="comment"> * so much easier right?</span></div>
+<div class="line"><a id="l00301" name="l00301"></a><span class="lineno">  301</span><span class="comment"> * */</span></div>
+<div class="line"><a id="l00302" name="l00302"></a><span class="lineno">  302</span><span class="preprocessor">#define PL_A(...) pl_a((pl_arg){__VA_ARGS__})</span></div>
+<div class="line"><a id="l00303" name="l00303"></a><span class="lineno">  303</span> </div>
+<div class="line"><a id="l00304" name="l00304"></a><span class="lineno">  304</span><span class="comment">/* to understand why this macro exists along with its implicit </span></div>
+<div class="line"><a id="l00305" name="l00305"></a><span class="lineno">  305</span><span class="comment"> * pl_arg_global_ptr. originally pl_a returned a pointer pl_arg </span></div>
+<div class="line"><a id="l00306" name="l00306"></a><span class="lineno">  306</span><span class="comment"> * to the actual item in the arguments array, this was very bad </span></div>
+<div class="line"><a id="l00307" name="l00307"></a><span class="lineno">  307</span><span class="comment"> * as when the argument list reached capacity it would overwrite </span></div>
+<div class="line"><a id="l00308" name="l00308"></a><span class="lineno">  308</span><span class="comment"> * the pointers memory location which creates a dangling pointer.</span></div>
+<div class="line"><a id="l00309" name="l00309"></a><span class="lineno">  309</span><span class="comment"> * this pointer can still be interacted with without error, the </span></div>
+<div class="line"><a id="l00310" name="l00310"></a><span class="lineno">  310</span><span class="comment"> * issue with this is that the pointer that we think is pointing </span></div>
+<div class="line"><a id="l00311" name="l00311"></a><span class="lineno">  311</span><span class="comment"> * to an argument in our argument list is actually not existant </span></div>
+<div class="line"><a id="l00312" name="l00312"></a><span class="lineno">  312</span><span class="comment"> * which means that from a debug point of view if you created an </span></div>
+<div class="line"><a id="l00313" name="l00313"></a><span class="lineno">  313</span><span class="comment"> * argument and the list was re-allocated then now for some </span></div>
+<div class="line"><a id="l00314" name="l00314"></a><span class="lineno">  314</span><span class="comment"> * reason regardless of how you trigger that argument it still </span></div>
+<div class="line"><a id="l00315" name="l00315"></a><span class="lineno">  315</span><span class="comment"> * comes up as false when using pl_arg_run this is of course </span></div>
+<div class="line"><a id="l00316" name="l00316"></a><span class="lineno">  316</span><span class="comment"> * because the pointer is refering to something other then what </span></div>
+<div class="line"><a id="l00317" name="l00317"></a><span class="lineno">  317</span><span class="comment"> * it is suppost too. to combat this i changed the code so an </span></div>
+<div class="line"><a id="l00318" name="l00318"></a><span class="lineno">  318</span><span class="comment"> * index is returned instead of a pointer, then after all of the </span></div>
+<div class="line"><a id="l00319" name="l00319"></a><span class="lineno">  319</span><span class="comment"> * args are set you can use either &amp;PL_ARGS[index] or PL_GETI(i) </span></div>
+<div class="line"><a id="l00320" name="l00320"></a><span class="lineno">  320</span><span class="comment"> * to grab a pointer to an argument, now this was a good fix but </span></div>
+<div class="line"><a id="l00321" name="l00321"></a><span class="lineno">  321</span><span class="comment"> * now one line has turned into two lines, one for definition </span></div>
+<div class="line"><a id="l00322" name="l00322"></a><span class="lineno">  322</span><span class="comment"> * and a second for actually getting the pointer from the index. </span></div>
+<div class="line"><a id="l00323" name="l00323"></a><span class="lineno">  323</span><span class="comment"> * the way this is resolved is by using the following macro which </span></div>
+<div class="line"><a id="l00324" name="l00324"></a><span class="lineno">  324</span><span class="comment"> * is a copy of the PL_A macro but for the pl_arg_global_ptr func </span></div>
+<div class="line"><a id="l00325" name="l00325"></a><span class="lineno">  325</span><span class="comment"> * the pl_arg_global_ptr function will first check to see if the </span></div>
+<div class="line"><a id="l00326" name="l00326"></a><span class="lineno">  326</span><span class="comment"> * arg has been created if it has then it will search for it in </span></div>
+<div class="line"><a id="l00327" name="l00327"></a><span class="lineno">  327</span><span class="comment"> * the argument list and return a pointer to it if it finds it.</span></div>
+<div class="line"><a id="l00328" name="l00328"></a><span class="lineno">  328</span><span class="comment"> * if the arg has not been made then the arg will be offloaded</span></div>
+<div class="line"><a id="l00329" name="l00329"></a><span class="lineno">  329</span><span class="comment"> * into the pl_a function and then returned as a pointer. this </span></div>
+<div class="line"><a id="l00330" name="l00330"></a><span class="lineno">  330</span><span class="comment"> * means that if you initialize a var using the PL_P function </span></div>
+<div class="line"><a id="l00331" name="l00331"></a><span class="lineno">  331</span><span class="comment"> * every time you call the variable it will perform a search in </span></div>
+<div class="line"><a id="l00332" name="l00332"></a><span class="lineno">  332</span><span class="comment"> * the argument list for the argument which removes all risk of </span></div>
+<div class="line"><a id="l00333" name="l00333"></a><span class="lineno">  333</span><span class="comment"> * dangling pointers as the information is updated per-call and </span></div>
+<div class="line"><a id="l00334" name="l00334"></a><span class="lineno">  334</span><span class="comment"> * isent static and overwritable. */</span></div>
+<div class="line"><a id="l00335" name="l00335"></a><span class="lineno">  335</span><span class="preprocessor">#define PL_P(...) pl_arg_global_ptr((pl_arg){__VA_ARGS__})</span></div>
+<div class="line"><a id="l00336" name="l00336"></a><span class="lineno">  336</span><a class="code hl_struct" href="../../d4/d1b/structpl__arg.html">pl_arg</a> *pl_arg_global_ptr(<a class="code hl_struct" href="../../d4/d1b/structpl__arg.html">pl_arg</a> in);</div>
 <div class="line"><a id="l00337" name="l00337"></a><span class="lineno">  337</span> </div>
 <div class="line"><a id="l00338" name="l00338"></a><span class="lineno">  338</span> </div>
-<div class="line"><a id="l00339" name="l00339"></a><span class="lineno">  339</span><span class="comment">/* get a pointer to an arg using index </span></div>
-<div class="line"><a id="l00340" name="l00340"></a><span class="lineno">  340</span><span class="comment"> * see pl_a and PL_A. */</span> </div>
-<div class="line"><a id="l00341" name="l00341"></a><span class="lineno">  341</span><span class="preprocessor">#define PL_GETI(idx) &amp;PL_ARGS[idx]</span></div>
-<div class="line"><a id="l00342" name="l00342"></a><span class="lineno">  342</span> </div>
+<div class="line"><a id="l00339" name="l00339"></a><span class="lineno">  339</span><span class="comment">/* takes in a string of a flag name and searches for it in the </span></div>
+<div class="line"><a id="l00340" name="l00340"></a><span class="lineno">  340</span><span class="comment"> * argument list, if found it will return the pl_arg as a pointer </span></div>
+<div class="line"><a id="l00341" name="l00341"></a><span class="lineno">  341</span><span class="comment"> * or if not found it will return nothing. */</span> </div>
+<div class="line"><a id="l00342" name="l00342"></a><span class="lineno">  342</span><a class="code hl_struct" href="../../d4/d1b/structpl__arg.html">pl_arg</a> *pl_arg_by_name(<span class="keyword">const</span> <span class="keywordtype">char</span> *name);</div>
 <div class="line"><a id="l00343" name="l00343"></a><span class="lineno">  343</span> </div>
-<div class="line"><a id="l00344" name="l00344"></a><span class="lineno">  344</span><span class="comment">// auto grab argv and argc if they are named as such.</span></div>
-<div class="line"><a id="l00345" name="l00345"></a><span class="lineno">  345</span><span class="preprocessor">#define PL_PROC() pl_proc(argc,argv)</span></div>
-<div class="line"><a id="l00346" name="l00346"></a><span class="lineno">  346</span> </div>
-<div class="line"><a id="l00347" name="l00347"></a><span class="lineno">  347</span> </div>
-<div class="line"><a id="l00348" name="l00348"></a><span class="lineno">  348</span><span class="comment">/* get the last argument parsed by pl_proc, </span></div>
-<div class="line"><a id="l00349" name="l00349"></a><span class="lineno">  349</span><span class="comment"> * super useful in debugging and error output */</span></div>
-<div class="line"><a id="l00350" name="l00350"></a><span class="lineno">  350</span><span class="preprocessor">#define PL_LAST_ARG (PL_PROC_END_ARGC &gt;= 0) ? \</span></div>
-<div class="line"><a id="l00351" name="l00351"></a><span class="lineno">  351</span><span class="preprocessor">                                        (PL_ARGV[PL_PROC_END_ARGC]) : \</span></div>
-<div class="line"><a id="l00352" name="l00352"></a><span class="lineno">  352</span><span class="preprocessor">                                        pl_s[PL_INVERT(PL_NO_ARGUMENTS_GIVEN)]</span></div>
-<div class="line"><a id="l00353" name="l00353"></a><span class="lineno">  353</span> </div>
-<div class="line"><a id="l00354" name="l00354"></a><span class="lineno">  354</span> </div>
-<div class="line"><a id="l00355" name="l00355"></a><span class="lineno">  355</span><span class="comment">// convert a return code to a string using pl_r to pl_s array</span></div>
-<div class="line"><a id="l00356" name="l00356"></a><span class="lineno">  356</span><span class="preprocessor">#define PL_E(i) pl_s[PL_INVERT(i)]</span></div>
+<div class="line"><a id="l00344" name="l00344"></a><span class="lineno">  344</span> </div>
+<div class="line"><a id="l00345" name="l00345"></a><span class="lineno">  345</span><span class="comment">/* basic optimize macro for pl_arg_run, </span></div>
+<div class="line"><a id="l00346" name="l00346"></a><span class="lineno">  346</span><span class="comment"> * before after:</span></div>
+<div class="line"><a id="l00347" name="l00347"></a><span class="lineno">  347</span><span class="comment"> * </span></div>
+<div class="line"><a id="l00348" name="l00348"></a><span class="lineno">  348</span><span class="comment"> * if(pl_arg_run(arg) == PL_SUCCESS){</span></div>
+<div class="line"><a id="l00349" name="l00349"></a><span class="lineno">  349</span><span class="comment"> * ... </span></div>
+<div class="line"><a id="l00350" name="l00350"></a><span class="lineno">  350</span><span class="comment"> * }</span></div>
+<div class="line"><a id="l00351" name="l00351"></a><span class="lineno">  351</span><span class="comment"> *</span></div>
+<div class="line"><a id="l00352" name="l00352"></a><span class="lineno">  352</span><span class="comment"> * if(PL_R(arg)){</span></div>
+<div class="line"><a id="l00353" name="l00353"></a><span class="lineno">  353</span><span class="comment"> * ...</span></div>
+<div class="line"><a id="l00354" name="l00354"></a><span class="lineno">  354</span><span class="comment"> * }</span></div>
+<div class="line"><a id="l00355" name="l00355"></a><span class="lineno">  355</span><span class="comment"> * */</span></div>
+<div class="line"><a id="l00356" name="l00356"></a><span class="lineno">  356</span><span class="preprocessor">#define PL_R(arg) (pl_arg_run(arg) == PL_SUCCESS) ? 1 : 0 </span></div>
 <div class="line"><a id="l00357" name="l00357"></a><span class="lineno">  357</span> </div>
 <div class="line"><a id="l00358" name="l00358"></a><span class="lineno">  358</span> </div>
-<div class="line"><a id="l00359" name="l00359"></a><span class="lineno">  359</span><span class="comment">/* arguments can be run using either their .name or .shorthand values,</span></div>
-<div class="line"><a id="l00360" name="l00360"></a><span class="lineno">  360</span><span class="comment"> * this function returns the method used when the argument was parsed.</span></div>
-<div class="line"><a id="l00361" name="l00361"></a><span class="lineno">  361</span><span class="comment"> * note this won&#39;t work if the the user uses the same flag multiple </span></div>
-<div class="line"><a id="l00362" name="l00362"></a><span class="lineno">  362</span><span class="comment"> * times and with both the shorthand and name */</span></div>
-<div class="line"><a id="l00363" name="l00363"></a><span class="lineno">  363</span><span class="preprocessor">#define pl_arg_sys(arg) (arg-&gt;triggered == 1) ? ((arg-&gt;shorthand_triggered == 1) ? arg-&gt;shorthand : arg-&gt;name) : NULL</span></div>
-<div class="line"><a id="l00364" name="l00364"></a><span class="lineno">  364</span> </div>
-<div class="line"><a id="l00365" name="l00365"></a><span class="lineno">  365</span> </div>
-<div class="line"><a id="l00366" name="l00366"></a><span class="lineno">  366</span><span class="comment">// return the amount of values an argument was run with</span></div>
-<div class="line"><a id="l00367" name="l00367"></a><span class="lineno">  367</span><span class="preprocessor">#define pl_arg_value_count(parg) parg-&gt;value_idx</span></div>
-<div class="line"><a id="l00368" name="l00368"></a><span class="lineno">  368</span><span class="preprocessor">#endif </span><span class="comment">// PLIB_H</span></div>
-<div class="line"><a id="l00369" name="l00369"></a><span class="lineno">  369</span> </div>
-<div class="ttc" id="astructpl__arg_html"><div class="ttname"><a href="../../d4/d1b/structpl__arg.html">pl_arg</a></div><div class="ttdef"><b>Definition</b> plib.h:115</div></div>
+<div class="line"><a id="l00359" name="l00359"></a><span class="lineno">  359</span><span class="comment">// wrapper for pl_arg_get_name...</span></div>
+<div class="line"><a id="l00360" name="l00360"></a><span class="lineno">  360</span><span class="preprocessor">#define PL_GETN(name) pl_arg_by_name(name)</span></div>
+<div class="line"><a id="l00361" name="l00361"></a><span class="lineno">  361</span> </div>
+<div class="line"><a id="l00362" name="l00362"></a><span class="lineno">  362</span> </div>
+<div class="line"><a id="l00363" name="l00363"></a><span class="lineno">  363</span><span class="comment">/* get a pointer to an arg using index </span></div>
+<div class="line"><a id="l00364" name="l00364"></a><span class="lineno">  364</span><span class="comment"> * see pl_a and PL_A. */</span> </div>
+<div class="line"><a id="l00365" name="l00365"></a><span class="lineno">  365</span><span class="preprocessor">#define PL_GETI(idx) &amp;PL_ARGS[idx]</span></div>
+<div class="line"><a id="l00366" name="l00366"></a><span class="lineno">  366</span> </div>
+<div class="line"><a id="l00367" name="l00367"></a><span class="lineno">  367</span> </div>
+<div class="line"><a id="l00368" name="l00368"></a><span class="lineno">  368</span><span class="comment">// auto grab argv and argc if they are named as such.</span></div>
+<div class="line"><a id="l00369" name="l00369"></a><span class="lineno">  369</span><span class="preprocessor">#define PL_PROC() pl_proc(argc,argv)</span></div>
+<div class="line"><a id="l00370" name="l00370"></a><span class="lineno">  370</span> </div>
+<div class="line"><a id="l00371" name="l00371"></a><span class="lineno">  371</span> </div>
+<div class="line"><a id="l00372" name="l00372"></a><span class="lineno">  372</span><span class="comment">/* get the last argument parsed by pl_proc, </span></div>
+<div class="line"><a id="l00373" name="l00373"></a><span class="lineno">  373</span><span class="comment"> * super useful in debugging and error output */</span></div>
+<div class="line"><a id="l00374" name="l00374"></a><span class="lineno">  374</span><span class="preprocessor">#define PL_LAST_ARG (PL_PROC_END_ARGC &gt;= 0) ? \</span></div>
+<div class="line"><a id="l00375" name="l00375"></a><span class="lineno">  375</span><span class="preprocessor">                                        (PL_ARGV[PL_PROC_END_ARGC]) : \</span></div>
+<div class="line"><a id="l00376" name="l00376"></a><span class="lineno">  376</span><span class="preprocessor">                                        pl_s[PL_INVERT(PL_NO_ARGUMENTS_GIVEN)]</span></div>
+<div class="line"><a id="l00377" name="l00377"></a><span class="lineno">  377</span> </div>
+<div class="line"><a id="l00378" name="l00378"></a><span class="lineno">  378</span> </div>
+<div class="line"><a id="l00379" name="l00379"></a><span class="lineno">  379</span><span class="comment">// convert a return code to a string using pl_r to pl_s array</span></div>
+<div class="line"><a id="l00380" name="l00380"></a><span class="lineno">  380</span><span class="preprocessor">#define PL_E(i) pl_s[PL_INVERT(i)]</span></div>
+<div class="line"><a id="l00381" name="l00381"></a><span class="lineno">  381</span> </div>
+<div class="line"><a id="l00382" name="l00382"></a><span class="lineno">  382</span> </div>
+<div class="line"><a id="l00383" name="l00383"></a><span class="lineno">  383</span><span class="comment">/* arguments can be run using either their .name or .shorthand values,</span></div>
+<div class="line"><a id="l00384" name="l00384"></a><span class="lineno">  384</span><span class="comment"> * this function returns the method used when the argument was parsed.</span></div>
+<div class="line"><a id="l00385" name="l00385"></a><span class="lineno">  385</span><span class="comment"> * note this won&#39;t work if the the user uses the same flag multiple </span></div>
+<div class="line"><a id="l00386" name="l00386"></a><span class="lineno">  386</span><span class="comment"> * times and with both the shorthand and name */</span></div>
+<div class="line"><a id="l00387" name="l00387"></a><span class="lineno">  387</span><span class="preprocessor">#define pl_arg_sys(arg) (arg-&gt;triggered == 1) ? ((arg-&gt;shorthand_triggered == 1) ? arg-&gt;shorthand : arg-&gt;name) : NULL</span></div>
+<div class="line"><a id="l00388" name="l00388"></a><span class="lineno">  388</span> </div>
+<div class="line"><a id="l00389" name="l00389"></a><span class="lineno">  389</span> </div>
+<div class="line"><a id="l00390" name="l00390"></a><span class="lineno">  390</span><span class="comment">// return the amount of values an argument was run with</span></div>
+<div class="line"><a id="l00391" name="l00391"></a><span class="lineno">  391</span><span class="preprocessor">#define pl_arg_value_count(parg) parg-&gt;value_idx</span></div>
+<div class="line"><a id="l00392" name="l00392"></a><span class="lineno">  392</span><span class="preprocessor">#endif </span><span class="comment">// PLIB_H</span></div>
+<div class="line"><a id="l00393" name="l00393"></a><span class="lineno">  393</span> </div>
+<div class="ttc" id="astructpl__arg_html"><div class="ttname"><a href="../../d4/d1b/structpl__arg.html">pl_arg</a></div><div class="ttdef"><b>Definition</b> plib.h:139</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 </div><!-- container -->

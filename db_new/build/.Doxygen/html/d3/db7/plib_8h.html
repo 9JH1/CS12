@@ -183,9 +183,9 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>PL_PROC_END_ARGC</b></
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Basic argument parsing library. </p>
-<p>Plib gives functions to create and manage the system arguments of any given function, these arguments can be defined with many options for example shorthand and long-hand versions of the same ag eg &ndash;help and -h.</p>
+<p>Plib gives functions to create and manage the system arguments of any given function, these arguments can be defined with many options for example shorthand and long-hand versions of the same ag eg <span class="tt">--help</span> and <span class="tt">-h</span>.</p>
 <p>Arguments are dynamically allocated and free'd automatically on exit so you dont have to worry about any memory leaks. Along with this plib provides a builtin function called pl_help which prints out all of the arguments in a standard format.</p>
-<p>In order to get started with plib first you must include the system arguments into your main function, for reference look here: <a href="https://www.ibm.com/docs/en/zos/2.4.0">https://www.ibm.com/docs/en/zos/2.4.0</a>?topic=functions-main-function</p>
+<p>In order to get started with plib first you must include the system arguments into your main function, for reference look here: <a href="https://www.ibm.com/docs/en/zos/2.4.0?topic=functions-main-function">https://www.ibm.com/docs/en/zos/2.4.0?topic=functions-main-function</a></p>
 <p>To create an argument use pl_a PL_A or PL_P, read the structure declaration <a class="el" href="../../d4/d1b/structpl__arg.html">pl_arg</a> to learn all of the options. </p><div class="fragment"><div class="line"><span class="preprocessor">#include &quot;<a class="code" href="../../d3/db7/plib_8h.html">plib.h</a>&quot;</span></div>
 <div class="line"> </div>
 <div class="line"><span class="keywordtype">int</span> <a class="code hl_function" href="../../d0/d29/main_8c.html#ac490e54d26e537126a97540acf0b1cba">main</a>(<span class="keyword">const</span> <span class="keywordtype">int</span> c, <span class="keyword">const</span> <span class="keywordtype">char</span> *v[]){</div>
@@ -196,8 +196,8 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>PL_PROC_END_ARGC</b></
 <div class="line">}</div>
 <div class="ttc" id="amain_8c_html_ac490e54d26e537126a97540acf0b1cba"><div class="ttname"><a href="../../d0/d29/main_8c.html#ac490e54d26e537126a97540acf0b1cba">main</a></div><div class="ttdeci">int main(const int c, const char *v[])</div><div class="ttdoc">main database loop</div><div class="ttdef"><b>Definition</b> main.c:17</div></div>
 <div class="ttc" id="aplib_8h_html"><div class="ttname"><a href="../../d3/db7/plib_8h.html">plib.h</a></div><div class="ttdoc">Basic argument parsing library.</div></div>
-<div class="ttc" id="astructpl__arg_html"><div class="ttname"><a href="../../d4/d1b/structpl__arg.html">pl_arg</a></div><div class="ttdef"><b>Definition</b> plib.h:115</div></div>
-</div><!-- fragment --><p> As you can see we defined an argument called my_arg with the flag name of &ndash;my-arg and a description of "basic first argument". running this code outputs the following: </p><div class="fragment"><div class="line">Options:</div>
+<div class="ttc" id="astructpl__arg_html"><div class="ttname"><a href="../../d4/d1b/structpl__arg.html">pl_arg</a></div><div class="ttdef"><b>Definition</b> plib.h:139</div></div>
+</div><!-- fragment --><p> As you can see we defined an argument called my_arg with the flag name of <span class="tt">--my-arg</span> and a description of "basic first argument". running this code outputs the following: </p><div class="fragment"><div class="line">Options:</div>
 <div class="line">  --my-arg | basic first argument!</div>
 </div><!-- fragment --><p> To check if an argument is run use PL_R or pl_arg_run like so </p><div class="fragment"><div class="line"><span class="preprocessor">#include &lt;stdio.h&gt;</span></div>
 <div class="line"><span class="comment">// ...</span></div>
@@ -207,7 +207,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>PL_PROC_END_ARGC</b></
 </div><!-- fragment --><p> Now if we run our program it will print back "Hello World!" To take an value with an argument you simply put .takes_value = 1 in the argument definition like so: </p><div class="fragment"><div class="line"><span class="comment">// ...</span></div>
 <div class="line">pl_a * my_arg = PL_P(<span class="stringliteral">&quot;--my-arg&quot;</span>,<span class="stringliteral">&quot;basic first argument!&quot;</span>, .takes_value = 1);</div>
 <div class="line"><span class="comment">// ...</span></div>
-</div><!-- fragment --><p> if the code is run the same as before you will now notice we do not get the "Hello World!" output anymore , this is because plib failed to parse the &ndash;my-arg argument and instead threw an error because it was missing a value. simple error checking can be done like so </p><div class="fragment"><div class="line"><span class="comment">// ...</span></div>
+</div><!-- fragment --><p> if the code is run the same as before you will now notice we do not get the "Hello World!" output anymore , this is because plib failed to parse the <span class="tt">--my-arg argument</span> and instead threw an error because it was missing a value. simple error checking can be done like so </p><div class="fragment"><div class="line"><span class="comment">// ...</span></div>
 <div class="line">pl_r return_code;</div>
 <div class="line"><span class="keywordflow">if</span>((return_code = PL_PROC(c,v)) == PL_SUCCESS){</div>
 <div class="line">  <span class="comment">// plib parsed all argument sucessfully.</span></div>
@@ -219,14 +219,34 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>PL_PROC_END_ARGC</b></
 <div class="line">    PL_LAST_ARG);</div>
 <div class="line">}</div>
 <div class="line"><span class="comment">// ...</span></div>
-</div><!-- fragment --><p> now if we run the program with the same arguments we will get an output like so: </p><div class="fragment"><div class="line">Error occured ARG_REQUIRES_VALUE from --my-arg</div>
+</div><!-- fragment --><p> Now if we run the program with the same arguments we will get an output like so: </p><div class="fragment"><div class="line">Error occured ARG_REQUIRES_VALUE from --my-arg</div>
 </div><!-- fragment --><p> PLib uses '&ndash;key=val' argument value style, so to resolve this plib error run the program with &ndash;my-arg="value".</p>
-<p>to get the value of an arg either use pl_arg_value like so: </p><div class="fragment"><div class="line"><span class="comment">// ... </span></div>
+<p>To get the value of an arg either use pl_arg_value like so: </p><div class="fragment"><div class="line"><span class="comment">// ... </span></div>
 <div class="line"><span class="keywordflow">if</span>(PL_R(my_arg))</div>
 <div class="line">  printf(<span class="stringliteral">&quot;Argument run with value %s\n&quot;</span>,</div>
 <div class="line">    pl_arg_value(my_arg) ); <span class="comment">// get argument value </span></div>
-</div><!-- fragment --><p> now running the program will print out whatever value has been parsed. </p>
-</div><a name="doc-define-members" id="doc-define-members"></a><h2 id="header-doc-define-members" class="groupheader">Macro Definition Documentation</h2>
+</div><!-- fragment --><p> Now running the program will print out whatever value has been parsed. here is the full example of what we just went over: </p><div class="fragment"><div class="line"><span class="preprocessor">#include &lt;stdio.h&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &quot;<a class="code" href="../../d3/db7/plib_8h.html">plib.h</a>&quot;</span></div>
+<div class="line"> </div>
+<div class="line"><span class="keywordtype">int</span> <a class="code hl_function" href="../../d0/d29/main_8c.html#ac490e54d26e537126a97540acf0b1cba">main</a>(<span class="keyword">const</span> <span class="keywordtype">int</span> c, <span class="keyword">const</span> <span class="keywordtype">char</span> *v[]){</div>
+<div class="line">  <a class="code hl_struct" href="../../d4/d1b/structpl__arg.html">pl_arg</a> * my_arg = PL_P(<span class="stringliteral">&quot;--my-arg&quot;</span>,<span class="stringliteral">&quot;my argument!&quot;</span>, .takes_value = 1);</div>
+<div class="line">  pl_r return_code;</div>
+<div class="line">  </div>
+<div class="line">  <span class="keywordflow">if</span>((return_code = pl_proc(c,v)) == PL_SUCCESS){</div>
+<div class="line">    <span class="keywordflow">if</span>(PL_R(my_arg))</div>
+<div class="line">     printf(<span class="stringliteral">&quot;Argument run with value %s\n&quot;</span>, </div>
+<div class="line">     pl_arg_value(my_arg) ); <span class="comment">// get argument value </span></div>
+<div class="line">  } <span class="keywordflow">else</span> {</div>
+<div class="line">    </div>
+<div class="line">    <span class="comment">// error occured</span></div>
+<div class="line">    printf(<span class="stringliteral">&quot;Error occured %s from %s\n&quot;</span>,</div>
+<div class="line">      PL_E(return_code),</div>
+<div class="line">      PL_LAST_ARG);</div>
+<div class="line">  }</div>
+<div class="line"> </div>
+<div class="line">  <span class="keywordflow">return</span> 0;</div>
+<div class="line">}</div>
+</div><!-- fragment --> </div><a name="doc-define-members" id="doc-define-members"></a><h2 id="header-doc-define-members" class="groupheader">Macro Definition Documentation</h2>
 <a id="a7861a13243875e0d471c6345fdcca7de" name="a7861a13243875e0d471c6345fdcca7de"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a7861a13243875e0d471c6345fdcca7de">&#9670;&#160;</a></span>PL_A</h2>
 

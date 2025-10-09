@@ -129,11 +129,11 @@ int {\bfseries PL\+\_\+\+PROC\+\_\+\+END\+\_\+\+ARGC}
 \doxysubsection{Detailed Description}
 Basic argument parsing library. 
 
-Plib gives functions to create and manage the system arguments of any given function, these arguments can be defined with many options for example shorthand and long-\/hand versions of the same ag eg --help and -\/h.
+Plib gives functions to create and manage the system arguments of any given function, these arguments can be defined with many options for example shorthand and long-\/hand versions of the same ag eg {\ttfamily -\/-\/help} and {\ttfamily -\/h}.
 
 Arguments are dynamically allocated and free\textquotesingle{}d automatically on exit so you dont have to worry about any memory leaks. Along with this plib provides a builtin function called pl\+\_\+help which prints out all of the arguments in a standard format.
 
-In order to get started with plib first you must include the system arguments into your main function, for reference look here\+: \href{https://www.ibm.com/docs/en/zos/2.4.0}{\texttt{https\+://www.\+ibm.\+com/docs/en/zos/2.\+4.\+0}}?topic=functions-\/main-\/function
+In order to get started with plib first you must include the system arguments into your main function, for reference look here\+: \href{https://www.ibm.com/docs/en/zos/2.4.0?topic=functions-main-function}{\texttt{https\+://www.\+ibm.\+com/docs/en/zos/2.\+4.\+0?topic=functions-\/main-\/function}}
 
 To create an argument use pl\+\_\+a PL\+\_\+A or PL\+\_\+P, read the structure declaration \doxylink{structpl__arg}{pl\+\_\+arg} to learn all of the options. 
 \begin{DoxyCode}{0}
@@ -147,7 +147,7 @@ To create an argument use pl\+\_\+a PL\+\_\+A or PL\+\_\+P, read the structure d
 \DoxyCodeLine{\}}
 
 \end{DoxyCode}
- As you can see we defined an argument called my\+\_\+arg with the flag name of --my-\/arg and a description of "{}basic first argument"{}. running this code outputs the following\+: 
+ As you can see we defined an argument called my\+\_\+arg with the flag name of {\ttfamily -\/-\/my-\/arg} and a description of "{}basic first argument"{}. running this code outputs the following\+: 
 \begin{DoxyCode}{0}
 \DoxyCodeLine{Options:}
 \DoxyCodeLine{\ \ -\/-\/my-\/arg\ |\ basic\ first\ argument!}
@@ -169,7 +169,7 @@ To create an argument use pl\+\_\+a PL\+\_\+A or PL\+\_\+P, read the structure d
 \DoxyCodeLine{\textcolor{comment}{//\ ...}}
 
 \end{DoxyCode}
- if the code is run the same as before you will now notice we do not get the "{}\+Hello World!"{} output anymore , this is because plib failed to parse the --my-\/arg argument and instead threw an error because it was missing a value. simple error checking can be done like so 
+ if the code is run the same as before you will now notice we do not get the "{}\+Hello World!"{} output anymore , this is because plib failed to parse the {\ttfamily -\/-\/my-\/arg argument} and instead threw an error because it was missing a value. simple error checking can be done like so 
 \begin{DoxyCode}{0}
 \DoxyCodeLine{\textcolor{comment}{//\ ...}}
 \DoxyCodeLine{pl\_r\ return\_code;}
@@ -185,14 +185,14 @@ To create an argument use pl\+\_\+a PL\+\_\+A or PL\+\_\+P, read the structure d
 \DoxyCodeLine{\textcolor{comment}{//\ ...}}
 
 \end{DoxyCode}
- now if we run the program with the same arguments we will get an output like so\+: 
+ Now if we run the program with the same arguments we will get an output like so\+: 
 \begin{DoxyCode}{0}
 \DoxyCodeLine{Error\ occured\ ARG\_REQUIRES\_VALUE\ from\ -\/-\/my-\/arg}
 
 \end{DoxyCode}
  PLib uses \textquotesingle{}--key=val\textquotesingle{} argument value style, so to resolve this plib error run the program with --my-\/arg="{}value"{}.
 
-to get the value of an arg either use pl\+\_\+arg\+\_\+value like so\+: 
+To get the value of an arg either use pl\+\_\+arg\+\_\+value like so\+: 
 \begin{DoxyCode}{0}
 \DoxyCodeLine{\textcolor{comment}{//\ ...\ }}
 \DoxyCodeLine{\textcolor{keywordflow}{if}(PL\_R(my\_arg))}
@@ -200,7 +200,32 @@ to get the value of an arg either use pl\+\_\+arg\+\_\+value like so\+:
 \DoxyCodeLine{\ \ \ \ pl\_arg\_value(my\_arg)\ );\ \textcolor{comment}{//\ get\ argument\ value\ }}
 
 \end{DoxyCode}
- now running the program will print out whatever value has been parsed. 
+ Now running the program will print out whatever value has been parsed. here is the full example of what we just went over\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{preprocessor}{\#include\ <stdio.h>}}
+\DoxyCodeLine{\textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{plib_8h}{plib.h}}"{}}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{keywordtype}{int}\ \mbox{\hyperlink{main_8c_ac490e54d26e537126a97540acf0b1cba}{main}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ c,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *v[])\{}
+\DoxyCodeLine{\ \ \mbox{\hyperlink{structpl__arg}{pl\_arg}}\ *\ my\_arg\ =\ PL\_P(\textcolor{stringliteral}{"{}-\/-\/my-\/arg"{}},\textcolor{stringliteral}{"{}my\ argument!"{}},\ .takes\_value\ =\ 1);}
+\DoxyCodeLine{\ \ pl\_r\ return\_code;}
+\DoxyCodeLine{\ \ }
+\DoxyCodeLine{\ \ \textcolor{keywordflow}{if}((return\_code\ =\ pl\_proc(c,v))\ ==\ PL\_SUCCESS)\{}
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordflow}{if}(PL\_R(my\_arg))}
+\DoxyCodeLine{\ \ \ \ \ printf(\textcolor{stringliteral}{"{}Argument\ run\ with\ value\ \%s\(\backslash\)n"{}},\ }
+\DoxyCodeLine{\ \ \ \ \ pl\_arg\_value(my\_arg)\ );\ \textcolor{comment}{//\ get\ argument\ value\ }}
+\DoxyCodeLine{\ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{\ \ \ \ }
+\DoxyCodeLine{\ \ \ \ \textcolor{comment}{//\ error\ occured}}
+\DoxyCodeLine{\ \ \ \ printf(\textcolor{stringliteral}{"{}Error\ occured\ \%s\ from\ \%s\(\backslash\)n"{}},}
+\DoxyCodeLine{\ \ \ \ \ \ PL\_E(return\_code),}
+\DoxyCodeLine{\ \ \ \ \ \ PL\_LAST\_ARG);}
+\DoxyCodeLine{\ \ \}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+ 
 
 \label{doc-define-members}
 \Hypertarget{plib_8h_doc-define-members}
