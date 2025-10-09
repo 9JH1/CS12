@@ -75,7 +75,7 @@ int ui_menu(const char *array1[], const int size, const char *array2[],
   border(box_s, &bor_s);
 
   while (1) {
-    clear();
+    //clear();
     date rn = date_now();
 
     printf("%s\033[0m\n", bor_s.string);
