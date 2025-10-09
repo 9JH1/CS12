@@ -439,6 +439,7 @@ int member_selector_menu() {
       char *l_name = lower(db_members[i].last_name);
       if (strcmp(l_name, l_buffer) == 0) {
         sel_idx = i;
+				break;
       }
 			printf("%s != %s\n",l_name,l_buffer);
       free(l_name);
