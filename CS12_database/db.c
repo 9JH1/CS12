@@ -250,28 +250,80 @@ char *lower(const char *in) {
 int ui_main_main();
 
 int loan_menu(const int cur) {
-  member member_cur = db_members[cur];
-
-  char *loans[member_cur.loan.loan_index];
-  char *desc[member_cur.loan.loan_index];
-	
-	if(member_cur.loan.loan_index <= 0) return -2;
-
-  for (int i = 0; i < member_cur.loan.loan_index; i++) {
-    loan loan_cur = db_loans[member_cur.loan.loan_ids[i]];
-    loans[i] = db_books[loan_cur.bookid].title;
-    desc[i] = malloc(COL_SIZE_2 * sizeof(char));
-
-    sprintf(desc[i], "Costs: $%d must return by %d/%d/%d", loan_cur.amount,
-            loan_cur.return_date.day, loan_cur.return_date.month,
-            loan_cur.return_date.year);
+  // Validate input index
+  if (cur < 0 || cur >= /* db_members size, assuming MAX_MEMBERS */) {
+    fprintf(stderr, "Error: Invalid member index\n");
+    return -1;
   }
 
+  member member_cur = db_members[cur];
+  
+  // Check if loan_index is valid
+  if (member_cur.loan.loan_index <= 0 || member_cur.loan.loan_ids == NULL) {
+    fprintf(stderr, "Error: No loans available or invalid loan data\n");
+    return -1;
+  }
+
+  // Allocate arrays for loans and descriptions
+  char *loans[member_cur.loan.loan_index];
+  char *desc[member_cur.loan.loan_index];
+
+  // Initialize arrays to NULL to avoid undefined behavior
+  for (int i = 0; i < member_cur.loan.loan_index; i++) {
+    loans[i] = NULL;
+    desc[i] = NULL;
+  }
+
+  // Populate arrays
+  for (int i = 0; i < member_cur.loan.loan_index; i++) {
+    // Validate loan ID
+    int loan_id = member_cur.loan.loan_ids[i];
+    if (loan_id < 0 || loan_id >= /* db_loans size, assuming MAX_LOANS */) {
+      fprintf(stderr, "Error: Invalid loan ID at index %d\n", i);
+      goto cleanup;
+    }
+
+    loan loan_cur = db_loans[loan_id];
+
+    // Validate book ID
+    if (loan_cur.bookid < 0 || loan_cur.bookid >= /* db_books size, assuming MAX_BOOKS */) {
+      fprintf(stderr, "Error: Invalid book ID for loan at index %d\n", i);
+      goto cleanup;
+    }
+
+    // Check if book title is valid
+    if (db_books[loan_cur.bookid].title == NULL) {
+      fprintf(stderr, "Error: Invalid book title for book ID %d\n", loan_cur.bookid);
+      goto cleanup;
+    }
+
+    loans[i] = db_books[loan_cur.bookid].title;
+
+    // Allocate memory for description
+    desc[i] = malloc(COL_SIZE_2 * sizeof(char));
+    if (desc[i] == NULL) {
+      fprintf(stderr, "Error: Memory allocation failed for description %d\n", i);
+      goto cleanup;
+    }
+
+    // Ensure COL_SIZE_2 is large enough (e.g., at least 50 for safety)
+    snprintf(desc[i], COL_SIZE_2, "Costs: $%d must return by %d/%d/%d",
+             loan_cur.amount, loan_cur.return_date.day,
+             loan_cur.return_date.month, loan_cur.return_date.year);
+  }
+
+  // Call UI menu
   int ret = ui_menu((const char **)loans, member_cur.loan.loan_index,
                     (const char **)desc, "Loans");
 
-  for (int i = 0; i < member_cur.loan.loan_index; i++)
-    free(desc[i]);
+cleanup:
+  // Free allocated memory
+  for (int i = 0; i < member_cur.loan.loan_index; i++) {
+    if (desc[i] != NULL) {
+      free(desc[i]);
+      desc[i] = NULL;
+    }
+  }
 
   return ret;
 }
