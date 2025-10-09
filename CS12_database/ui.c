@@ -47,7 +47,6 @@ int ui_menu(const char *array1[], const int size, const char *array2[],
             const char *prompt) {
   hide_cursor();
   run_count = 0;
-	clear();
 
   // calculate longest
   int x, y, selected;
@@ -76,7 +75,6 @@ int ui_menu(const char *array1[], const int size, const char *array2[],
   border(box_s, &bor_s);
 
   while (1) {
-    //clear();
     date rn = date_now();
 
     printf("%s\033[0m\n", bor_s.string);
