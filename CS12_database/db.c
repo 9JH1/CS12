@@ -441,7 +441,8 @@ int member_selector_menu() {
     }
     if (sel_idx == -1) {
       printf("last name \"%s\" not found\n", buffer);
-      return 1;
+			achar();
+      return -2;
     }
   } else if (ret == 1) {
     // SHOW MEMBER LIST
