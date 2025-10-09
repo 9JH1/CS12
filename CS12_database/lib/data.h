@@ -46,6 +46,7 @@ typedef struct {
 
 	// extra info:
   date dob;
+	int failed_form;
   date time_created;
 	int account_available;
 	bool account_to_delete; /* this isent included in other structs because loans 

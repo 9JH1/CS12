@@ -641,7 +641,7 @@ member member_wizard() {
     char is_alive_input[CHAR_SMALL+1];
     char member_id_input[CHAR_SMALL+1];
     char member_code_input[CHAR_SMALL+1];
-    member new_member = {-1};
+    member new_member = {.failed_form = -1};
 
     // Tip for input formatting
     printf("Ensure any values of 0 are formatted like '0' not '00' or otherwise\n");
@@ -758,7 +758,7 @@ member member_wizard() {
     strncpy(new_member.last_name, last_name, CHAR_SMALL);
     strncpy(new_member.email, email, CHAR_SMALL);
     strncpy(new_member.phone_number, phone_number, CHAR_SMALL);
-
+		new_member.failed_form = 0;	
     return new_member;
 }
 

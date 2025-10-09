@@ -1253,7 +1253,7 @@ int ui_main_main() {
     ret = ui_m(form_menu, form_desc, "What form do you want to run?");
     if (ret == 0) {
       member cur = member_wizard();
-			if(cur.account_available == -1){
+			if(cur.failed_form == -1){
 				printf("error occured\n");
 			} else member_add(cur);
     } else if (ret == 1) {
