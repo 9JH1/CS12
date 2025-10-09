@@ -1238,7 +1238,7 @@ int ui_main_main() {
         if (ret != -2) {
           db_loans[member_cur->loan.loan_ids[ret]].returned = date_now();
           remove_element(member_cur->loan.loan_ids, ret,
-                         member_cur->loan.loan_index);
+    	                     member_cur->loan.loan_index);
           member_cur->loan.loan_index--;
 
           printf("Loan has been returned\n");
@@ -1263,14 +1263,19 @@ int ui_main_main() {
     ui_print(
         "please pick the date this loan is due..\npress any key to continue\n");
     achar();
+		date due = date_wizard();
+		if(due.year != -1){
     loan_new(id_to_member_ptr(memberid), (loan){
                                              .bookid = bookid,
                                              .issued = date_now(),
-                                             .return_date = date_wizard(),
+                                             .return_date = due,
                                              .active = true,
                                              .note = "",
                                              .amount = 0, // owes nothing
                                          });
+		} else {
+			printf("error occured please try again\n");
+		}
   } else if (ret == -2) {
     ui_print("There is nothing to go back too..\n");
   }
