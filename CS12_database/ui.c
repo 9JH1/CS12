@@ -86,7 +86,7 @@ int ui_menu(const char *array1[], const int size, const char *array2[],
            rn.second);
 
     // draw the menu
-    for (int i = 0; i < size + 1; i++) {
+    for (int i = 0; i < size + 2; i++) {
       gotoxy(1, i + 1);
       if (i == selected)
         printf("\033[30;42;1m");
@@ -114,12 +114,18 @@ int ui_menu(const char *array1[], const int size, const char *array2[],
         for (int j = 0; j < COL_SIZE_2 - strlen(array2[i]); ++j)
           printf(" ");
         printf("\033[0m\n");
-      } else {
+      } else if (i == size) {
         printf("Back");
         for(int j = 0; j < x - 4;j++)
                 printf(" ");
         printf("\033[0m\n");
-      }
+      } else if (i == size + 1){
+				printf("jump to index");
+				for(int j = 0; j < x - 12;j++){
+					printf(" ");
+				}
+				printf("\033[0m\n");
+			}
     }
 
     // handle the input
