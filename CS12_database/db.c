@@ -442,7 +442,7 @@ int member_selector_menu() {
       	free(l_name);
 				break;
       }
-			printf("%s != %s\n",l_name, l_buffer);
+			printf("%d. %s != %s\n",sel_idx,l_name, l_buffer);
       free(l_name);
     }
 
