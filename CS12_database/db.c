@@ -253,6 +253,7 @@ int loan_menu(const int cur) {
   member member_cur = db_members[cur];
   char *loans[member_cur.loan.loan_index];
   char *desc[member_cur.loan.loan_index];
+	if(member_cur.loan.loan_index <= 0) return -2;
 
   for (int i = 0; i < member_cur.loan.loan_index; i++) {
     loan loan_cur = db_loans[member_cur.loan.loan_ids[i]];
