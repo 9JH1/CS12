@@ -9,13 +9,12 @@ Basic argument parsing library.
 \begin{DoxyCompactItemize}
 \item 
 struct \mbox{\hyperlink{structpl__arg}{pl\+\_\+arg}}
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em argument options \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsubsection*{Macros}
 \begin{DoxyCompactItemize}
 \item 
-\Hypertarget{plib_8h_a7f8d80ee15b3b348f0fca78043a59f57}\label{plib_8h_a7f8d80ee15b3b348f0fca78043a59f57} 
-\#define {\bfseries PL\+\_\+\+INIT\+\_\+\+ARG\+\_\+\+ALLOC}~2
-\item 
+\#define \mbox{\hyperlink{plib_8h_a7f8d80ee15b3b348f0fca78043a59f57}{PL\+\_\+\+INIT\+\_\+\+ARG\+\_\+\+ALLOC}}~2
+\begin{DoxyCompactList}\small\item\em initial argument alloc amount \end{DoxyCompactList}\item 
 \Hypertarget{plib_8h_ae82e54eaded33c048955580cd5c1d75c}\label{plib_8h_ae82e54eaded33c048955580cd5c1d75c} 
 \#define {\bfseries PL\+\_\+\+VERBOSE}~0
 \item 
@@ -47,9 +46,8 @@ struct \mbox{\hyperlink{structpl__arg}{pl\+\_\+arg}}
 \doxysubsubsection*{Typedefs}
 \begin{DoxyCompactItemize}
 \item 
-\Hypertarget{plib_8h_ad75eee4eed558c05604388420e76105b}\label{plib_8h_ad75eee4eed558c05604388420e76105b} 
-typedef struct pl\+\_\+arg {\bfseries pl\+\_\+arg}
-\end{DoxyCompactItemize}
+typedef struct pl\+\_\+arg \mbox{\hyperlink{plib_8h_ad75eee4eed558c05604388420e76105b}{pl\+\_\+arg}}
+\begin{DoxyCompactList}\small\item\em argument options \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsubsection*{Enumerations}
 \begin{DoxyCompactItemize}
 \item 
@@ -296,7 +294,17 @@ To get the value of an arg either use pl\+\_\+arg\+\_\+value like so\+:
 \DoxyCodeLine{pl\_arg\_by\_name(name)}
 
 \end{DoxyCode}
-\Hypertarget{plib_8h_a45171e7fa12f307982ccbe020218c141}\index{plib.h@{plib.h}!PL\_INVERT@{PL\_INVERT}}
+\Hypertarget{plib_8h_a7f8d80ee15b3b348f0fca78043a59f57}\index{plib.h@{plib.h}!PL\_INIT\_ARG\_ALLOC@{PL\_INIT\_ARG\_ALLOC}}
+\index{PL\_INIT\_ARG\_ALLOC@{PL\_INIT\_ARG\_ALLOC}!plib.h@{plib.h}}
+\doxysubsubsection{\texorpdfstring{PL\_INIT\_ARG\_ALLOC}{PL\_INIT\_ARG\_ALLOC}}
+{\footnotesize\ttfamily \label{plib_8h_a7f8d80ee15b3b348f0fca78043a59f57} 
+\#define PL\+\_\+\+INIT\+\_\+\+ARG\+\_\+\+ALLOC~2}
+
+
+
+initial argument alloc amount 
+
+PLib adds each new argument to an array of pl\+\_\+a structs. this value is the initial start value of plib, note that if you want to optimize your code and use PL\+\_\+A instead of PL\+\_\+P then increase this value to the same amount of arguments you intend on defining. \Hypertarget{plib_8h_a45171e7fa12f307982ccbe020218c141}\index{plib.h@{plib.h}!PL\_INVERT@{PL\_INVERT}}
 \index{PL\_INVERT@{PL\_INVERT}!plib.h@{plib.h}}
 \doxysubsubsection{\texorpdfstring{PL\_INVERT}{PL\_INVERT}}
 {\footnotesize\ttfamily \label{plib_8h_a45171e7fa12f307982ccbe020218c141} 
@@ -353,3 +361,45 @@ To get the value of an arg either use pl\+\_\+arg\+\_\+value like so\+:
 \DoxyCodeLine{(pl\_arg\_run(arg)\ ==\ PL\_SUCCESS)\ ?\ 1\ :\ 0}
 
 \end{DoxyCode}
+
+
+\label{doc-typedef-members}
+\Hypertarget{plib_8h_doc-typedef-members}
+\doxysubsection{Typedef Documentation}
+\Hypertarget{plib_8h_ad75eee4eed558c05604388420e76105b}\index{plib.h@{plib.h}!pl\_arg@{pl\_arg}}
+\index{pl\_arg@{pl\_arg}!plib.h@{plib.h}}
+\doxysubsubsection{\texorpdfstring{pl\_arg}{pl\_arg}}
+{\footnotesize\ttfamily \label{plib_8h_ad75eee4eed558c05604388420e76105b} 
+typedef struct pl\+\_\+arg pl\+\_\+arg}
+
+
+
+argument options 
+
+
+\begin{DoxyParams}{Parameters}
+{\em name} & flag name eg {\ttfamily -\/-\/help} \\
+\hline
+{\em description} & flag description (used in pl\+\_\+help) \\
+\hline
+{\em takes\+\_\+value} & set whether or not the argument should expect a value \\
+\hline
+{\em catagory} & set a catagory for an argument, arguments of the same catagory are printed togeather in pl\+\_\+help \\
+\hline
+{\em type} & type of value, not actuall enforced but used in pl\+\_\+help instead. eg VOID or INT. \\
+\hline
+{\em value} & if {\ttfamily .takes\+\_\+value = 1} then the value(s) parsed in will be allocated here. \\
+\hline
+{\em value\+\_\+cap} & Value is dynamically allocated this is a variable used in the DMA. \\
+\hline
+{\em value\+\_\+idx} & same as \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+value\+\_\+cap but this value also is the amount of arguments parsed into the flag, this doubles as the run count of any arguments that take a value. 
+\end{DoxySeeAlso}
+
+\begin{DoxyParams}{Parameters}
+{\em triggered} & this value is {\ttfamily \texorpdfstring{$>$}{>}1} if the argument was run and is {\ttfamily 0} if the arg was not run. this doubles as the run count for all arguments \\
+\hline
+\end{DoxyParams}

@@ -98,11 +98,12 @@ $(function(){initNavTree('d3/db7/plib_8h.html','../../',''); });
 <tr class="heading"><td colspan="2"><h2 id="header-nested-classes" class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
 <tr class="memitem:pl_5Farg" id="r_pl_5Farg"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d1b/structpl__arg.html">pl_arg</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">argument options  <a href="../../d4/d1b/structpl__arg.html#details">More...</a><br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-define-members" class="groupheader"><a id="define-members" name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:a7f8d80ee15b3b348f0fca78043a59f57" id="r_a7f8d80ee15b3b348f0fca78043a59f57"><td class="memItemLeft" align="right" valign="top"><a id="a7f8d80ee15b3b348f0fca78043a59f57" name="a7f8d80ee15b3b348f0fca78043a59f57"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>PL_INIT_ARG_ALLOC</b>&#160;&#160;&#160;2</td></tr>
+<tr class="memitem:a7f8d80ee15b3b348f0fca78043a59f57" id="r_a7f8d80ee15b3b348f0fca78043a59f57"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7f8d80ee15b3b348f0fca78043a59f57">PL_INIT_ARG_ALLOC</a>&#160;&#160;&#160;2</td></tr>
+<tr class="memdesc:a7f8d80ee15b3b348f0fca78043a59f57"><td class="mdescLeft">&#160;</td><td class="mdescRight">initial argument alloc amount  <br /></td></tr>
 <tr class="memitem:ae82e54eaded33c048955580cd5c1d75c" id="r_ae82e54eaded33c048955580cd5c1d75c"><td class="memItemLeft" align="right" valign="top"><a id="ae82e54eaded33c048955580cd5c1d75c" name="ae82e54eaded33c048955580cd5c1d75c"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>PL_VERBOSE</b>&#160;&#160;&#160;0</td></tr>
 <tr class="memitem:a9c0ee1b5d23f5fc5139448dc7a412e24" id="r_a9c0ee1b5d23f5fc5139448dc7a412e24"><td class="memItemLeft" align="right" valign="top"><a id="a9c0ee1b5d23f5fc5139448dc7a412e24" name="a9c0ee1b5d23f5fc5139448dc7a412e24"></a>
@@ -121,8 +122,8 @@ Macros</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-typedef-members" class="groupheader"><a id="typedef-members" name="typedef-members"></a>
 Typedefs</h2></td></tr>
-<tr class="memitem:ad75eee4eed558c05604388420e76105b" id="r_ad75eee4eed558c05604388420e76105b"><td class="memItemLeft" align="right" valign="top"><a id="ad75eee4eed558c05604388420e76105b" name="ad75eee4eed558c05604388420e76105b"></a>
-typedef struct pl_arg&#160;</td><td class="memItemRight" valign="bottom"><b>pl_arg</b></td></tr>
+<tr class="memitem:ad75eee4eed558c05604388420e76105b" id="r_ad75eee4eed558c05604388420e76105b"><td class="memItemLeft" align="right" valign="top">typedef struct pl_arg&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad75eee4eed558c05604388420e76105b">pl_arg</a></td></tr>
+<tr class="memdesc:ad75eee4eed558c05604388420e76105b"><td class="mdescLeft">&#160;</td><td class="mdescRight">argument options  <br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-enum-members" class="groupheader"><a id="enum-members" name="enum-members"></a>
 Enumerations</h2></td></tr>
@@ -196,7 +197,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>PL_PROC_END_ARGC</b></
 <div class="line">}</div>
 <div class="ttc" id="amain_8c_html_ac490e54d26e537126a97540acf0b1cba"><div class="ttname"><a href="../../d0/d29/main_8c.html#ac490e54d26e537126a97540acf0b1cba">main</a></div><div class="ttdeci">int main(const int c, const char *v[])</div><div class="ttdoc">main database loop</div><div class="ttdef"><b>Definition</b> main.c:17</div></div>
 <div class="ttc" id="aplib_8h_html"><div class="ttname"><a href="../../d3/db7/plib_8h.html">plib.h</a></div><div class="ttdoc">Basic argument parsing library.</div></div>
-<div class="ttc" id="astructpl__arg_html"><div class="ttname"><a href="../../d4/d1b/structpl__arg.html">pl_arg</a></div><div class="ttdef"><b>Definition</b> plib.h:139</div></div>
+<div class="ttc" id="astructpl__arg_html"><div class="ttname"><a href="../../d4/d1b/structpl__arg.html">pl_arg</a></div><div class="ttdoc">argument options</div><div class="ttdef"><b>Definition</b> plib.h:160</div></div>
 </div><!-- fragment --><p> As you can see we defined an argument called my_arg with the flag name of <span class="tt">--my-arg</span> and a description of "basic first argument". running this code outputs the following: </p><div class="fragment"><div class="line">Options:</div>
 <div class="line">  --my-arg | basic first argument!</div>
 </div><!-- fragment --><p> To check if an argument is run use PL_R or pl_arg_run like so </p><div class="fragment"><div class="line"><span class="preprocessor">#include &lt;stdio.h&gt;</span></div>
@@ -355,6 +356,23 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>PL_PROC_END_ARGC</b></
 </div><!-- fragment -->
 </div>
 </div>
+<a id="a7f8d80ee15b3b348f0fca78043a59f57" name="a7f8d80ee15b3b348f0fca78043a59f57"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7f8d80ee15b3b348f0fca78043a59f57">&#9670;&#160;</a></span>PL_INIT_ARG_ALLOC</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define PL_INIT_ARG_ALLOC&#160;&#160;&#160;2</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>initial argument alloc amount </p>
+<p>PLib adds each new argument to an array of pl_a structs. this value is the initial start value of plib, note that if you want to optimize your code and use PL_A instead of PL_P then increase this value to the same amount of arguments you intend on defining. </p>
+
+</div>
+</div>
 <a id="a45171e7fa12f307982ccbe020218c141" name="a45171e7fa12f307982ccbe020218c141"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a45171e7fa12f307982ccbe020218c141">&#9670;&#160;</a></span>PL_INVERT</h2>
 
@@ -442,6 +460,43 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>PL_PROC_END_ARGC</b></
 </div><div class="memdoc">
 <b>Value:</b><div class="fragment"><div class="line">(pl_arg_run(arg) == PL_SUCCESS) ? 1 : 0</div>
 </div><!-- fragment -->
+</div>
+</div>
+<a name="doc-typedef-members" id="doc-typedef-members"></a><h2 id="header-doc-typedef-members" class="groupheader">Typedef Documentation</h2>
+<a id="ad75eee4eed558c05604388420e76105b" name="ad75eee4eed558c05604388420e76105b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad75eee4eed558c05604388420e76105b">&#9670;&#160;</a></span>pl_arg</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef struct pl_arg pl_arg</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>argument options </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">name</td><td>flag name eg <span class="tt">--help</span> </td></tr>
+    <tr><td class="paramname">description</td><td>flag description (used in pl_help) </td></tr>
+    <tr><td class="paramname">takes_value</td><td>set whether or not the argument should expect a value </td></tr>
+    <tr><td class="paramname">catagory</td><td>set a catagory for an argument, arguments of the same catagory are printed togeather in pl_help </td></tr>
+    <tr><td class="paramname">type</td><td>type of value, not actuall enforced but used in pl_help instead. eg VOID or INT. </td></tr>
+    <tr><td class="paramname">value</td><td>if <span class="tt">.takes_value = 1</span> then the value(s) parsed in will be allocated here. </td></tr>
+    <tr><td class="paramname">value_cap</td><td>Value is dynamically allocated this is a variable used in the DMA. </td></tr>
+    <tr><td class="paramname">value_idx</td><td>same as </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section see"><dt>See also</dt><dd>value_cap but this value also is the amount of arguments parsed into the flag, this doubles as the run count of any arguments that take a value. </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">triggered</td><td>this value is <span class="tt">&gt;1</span> if the argument was run and is <span class="tt">0</span> if the arg was not run. this doubles as the run count for all arguments </td></tr>
+  </table>
+  </dd>
+</dl>
+
 </div>
 </div>
 </div><!-- contents -->

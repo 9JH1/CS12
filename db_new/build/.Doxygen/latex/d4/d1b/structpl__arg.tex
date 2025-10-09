@@ -1,5 +1,14 @@
 \doxysection{pl\+\_\+arg Struct Reference}
 \hypertarget{structpl__arg}{}\label{structpl__arg}\index{pl\_arg@{pl\_arg}}
+
+
+argument options  
+
+
+
+
+{\ttfamily \#include $<$plib.\+h$>$}
+
 \doxysubsubsection*{Public Attributes}
 \begin{DoxyCompactItemize}
 \item 
@@ -36,6 +45,38 @@ int {\bfseries triggered}
 \Hypertarget{structpl__arg_a9aaec77ff4b03e96592c0409276ecc0d}\label{structpl__arg_a9aaec77ff4b03e96592c0409276ecc0d} 
 int {\bfseries shorthand\+\_\+triggered}
 \end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+argument options 
+
+
+\begin{DoxyParams}{Parameters}
+{\em name} & flag name eg {\ttfamily -\/-\/help} \\
+\hline
+{\em description} & flag description (used in pl\+\_\+help) \\
+\hline
+{\em takes\+\_\+value} & set whether or not the argument should expect a value \\
+\hline
+{\em catagory} & set a catagory for an argument, arguments of the same catagory are printed togeather in pl\+\_\+help \\
+\hline
+{\em type} & type of value, not actuall enforced but used in pl\+\_\+help instead. eg VOID or INT. \\
+\hline
+{\em value} & if {\ttfamily .takes\+\_\+value = 1} then the value(s) parsed in will be allocated here. \\
+\hline
+{\em value\+\_\+cap} & Value is dynamically allocated this is a variable used in the DMA. \\
+\hline
+{\em value\+\_\+idx} & same as \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+value\+\_\+cap but this value also is the amount of arguments parsed into the flag, this doubles as the run count of any arguments that take a value. 
+\end{DoxySeeAlso}
+
+\begin{DoxyParams}{Parameters}
+{\em triggered} & this value is {\ttfamily \texorpdfstring{$>$}{>}1} if the argument was run and is {\ttfamily 0} if the arg was not run. this doubles as the run count for all arguments \\
+\hline
+\end{DoxyParams}
 
 
 The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}

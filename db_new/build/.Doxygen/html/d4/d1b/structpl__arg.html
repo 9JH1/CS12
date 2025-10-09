@@ -89,6 +89,11 @@ $(function(){initNavTree('d4/d1b/structpl__arg.html','../../','d6/da7/structpl__
   <div class="headertitle"><div class="title">pl_arg Struct Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>argument options  
+ <a href="#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="../../d3/db7/plib_8h_source.html">plib.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-attribs" class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
@@ -115,7 +120,29 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>triggered</b></td></tr
 <tr class="memitem:a9aaec77ff4b03e96592c0409276ecc0d" id="r_a9aaec77ff4b03e96592c0409276ecc0d"><td class="memItemLeft" align="right" valign="top"><a id="a9aaec77ff4b03e96592c0409276ecc0d" name="a9aaec77ff4b03e96592c0409276ecc0d"></a>
 int&#160;</td><td class="memItemRight" valign="bottom"><b>shorthand_triggered</b></td></tr>
 </table>
-<hr/>The documentation for this struct was generated from the following file:<ul>
+<a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>argument options </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">name</td><td>flag name eg <span class="tt">--help</span> </td></tr>
+    <tr><td class="paramname">description</td><td>flag description (used in pl_help) </td></tr>
+    <tr><td class="paramname">takes_value</td><td>set whether or not the argument should expect a value </td></tr>
+    <tr><td class="paramname">catagory</td><td>set a catagory for an argument, arguments of the same catagory are printed togeather in pl_help </td></tr>
+    <tr><td class="paramname">type</td><td>type of value, not actuall enforced but used in pl_help instead. eg VOID or INT. </td></tr>
+    <tr><td class="paramname">value</td><td>if <span class="tt">.takes_value = 1</span> then the value(s) parsed in will be allocated here. </td></tr>
+    <tr><td class="paramname">value_cap</td><td>Value is dynamically allocated this is a variable used in the DMA. </td></tr>
+    <tr><td class="paramname">value_idx</td><td>same as </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section see"><dt>See also</dt><dd>value_cap but this value also is the amount of arguments parsed into the flag, this doubles as the run count of any arguments that take a value. </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">triggered</td><td>this value is <span class="tt">&gt;1</span> if the argument was run and is <span class="tt">0</span> if the arg was not run. this doubles as the run count for all arguments </td></tr>
+  </table>
+  </dd>
+</dl>
+</div><hr/>The documentation for this struct was generated from the following file:<ul>
 <li>src/remote/plib/<a class="el" href="../../d3/db7/plib_8h_source.html">plib.h</a></li>
 </ul>
 </div><!-- contents -->

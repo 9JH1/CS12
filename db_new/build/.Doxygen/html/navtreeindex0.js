@@ -17,6 +17,8 @@ var NAVTREEINDEX0 =
 "d1/dbe/include_8h_source.html":[1,0,1],
 "d3/d7d/structgc.html":[0,0,3],
 "d3/db7/plib_8h.html":[1,0,0,0,0,1],
+"d3/db7/plib_8h.html#a7f8d80ee15b3b348f0fca78043a59f57":[1,0,0,0,0,1,1],
+"d3/db7/plib_8h.html#ad75eee4eed558c05604388420e76105b":[1,0,0,0,0,1,2],
 "d3/db7/plib_8h_source.html":[1,0,0,0,0,1],
 "d4/d1b/structpl__arg.html":[0,0,5],
 "d7/dae/ansi_8h_source.html":[1,0,0,0,0,0,0],
@@ -36,8 +38,10 @@ var NAVTREEINDEX0 =
 "dir_fe2e0cb949cafcffa084908b3ca2f11a.html":[1,0,0,0],
 "files.html":[1,0],
 "globals.html":[1,1,0],
-"globals_enum.html":[1,1,2],
+"globals_defs.html":[1,1,4],
+"globals_enum.html":[1,1,3],
 "globals_func.html":[1,1,1],
+"globals_type.html":[1,1,2],
 "index.html":[],
 "pages.html":[]
 };
