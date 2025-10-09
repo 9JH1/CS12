@@ -19,7 +19,7 @@
 
 /**
  * @brief Custom exit function
- * @param Code exit code
+ * @param code Exit code
  **/
 void quit(int code);
 
