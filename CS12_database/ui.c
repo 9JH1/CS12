@@ -114,7 +114,8 @@ int ui_menu(const char *array1[], const int size, const char *array2[],
 
         for (int j = 0; j < COL_SIZE_2 - strlen(array2[i]); ++j)
           printf(" ");
-        printf("\033[0m\n");
+        
+				printf("\033[0m\n");
       } else if (i == size) {
         printf(" Back");
         printf("\033[0m\n");
@@ -149,8 +150,8 @@ int ui_menu(const char *array1[], const int size, const char *array2[],
       };
  
 		case 'f':
-      printf("number must be larger then 1\n");
-      input(buff, 100, "Enter a index");
+      printf("\n\nnumber must be larger then 1\n");
+      input(buff, 100, "Enter a index: ");
 
       int out = atoi(buff);
       if (out == 0 && strcmp(buff, "0") != 0) {
