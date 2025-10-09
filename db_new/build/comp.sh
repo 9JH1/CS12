@@ -53,11 +53,10 @@ else
 	"./$build_path$file_name" $@
 
 	if [[ ! "$CALL" = "_NOGIT" ]];then 
-		git push &>/dev/null
+		git push &>/dev/null &
 	fi
 fi
 
-doxygen ./build/.Doxy &>/dev/null 
-ln -s ./build/.Doxygen/html/index.html docs.html &>/dev/null
+doxygen ./build/.Doxy &>/dev/null &
+ln -s ./build/.Doxygen/html/index.html docs.html &>/dev/null &
 echo "finished"
-
