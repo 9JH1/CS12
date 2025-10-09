@@ -81,7 +81,7 @@ int ui_menu(const char *array1[], const int size, const char *array2[],
     printf("%s\033[0m\n", bor_s.string);
     gotoxy(0, 0);
 
-    printf("%s (%d total lines) (current datetime: %d/%d/%d %d:%d:%d)\n",
+    printf("%s (%d total lines) (current datetime: %d/%d/%d %d:%d:%d) press [f] to filter\n",
            prompt, size, rn.day, rn.month, rn.year, rn.hour, rn.minute,
            rn.second);
 
