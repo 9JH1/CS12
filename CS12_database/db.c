@@ -476,8 +476,6 @@ int member_selector_menu() {
   if (sel_idx == -1) {
     printf("last name \"%s\" not found\n", buffer);
     return -2;
-  } else {
-    printf("last name \"%s\" found at index %d\n", buffer, sel_idx);
   }
 
   return sel_idx;
