@@ -478,8 +478,8 @@ int member_selector_menu() {
         free(l_name);
         return sel_idx;
       }
-      printf("%d. %s != %s\n", sel_idx, l_name, l_buffer);
-      free(l_name);
+    
+			free(l_name);
     }
 
   } else if (ret == 1) {
