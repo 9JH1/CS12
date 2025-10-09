@@ -442,6 +442,7 @@ int member_selector_menu() {
       	free(l_name);
 				break;
       }
+			printf("%s != %s\n",l_name, l_buffer);
       free(l_name);
     }
 
@@ -455,7 +456,6 @@ int member_selector_menu() {
   
 	if (sel_idx == -1) {
       printf("last name \"%s\" not found\n", buffer);
-      achar();
       return -2;
   } else {
 		printf("last name \"%s\" found at index %d\n",buffer,sel_idx);
