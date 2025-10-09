@@ -431,7 +431,6 @@ int member_selector_menu() {
 
   char buffer[100];
   if (ret == 0) {
-    // ENTER LAST NAME
     int sel_idx = 0;
     input(buffer, 100, "Enter your LAST name: ");
     char *l_buffer = lower(buffer);
@@ -440,12 +439,9 @@ int member_selector_menu() {
       char *l_name = lower(db_members[i].last_name);
       if (strcmp(l_name, l_buffer) == 0) {
         sel_idx = i;
-        break;
       }
-			
-			printf("%s != %s\n",l_name, l_buffer);
-
       free(l_name);
+			return sel_idx;
     }
 
   } else if (ret == 1) {
