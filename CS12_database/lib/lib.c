@@ -641,7 +641,7 @@ member member_wizard() {
     char is_alive_input[CHAR_SMALL+1];
     char member_id_input[CHAR_SMALL+1];
     char member_code_input[CHAR_SMALL+1];
-    member new_member = {.account_available = false, .account_to_delete = false};
+    member new_member = {-1};
 
     // Tip for input formatting
     printf("Ensure any values of 0 are formatted like '0' not '00' or otherwise\n");

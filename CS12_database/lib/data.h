@@ -47,7 +47,7 @@ typedef struct {
 	// extra info:
   date dob;
   date time_created;
-	bool account_available;
+	int account_available;
 	bool account_to_delete; /* this isent included in other structs because loans 
 													   have the is union and books have the available union. */
 
