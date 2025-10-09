@@ -157,8 +157,10 @@ int ui_menu(const char *array1[], const int size, const char *array2[],
 					printf("number invalid\n");
 					printf("press any key to continue\n");
 					achar();
+					return -2;
 				} else {
 					selected = out;
+					continue;
 				}
 			} else return selected;
     }
