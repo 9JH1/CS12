@@ -1293,7 +1293,7 @@ int ui_main_main() {
   } else if (ret == 6) {
     int bookid = book_menu();
     int memberid = member_selector_menu();
-		member_menu(memberid);
+		print_member_data(memberid);
 
     if (memberid != -2) {
       ui_print("please pick the date this loan is due..\npress any key to "
