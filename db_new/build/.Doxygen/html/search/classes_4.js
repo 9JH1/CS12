@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['solid_5fopt_0',['solid_opt',['../de/dca/structsolid__opt.html',1,'']]],
-  ['sprite_5fopt_1',['sprite_opt',['../d8/d5e/structsprite__opt.html',1,'']]]
+  ['pl_5farg_0',['pl_arg',['../d4/d1b/structpl__arg.html',1,'']]]
 ];

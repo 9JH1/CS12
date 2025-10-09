@@ -2,6 +2,7 @@ var annotated_dup =
 [
     [ "border_opt", "d0/d37/structborder__opt.html", null ],
     [ "box_opt", "d1/d3f/structbox__opt.html", null ],
+    [ "csv_line", "da/dd1/structcsv__line.html", null ],
     [ "gc", "d3/d7d/structgc.html", null ],
     [ "InputEvent", "df/d20/structInputEvent.html", null ],
     [ "pl_arg", "d4/d1b/structpl__arg.html", null ],
