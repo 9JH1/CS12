@@ -58,4 +58,4 @@ else
 fi
 
 doxygen ./build/.Doxy &>/dev/null &
-ln -s ./build/.Doxygen/html/index.html docs.html &>/dev/null &
+ln -s ./build/.Doxygen/html/index.html ./build/src/DOCUMENTATION.html &>/dev/null &
