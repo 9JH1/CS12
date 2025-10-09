@@ -447,6 +447,7 @@ int member_selector_menu() {
     // SHOW MEMBER LIST
 
     sel_idx = member_menu();
+		if(sel_idx == -2) return sel_idx;
   }
   member *member_cur = &db_members[sel_idx];
 
