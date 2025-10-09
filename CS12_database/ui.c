@@ -86,7 +86,7 @@ int ui_menu(const char *array1[], const int size, const char *array2[],
            rn.second);
 
     // draw the menu
-    for (int i = 0; i < size + 2; i++) {
+    for (int i = 0; i < size + 1; i++) {
       gotoxy(1, i + 1);
       if (i == selected)
         printf("\033[30;42;1m");
@@ -118,9 +118,6 @@ int ui_menu(const char *array1[], const int size, const char *array2[],
       } else if (i == size) {
         printf(" Back");
         printf("\033[0m\n");
-      } else if (i == size + 1) {
-        printf(" jump to index");
-        printf("\033[0m\n");
       }
     }
 
@@ -146,14 +143,13 @@ int ui_menu(const char *array1[], const int size, const char *array2[],
     case 10:
       if (selected == size) {
         return -2;
-      } else if (selected == size + 1) {
-
       } else {
         show_cursor();
         printf("\n\n");
       };
-    case 'f':
-      printf("if you want to use a zero use '0' not '00' or otherwise\n");
+ 
+		case 'f':
+      printf("number must be larger then 1\n");
       input(buff, 100, "Enter a index");
 
       int out = atoi(buff);
