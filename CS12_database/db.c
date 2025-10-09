@@ -1262,23 +1262,16 @@ int ui_main_main() {
   } else if (ret == 6) {
     int bookid = book_menu();
     int memberid = member_selector_menu();
+		ui_print("please pick the date this loan is due..\npress any key to continue\n");
+		achar();
     loan_new(
         id_to_member_ptr(memberid),
         (loan){
             .bookid = bookid,
             .issued = date_now(),
-            .return_date =
-                (date){
-                    .year = 3000,
-                    .month = 1,
-                    .day = 1,
-
-                    .hour = 1,
-                    .minute = 1,
-                    .second = 1,
-                },
+            .return_date = date_wizard(),
             .active = true,
-            .note = "This user is an owner and can have a book for a long time",
+            .note = "",
             .amount = 0, // owes nothing
         });
   } else if (ret == -2) {
