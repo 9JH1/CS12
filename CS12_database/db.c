@@ -1293,9 +1293,11 @@ int ui_main_main() {
   } else if (ret == 6) {
     int bookid = book_menu();
     int memberid = member_selector_menu();
-		print_member_data(memberid);
+		printf("press any key to continue to viewing the member selected\npress back to exit to main menu\n");
+		achar();
+		int mem_ret = print_member_data(memberid);
 
-    if (memberid != -2) {
+    if (memberid != -2 || mem_ret != -2) {
       ui_print("please pick the date this loan is due..\npress any key to "
                "continue\n");
       achar();
