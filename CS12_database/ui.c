@@ -142,11 +142,12 @@ int ui_menu(const char *array1[], const int size, const char *array2[],
       break;
 
     case 10:
+      show_cursor();
+      printf("\n\n");
       if (selected == size) {
         return -2;
       } else {
-        show_cursor();
-        printf("\n\n");
+				return selected;
       };
  
 		case 'f':
@@ -159,8 +160,10 @@ int ui_menu(const char *array1[], const int size, const char *array2[],
         printf("press any key to continue\n");
         achar();
         return -2;
-      } else if (out-1 > size+1) {
+
+      } else if (out > size) {
 				printf("number out of bounds, pick a number between 1 and %d\n",size+1);
+				achar();
 			} else {
         selected = out-1;
       }
