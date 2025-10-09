@@ -104,24 +104,20 @@ int {\bfseries pl\+\_\+a} (\mbox{\hyperlink{structpl__arg}{pl\+\_\+arg}} in)
 \doxysubsubsection*{Variables}
 \begin{DoxyCompactItemize}
 \item 
-\Hypertarget{plib_8h_ad61216a8e5e91513093a079b5481189c}\label{plib_8h_ad61216a8e5e91513093a079b5481189c} 
-\mbox{\hyperlink{structpl__arg}{pl\+\_\+arg}} \texorpdfstring{$\ast$}{*} {\bfseries PL\+\_\+\+ARGS}
-\item 
-\Hypertarget{plib_8h_a0f12124e5d745ce24a0225540fb04bb9}\label{plib_8h_a0f12124e5d745ce24a0225540fb04bb9} 
-int {\bfseries PL\+\_\+\+ARGS\+\_\+\+IDX}
-\item 
-\Hypertarget{plib_8h_ae79fddc95d813103f186cbf649113438}\label{plib_8h_ae79fddc95d813103f186cbf649113438} 
-int {\bfseries PL\+\_\+\+ARGS\+\_\+\+CAP}
-\item 
+\mbox{\hyperlink{structpl__arg}{pl\+\_\+arg}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{plib_8h_ad61216a8e5e91513093a079b5481189c}{PL\+\_\+\+ARGS}}
+\begin{DoxyCompactList}\small\item\em PLibs local array of arguments. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{plib_8h_a0f12124e5d745ce24a0225540fb04bb9}{PL\+\_\+\+ARGS\+\_\+\+IDX}}
+\begin{DoxyCompactList}\small\item\em PLibs local count of arguments. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{plib_8h_ae79fddc95d813103f186cbf649113438}{PL\+\_\+\+ARGS\+\_\+\+CAP}}
+\begin{DoxyCompactList}\small\item\em PL\+\_\+\+ARGS capacity used for DMA. \end{DoxyCompactList}\item 
 \Hypertarget{plib_8h_ac652479936af9912703d22a6cb3ac026}\label{plib_8h_ac652479936af9912703d22a6cb3ac026} 
 char \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*} {\bfseries PL\+\_\+\+ARGV}
-\item 
-\Hypertarget{plib_8h_aa0dd20509222b04db3d1fd9fa4ca2151}\label{plib_8h_aa0dd20509222b04db3d1fd9fa4ca2151} 
-int {\bfseries PL\+\_\+\+ARGC}
+\begin{DoxyCompactList}\small\item\em local copy of argument array parsed into pl\+\_\+proc \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{plib_8h_aa0dd20509222b04db3d1fd9fa4ca2151}{PL\+\_\+\+ARGC}}
 \item 
 \Hypertarget{plib_8h_a1198d450fd97d833116a6248ea3ed746}\label{plib_8h_a1198d450fd97d833116a6248ea3ed746} 
 int {\bfseries PL\+\_\+\+PROC\+\_\+\+END\+\_\+\+ARGC}
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em index of PL\+\_\+\+ARGC that was last parsed by pl\+\_\+proc used in error checking if pl\+\_\+proc throws an error this value is the index of argument that caused the error. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \doxysubsection{Detailed Description}
@@ -392,14 +388,64 @@ argument options
 \hline
 {\em value\+\_\+cap} & Value is dynamically allocated this is a variable used in the DMA. \\
 \hline
-{\em value\+\_\+idx} & same as \\
+{\em value\+\_\+idx} & same as value\+\_\+cap but this value also is the amount of arguments parsed into the flag, this doubles as the run count of any arguments that take a value. \\
 \hline
-\end{DoxyParams}
-\begin{DoxySeeAlso}{See also}
-value\+\_\+cap but this value also is the amount of arguments parsed into the flag, this doubles as the run count of any arguments that take a value. 
-\end{DoxySeeAlso}
-
-\begin{DoxyParams}{Parameters}
 {\em triggered} & this value is {\ttfamily \texorpdfstring{$>$}{>}1} if the argument was run and is {\ttfamily 0} if the arg was not run. this doubles as the run count for all arguments \\
 \hline
 \end{DoxyParams}
+
+
+\label{doc-var-members}
+\Hypertarget{plib_8h_doc-var-members}
+\doxysubsection{Variable Documentation}
+\Hypertarget{plib_8h_aa0dd20509222b04db3d1fd9fa4ca2151}\index{plib.h@{plib.h}!PL\_ARGC@{PL\_ARGC}}
+\index{PL\_ARGC@{PL\_ARGC}!plib.h@{plib.h}}
+\doxysubsubsection{\texorpdfstring{PL\_ARGC}{PL\_ARGC}}
+{\footnotesize\ttfamily \label{plib_8h_aa0dd20509222b04db3d1fd9fa4ca2151} 
+int PL\+\_\+\+ARGC\hspace{0.3cm}{\ttfamily [extern]}}
+
+@breif local copy of argument count parsed into pl\+\_\+proc \Hypertarget{plib_8h_ad61216a8e5e91513093a079b5481189c}\index{plib.h@{plib.h}!PL\_ARGS@{PL\_ARGS}}
+\index{PL\_ARGS@{PL\_ARGS}!plib.h@{plib.h}}
+\doxysubsubsection{\texorpdfstring{PL\_ARGS}{PL\_ARGS}}
+{\footnotesize\ttfamily \label{plib_8h_ad61216a8e5e91513093a079b5481189c} 
+\mbox{\hyperlink{structpl__arg}{pl\+\_\+arg}}\texorpdfstring{$\ast$}{*} PL\+\_\+\+ARGS\hspace{0.3cm}{\ttfamily [extern]}}
+
+
+
+PLibs local array of arguments. 
+
+\begin{DoxySeeAlso}{See also}
+\doxylink{plib_8h_a0f12124e5d745ce24a0225540fb04bb9}{PL\+\_\+\+ARGS\+\_\+\+IDX} 
+
+\doxylink{plib_8h_ae79fddc95d813103f186cbf649113438}{PL\+\_\+\+ARGS\+\_\+\+CAP} 
+\end{DoxySeeAlso}
+\Hypertarget{plib_8h_ae79fddc95d813103f186cbf649113438}\index{plib.h@{plib.h}!PL\_ARGS\_CAP@{PL\_ARGS\_CAP}}
+\index{PL\_ARGS\_CAP@{PL\_ARGS\_CAP}!plib.h@{plib.h}}
+\doxysubsubsection{\texorpdfstring{PL\_ARGS\_CAP}{PL\_ARGS\_CAP}}
+{\footnotesize\ttfamily \label{plib_8h_ae79fddc95d813103f186cbf649113438} 
+int PL\+\_\+\+ARGS\+\_\+\+CAP\hspace{0.3cm}{\ttfamily [extern]}}
+
+
+
+PL\+\_\+\+ARGS capacity used for DMA. 
+
+\begin{DoxySeeAlso}{See also}
+\doxylink{plib_8h_ad61216a8e5e91513093a079b5481189c}{PL\+\_\+\+ARGS} 
+
+\doxylink{plib_8h_a0f12124e5d745ce24a0225540fb04bb9}{PL\+\_\+\+ARGS\+\_\+\+IDX} 
+\end{DoxySeeAlso}
+\Hypertarget{plib_8h_a0f12124e5d745ce24a0225540fb04bb9}\index{plib.h@{plib.h}!PL\_ARGS\_IDX@{PL\_ARGS\_IDX}}
+\index{PL\_ARGS\_IDX@{PL\_ARGS\_IDX}!plib.h@{plib.h}}
+\doxysubsubsection{\texorpdfstring{PL\_ARGS\_IDX}{PL\_ARGS\_IDX}}
+{\footnotesize\ttfamily \label{plib_8h_a0f12124e5d745ce24a0225540fb04bb9} 
+int PL\+\_\+\+ARGS\+\_\+\+IDX\hspace{0.3cm}{\ttfamily [extern]}}
+
+
+
+PLibs local count of arguments. 
+
+\begin{DoxySeeAlso}{See also}
+\doxylink{plib_8h_a0f12124e5d745ce24a0225540fb04bb9}{PL\+\_\+\+ARGS\+\_\+\+IDX} 
+
+\doxylink{plib_8h_ac652479936af9912703d22a6cb3ac026}{PL\+\_\+\+ARGV} 
+\end{DoxySeeAlso}

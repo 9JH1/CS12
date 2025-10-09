@@ -169,18 +169,19 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>pl_a</b> (<a class="el
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-var-members" class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>
-<tr class="memitem:ad61216a8e5e91513093a079b5481189c" id="r_ad61216a8e5e91513093a079b5481189c"><td class="memItemLeft" align="right" valign="top"><a id="ad61216a8e5e91513093a079b5481189c" name="ad61216a8e5e91513093a079b5481189c"></a>
-<a class="el" href="../../d4/d1b/structpl__arg.html">pl_arg</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>PL_ARGS</b></td></tr>
-<tr class="memitem:a0f12124e5d745ce24a0225540fb04bb9" id="r_a0f12124e5d745ce24a0225540fb04bb9"><td class="memItemLeft" align="right" valign="top"><a id="a0f12124e5d745ce24a0225540fb04bb9" name="a0f12124e5d745ce24a0225540fb04bb9"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>PL_ARGS_IDX</b></td></tr>
-<tr class="memitem:ae79fddc95d813103f186cbf649113438" id="r_ae79fddc95d813103f186cbf649113438"><td class="memItemLeft" align="right" valign="top"><a id="ae79fddc95d813103f186cbf649113438" name="ae79fddc95d813103f186cbf649113438"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>PL_ARGS_CAP</b></td></tr>
+<tr class="memitem:ad61216a8e5e91513093a079b5481189c" id="r_ad61216a8e5e91513093a079b5481189c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d4/d1b/structpl__arg.html">pl_arg</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad61216a8e5e91513093a079b5481189c">PL_ARGS</a></td></tr>
+<tr class="memdesc:ad61216a8e5e91513093a079b5481189c"><td class="mdescLeft">&#160;</td><td class="mdescRight">PLibs local array of arguments.  <br /></td></tr>
+<tr class="memitem:a0f12124e5d745ce24a0225540fb04bb9" id="r_a0f12124e5d745ce24a0225540fb04bb9"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0f12124e5d745ce24a0225540fb04bb9">PL_ARGS_IDX</a></td></tr>
+<tr class="memdesc:a0f12124e5d745ce24a0225540fb04bb9"><td class="mdescLeft">&#160;</td><td class="mdescRight">PLibs local count of arguments.  <br /></td></tr>
+<tr class="memitem:ae79fddc95d813103f186cbf649113438" id="r_ae79fddc95d813103f186cbf649113438"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ae79fddc95d813103f186cbf649113438">PL_ARGS_CAP</a></td></tr>
+<tr class="memdesc:ae79fddc95d813103f186cbf649113438"><td class="mdescLeft">&#160;</td><td class="mdescRight">PL_ARGS capacity used for DMA.  <br /></td></tr>
 <tr class="memitem:ac652479936af9912703d22a6cb3ac026" id="r_ac652479936af9912703d22a6cb3ac026"><td class="memItemLeft" align="right" valign="top"><a id="ac652479936af9912703d22a6cb3ac026" name="ac652479936af9912703d22a6cb3ac026"></a>
 char **&#160;</td><td class="memItemRight" valign="bottom"><b>PL_ARGV</b></td></tr>
-<tr class="memitem:aa0dd20509222b04db3d1fd9fa4ca2151" id="r_aa0dd20509222b04db3d1fd9fa4ca2151"><td class="memItemLeft" align="right" valign="top"><a id="aa0dd20509222b04db3d1fd9fa4ca2151" name="aa0dd20509222b04db3d1fd9fa4ca2151"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>PL_ARGC</b></td></tr>
+<tr class="memdesc:ac652479936af9912703d22a6cb3ac026"><td class="mdescLeft">&#160;</td><td class="mdescRight">local copy of argument array parsed into pl_proc <br /></td></tr>
+<tr class="memitem:aa0dd20509222b04db3d1fd9fa4ca2151" id="r_aa0dd20509222b04db3d1fd9fa4ca2151"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa0dd20509222b04db3d1fd9fa4ca2151">PL_ARGC</a></td></tr>
 <tr class="memitem:a1198d450fd97d833116a6248ea3ed746" id="r_a1198d450fd97d833116a6248ea3ed746"><td class="memItemLeft" align="right" valign="top"><a id="a1198d450fd97d833116a6248ea3ed746" name="a1198d450fd97d833116a6248ea3ed746"></a>
 int&#160;</td><td class="memItemRight" valign="bottom"><b>PL_PROC_END_ARGC</b></td></tr>
+<tr class="memdesc:a1198d450fd97d833116a6248ea3ed746"><td class="mdescLeft">&#160;</td><td class="mdescRight">index of PL_ARGC that was last parsed by pl_proc used in error checking if pl_proc throws an error this value is the index of argument that caused the error. <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Basic argument parsing library. </p>
@@ -485,17 +486,116 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>PL_PROC_END_ARGC</b></
     <tr><td class="paramname">type</td><td>type of value, not actuall enforced but used in pl_help instead. eg VOID or INT. </td></tr>
     <tr><td class="paramname">value</td><td>if <span class="tt">.takes_value = 1</span> then the value(s) parsed in will be allocated here. </td></tr>
     <tr><td class="paramname">value_cap</td><td>Value is dynamically allocated this is a variable used in the DMA. </td></tr>
-    <tr><td class="paramname">value_idx</td><td>same as </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section see"><dt>See also</dt><dd>value_cap but this value also is the amount of arguments parsed into the flag, this doubles as the run count of any arguments that take a value. </dd></dl>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
+    <tr><td class="paramname">value_idx</td><td>same as value_cap but this value also is the amount of arguments parsed into the flag, this doubles as the run count of any arguments that take a value. </td></tr>
     <tr><td class="paramname">triggered</td><td>this value is <span class="tt">&gt;1</span> if the argument was run and is <span class="tt">0</span> if the arg was not run. this doubles as the run count for all arguments </td></tr>
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a name="doc-var-members" id="doc-var-members"></a><h2 id="header-doc-var-members" class="groupheader">Variable Documentation</h2>
+<a id="aa0dd20509222b04db3d1fd9fa4ca2151" name="aa0dd20509222b04db3d1fd9fa4ca2151"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa0dd20509222b04db3d1fd9fa4ca2151">&#9670;&#160;</a></span>PL_ARGC</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int PL_ARGC</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel extern">extern</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>@breif local copy of argument count parsed into pl_proc </p>
+
+</div>
+</div>
+<a id="ad61216a8e5e91513093a079b5481189c" name="ad61216a8e5e91513093a079b5481189c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad61216a8e5e91513093a079b5481189c">&#9670;&#160;</a></span>PL_ARGS</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../d4/d1b/structpl__arg.html">pl_arg</a>* PL_ARGS</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel extern">extern</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>PLibs local array of arguments. </p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="#a0f12124e5d745ce24a0225540fb04bb9" title="PLibs local count of arguments.">PL_ARGS_IDX</a> </dd>
+<dd>
+<a class="el" href="#ae79fddc95d813103f186cbf649113438" title="PL_ARGS capacity used for DMA.">PL_ARGS_CAP</a> </dd></dl>
+
+</div>
+</div>
+<a id="ae79fddc95d813103f186cbf649113438" name="ae79fddc95d813103f186cbf649113438"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae79fddc95d813103f186cbf649113438">&#9670;&#160;</a></span>PL_ARGS_CAP</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int PL_ARGS_CAP</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel extern">extern</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>PL_ARGS capacity used for DMA. </p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="#ad61216a8e5e91513093a079b5481189c" title="PLibs local array of arguments.">PL_ARGS</a> </dd>
+<dd>
+<a class="el" href="#a0f12124e5d745ce24a0225540fb04bb9" title="PLibs local count of arguments.">PL_ARGS_IDX</a> </dd></dl>
+
+</div>
+</div>
+<a id="a0f12124e5d745ce24a0225540fb04bb9" name="a0f12124e5d745ce24a0225540fb04bb9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0f12124e5d745ce24a0225540fb04bb9">&#9670;&#160;</a></span>PL_ARGS_IDX</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int PL_ARGS_IDX</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel extern">extern</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>PLibs local count of arguments. </p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="#a0f12124e5d745ce24a0225540fb04bb9" title="PLibs local count of arguments.">PL_ARGS_IDX</a> </dd>
+<dd>
+<a class="el" href="#ac652479936af9912703d22a6cb3ac026" title="local copy of argument array parsed into pl_proc">PL_ARGV</a> </dd></dl>
 
 </div>
 </div>
