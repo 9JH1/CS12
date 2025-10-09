@@ -3,7 +3,6 @@
  * @brief Handles main scripting.
  **/
 #include "include.h"
-#include "src/remote/plib/plib.h"
 
 /**
  * @brief main database loop
@@ -23,8 +22,6 @@ int main(const int c, const char *v[]) {
   pl_r ret;
 
   if ((ret = pl_proc(c, v)) == PL_SUCCESS) {
-    printf("Hello World!\n");
-
     if (PL_R(db_help))
       goto help_exit;
   }
