@@ -419,10 +419,9 @@ void books_genre_sort() {
 }
 
 int member_selector_menu() {
-  const char *return_menu[] = {"Search by name", "Show members list",
-                               "Live search"};
+  const char *return_menu[] = {"Search by name", "Show members list"};
 
-  const char *return_desc[] = {"", "", ""};
+  const char *return_desc[] = {"", ""};
   int ret = ui_menu((const char **)return_menu, 2, (const char **)return_desc,
                     "Select Option");
   if (ret == -2)
@@ -440,7 +439,7 @@ int member_selector_menu() {
       if (strcmp(l_name, l_buffer) == 0) {
         sel_idx = i;
       	free(l_name);
-				break;
+				return sel_idx;
       }
 			printf("%d. %s != %s\n",sel_idx,l_name, l_buffer);
       free(l_name);
