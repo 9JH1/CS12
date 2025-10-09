@@ -16,6 +16,7 @@ var NAVTREEINDEX0 =
 "d1/dbe/include_8h.html#aaca7161d951febc512af343029761de1aef7483c8e2497721d70a498671dd754c":[1,0,1,0,2],
 "d1/dbe/include_8h_source.html":[1,0,1],
 "d3/d7d/structgc.html":[0,0,3],
+"d3/db7/plib_8h.html":[1,0,0,0,0,1],
 "d3/db7/plib_8h_source.html":[1,0,0,0,0,1],
 "d4/d1b/structpl__arg.html":[0,0,5],
 "d7/dae/ansi_8h_source.html":[1,0,0,0,0,0,0],

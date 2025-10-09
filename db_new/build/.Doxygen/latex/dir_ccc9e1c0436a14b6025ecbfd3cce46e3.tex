@@ -8,8 +8,8 @@ directory \mbox{\hyperlink{dir_936106f531de81092bac27e0cfbb9ed0}{lib}}
 \doxysubsubsection*{Files}
 \begin{DoxyCompactItemize}
 \item 
-file {\bfseries plib.\+h}
-\end{DoxyCompactItemize}
+file \mbox{\hyperlink{plib_8h}{plib.\+h}}
+\begin{DoxyCompactList}\small\item\em Basic argument parsing library. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \doxysubsection{Detailed Description}
@@ -26,7 +26,7 @@ file {\bfseries plib.\+h}
 \end{DoxyCode}
  
 \begin{DoxyCode}{0}
-\DoxyCodeLine{\textcolor{preprocessor}{\#include\ "{}plib.h"{}}}
+\DoxyCodeLine{\textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{plib_8h}{plib.h}}"{}}}
 \DoxyCodeLine{\textcolor{preprocessor}{\#include\ <stdio.h>}}
 \DoxyCodeLine{}
 \DoxyCodeLine{\textcolor{keywordtype}{int}\ \mbox{\hyperlink{main_8c_ac490e54d26e537126a97540acf0b1cba}{main}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ a,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *b[])\{}
@@ -63,7 +63,7 @@ file {\bfseries plib.\+h}
 what the lib files provide \end{quote}
 
 \begin{DoxyItemize}
-\item \doxylink{plib_8h_source}{plib.\+h} -\/ allows for advanced and fleixable argument parsing/handling.
+\item \doxylink{plib_8h}{plib.\+h} -\/ allows for advanced and fleixable argument parsing/handling.
 \item \doxylink{draw_8h_source}{lib/draw.\+h} -\/ provides functions to draw boxes borders and titles, useful if making a TUI interface.
 \item \doxylink{ansi_8h_source}{lib/ansi.\+h} -\/ defines a bunch of ansi codes that do things eg move caret to pos or change term buffer.
 \item \doxylink{gc_8h_source}{lib/gc.\+h} -\/ basic garbage collector.
@@ -76,7 +76,7 @@ started 02/10/2025 \end{quote}
 \item added multi argument support. before, when using the same arg (that takes a value) twice the second run would overwrite the first runs value, now ive changed {\ttfamily arg.\+value} to be a {\ttfamily char \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}} array and ive added {\ttfamily arg.\+value\+\_\+idx} and {\ttfamily arg.\+value\+\_\+cap} meta for use in dma in {\ttfamily pl\+\_\+proc}. you can now use {\ttfamily pl\+\_\+arg\+\_\+count} as a macro that returns the {\ttfamily arg.\+value\+\_\+idx} value, below is a basic usage\+: 
 \begin{DoxyCode}{0}
 \DoxyCodeLine{\textcolor{preprocessor}{\#include\ <stdio.h>}}
-\DoxyCodeLine{\textcolor{preprocessor}{\#include\ "{}plib.h"{}}}
+\DoxyCodeLine{\textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{plib_8h}{plib.h}}"{}}}
 \DoxyCodeLine{}
 \DoxyCodeLine{}
 \DoxyCodeLine{\textcolor{keywordtype}{int}\ \mbox{\hyperlink{main_8c_ac490e54d26e537126a97540acf0b1cba}{main}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ c,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *v[])\{}

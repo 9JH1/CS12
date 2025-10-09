@@ -96,7 +96,8 @@ Directories</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-files" class="groupheader"><a id="files" name="files"></a>
 Files</h2></td></tr>
-<tr class="memitem:plib_2Eh" id="r_plib_2Eh"><td class="memItemLeft" align="right" valign="top"><a href="d3/db7/plib_8h_source.html"><span class="icondoc"><div class="doc-icon"></div></span></a>&#160;</td><td class="memItemRight" valign="bottom"><b>plib.h</b></td></tr>
+<tr class="memitem:plib_2Eh" id="r_plib_2Eh"><td class="memItemLeft" align="right" valign="top"><a href="d3/db7/plib_8h_source.html"><span class="icondoc"><div class="doc-icon"></div></span></a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="d3/db7/plib_8h.html">plib.h</a></td></tr>
+<tr class="memdesc:d3/db7/plib_8h"><td class="mdescLeft">&#160;</td><td class="mdescRight">Basic argument parsing library. <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="fragment"><div class="line">plib V4.5</div>
@@ -106,7 +107,7 @@ Files</h2></td></tr>
 <div class="line">set up full argument parsing with many features.</div>
 <div class="line"> </div>
 <div class="line">included in the lib folder you can find many other util librarys</div>
-</div><!-- fragment --> <div class="fragment"><div class="line"><span class="preprocessor">#include &quot;plib.h&quot;</span></div>
+</div><!-- fragment --> <div class="fragment"><div class="line"><span class="preprocessor">#include &quot;<a class="code" href="d3/db7/plib_8h.html">plib.h</a>&quot;</span></div>
 <div class="line"><span class="preprocessor">#include &lt;stdio.h&gt;</span></div>
 <div class="line"> </div>
 <div class="line"><span class="keywordtype">int</span> <a class="code hl_function" href="d0/d29/main_8c.html#ac490e54d26e537126a97540acf0b1cba">main</a>(<span class="keyword">const</span> <span class="keywordtype">int</span> a, <span class="keyword">const</span> <span class="keywordtype">char</span> *b[]){</div>
@@ -138,14 +139,15 @@ Files</h2></td></tr>
 <div class="line">}</div>
 <div class="ttc" id="ainclude_8h_html_a0bed8474bd33a912769360766f6b10d4"><div class="ttname"><a href="d1/dbe/include_8h.html#a0bed8474bd33a912769360766f6b10d4">help</a></div><div class="ttdeci">void help(void)</div><div class="ttdoc">Custom help function, mostly just a pl_help wrapper.</div><div class="ttdef"><b>Definition</b> lib.c:16</div></div>
 <div class="ttc" id="amain_8c_html_ac490e54d26e537126a97540acf0b1cba"><div class="ttname"><a href="d0/d29/main_8c.html#ac490e54d26e537126a97540acf0b1cba">main</a></div><div class="ttdeci">int main(const int c, const char *v[])</div><div class="ttdoc">main database loop</div><div class="ttdef"><b>Definition</b> main.c:17</div></div>
-<div class="ttc" id="astructpl__arg_html"><div class="ttname"><a href="d4/d1b/structpl__arg.html">pl_arg</a></div><div class="ttdef"><b>Definition</b> plib.h:17</div></div>
+<div class="ttc" id="aplib_8h_html"><div class="ttname"><a href="d3/db7/plib_8h.html">plib.h</a></div><div class="ttdoc">Basic argument parsing library.</div></div>
+<div class="ttc" id="astructpl__arg_html"><div class="ttname"><a href="d4/d1b/structpl__arg.html">pl_arg</a></div><div class="ttdef"><b>Definition</b> plib.h:115</div></div>
 </div><!-- fragment --> <h1 class="doxsection"><a class="anchor" id="autotoc_md0"></a>
 Usage librarys</h1>
 <blockquote class="doxtable">
 <p>what the lib files provide </p>
 </blockquote>
 <ul>
-<li><a class="el" href="d3/db7/plib_8h_source.html">plib.h</a> - allows for advanced and fleixable argument parsing/handling.</li>
+<li><a class="el" href="d3/db7/plib_8h.html" title="Basic argument parsing library.">plib.h</a> - allows for advanced and fleixable argument parsing/handling.</li>
 <li><a class="el" href="de/d28/draw_8h_source.html">lib/draw.h</a> - provides functions to draw boxes borders and titles, useful if making a TUI interface.</li>
 <li><a class="el" href="d7/dae/ansi_8h_source.html">lib/ansi.h</a> - defines a bunch of ansi codes that do things eg move caret to pos or change term buffer.</li>
 <li><a class="el" href="d0/daa/gc_8h_source.html">lib/gc.h</a> - basic garbage collector.</li>
@@ -158,7 +160,7 @@ Changelog</h1>
 </blockquote>
 <ol type="1">
 <li>added multi argument support. before, when using the same arg (that takes a value) twice the second run would overwrite the first runs value, now ive changed <span class="tt">arg.value</span> to be a <span class="tt">char **</span> array and ive added <span class="tt">arg.value_idx</span> and <span class="tt">arg.value_cap</span> meta for use in dma in <span class="tt">pl_proc</span>. you can now use <span class="tt">pl_arg_count</span> as a macro that returns the <span class="tt">arg.value_idx</span> value, below is a basic usage: <div class="fragment"><div class="line"><span class="preprocessor">#include &lt;stdio.h&gt;</span></div>
-<div class="line"><span class="preprocessor">#include &quot;plib.h&quot;</span></div>
+<div class="line"><span class="preprocessor">#include &quot;<a class="code" href="d3/db7/plib_8h.html">plib.h</a>&quot;</span></div>
 <div class="line"> </div>
 <div class="line"> </div>
 <div class="line"><span class="keywordtype">int</span> <a class="code hl_function" href="d0/d29/main_8c.html#ac490e54d26e537126a97540acf0b1cba">main</a>(<span class="keyword">const</span> <span class="keywordtype">int</span> c, <span class="keyword">const</span> <span class="keywordtype">char</span> *v[]){</div>

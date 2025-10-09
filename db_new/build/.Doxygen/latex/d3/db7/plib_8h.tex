@@ -1,0 +1,330 @@
+\doxysection{src/remote/plib/plib.h File Reference}
+\hypertarget{plib_8h}{}\label{plib_8h}\index{src/remote/plib/plib.h@{src/remote/plib/plib.h}}
+
+
+Basic argument parsing library.  
+
+
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structpl__arg}{pl\+\_\+arg}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{plib_8h_a7f8d80ee15b3b348f0fca78043a59f57}\label{plib_8h_a7f8d80ee15b3b348f0fca78043a59f57} 
+\#define {\bfseries PL\+\_\+\+INIT\+\_\+\+ARG\+\_\+\+ALLOC}~2
+\item 
+\Hypertarget{plib_8h_ae82e54eaded33c048955580cd5c1d75c}\label{plib_8h_ae82e54eaded33c048955580cd5c1d75c} 
+\#define {\bfseries PL\+\_\+\+VERBOSE}~0
+\item 
+\Hypertarget{plib_8h_a9c0ee1b5d23f5fc5139448dc7a412e24}\label{plib_8h_a9c0ee1b5d23f5fc5139448dc7a412e24} 
+\#define {\bfseries PL\+\_\+\+VERSION}~"{}4.\+7"{}
+\item 
+\#define \mbox{\hyperlink{plib_8h_a45171e7fa12f307982ccbe020218c141}{PL\+\_\+\+INVERT}}(n)
+\item 
+\#define \mbox{\hyperlink{plib_8h_a7861a13243875e0d471c6345fdcca7de}{PL\+\_\+A}}(...)
+\item 
+\#define \mbox{\hyperlink{plib_8h_acd82187d4f87128df6701e1117951d63}{PL\+\_\+P}}(...)
+\item 
+\#define \mbox{\hyperlink{plib_8h_acbd1b26ec17499d33dcc6aa862f2f888}{PL\+\_\+R}}(arg)
+\item 
+\#define \mbox{\hyperlink{plib_8h_a7887ae8c8869a4abb335d4287f03d5e8}{PL\+\_\+\+GETN}}(name)
+\item 
+\#define \mbox{\hyperlink{plib_8h_a0348dc4d50ec929a2ebe8261f30b9b2c}{PL\+\_\+\+GETI}}(idx)
+\item 
+\#define \mbox{\hyperlink{plib_8h_ac79b1ab013efd71cd9c1bbf4d3c11ed4}{PL\+\_\+\+PROC}}()
+\item 
+\#define \mbox{\hyperlink{plib_8h_a9fa27bd33aa602f21e9dca295c55c2cb}{PL\+\_\+\+LAST\+\_\+\+ARG}}
+\item 
+\#define \mbox{\hyperlink{plib_8h_a2fff4b4869e460c1d102511abb189fcf}{PL\+\_\+E}}(i)
+\item 
+\#define \mbox{\hyperlink{plib_8h_a461e97db846e9345f362712af8bab0a9}{pl\+\_\+arg\+\_\+sys}}(arg)
+\item 
+\#define \mbox{\hyperlink{plib_8h_a5bf3755ec2d2c4da87a5501537ee58a7}{pl\+\_\+arg\+\_\+value\+\_\+count}}(parg)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{plib_8h_ad75eee4eed558c05604388420e76105b}\label{plib_8h_ad75eee4eed558c05604388420e76105b} 
+typedef struct pl\+\_\+arg {\bfseries pl\+\_\+arg}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{plib_8h_afe6a6572169aee3b8a8e0bceab96c5a9}\label{plib_8h_afe6a6572169aee3b8a8e0bceab96c5a9} 
+enum {\bfseries pl\+\_\+r} \{ \newline
+{\bfseries PL\+\_\+\+ARG\+\_\+\+NOT\+\_\+\+FOUND} = -\/1
+, {\bfseries PL\+\_\+\+ARG\+\_\+\+REQUIRES\+\_\+\+VALUE} = -\/2
+, {\bfseries PL\+\_\+\+ARG\+\_\+\+NO\+\_\+\+REQUIRES\+\_\+\+VALUE} = -\/3
+, {\bfseries PL\+\_\+\+NO\+\_\+\+ARGUMENTS\+\_\+\+GIVEN} = -\/4
+, \newline
+{\bfseries PL\+\_\+\+MEM\+\_\+\+ALLOC\+\_\+\+ERROR} = -\/5
+, {\bfseries PL\+\_\+\+SUCCESS} = -\/7
+, {\bfseries PL\+\_\+\+ARG\+\_\+\+INVALID\+\_\+\+FORMAT} = -\/8
+, {\bfseries PL\+\_\+\+ARG\+\_\+\+IS\+\_\+\+NULL} = -\/9
+, \newline
+{\bfseries PL\+\_\+\+FAILURE} = -\/10
+, {\bfseries PL\+\_\+\+ARG\+\_\+\+PRE\+\_\+\+EXISTS} = -\/11
+, {\bfseries PL\+\_\+\+ARG\+\_\+\+MISSING\+\_\+\+PARAM} = -\/12
+ \}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{plib_8h_aeb7b62bb39a3e32ea5124701524782b0}\label{plib_8h_aeb7b62bb39a3e32ea5124701524782b0} 
+pl\+\_\+r {\bfseries pl\+\_\+arg\+\_\+exist} (const char \texorpdfstring{$\ast$}{*}name)
+\item 
+\Hypertarget{plib_8h_a390a51827a1a4a90278081695b6c63ed}\label{plib_8h_a390a51827a1a4a90278081695b6c63ed} 
+pl\+\_\+r {\bfseries pl\+\_\+proc} (const int argc, const char \texorpdfstring{$\ast$}{*}argv\mbox{[}$\,$\mbox{]})
+\item 
+\Hypertarget{plib_8h_a5bf80193f6d851b4a997bd1a3a263303}\label{plib_8h_a5bf80193f6d851b4a997bd1a3a263303} 
+pl\+\_\+r {\bfseries pl\+\_\+arg\+\_\+run} (const \mbox{\hyperlink{structpl__arg}{pl\+\_\+arg}} \texorpdfstring{$\ast$}{*}local)
+\item 
+\Hypertarget{plib_8h_a0041fd11eb89f0b2761b80660902b020}\label{plib_8h_a0041fd11eb89f0b2761b80660902b020} 
+pl\+\_\+r {\bfseries pl\+\_\+all\+\_\+triggered} (void)
+\item 
+\Hypertarget{plib_8h_ab2963c491879d340a6d185801b67ebaa}\label{plib_8h_ab2963c491879d340a6d185801b67ebaa} 
+void {\bfseries pl\+\_\+help} (void)
+\item 
+\Hypertarget{plib_8h_a2d4687ec27d861f778294d9473a169d8}\label{plib_8h_a2d4687ec27d861f778294d9473a169d8} 
+void {\bfseries pl\+\_\+exit} (void)
+\item 
+\Hypertarget{plib_8h_a570eebe1ed30d2118de803999b2faa7d}\label{plib_8h_a570eebe1ed30d2118de803999b2faa7d} 
+char \texorpdfstring{$\ast$}{*} {\bfseries pl\+\_\+arg\+\_\+value} (const \mbox{\hyperlink{structpl__arg}{pl\+\_\+arg}} \texorpdfstring{$\ast$}{*}local, const int i)
+\item 
+\Hypertarget{plib_8h_a3b96bab314373ef180ed99fd5e6518ea}\label{plib_8h_a3b96bab314373ef180ed99fd5e6518ea} 
+int {\bfseries pl\+\_\+a} (\mbox{\hyperlink{structpl__arg}{pl\+\_\+arg}} in)
+\item 
+\Hypertarget{plib_8h_a94957c815f72b49667d02c689d954260}\label{plib_8h_a94957c815f72b49667d02c689d954260} 
+\mbox{\hyperlink{structpl__arg}{pl\+\_\+arg}} \texorpdfstring{$\ast$}{*} {\bfseries pl\+\_\+arg\+\_\+global\+\_\+ptr} (\mbox{\hyperlink{structpl__arg}{pl\+\_\+arg}} in)
+\item 
+\Hypertarget{plib_8h_aad261420510eee5046dc0303c270051b}\label{plib_8h_aad261420510eee5046dc0303c270051b} 
+\mbox{\hyperlink{structpl__arg}{pl\+\_\+arg}} \texorpdfstring{$\ast$}{*} {\bfseries pl\+\_\+arg\+\_\+by\+\_\+name} (const char \texorpdfstring{$\ast$}{*}name)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{plib_8h_ad61216a8e5e91513093a079b5481189c}\label{plib_8h_ad61216a8e5e91513093a079b5481189c} 
+\mbox{\hyperlink{structpl__arg}{pl\+\_\+arg}} \texorpdfstring{$\ast$}{*} {\bfseries PL\+\_\+\+ARGS}
+\item 
+\Hypertarget{plib_8h_a0f12124e5d745ce24a0225540fb04bb9}\label{plib_8h_a0f12124e5d745ce24a0225540fb04bb9} 
+int {\bfseries PL\+\_\+\+ARGS\+\_\+\+IDX}
+\item 
+\Hypertarget{plib_8h_ae79fddc95d813103f186cbf649113438}\label{plib_8h_ae79fddc95d813103f186cbf649113438} 
+int {\bfseries PL\+\_\+\+ARGS\+\_\+\+CAP}
+\item 
+\Hypertarget{plib_8h_ac652479936af9912703d22a6cb3ac026}\label{plib_8h_ac652479936af9912703d22a6cb3ac026} 
+char \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*} {\bfseries PL\+\_\+\+ARGV}
+\item 
+\Hypertarget{plib_8h_aa0dd20509222b04db3d1fd9fa4ca2151}\label{plib_8h_aa0dd20509222b04db3d1fd9fa4ca2151} 
+int {\bfseries PL\+\_\+\+ARGC}
+\item 
+\Hypertarget{plib_8h_a1198d450fd97d833116a6248ea3ed746}\label{plib_8h_a1198d450fd97d833116a6248ea3ed746} 
+int {\bfseries PL\+\_\+\+PROC\+\_\+\+END\+\_\+\+ARGC}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Basic argument parsing library. 
+
+Plib gives functions to create and manage the system arguments of any given function, these arguments can be defined with many options for example shorthand and long-\/hand versions of the same ag eg --help and -\/h.
+
+Arguments are dynamically allocated and free\textquotesingle{}d automatically on exit so you dont have to worry about any memory leaks. Along with this plib provides a builtin function called pl\+\_\+help which prints out all of the arguments in a standard format.
+
+In order to get started with plib first you must include the system arguments into your main function, for reference look here\+: \href{https://www.ibm.com/docs/en/zos/2.4.0}{\texttt{https\+://www.\+ibm.\+com/docs/en/zos/2.\+4.\+0}}?topic=functions-\/main-\/function
+
+To create an argument use pl\+\_\+a PL\+\_\+A or PL\+\_\+P, read the structure declaration \doxylink{structpl__arg}{pl\+\_\+arg} to learn all of the options. 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{plib_8h}{plib.h}}"{}}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{keywordtype}{int}\ \mbox{\hyperlink{main_8c_ac490e54d26e537126a97540acf0b1cba}{main}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ c,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *v[])\{}
+\DoxyCodeLine{\ \ \mbox{\hyperlink{structpl__arg}{pl\_arg}}\ *\ my\_arg\ =\ PL\_P(\textcolor{stringliteral}{"{}-\/-\/my-\/arg"{}},\ \textcolor{stringliteral}{"{}basic\ first\ argument!"{}});}
+\DoxyCodeLine{\ \ pl\_proc(c,v);}
+\DoxyCodeLine{\ \ pl\_help();}
+\DoxyCodeLine{\ \ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+ As you can see we defined an argument called my\+\_\+arg with the flag name of --my-\/arg and a description of "{}basic first argument"{}. running this code outputs the following\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{Options:}
+\DoxyCodeLine{\ \ -\/-\/my-\/arg\ |\ basic\ first\ argument!}
+
+\end{DoxyCode}
+ To check if an argument is run use PL\+\_\+R or pl\+\_\+arg\+\_\+run like so 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{preprocessor}{\#include\ <stdio.h>}}
+\DoxyCodeLine{\textcolor{comment}{//\ ...}}
+\DoxyCodeLine{\textcolor{keywordflow}{if}(PL\_R(my\_arg))}
+\DoxyCodeLine{\ \ printf(\textcolor{stringliteral}{"{}Hello\ World!\(\backslash\)n"{}});}
+\DoxyCodeLine{\textcolor{comment}{//\ ...\ }}
+
+\end{DoxyCode}
+ Now if we run our program it will print back "{}\+Hello World!"{} To take an value with an argument you simply put .takes\+\_\+value = 1 in the argument definition like so\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{comment}{//\ ...}}
+\DoxyCodeLine{pl\_a\ *\ my\_arg\ =\ PL\_P(\textcolor{stringliteral}{"{}-\/-\/my-\/arg"{}},\textcolor{stringliteral}{"{}basic\ first\ argument!"{}},\ .takes\_value\ =\ 1);}
+\DoxyCodeLine{\textcolor{comment}{//\ ...}}
+
+\end{DoxyCode}
+ if the code is run the same as before you will now notice we do not get the "{}\+Hello World!"{} output anymore , this is because plib failed to parse the --my-\/arg argument and instead threw an error because it was missing a value. simple error checking can be done like so 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{comment}{//\ ...}}
+\DoxyCodeLine{pl\_r\ return\_code;}
+\DoxyCodeLine{\textcolor{keywordflow}{if}((return\_code\ =\ PL\_PROC(c,v))\ ==\ PL\_SUCCESS)\{}
+\DoxyCodeLine{\ \ \textcolor{comment}{//\ plib\ parsed\ all\ argument\ sucessfully.}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{\ \ \textcolor{comment}{//\ error\ occured}}
+\DoxyCodeLine{\ \ printf(\textcolor{stringliteral}{"{}Error\ occured\ \%s\ from\ \%s\(\backslash\)n"{}},}
+\DoxyCodeLine{\ \ \ \ PL\_E(return\_code),}
+\DoxyCodeLine{\ \ \ \ PL\_LAST\_ARG);}
+\DoxyCodeLine{\}}
+\DoxyCodeLine{\textcolor{comment}{//\ ...}}
+
+\end{DoxyCode}
+ now if we run the program with the same arguments we will get an output like so\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{Error\ occured\ ARG\_REQUIRES\_VALUE\ from\ -\/-\/my-\/arg}
+
+\end{DoxyCode}
+ PLib uses \textquotesingle{}--key=val\textquotesingle{} argument value style, so to resolve this plib error run the program with --my-\/arg="{}value"{}.
+
+to get the value of an arg either use pl\+\_\+arg\+\_\+value like so\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{comment}{//\ ...\ }}
+\DoxyCodeLine{\textcolor{keywordflow}{if}(PL\_R(my\_arg))}
+\DoxyCodeLine{\ \ printf(\textcolor{stringliteral}{"{}Argument\ run\ with\ value\ \%s\(\backslash\)n"{}},}
+\DoxyCodeLine{\ \ \ \ pl\_arg\_value(my\_arg)\ );\ \textcolor{comment}{//\ get\ argument\ value\ }}
+
+\end{DoxyCode}
+ now running the program will print out whatever value has been parsed. 
+
+\label{doc-define-members}
+\Hypertarget{plib_8h_doc-define-members}
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{plib_8h_a7861a13243875e0d471c6345fdcca7de}\index{plib.h@{plib.h}!PL\_A@{PL\_A}}
+\index{PL\_A@{PL\_A}!plib.h@{plib.h}}
+\doxysubsubsection{\texorpdfstring{PL\_A}{PL\_A}}
+{\footnotesize\ttfamily \label{plib_8h_a7861a13243875e0d471c6345fdcca7de} 
+\#define PL\+\_\+A(\begin{DoxyParamCaption}\item[{}]{}...{}\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{pl\_a((\mbox{\hyperlink{structpl__arg}{pl\_arg}})\{\_\_VA\_ARGS\_\_\})}
+
+\end{DoxyCode}
+\Hypertarget{plib_8h_a461e97db846e9345f362712af8bab0a9}\index{plib.h@{plib.h}!pl\_arg\_sys@{pl\_arg\_sys}}
+\index{pl\_arg\_sys@{pl\_arg\_sys}!plib.h@{plib.h}}
+\doxysubsubsection{\texorpdfstring{pl\_arg\_sys}{pl\_arg\_sys}}
+{\footnotesize\ttfamily \label{plib_8h_a461e97db846e9345f362712af8bab0a9} 
+\#define pl\+\_\+arg\+\_\+sys(\begin{DoxyParamCaption}\item[{}]{arg}{}\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{(arg-\/>triggered\ ==\ 1)\ ?\ ((arg-\/>shorthand\_triggered\ ==\ 1)\ ?\ arg-\/>shorthand\ :\ arg-\/>name)\ :\ NULL}
+
+\end{DoxyCode}
+\Hypertarget{plib_8h_a5bf3755ec2d2c4da87a5501537ee58a7}\index{plib.h@{plib.h}!pl\_arg\_value\_count@{pl\_arg\_value\_count}}
+\index{pl\_arg\_value\_count@{pl\_arg\_value\_count}!plib.h@{plib.h}}
+\doxysubsubsection{\texorpdfstring{pl\_arg\_value\_count}{pl\_arg\_value\_count}}
+{\footnotesize\ttfamily \label{plib_8h_a5bf3755ec2d2c4da87a5501537ee58a7} 
+\#define pl\+\_\+arg\+\_\+value\+\_\+count(\begin{DoxyParamCaption}\item[{}]{parg}{}\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{parg-\/>value\_idx}
+
+\end{DoxyCode}
+\Hypertarget{plib_8h_a2fff4b4869e460c1d102511abb189fcf}\index{plib.h@{plib.h}!PL\_E@{PL\_E}}
+\index{PL\_E@{PL\_E}!plib.h@{plib.h}}
+\doxysubsubsection{\texorpdfstring{PL\_E}{PL\_E}}
+{\footnotesize\ttfamily \label{plib_8h_a2fff4b4869e460c1d102511abb189fcf} 
+\#define PL\+\_\+E(\begin{DoxyParamCaption}\item[{}]{i}{}\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{pl\_s[PL\_INVERT(i)]}
+
+\end{DoxyCode}
+\Hypertarget{plib_8h_a0348dc4d50ec929a2ebe8261f30b9b2c}\index{plib.h@{plib.h}!PL\_GETI@{PL\_GETI}}
+\index{PL\_GETI@{PL\_GETI}!plib.h@{plib.h}}
+\doxysubsubsection{\texorpdfstring{PL\_GETI}{PL\_GETI}}
+{\footnotesize\ttfamily \label{plib_8h_a0348dc4d50ec929a2ebe8261f30b9b2c} 
+\#define PL\+\_\+\+GETI(\begin{DoxyParamCaption}\item[{}]{idx}{}\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\&PL\_ARGS[idx]}
+
+\end{DoxyCode}
+\Hypertarget{plib_8h_a7887ae8c8869a4abb335d4287f03d5e8}\index{plib.h@{plib.h}!PL\_GETN@{PL\_GETN}}
+\index{PL\_GETN@{PL\_GETN}!plib.h@{plib.h}}
+\doxysubsubsection{\texorpdfstring{PL\_GETN}{PL\_GETN}}
+{\footnotesize\ttfamily \label{plib_8h_a7887ae8c8869a4abb335d4287f03d5e8} 
+\#define PL\+\_\+\+GETN(\begin{DoxyParamCaption}\item[{}]{name}{}\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{pl\_arg\_by\_name(name)}
+
+\end{DoxyCode}
+\Hypertarget{plib_8h_a45171e7fa12f307982ccbe020218c141}\index{plib.h@{plib.h}!PL\_INVERT@{PL\_INVERT}}
+\index{PL\_INVERT@{PL\_INVERT}!plib.h@{plib.h}}
+\doxysubsubsection{\texorpdfstring{PL\_INVERT}{PL\_INVERT}}
+{\footnotesize\ttfamily \label{plib_8h_a45171e7fa12f307982ccbe020218c141} 
+\#define PL\+\_\+\+INVERT(\begin{DoxyParamCaption}\item[{}]{n}{}\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{((n\ *\ -\/1)\ -\/\ 1)}
+
+\end{DoxyCode}
+\Hypertarget{plib_8h_a9fa27bd33aa602f21e9dca295c55c2cb}\index{plib.h@{plib.h}!PL\_LAST\_ARG@{PL\_LAST\_ARG}}
+\index{PL\_LAST\_ARG@{PL\_LAST\_ARG}!plib.h@{plib.h}}
+\doxysubsubsection{\texorpdfstring{PL\_LAST\_ARG}{PL\_LAST\_ARG}}
+{\footnotesize\ttfamily \label{plib_8h_a9fa27bd33aa602f21e9dca295c55c2cb} 
+\#define PL\+\_\+\+LAST\+\_\+\+ARG}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (PL\_PROC\_END\_ARGC\ >=\ 0)\ ?\ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (PL\_ARGV[PL\_PROC\_END\_ARGC])\ :\ \(\backslash\)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ pl\_s[PL\_INVERT(PL\_NO\_ARGUMENTS\_GIVEN)]}
+
+\end{DoxyCode}
+\Hypertarget{plib_8h_acd82187d4f87128df6701e1117951d63}\index{plib.h@{plib.h}!PL\_P@{PL\_P}}
+\index{PL\_P@{PL\_P}!plib.h@{plib.h}}
+\doxysubsubsection{\texorpdfstring{PL\_P}{PL\_P}}
+{\footnotesize\ttfamily \label{plib_8h_acd82187d4f87128df6701e1117951d63} 
+\#define PL\+\_\+P(\begin{DoxyParamCaption}\item[{}]{}...{}\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{pl\_arg\_global\_ptr((\mbox{\hyperlink{structpl__arg}{pl\_arg}})\{\_\_VA\_ARGS\_\_\})}
+
+\end{DoxyCode}
+\Hypertarget{plib_8h_ac79b1ab013efd71cd9c1bbf4d3c11ed4}\index{plib.h@{plib.h}!PL\_PROC@{PL\_PROC}}
+\index{PL\_PROC@{PL\_PROC}!plib.h@{plib.h}}
+\doxysubsubsection{\texorpdfstring{PL\_PROC}{PL\_PROC}}
+{\footnotesize\ttfamily \label{plib_8h_ac79b1ab013efd71cd9c1bbf4d3c11ed4} 
+\#define PL\+\_\+\+PROC(\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{pl\_proc(argc,argv)}
+
+\end{DoxyCode}
+\Hypertarget{plib_8h_acbd1b26ec17499d33dcc6aa862f2f888}\index{plib.h@{plib.h}!PL\_R@{PL\_R}}
+\index{PL\_R@{PL\_R}!plib.h@{plib.h}}
+\doxysubsubsection{\texorpdfstring{PL\_R}{PL\_R}}
+{\footnotesize\ttfamily \label{plib_8h_acbd1b26ec17499d33dcc6aa862f2f888} 
+\#define PL\+\_\+R(\begin{DoxyParamCaption}\item[{}]{arg}{}\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{(pl\_arg\_run(arg)\ ==\ PL\_SUCCESS)\ ?\ 1\ :\ 0}
+
+\end{DoxyCode}
