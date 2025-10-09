@@ -440,6 +440,7 @@ int member_selector_menu() {
       if (strcmp(l_name, l_buffer) == 0) {
         sel_idx = i;
       }
+			printf("%s != %s\n",l_name,l_buffer);
       free(l_name);
     }
 
