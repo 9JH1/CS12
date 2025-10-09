@@ -1273,6 +1273,7 @@ int ui_main_main() {
                                              .note = "",
                                              .amount = 0, // owes nothing
                                          });
+		printf("loan has been added!\n");
 		} else {
 			printf("error occured please try again\n");
 		}
