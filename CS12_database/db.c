@@ -251,7 +251,7 @@ int ui_main_main();
 
 int loan_menu(const int cur) {
   // Validate input index
-  if (cur < 0 || cur >= /* db_members size, assuming MAX_MEMBERS */) {
+  if (cur < 0 || cur >= db_members_index) {
     fprintf(stderr, "Error: Invalid member index\n");
     return -1;
   }
