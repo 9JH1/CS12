@@ -1,7 +1,9 @@
 /** 
  * @file include.h 
- * this file is the global import header which imports all librarys to 
- * the main files. 
+ * @brief contains all function definitions
+ * This file includes every function, external variable, structure and enumerator 
+ * used through out all of the code. this function is imported to most child files 
+ * which means that the includes can be moderated very easily.
  **/
 #ifndef INCLUDE 
 #define INCLUDE 
@@ -16,21 +18,23 @@
 
 
 /**
- * @breif custom exit function 
+ * @brief custom exit function 
  * @description useful for on-exit operations
  * @param code exit code 
+ *
  **/
 void quit(int code);
 
 
 /**
- * @breif custom help function 
+ * @brief custom help function 
+ * custom help function, this is where all of the 
  **/ 
 void help(void);
 
 
 /**
- * @breif return codes for main program 
+ * @brief return codes for main program 
  **/
 typedef enum {
 	SUCCESS = 0,
