@@ -91,7 +91,7 @@ int ui_menu(const char *array1[], const int size, const char *array2[],
       if (i == selected)
         printf("\033[30;42;1m");
 
-      if (i != size) {
+      if (i < size) {
         if ((COL_SIZE - strlen(array1[i])) <= 0) {
           printf("Error line too long: '%s'\n", array1[i]);
           continue;
@@ -101,6 +101,7 @@ int ui_menu(const char *array1[], const int size, const char *array2[],
           printf("Error line too long: '%s'\n", array2[i]);
           continue;
         }
+
         printf("%2d. | %s", i + 1, array1[i]);
 
         for (int j = 0; j < COL_SIZE - strlen(array1[i]); ++j)
