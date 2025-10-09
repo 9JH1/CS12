@@ -116,16 +116,16 @@ Files</h2></td></tr>
 <div class="line">    <a class="code hl_struct" href="d4/d1b/structpl__arg.html">pl_arg</a> *test = PL_P(<span class="stringliteral">&quot;--test&quot;</span>,<span class="stringliteral">&quot;basic value arg&quot;</span>,1,.type=<span class="stringliteral">&quot;char *&quot;</span>,.shorthand=<span class="stringliteral">&quot;-t&quot;</span>);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// error code var </span></div>
-<div class="line">    pl_r ret; </div>
+<div class="line">    <a class="code hl_enumeration" href="d3/db7/plib_8h.html#afe6a6572169aee3b8a8e0bceab96c5a9">pl_r</a> ret; </div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">// process the system arguments </span></div>
 <div class="line">    <span class="keywordflow">if</span>((ret = pl_proc(a, b)) == PL_SUCCESS){</div>
 <div class="line"> </div>
 <div class="line">        <span class="comment">// check if arguments have been run </span></div>
-<div class="line">        <span class="keywordflow">if</span>(PL_R(test))</div>
+<div class="line">        <span class="keywordflow">if</span>(<a class="code hl_define" href="d3/db7/plib_8h.html#acbd1b26ec17499d33dcc6aa862f2f888">PL_R</a>(test))</div>
 <div class="line">            printf(<span class="stringliteral">&quot;&#39;%s&#39;\n&quot;</span>, pl_arg_value(test),0);</div>
 <div class="line">        </div>
-<div class="line">        <span class="keywordflow">if</span>(PL_R(<a class="code hl_function" href="d1/dbe/include_8h.html#a0bed8474bd33a912769360766f6b10d4">help</a>))</div>
+<div class="line">        <span class="keywordflow">if</span>(<a class="code hl_define" href="d3/db7/plib_8h.html#acbd1b26ec17499d33dcc6aa862f2f888">PL_R</a>(<a class="code hl_function" href="d1/dbe/include_8h.html#a0bed8474bd33a912769360766f6b10d4">help</a>))</div>
 <div class="line">            pl_help(); </div>
 <div class="line">    </div>
 <div class="line">    } <span class="keywordflow">else</span> {</div>
@@ -140,6 +140,8 @@ Files</h2></td></tr>
 <div class="ttc" id="ainclude_8h_html_a0bed8474bd33a912769360766f6b10d4"><div class="ttname"><a href="d1/dbe/include_8h.html#a0bed8474bd33a912769360766f6b10d4">help</a></div><div class="ttdeci">void help(void)</div><div class="ttdoc">Custom help function, mostly just a pl_help wrapper.</div><div class="ttdef"><b>Definition</b> lib.c:16</div></div>
 <div class="ttc" id="amain_8c_html_ac490e54d26e537126a97540acf0b1cba"><div class="ttname"><a href="d0/d29/main_8c.html#ac490e54d26e537126a97540acf0b1cba">main</a></div><div class="ttdeci">int main(const int c, const char *v[])</div><div class="ttdoc">main database loop</div><div class="ttdef"><b>Definition</b> main.c:17</div></div>
 <div class="ttc" id="aplib_8h_html"><div class="ttname"><a href="d3/db7/plib_8h.html">plib.h</a></div><div class="ttdoc">Basic argument parsing library.</div></div>
+<div class="ttc" id="aplib_8h_html_acbd1b26ec17499d33dcc6aa862f2f888"><div class="ttname"><a href="d3/db7/plib_8h.html#acbd1b26ec17499d33dcc6aa862f2f888">PL_R</a></div><div class="ttdeci">#define PL_R(arg)</div><div class="ttdoc">check if argument has been run without PL_SUCCESS comparison this macro just removes the need to use ...</div><div class="ttdef"><b>Definition</b> plib.h:336</div></div>
+<div class="ttc" id="aplib_8h_html_afe6a6572169aee3b8a8e0bceab96c5a9"><div class="ttname"><a href="d3/db7/plib_8h.html#afe6a6572169aee3b8a8e0bceab96c5a9">pl_r</a></div><div class="ttdeci">pl_r</div><div class="ttdoc">PLib return codes.</div><div class="ttdef"><b>Definition</b> plib.h:222</div></div>
 <div class="ttc" id="astructpl__arg_html"><div class="ttname"><a href="d4/d1b/structpl__arg.html">pl_arg</a></div><div class="ttdoc">argument options</div><div class="ttdef"><b>Definition</b> plib.h:160</div></div>
 </div><!-- fragment --> <h1 class="doxsection"><a class="anchor" id="autotoc_md0"></a>
 Usage librarys</h1>
@@ -165,10 +167,10 @@ Changelog</h1>
 <div class="line"> </div>
 <div class="line"><span class="keywordtype">int</span> <a class="code hl_function" href="d0/d29/main_8c.html#ac490e54d26e537126a97540acf0b1cba">main</a>(<span class="keyword">const</span> <span class="keywordtype">int</span> c, <span class="keyword">const</span> <span class="keywordtype">char</span> *v[]){</div>
 <div class="line">    <a class="code hl_struct" href="d4/d1b/structpl__arg.html">pl_arg</a> *test = PL_P(<span class="stringliteral">&quot;--test&quot;</span>,.takes_value = 1);</div>
-<div class="line">    pl_r ret = PL_FAILURE;</div>
+<div class="line">    <a class="code hl_enumeration" href="d3/db7/plib_8h.html#afe6a6572169aee3b8a8e0bceab96c5a9">pl_r</a> ret = PL_FAILURE;</div>
 <div class="line">    </div>
 <div class="line">    <span class="keywordflow">if</span>((ret = pl_proc(c,v)) == PL_SUCCESS){</div>
-<div class="line">        <span class="keywordflow">if</span>(PL_R(test)){</div>
+<div class="line">        <span class="keywordflow">if</span>(<a class="code hl_define" href="d3/db7/plib_8h.html#acbd1b26ec17499d33dcc6aa862f2f888">PL_R</a>(test)){</div>
 <div class="line"> </div>
 <div class="line">            <span class="comment">// iterate through every use of --test</span></div>
 <div class="line">            <span class="keywordflow">for</span>(<span class="keywordtype">int</span> i = 0 ; i &lt; pl_arg_count(test) ; i++){</div>

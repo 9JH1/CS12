@@ -35,16 +35,16 @@ file \mbox{\hyperlink{plib_8h}{plib.\+h}}
 \DoxyCodeLine{\ \ \ \ \mbox{\hyperlink{structpl__arg}{pl\_arg}}\ *test\ =\ PL\_P(\textcolor{stringliteral}{"{}-\/-\/test"{}},\textcolor{stringliteral}{"{}basic\ value\ arg"{}},1,.type=\textcolor{stringliteral}{"{}char\ *"{}},.shorthand=\textcolor{stringliteral}{"{}-\/t"{}});}
 \DoxyCodeLine{}
 \DoxyCodeLine{\ \ \ \ \textcolor{comment}{//\ error\ code\ var\ }}
-\DoxyCodeLine{\ \ \ \ pl\_r\ ret;\ }
+\DoxyCodeLine{\ \ \ \ \mbox{\hyperlink{plib_8h_afe6a6572169aee3b8a8e0bceab96c5a9}{pl\_r}}\ ret;\ }
 \DoxyCodeLine{}
 \DoxyCodeLine{\ \ \ \ \textcolor{comment}{//\ process\ the\ system\ arguments\ }}
-\DoxyCodeLine{\ \ \ \ \textcolor{keywordflow}{if}((ret\ =\ pl\_proc(a,\ b))\ ==\ PL\_SUCCESS)\{}
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordflow}{if}((ret\ =\ \mbox{\hyperlink{plib_8h_a390a51827a1a4a90278081695b6c63ed}{pl\_proc}}(a,\ b))\ ==\ PL\_SUCCESS)\{}
 \DoxyCodeLine{}
 \DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{comment}{//\ check\ if\ arguments\ have\ been\ run\ }}
-\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(PL\_R(test))}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\mbox{\hyperlink{plib_8h_acbd1b26ec17499d33dcc6aa862f2f888}{PL\_R}}(test))}
 \DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}'\%s'\(\backslash\)n"{}},\ pl\_arg\_value(test),0);}
 \DoxyCodeLine{\ \ \ \ \ \ \ \ }
-\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(PL\_R(\mbox{\hyperlink{include_8h_a0bed8474bd33a912769360766f6b10d4}{help}}))}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\mbox{\hyperlink{plib_8h_acbd1b26ec17499d33dcc6aa862f2f888}{PL\_R}}(\mbox{\hyperlink{include_8h_a0bed8474bd33a912769360766f6b10d4}{help}}))}
 \DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ pl\_help();\ }
 \DoxyCodeLine{\ \ \ \ }
 \DoxyCodeLine{\ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
@@ -81,10 +81,10 @@ started 02/10/2025 \end{quote}
 \DoxyCodeLine{}
 \DoxyCodeLine{\textcolor{keywordtype}{int}\ \mbox{\hyperlink{main_8c_ac490e54d26e537126a97540acf0b1cba}{main}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ c,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *v[])\{}
 \DoxyCodeLine{\ \ \ \ \mbox{\hyperlink{structpl__arg}{pl\_arg}}\ *test\ =\ PL\_P(\textcolor{stringliteral}{"{}-\/-\/test"{}},.takes\_value\ =\ 1);}
-\DoxyCodeLine{\ \ \ \ pl\_r\ ret\ =\ PL\_FAILURE;}
+\DoxyCodeLine{\ \ \ \ \mbox{\hyperlink{plib_8h_afe6a6572169aee3b8a8e0bceab96c5a9}{pl\_r}}\ ret\ =\ PL\_FAILURE;}
 \DoxyCodeLine{\ \ \ \ }
-\DoxyCodeLine{\ \ \ \ \textcolor{keywordflow}{if}((ret\ =\ pl\_proc(c,v))\ ==\ PL\_SUCCESS)\{}
-\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(PL\_R(test))\{}
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordflow}{if}((ret\ =\ \mbox{\hyperlink{plib_8h_a390a51827a1a4a90278081695b6c63ed}{pl\_proc}}(c,v))\ ==\ PL\_SUCCESS)\{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(\mbox{\hyperlink{plib_8h_acbd1b26ec17499d33dcc6aa862f2f888}{PL\_R}}(test))\{}
 \DoxyCodeLine{}
 \DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ iterate\ through\ every\ use\ of\ -\/-\/test}}
 \DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int}\ i\ =\ 0\ ;\ i\ <\ pl\_arg\_count(test)\ ;\ i++)\{}

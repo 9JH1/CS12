@@ -109,12 +109,17 @@ Macros</h2></td></tr>
 <tr class="memitem:a9c0ee1b5d23f5fc5139448dc7a412e24" id="r_a9c0ee1b5d23f5fc5139448dc7a412e24"><td class="memItemLeft" align="right" valign="top"><a id="a9c0ee1b5d23f5fc5139448dc7a412e24" name="a9c0ee1b5d23f5fc5139448dc7a412e24"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>PL_VERSION</b>&#160;&#160;&#160;&quot;4.7&quot;</td></tr>
 <tr class="memitem:a45171e7fa12f307982ccbe020218c141" id="r_a45171e7fa12f307982ccbe020218c141"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a45171e7fa12f307982ccbe020218c141">PL_INVERT</a>(n)</td></tr>
+<tr class="memdesc:a45171e7fa12f307982ccbe020218c141"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert -n to n-1, used for converting <a class="el" href="#afe6a6572169aee3b8a8e0bceab96c5a9">pl_r</a> enum to valid array index in pl_s.  <br /></td></tr>
+<tr class="memitem:ac79b1ab013efd71cd9c1bbf4d3c11ed4" id="r_ac79b1ab013efd71cd9c1bbf4d3c11ed4"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac79b1ab013efd71cd9c1bbf4d3c11ed4">PL_PROC</a>()</td></tr>
+<tr class="memdesc:ac79b1ab013efd71cd9c1bbf4d3c11ed4"><td class="mdescLeft">&#160;</td><td class="mdescRight">macro for removing the PL_SUCCESS check and argv and argc params.  <br /></td></tr>
+<tr class="memitem:acbd1b26ec17499d33dcc6aa862f2f888" id="r_acbd1b26ec17499d33dcc6aa862f2f888"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acbd1b26ec17499d33dcc6aa862f2f888">PL_R</a>(arg)</td></tr>
+<tr class="memdesc:acbd1b26ec17499d33dcc6aa862f2f888"><td class="mdescLeft">&#160;</td><td class="mdescRight">check if argument has been run without PL_SUCCESS comparison this macro just removes the need to use the PL_SUCCESS comparison which removes clutter and line size.  <br /></td></tr>
 <tr class="memitem:a7861a13243875e0d471c6345fdcca7de" id="r_a7861a13243875e0d471c6345fdcca7de"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7861a13243875e0d471c6345fdcca7de">PL_A</a>(...)</td></tr>
 <tr class="memitem:acd82187d4f87128df6701e1117951d63" id="r_acd82187d4f87128df6701e1117951d63"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acd82187d4f87128df6701e1117951d63">PL_P</a>(...)</td></tr>
 <tr class="memitem:acbd1b26ec17499d33dcc6aa862f2f888" id="r_acbd1b26ec17499d33dcc6aa862f2f888"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#acbd1b26ec17499d33dcc6aa862f2f888">PL_R</a>(arg)</td></tr>
+<tr class="memdesc:acbd1b26ec17499d33dcc6aa862f2f888"><td class="mdescLeft">&#160;</td><td class="mdescRight">check if argument has been run without PL_SUCCESS comparison this macro just removes the need to use the PL_SUCCESS comparison which removes clutter and line size.  <br /></td></tr>
 <tr class="memitem:a7887ae8c8869a4abb335d4287f03d5e8" id="r_a7887ae8c8869a4abb335d4287f03d5e8"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7887ae8c8869a4abb335d4287f03d5e8">PL_GETN</a>(name)</td></tr>
 <tr class="memitem:a0348dc4d50ec929a2ebe8261f30b9b2c" id="r_a0348dc4d50ec929a2ebe8261f30b9b2c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0348dc4d50ec929a2ebe8261f30b9b2c">PL_GETI</a>(idx)</td></tr>
-<tr class="memitem:ac79b1ab013efd71cd9c1bbf4d3c11ed4" id="r_ac79b1ab013efd71cd9c1bbf4d3c11ed4"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac79b1ab013efd71cd9c1bbf4d3c11ed4">PL_PROC</a>()</td></tr>
 <tr class="memitem:a9fa27bd33aa602f21e9dca295c55c2cb" id="r_a9fa27bd33aa602f21e9dca295c55c2cb"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a9fa27bd33aa602f21e9dca295c55c2cb">PL_LAST_ARG</a></td></tr>
 <tr class="memitem:a2fff4b4869e460c1d102511abb189fcf" id="r_a2fff4b4869e460c1d102511abb189fcf"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2fff4b4869e460c1d102511abb189fcf">PL_E</a>(i)</td></tr>
 <tr class="memitem:a461e97db846e9345f362712af8bab0a9" id="r_a461e97db846e9345f362712af8bab0a9"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a461e97db846e9345f362712af8bab0a9">pl_arg_sys</a>(arg)</td></tr>
@@ -127,7 +132,7 @@ Typedefs</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-enum-members" class="groupheader"><a id="enum-members" name="enum-members"></a>
 Enumerations</h2></td></tr>
-<tr class="memitem:afe6a6572169aee3b8a8e0bceab96c5a9" id="r_afe6a6572169aee3b8a8e0bceab96c5a9"><td class="memItemLeft" align="right" valign="top"><a id="afe6a6572169aee3b8a8e0bceab96c5a9" name="afe6a6572169aee3b8a8e0bceab96c5a9"></a>enum &#160;</td><td class="memItemRight" valign="bottom"><b>pl_r</b> { <br />
+<tr class="memitem:afe6a6572169aee3b8a8e0bceab96c5a9" id="r_afe6a6572169aee3b8a8e0bceab96c5a9"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#afe6a6572169aee3b8a8e0bceab96c5a9">pl_r</a> { <br />
 &#160;&#160;<b>PL_ARG_NOT_FOUND</b> = -1
 , <b>PL_ARG_REQUIRES_VALUE</b> = -2
 , <b>PL_ARG_NO_REQUIRES_VALUE</b> = -3
@@ -143,17 +148,17 @@ Enumerations</h2></td></tr>
 , <b>PL_ARG_MISSING_PARAM</b> = -12
 <br />
  }</td></tr>
+<tr class="memdesc:afe6a6572169aee3b8a8e0bceab96c5a9"><td class="mdescLeft">&#160;</td><td class="mdescRight">PLib return codes.  <a href="#afe6a6572169aee3b8a8e0bceab96c5a9">More...</a><br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-func-members" class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:aeb7b62bb39a3e32ea5124701524782b0" id="r_aeb7b62bb39a3e32ea5124701524782b0"><td class="memItemLeft" align="right" valign="top"><a id="aeb7b62bb39a3e32ea5124701524782b0" name="aeb7b62bb39a3e32ea5124701524782b0"></a>
-pl_r&#160;</td><td class="memItemRight" valign="bottom"><b>pl_arg_exist</b> (const char *name)</td></tr>
-<tr class="memitem:a390a51827a1a4a90278081695b6c63ed" id="r_a390a51827a1a4a90278081695b6c63ed"><td class="memItemLeft" align="right" valign="top"><a id="a390a51827a1a4a90278081695b6c63ed" name="a390a51827a1a4a90278081695b6c63ed"></a>
-pl_r&#160;</td><td class="memItemRight" valign="bottom"><b>pl_proc</b> (const int argc, const char *argv[])</td></tr>
-<tr class="memitem:a5bf80193f6d851b4a997bd1a3a263303" id="r_a5bf80193f6d851b4a997bd1a3a263303"><td class="memItemLeft" align="right" valign="top"><a id="a5bf80193f6d851b4a997bd1a3a263303" name="a5bf80193f6d851b4a997bd1a3a263303"></a>
-pl_r&#160;</td><td class="memItemRight" valign="bottom"><b>pl_arg_run</b> (const <a class="el" href="../../d4/d1b/structpl__arg.html">pl_arg</a> *local)</td></tr>
+<tr class="memitem:aeb7b62bb39a3e32ea5124701524782b0" id="r_aeb7b62bb39a3e32ea5124701524782b0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#afe6a6572169aee3b8a8e0bceab96c5a9">pl_r</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aeb7b62bb39a3e32ea5124701524782b0">pl_arg_exist</a> (const char *name)</td></tr>
+<tr class="memitem:a390a51827a1a4a90278081695b6c63ed" id="r_a390a51827a1a4a90278081695b6c63ed"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#afe6a6572169aee3b8a8e0bceab96c5a9">pl_r</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a390a51827a1a4a90278081695b6c63ed">pl_proc</a> (const int argc, const char *argv[])</td></tr>
+<tr class="memdesc:a390a51827a1a4a90278081695b6c63ed"><td class="mdescLeft">&#160;</td><td class="mdescRight">takes in an argc and argv and parse them in comparison to the arguments in PL_ARGS.  <br /></td></tr>
+<tr class="memitem:a5bf80193f6d851b4a997bd1a3a263303" id="r_a5bf80193f6d851b4a997bd1a3a263303"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#afe6a6572169aee3b8a8e0bceab96c5a9">pl_r</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a5bf80193f6d851b4a997bd1a3a263303">pl_arg_run</a> (const <a class="el" href="../../d4/d1b/structpl__arg.html">pl_arg</a> *local)</td></tr>
+<tr class="memdesc:a5bf80193f6d851b4a997bd1a3a263303"><td class="mdescLeft">&#160;</td><td class="mdescRight">check if argument has been run  <br /></td></tr>
 <tr class="memitem:a0041fd11eb89f0b2761b80660902b020" id="r_a0041fd11eb89f0b2761b80660902b020"><td class="memItemLeft" align="right" valign="top"><a id="a0041fd11eb89f0b2761b80660902b020" name="a0041fd11eb89f0b2761b80660902b020"></a>
-pl_r&#160;</td><td class="memItemRight" valign="bottom"><b>pl_all_triggered</b> (void)</td></tr>
+<a class="el" href="#afe6a6572169aee3b8a8e0bceab96c5a9">pl_r</a>&#160;</td><td class="memItemRight" valign="bottom"><b>pl_all_triggered</b> (void)</td></tr>
 <tr class="memitem:ab2963c491879d340a6d185801b67ebaa" id="r_ab2963c491879d340a6d185801b67ebaa"><td class="memItemLeft" align="right" valign="top"><a id="ab2963c491879d340a6d185801b67ebaa" name="ab2963c491879d340a6d185801b67ebaa"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>pl_help</b> (void)</td></tr>
 <tr class="memitem:a2d4687ec27d861f778294d9473a169d8" id="r_a2d4687ec27d861f778294d9473a169d8"><td class="memItemLeft" align="right" valign="top"><a id="a2d4687ec27d861f778294d9473a169d8" name="a2d4687ec27d861f778294d9473a169d8"></a>
@@ -177,11 +182,11 @@ Variables</h2></td></tr>
 <tr class="memdesc:ae79fddc95d813103f186cbf649113438"><td class="mdescLeft">&#160;</td><td class="mdescRight">PL_ARGS capacity used for DMA.  <br /></td></tr>
 <tr class="memitem:ac652479936af9912703d22a6cb3ac026" id="r_ac652479936af9912703d22a6cb3ac026"><td class="memItemLeft" align="right" valign="top"><a id="ac652479936af9912703d22a6cb3ac026" name="ac652479936af9912703d22a6cb3ac026"></a>
 char **&#160;</td><td class="memItemRight" valign="bottom"><b>PL_ARGV</b></td></tr>
-<tr class="memdesc:ac652479936af9912703d22a6cb3ac026"><td class="mdescLeft">&#160;</td><td class="mdescRight">local copy of argument array parsed into pl_proc <br /></td></tr>
+<tr class="memdesc:ac652479936af9912703d22a6cb3ac026"><td class="mdescLeft">&#160;</td><td class="mdescRight">local copy of argument array parsed into <a class="el" href="#a390a51827a1a4a90278081695b6c63ed">pl_proc</a> <br /></td></tr>
 <tr class="memitem:aa0dd20509222b04db3d1fd9fa4ca2151" id="r_aa0dd20509222b04db3d1fd9fa4ca2151"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa0dd20509222b04db3d1fd9fa4ca2151">PL_ARGC</a></td></tr>
 <tr class="memitem:a1198d450fd97d833116a6248ea3ed746" id="r_a1198d450fd97d833116a6248ea3ed746"><td class="memItemLeft" align="right" valign="top"><a id="a1198d450fd97d833116a6248ea3ed746" name="a1198d450fd97d833116a6248ea3ed746"></a>
 int&#160;</td><td class="memItemRight" valign="bottom"><b>PL_PROC_END_ARGC</b></td></tr>
-<tr class="memdesc:a1198d450fd97d833116a6248ea3ed746"><td class="mdescLeft">&#160;</td><td class="mdescRight">index of PL_ARGC that was last parsed by pl_proc used in error checking if pl_proc throws an error this value is the index of argument that caused the error. <br /></td></tr>
+<tr class="memdesc:a1198d450fd97d833116a6248ea3ed746"><td class="mdescLeft">&#160;</td><td class="mdescRight">index of PL_ARGC that was last parsed by <a class="el" href="#a390a51827a1a4a90278081695b6c63ed">pl_proc</a> used in error checking if pl_proc throws an error this value is the index of argument that caused the error. <br /></td></tr>
 </table>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Basic argument parsing library. </p>
@@ -192,26 +197,28 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>PL_PROC_END_ARGC</b></
 <div class="line"> </div>
 <div class="line"><span class="keywordtype">int</span> <a class="code hl_function" href="../../d0/d29/main_8c.html#ac490e54d26e537126a97540acf0b1cba">main</a>(<span class="keyword">const</span> <span class="keywordtype">int</span> c, <span class="keyword">const</span> <span class="keywordtype">char</span> *v[]){</div>
 <div class="line">  <a class="code hl_struct" href="../../d4/d1b/structpl__arg.html">pl_arg</a> * my_arg = PL_P(<span class="stringliteral">&quot;--my-arg&quot;</span>, <span class="stringliteral">&quot;basic first argument!&quot;</span>);</div>
-<div class="line">  pl_proc(c,v);</div>
+<div class="line">  <a class="code hl_function" href="#a390a51827a1a4a90278081695b6c63ed">pl_proc</a>(c,v);</div>
 <div class="line">  pl_help();</div>
 <div class="line">  <span class="keywordflow">return</span> 0;</div>
 <div class="line">}</div>
 <div class="ttc" id="amain_8c_html_ac490e54d26e537126a97540acf0b1cba"><div class="ttname"><a href="../../d0/d29/main_8c.html#ac490e54d26e537126a97540acf0b1cba">main</a></div><div class="ttdeci">int main(const int c, const char *v[])</div><div class="ttdoc">main database loop</div><div class="ttdef"><b>Definition</b> main.c:17</div></div>
 <div class="ttc" id="aplib_8h_html"><div class="ttname"><a href="../../d3/db7/plib_8h.html">plib.h</a></div><div class="ttdoc">Basic argument parsing library.</div></div>
+<div class="ttc" id="aplib_8h_html_a390a51827a1a4a90278081695b6c63ed"><div class="ttname"><a href="#a390a51827a1a4a90278081695b6c63ed">pl_proc</a></div><div class="ttdeci">pl_r pl_proc(const int argc, const char *argv[])</div><div class="ttdoc">takes in an argc and argv and parse them in comparison to the arguments in PL_ARGS.</div><div class="ttdef"><b>Definition</b> plib.c:327</div></div>
 <div class="ttc" id="astructpl__arg_html"><div class="ttname"><a href="../../d4/d1b/structpl__arg.html">pl_arg</a></div><div class="ttdoc">argument options</div><div class="ttdef"><b>Definition</b> plib.h:160</div></div>
 </div><!-- fragment --><p> As you can see we defined an argument called my_arg with the flag name of <span class="tt">--my-arg</span> and a description of "basic first argument". running this code outputs the following: </p><div class="fragment"><div class="line">Options:</div>
 <div class="line">  --my-arg | basic first argument!</div>
-</div><!-- fragment --><p> To check if an argument is run use PL_R or pl_arg_run like so </p><div class="fragment"><div class="line"><span class="preprocessor">#include &lt;stdio.h&gt;</span></div>
+</div><!-- fragment --><p> To check if an argument is run use <a class="el" href="#acbd1b26ec17499d33dcc6aa862f2f888">PL_R</a> or <a class="el" href="#a5bf80193f6d851b4a997bd1a3a263303">pl_arg_run</a> like so </p><div class="fragment"><div class="line"><span class="preprocessor">#include &lt;stdio.h&gt;</span></div>
 <div class="line"><span class="comment">// ...</span></div>
-<div class="line"><span class="keywordflow">if</span>(PL_R(my_arg))</div>
+<div class="line"><span class="keywordflow">if</span>(<a class="code hl_define" href="#acbd1b26ec17499d33dcc6aa862f2f888">PL_R</a>(my_arg))</div>
 <div class="line">  printf(<span class="stringliteral">&quot;Hello World!\n&quot;</span>);</div>
 <div class="line"><span class="comment">// ... </span></div>
+<div class="ttc" id="aplib_8h_html_acbd1b26ec17499d33dcc6aa862f2f888"><div class="ttname"><a href="#acbd1b26ec17499d33dcc6aa862f2f888">PL_R</a></div><div class="ttdeci">#define PL_R(arg)</div><div class="ttdoc">check if argument has been run without PL_SUCCESS comparison this macro just removes the need to use ...</div><div class="ttdef"><b>Definition</b> plib.h:336</div></div>
 </div><!-- fragment --><p> Now if we run our program it will print back "Hello World!" To take an value with an argument you simply put .takes_value = 1 in the argument definition like so: </p><div class="fragment"><div class="line"><span class="comment">// ...</span></div>
 <div class="line">pl_a * my_arg = PL_P(<span class="stringliteral">&quot;--my-arg&quot;</span>,<span class="stringliteral">&quot;basic first argument!&quot;</span>, .takes_value = 1);</div>
 <div class="line"><span class="comment">// ...</span></div>
 </div><!-- fragment --><p> if the code is run the same as before you will now notice we do not get the "Hello World!" output anymore , this is because plib failed to parse the <span class="tt">--my-arg argument</span> and instead threw an error because it was missing a value. simple error checking can be done like so </p><div class="fragment"><div class="line"><span class="comment">// ...</span></div>
-<div class="line">pl_r return_code;</div>
-<div class="line"><span class="keywordflow">if</span>((return_code = PL_PROC(c,v)) == PL_SUCCESS){</div>
+<div class="line"><a class="code hl_enumeration" href="#afe6a6572169aee3b8a8e0bceab96c5a9">pl_r</a> return_code;</div>
+<div class="line"><span class="keywordflow">if</span>((return_code = <a class="code hl_define" href="#ac79b1ab013efd71cd9c1bbf4d3c11ed4">PL_PROC</a>(c,v)) == PL_SUCCESS){</div>
 <div class="line">  <span class="comment">// plib parsed all argument sucessfully.</span></div>
 <div class="line"> </div>
 <div class="line">} <span class="keywordflow">else</span> {</div>
@@ -221,10 +228,12 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>PL_PROC_END_ARGC</b></
 <div class="line">    PL_LAST_ARG);</div>
 <div class="line">}</div>
 <div class="line"><span class="comment">// ...</span></div>
+<div class="ttc" id="aplib_8h_html_ac79b1ab013efd71cd9c1bbf4d3c11ed4"><div class="ttname"><a href="#ac79b1ab013efd71cd9c1bbf4d3c11ed4">PL_PROC</a></div><div class="ttdeci">#define PL_PROC()</div><div class="ttdoc">macro for removing the PL_SUCCESS check and argv and argc params.</div><div class="ttdef"><b>Definition</b> plib.h:311</div></div>
+<div class="ttc" id="aplib_8h_html_afe6a6572169aee3b8a8e0bceab96c5a9"><div class="ttname"><a href="#afe6a6572169aee3b8a8e0bceab96c5a9">pl_r</a></div><div class="ttdeci">pl_r</div><div class="ttdoc">PLib return codes.</div><div class="ttdef"><b>Definition</b> plib.h:222</div></div>
 </div><!-- fragment --><p> Now if we run the program with the same arguments we will get an output like so: </p><div class="fragment"><div class="line">Error occured ARG_REQUIRES_VALUE from --my-arg</div>
 </div><!-- fragment --><p> PLib uses '&ndash;key=val' argument value style, so to resolve this plib error run the program with &ndash;my-arg="value".</p>
 <p>To get the value of an arg either use pl_arg_value like so: </p><div class="fragment"><div class="line"><span class="comment">// ... </span></div>
-<div class="line"><span class="keywordflow">if</span>(PL_R(my_arg))</div>
+<div class="line"><span class="keywordflow">if</span>(<a class="code hl_define" href="#acbd1b26ec17499d33dcc6aa862f2f888">PL_R</a>(my_arg))</div>
 <div class="line">  printf(<span class="stringliteral">&quot;Argument run with value %s\n&quot;</span>,</div>
 <div class="line">    pl_arg_value(my_arg) ); <span class="comment">// get argument value </span></div>
 </div><!-- fragment --><p> Now running the program will print out whatever value has been parsed. here is the full example of what we just went over: </p><div class="fragment"><div class="line"><span class="preprocessor">#include &lt;stdio.h&gt;</span></div>
@@ -232,10 +241,10 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>PL_PROC_END_ARGC</b></
 <div class="line"> </div>
 <div class="line"><span class="keywordtype">int</span> <a class="code hl_function" href="../../d0/d29/main_8c.html#ac490e54d26e537126a97540acf0b1cba">main</a>(<span class="keyword">const</span> <span class="keywordtype">int</span> c, <span class="keyword">const</span> <span class="keywordtype">char</span> *v[]){</div>
 <div class="line">  <a class="code hl_struct" href="../../d4/d1b/structpl__arg.html">pl_arg</a> * my_arg = PL_P(<span class="stringliteral">&quot;--my-arg&quot;</span>,<span class="stringliteral">&quot;my argument!&quot;</span>, .takes_value = 1);</div>
-<div class="line">  pl_r return_code;</div>
+<div class="line">  <a class="code hl_enumeration" href="#afe6a6572169aee3b8a8e0bceab96c5a9">pl_r</a> return_code;</div>
 <div class="line">  </div>
-<div class="line">  <span class="keywordflow">if</span>((return_code = pl_proc(c,v)) == PL_SUCCESS){</div>
-<div class="line">    <span class="keywordflow">if</span>(PL_R(my_arg))</div>
+<div class="line">  <span class="keywordflow">if</span>((return_code = <a class="code hl_function" href="#a390a51827a1a4a90278081695b6c63ed">pl_proc</a>(c,v)) == PL_SUCCESS){</div>
+<div class="line">    <span class="keywordflow">if</span>(<a class="code hl_define" href="#acbd1b26ec17499d33dcc6aa862f2f888">PL_R</a>(my_arg))</div>
 <div class="line">     printf(<span class="stringliteral">&quot;Argument run with value %s\n&quot;</span>, </div>
 <div class="line">     pl_arg_value(my_arg) ); <span class="comment">// get argument value </span></div>
 <div class="line">  } <span class="keywordflow">else</span> {</div>
@@ -317,7 +326,8 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>PL_PROC_END_ARGC</b></
         </tr>
       </table>
 </div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">pl_s[PL_INVERT(i)]</div>
+<b>Value:</b><div class="fragment"><div class="line">pl_s[<a class="code hl_define" href="#a45171e7fa12f307982ccbe020218c141">PL_INVERT</a>(i)]</div>
+<div class="ttc" id="aplib_8h_html_a45171e7fa12f307982ccbe020218c141"><div class="ttname"><a href="#a45171e7fa12f307982ccbe020218c141">PL_INVERT</a></div><div class="ttdeci">#define PL_INVERT(n)</div><div class="ttdoc">Convert -n to n-1, used for converting pl_r enum to valid array index in pl_s.</div><div class="ttdef"><b>Definition</b> plib.h:242</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -390,6 +400,15 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>PL_PROC_END_ARGC</b></
 </div><div class="memdoc">
 <b>Value:</b><div class="fragment"><div class="line">((n * -1) - 1)</div>
 </div><!-- fragment -->
+<p>Convert -n to n-1, used for converting <a class="el" href="#afe6a6572169aee3b8a8e0bceab96c5a9">pl_r</a> enum to valid array index in pl_s. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">n</td><td>int to invert - 1 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section see"><dt>See also</dt><dd>pl_s </dd></dl>
+
 </div>
 </div>
 <a id="a9fa27bd33aa602f21e9dca295c55c2cb" name="a9fa27bd33aa602f21e9dca295c55c2cb"></a>
@@ -405,7 +424,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>PL_PROC_END_ARGC</b></
 </div><div class="memdoc">
 <b>Value:</b><div class="fragment"><div class="line">                                        (PL_PROC_END_ARGC &gt;= 0) ? \</div>
 <div class="line">                                        (PL_ARGV[PL_PROC_END_ARGC]) : \</div>
-<div class="line">                                        pl_s[PL_INVERT(PL_NO_ARGUMENTS_GIVEN)]</div>
+<div class="line">                                        pl_s[<a class="code hl_define" href="#a45171e7fa12f307982ccbe020218c141">PL_INVERT</a>(PL_NO_ARGUMENTS_GIVEN)]</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -441,12 +460,53 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>PL_PROC_END_ARGC</b></
         </tr>
       </table>
 </div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">pl_proc(argc,argv)</div>
+<b>Value:</b><div class="fragment"><div class="line">(pl_proc(argc,argv) == PL_SUCCESS)</div>
 </div><!-- fragment -->
+<p>macro for removing the PL_SUCCESS check and argv and argc params. </p>
+<p>This macro will automatically include argc and argv, this will work as long as <span class="tt">argc</span> and <span class="tt">argv</span> are defined and are of the correct types.</p>
+<p>examples before: </p><div class="fragment"><div class="line"><span class="comment">// ... </span></div>
+<div class="line"><span class="keywordflow">if</span>(<a class="code hl_function" href="#a390a51827a1a4a90278081695b6c63ed">pl_proc</a>(argc, argv) == PL_SUCCESS){</div>
+<div class="line">  <span class="comment">// ... </span></div>
+<div class="line">}</div>
+<div class="line"><span class="comment">// ...</span></div>
+</div><!-- fragment --><p>and after </p><div class="fragment"><div class="line"><span class="comment">// ... </span></div>
+<div class="line"><span class="keywordflow">if</span>(<a class="code hl_define" href="#ac79b1ab013efd71cd9c1bbf4d3c11ed4">PL_PROC</a>()){</div>
+<div class="line">  <span class="comment">// ...</span></div>
+<div class="line">}</div>
+<div class="line"><span class="comment">// ...</span></div>
+</div><!-- fragment --> 
 </div>
 </div>
 <a id="acbd1b26ec17499d33dcc6aa862f2f888" name="acbd1b26ec17499d33dcc6aa862f2f888"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acbd1b26ec17499d33dcc6aa862f2f888">&#9670;&#160;</a></span>PL_R</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#acbd1b26ec17499d33dcc6aa862f2f888">&#9670;&#160;</a></span>PL_R <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define PL_R</td>
+          <td>(</td>
+          <td class="paramtype"></td>          <td class="paramname"><span class="paramname"><em>arg</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line">pl_arg_run(arg) == PL_SUCCESS</div>
+</div><!-- fragment -->
+<p>check if argument has been run without PL_SUCCESS comparison this macro just removes the need to use the PL_SUCCESS comparison which removes clutter and line size. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">arg</td><td><a class="el" href="../../d4/d1b/structpl__arg.html" title="argument options">pl_arg</a> * <br  />
+ </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="#a5bf80193f6d851b4a997bd1a3a263303" title="check if argument has been run">pl_arg_run</a> </dd></dl>
+
+</div>
+</div>
+<a id="acbd1b26ec17499d33dcc6aa862f2f888" name="acbd1b26ec17499d33dcc6aa862f2f888"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acbd1b26ec17499d33dcc6aa862f2f888">&#9670;&#160;</a></span>PL_R <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -461,6 +521,16 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>PL_PROC_END_ARGC</b></
 </div><div class="memdoc">
 <b>Value:</b><div class="fragment"><div class="line">(pl_arg_run(arg) == PL_SUCCESS) ? 1 : 0</div>
 </div><!-- fragment -->
+<p>check if argument has been run without PL_SUCCESS comparison this macro just removes the need to use the PL_SUCCESS comparison which removes clutter and line size. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">arg</td><td><a class="el" href="../../d4/d1b/structpl__arg.html" title="argument options">pl_arg</a> * <br  />
+ </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="#a5bf80193f6d851b4a997bd1a3a263303" title="check if argument has been run">pl_arg_run</a> </dd></dl>
+
 </div>
 </div>
 <a name="doc-typedef-members" id="doc-typedef-members"></a><h2 id="header-doc-typedef-members" class="groupheader">Typedef Documentation</h2>
@@ -494,6 +564,112 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>PL_PROC_END_ARGC</b></
 
 </div>
 </div>
+<a name="doc-enum-members" id="doc-enum-members"></a><h2 id="header-doc-enum-members" class="groupheader">Enumeration Type Documentation</h2>
+<a id="afe6a6572169aee3b8a8e0bceab96c5a9" name="afe6a6572169aee3b8a8e0bceab96c5a9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afe6a6572169aee3b8a8e0bceab96c5a9">&#9670;&#160;</a></span>pl_r</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="#afe6a6572169aee3b8a8e0bceab96c5a9">pl_r</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>PLib return codes. </p>
+<p>These codes are used by most plib functions a code can be turned into a string using the PL_E function. The strings used for error codes can be read in the <a class="el" href="#afe6a6572169aee3b8a8e0bceab96c5a9">pl_r</a> array. </p><dl class="section see"><dt>See also</dt><dd>PL_E </dd>
+<dd>
+pl_s </dd></dl>
+
+</div>
+</div>
+<a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Function Documentation</h2>
+<a id="aeb7b62bb39a3e32ea5124701524782b0" name="aeb7b62bb39a3e32ea5124701524782b0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aeb7b62bb39a3e32ea5124701524782b0">&#9670;&#160;</a></span>pl_arg_exist()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#afe6a6572169aee3b8a8e0bceab96c5a9">pl_r</a> pl_arg_exist </td>
+          <td>(</td>
+          <td class="paramtype">const char *</td>          <td class="paramname"><span class="paramname"><em>name</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>@breif check if argument exists using flag name</p>
+<p>takes in a string name and searches PL_ARGS to check if the parsed string exists as a argument flag in the args array. if it does return PL_SUCCESS, if not return PL_FALIURE</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">name</td><td>String .name of <a class="el" href="../../d4/d1b/structpl__arg.html" title="argument options">pl_arg</a> to search for. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a5bf80193f6d851b4a997bd1a3a263303" name="a5bf80193f6d851b4a997bd1a3a263303"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5bf80193f6d851b4a997bd1a3a263303">&#9670;&#160;</a></span>pl_arg_run()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#afe6a6572169aee3b8a8e0bceab96c5a9">pl_r</a> pl_arg_run </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="../../d4/d1b/structpl__arg.html">pl_arg</a> *</td>          <td class="paramname"><span class="paramname"><em>local</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>check if argument has been run </p>
+<p>You can instead use the <a class="el" href="#acbd1b26ec17499d33dcc6aa862f2f888">PL_R</a> macro which similar to the <a class="el" href="#ac79b1ab013efd71cd9c1bbf4d3c11ed4">PL_PROC</a> macro just removes the comparison to PL_SUCCESS which cuts back on the line size and general clutter.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">local</td><td><a class="el" href="../../d4/d1b/structpl__arg.html" title="argument options">pl_arg</a> * argument to check </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section see"><dt>See also</dt><dd>PL_P </dd>
+<dd>
+<a class="el" href="#acbd1b26ec17499d33dcc6aa862f2f888" title="check if argument has been run without PL_SUCCESS comparison this macro just removes the need to use ...">PL_R</a> </dd></dl>
+
+</div>
+</div>
+<a id="a390a51827a1a4a90278081695b6c63ed" name="a390a51827a1a4a90278081695b6c63ed"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a390a51827a1a4a90278081695b6c63ed">&#9670;&#160;</a></span>pl_proc()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#afe6a6572169aee3b8a8e0bceab96c5a9">pl_r</a> pl_proc </td>
+          <td>(</td>
+          <td class="paramtype">const int</td>          <td class="paramname"><span class="paramname"><em>argc</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *</td>          <td class="paramname"><span class="paramname"><em>argv</em></span>[]&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>takes in an argc and argv and parse them in comparison to the arguments in PL_ARGS. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">argc</td><td>count of command line arguments </td></tr>
+    <tr><td class="paramname">argv</td><td>char array of command line arguments </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="#ac79b1ab013efd71cd9c1bbf4d3c11ed4" title="macro for removing the PL_SUCCESS check and argv and argc params.">PL_PROC</a> </dd></dl>
+
+</div>
+</div>
 <a name="doc-var-members" id="doc-var-members"></a><h2 id="header-doc-var-members" class="groupheader">Variable Documentation</h2>
 <a id="aa0dd20509222b04db3d1fd9fa4ca2151" name="aa0dd20509222b04db3d1fd9fa4ca2151"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa0dd20509222b04db3d1fd9fa4ca2151">&#9670;&#160;</a></span>PL_ARGC</h2>
@@ -514,7 +690,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>PL_PROC_END_ARGC</b></
   </tr>
 </table>
 </div><div class="memdoc">
-<p>@breif local copy of argument count parsed into pl_proc </p>
+<p>@breif local copy of argument count parsed into <a class="el" href="#a390a51827a1a4a90278081695b6c63ed">pl_proc</a> </p>
 
 </div>
 </div>

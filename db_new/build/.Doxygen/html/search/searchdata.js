@@ -3,10 +3,10 @@ var indexSectionsWithContent =
   0: "bcghilmpqrstu",
   1: "bcgipst",
   2: "imp",
-  3: "hmq",
+  3: "hmpq",
   4: "p",
   5: "p",
-  6: "r",
+  6: "pr",
   7: "p",
   8: "clu"
 };
