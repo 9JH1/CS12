@@ -460,8 +460,9 @@ int member_selector_menu() {
       printf("last name \"%s\" not found\n", buffer);
       achar();
       return -2;
-  }
-  member *member_cur = &db_members[sel_idx];
+  } else {
+		printf("last name \"%s\" found at index %d\n",buffer,sel_idx);
+	}
   return sel_idx;
 }
 // data setup
@@ -1238,7 +1239,7 @@ int ui_main_main() {
     int sel_idx = member_selector_menu();
     if (sel_idx != -2) {
       member *member_cur = &db_members[sel_idx];
-      if (member_cur->loan.loan_index <= 0) {
+      if (member_cur->loan.loan_index == 0) {
         printf("selected member has no loans to return\n");
       } else {
         ret = loan_menu(sel_idx);
