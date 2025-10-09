@@ -24,18 +24,21 @@ int main(const int c, const char *v[]) {
 
   if ((ret = pl_proc(c, v)) == PL_SUCCESS) {
     printf("Hello World!\n");
-		
-		if(PL_R(db_help)) goto help_exit;
-	}
 
-	// help dialog code
+    if (PL_R(db_help))
+      goto help_exit;
+  }
+
+	// help dialog code	
 	help_exit:
-	help();
+  help();
 
-	// print error details and exit
-  printf("error: '%s' from argument '%s'\n",
-         PL_E(ret),    // error code stringify'd
-         PL_LAST_ARG); // the last arg parsed by plib
+  // print error details and exit
+  if (ret != PL_SUCCESS) {
+    printf("error: '%s' from argument '%s'\n",
+           PL_E(ret),    // error code stringify'd
+           PL_LAST_ARG); // the last arg parsed by plib
+  }
 
-	quit(HELP_MENU_REF);
+  quit(HELP_MENU_REF);
 }
