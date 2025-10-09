@@ -1,6 +1,7 @@
 /** 
  * @file include.h 
  * @brief contains all function definitions
+ *
  * This file includes every function, external variable, structure and enumerator 
  * used through out all of the code. this function is imported to most child files 
  * which means that the includes can be moderated very easily.
@@ -8,39 +9,31 @@
 #ifndef INCLUDE 
 #define INCLUDE 
 
-// third party imports
+// Third party
 #include "src/remote/plib/plib.h"
 #include "src/platform.h"
 
-// standard imports
+// Standard
 #include <stdio.h>
 #include <stdlib.h>
 
-
 /**
- * @brief custom exit function 
- * @description useful for on-exit operations
- * @param code exit code 
- *
+ * @brief Custom exit function
+ * @param Code exit code
  **/
 void quit(int code);
 
-
 /**
- * @brief custom help function 
- * custom help function, this is where all of the 
+ * @brief Custom help function, mostly just a @ref pl_help wrapper
  **/ 
 void help(void);
 
-
 /**
- * @brief return codes for main program 
+ * @brief Return codes for main program
  **/
 typedef enum {
 	SUCCESS = 0,
 	FAIL = 1,
 	HELP_MENU_REF = 2,
 } return_codes;
-
-
 #endif
