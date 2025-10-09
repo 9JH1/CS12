@@ -1,9 +1,8 @@
 /** 
  * @file include.h 
- * @breif this file is the global import header which imports all librarys to 
+ * @description this file is the global import header which imports all librarys to 
  *        the main files. 
  **/
-
 #ifndef INCLUDE 
 #define INCLUDE 
 
