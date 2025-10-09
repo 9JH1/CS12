@@ -429,9 +429,9 @@ int member_selector_menu() {
     return ret;
   int sel_idx = -1;
 
+  char buffer[100];
   if (ret == 0) {
     // ENTER LAST NAME
-    char buffer[100];
     int sel_idx = 0;
     input(buffer, 100, "Enter your LAST name: ");
     char *l_buffer = lower(buffer);
@@ -447,17 +447,18 @@ int member_selector_menu() {
     }
 
     free(l_buffer);
-    if (sel_idx == -1) {
-      printf("last name \"%s\" not found\n", buffer);
-      achar();
-      return -2;
-    }
   } else if (ret == 1) {
     // SHOW MEMBER LIST
 
     sel_idx = member_menu();
     if (sel_idx == -2)
       return sel_idx;
+  }
+  
+	if (sel_idx == -1) {
+      printf("last name \"%s\" not found\n", buffer);
+      achar();
+      return -2;
   }
   member *member_cur = &db_members[sel_idx];
   return sel_idx;
