@@ -441,7 +441,6 @@ int member_selector_menu() {
         sel_idx = i;
       }
       free(l_name);
-			return sel_idx;
     }
 
   } else if (ret == 1) {
