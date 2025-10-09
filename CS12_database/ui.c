@@ -50,7 +50,7 @@ int ui_menu(const char *array1[], const int size, const char *array2[],
 
   // calculate longest
   int x, y, selected;
-  y = size + 1;
+  y = size + 2;
   x = 9 + COL_SIZE + COL_SIZE_2;
   selected = 0;
 
