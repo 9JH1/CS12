@@ -159,7 +159,7 @@ int ui_menu(const char *array1[], const int size, const char *array2[],
         achar();
         return -2;
       } else {
-        selected = out;
+        selected = out-1;
       }
     }
 
