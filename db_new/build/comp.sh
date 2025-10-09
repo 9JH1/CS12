@@ -1,7 +1,7 @@
 #!/bin/bash
 build_path="build/src/"
 file_name="db"
-extra_flags="-DPLIB_ENABLE_VERBOSE" 
+extra_flags="-DPL_VERBOSE_ENABLE" 
 main_flags="main.c -o $build_path$file_name src/*.c src/remote/plib/*.c src/remote/plib/lib/*.c $extra_flags"
 
 # handle path
