@@ -250,15 +250,14 @@ char *lower(const char *in) {
 int ui_main_main();
 
 int loan_menu(const int cur) {
-	if(cur <= 0 || cur > db_members_index){
-		printf("%d is not a valid loan idx\n",cur);
-		return -2;
-	}
+  if (cur <= 0 || cur > db_members_index) {
+    printf("%d is not a valid loan idx\n", cur);
+    return -2;
+  }
   member member_cur = db_members[cur];
 
   char *loans[member_cur.loan.loan_index];
   char *desc[member_cur.loan.loan_index];
-	
 
   for (int i = 0; i < member_cur.loan.loan_index; i++) {
     loan loan_cur = db_loans[member_cur.loan.loan_ids[i]];
@@ -438,10 +437,10 @@ int member_selector_menu() {
       char *l_name = lower(db_members[i].last_name);
       if (strcmp(l_name, l_buffer) == 0) {
         sel_idx = i;
-      	free(l_name);
-				return sel_idx;
+        free(l_name);
+        return sel_idx;
       }
-			printf("%d. %s != %s\n",sel_idx,l_name, l_buffer);
+      printf("%d. %s != %s\n", sel_idx, l_name, l_buffer);
       free(l_name);
     }
 
@@ -452,15 +451,15 @@ int member_selector_menu() {
     if (sel_idx == -2)
       return sel_idx;
   }
-  
-	if (sel_idx == -1) {
-      printf("last name \"%s\" not found\n", buffer);
-      return -2;
+
+  if (sel_idx == -1) {
+    printf("last name \"%s\" not found\n", buffer);
+    return -2;
   } else {
-		printf("last name \"%s\" found at index %d\n",buffer,sel_idx);
-	}
-  
-	return sel_idx;
+    printf("last name \"%s\" found at index %d\n", buffer, sel_idx);
+  }
+
+  return sel_idx;
 }
 // data setup
 int database() {
@@ -1237,14 +1236,14 @@ int ui_main_main() {
     if (sel_idx != -2) {
       member *member_cur = &db_members[sel_idx];
       if (member_cur->loan.loan_index == 0) {
-        printf("selected member has no loans to return (index %d)\n",sel_idx);
+        printf("selected member has no loans to return (index %d)\n", sel_idx);
       } else {
         ret = loan_menu(sel_idx);
 
         if (ret != -2) {
           db_loans[member_cur->loan.loan_ids[ret]].returned = date_now();
           remove_element(member_cur->loan.loan_ids, ret,
-    	                     member_cur->loan.loan_index);
+                         member_cur->loan.loan_index);
           member_cur->loan.loan_index--;
 
           printf("Loan has been returned\n");
@@ -1256,15 +1255,17 @@ int ui_main_main() {
     ret = ui_m(form_menu, form_desc, "What form do you want to run?");
     if (ret == 0) {
       member cur = member_wizard();
-			if(cur.failed_form == -1){
-				printf("error occured\n");
-			} else member_add(cur);
+      if (cur.failed_form == -1) {
+        printf("error occured\n");
+      } else
+        member_add(cur);
     } else if (ret == 1) {
-			
+
       book cur = book_wizard();
-			if(cur.available == -1){
-				printf("error occured\n");
-			} else book_add(cur);
+      if (cur.available == -1) {
+        printf("error occured\n");
+      } else
+        book_add(cur);
     }
 
   } else if (ret == 5) {
@@ -1273,23 +1274,25 @@ int ui_main_main() {
   } else if (ret == 6) {
     int bookid = book_menu();
     int memberid = member_selector_menu();
-    ui_print(
-        "please pick the date this loan is due..\npress any key to continue\n");
-    achar();
-		date due = date_wizard();
-		if(due.year != -1){
-    loan_new(id_to_member_ptr(memberid), (loan){
-                                             .bookid = bookid,
-                                             .issued = date_now(),
-                                             .return_date = due,
-                                             .active = true,
-                                             .note = "",
-                                             .amount = 0, // owes nothing
-                                         });
-		printf("loan has been added!\n");
-		} else {
-			printf("error occured please try again\n");
-		}
+    if (memberid != -2) {
+      ui_print("please pick the date this loan is due..\npress any key to "
+               "continue\n");
+      achar();
+      date due = date_wizard();
+      if (due.year != -1) {
+        loan_new(id_to_member_ptr(memberid), (loan){
+                                                 .bookid = bookid,
+                                                 .issued = date_now(),
+                                                 .return_date = due,
+                                                 .active = true,
+                                                 .note = "",
+                                                 .amount = 0, // owes nothing
+                                             });
+        printf("loan has been added!\n");
+      }
+    } else {
+      printf("error occured please try again\n");
+    }
   } else if (ret == -2) {
     ui_print("There is nothing to go back too..\n");
   }
