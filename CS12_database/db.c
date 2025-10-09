@@ -356,16 +356,22 @@ int member_menu() {
 
   int ret = ui_menu((const char **)members, db_members_index,
                     (const char **)desc, "Members:");
-
-	// get the actual id of the user 
+	int new_ret = ret;
+	ret = -1;
+	// get the actual id of the user
 	for(int i = 0; i < db_members_index;i++){
 		char *curname = malloc(COL_SIZE * sizeof(char));
 		member cur = db_members[i];
 		sprintf(curname,"%s %s",cur.first_name, cur.last_name);
 		
-		if(strcmp(members[ret],curname) == 0){
+		if(strcmp(members[new_ret],curname) == 0){
 			ret = i;
 		}
+	}
+
+	if(ret  == -1){
+		printf("error occured\n");
+		achar();
 	}
 
   // Free allocated memory
