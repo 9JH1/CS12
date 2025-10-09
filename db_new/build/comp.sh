@@ -57,7 +57,7 @@ else
 	fi
 fi
 
-doxygen .Doxy
+doxygen ./src/.Doxy
 ln -s ./src/Doxygen/html/index.html docs.html
 echo "finished"
 
