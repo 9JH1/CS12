@@ -116,10 +116,10 @@ int ui_menu(const char *array1[], const int size, const char *array2[],
           printf(" ");
         printf("\033[0m\n");
       } else if (i == size) {
-        printf("Back");
+        printf(" Back");
         printf("\033[0m\n");
       } else if (i == size + 1){
-				printf("jump to index");
+				printf(" jump to index");
 				printf("\033[0m\n");
 			}
     }
@@ -128,7 +128,7 @@ int ui_menu(const char *array1[], const int size, const char *array2[],
     int ch = achar();
     switch (ch) {
     case 'B':
-      if (selected == size)
+      if (selected == size+1)
         selected = 0;
       else
         selected++;
@@ -136,7 +136,7 @@ int ui_menu(const char *array1[], const int size, const char *array2[],
 
     case 'A':
       if (selected == 0)
-        selected = size;
+        selected = size+1;
       else
         selected--;
       break;
