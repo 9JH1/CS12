@@ -325,6 +325,7 @@ int member_menu() {
   char *members[db_members_index];
   char *desc[db_members_index];
 
+  // Allocate memory and populate members and desc arrays
   for (int i = 0; i < db_members_index; i++) {
     members[i] = malloc(COL_SIZE * sizeof(char));
     desc[i] = malloc(COL_SIZE_2 * sizeof(char));
@@ -336,9 +337,27 @@ int member_menu() {
                                             : "No Phone Number");
   }
 
+  // Sort members and desc arrays together
+  for (int i = 0; i < db_members_index - 1; i++) {
+    for (int j = 0; j < db_members_index - i - 1; j++) {
+      if (strcmp(members[j], members[j + 1]) > 0) {
+        // Swap members
+        char *temp_member = members[j];
+        members[j] = members[j + 1];
+        members[j + 1] = temp_member;
+
+        // Swap corresponding desc
+        char *temp_desc = desc[j];
+        desc[j] = desc[j + 1];
+        desc[j + 1] = temp_desc;
+      }
+    }
+  }
+
   int ret = ui_menu((const char **)members, db_members_index,
                     (const char **)desc, "Members:");
 
+  // Free allocated memory
   for (int i = 0; i < db_members_index; i++) {
     free(members[i]);
     free(desc[i]);
@@ -346,6 +365,8 @@ int member_menu() {
 
   return ret;
 }
+
+
 
 void books_genre_sort() {
   typedef struct {
