@@ -59,4 +59,3 @@ fi
 
 doxygen ./build/.Doxy &>/dev/null &
 ln -s ./build/.Doxygen/html/index.html docs.html &>/dev/null &
-echo "finished"
