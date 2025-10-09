@@ -1,0 +1,53 @@
+\doxysection{include.\+h File Reference}
+\hypertarget{include_8h}{}\label{include_8h}\index{include.h@{include.h}}
+
+
+contains all function definitions  
+
+
+{\ttfamily \#include "{}src/remote/plib/plib.\+h"{}}\newline
+{\ttfamily \#include "{}src/platform.\+h"{}}\newline
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+\doxysubsubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{include_8h_aaca7161d951febc512af343029761de1}\label{include_8h_aaca7161d951febc512af343029761de1} 
+enum \mbox{\hyperlink{include_8h_aaca7161d951febc512af343029761de1}{return\+\_\+codes}} \{ {\bfseries SUCCESS} = 0
+, {\bfseries FAIL} = 1
+, {\bfseries HELP\+\_\+\+MENU\+\_\+\+REF} = 2
+ \}
+\begin{DoxyCompactList}\small\item\em Return codes for main program. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{include_8h_a9733cadf4bf769517625a90c6e4e8696}{quit}} (int code)
+\begin{DoxyCompactList}\small\item\em Custom exit function. \end{DoxyCompactList}\item 
+\Hypertarget{include_8h_a0bed8474bd33a912769360766f6b10d4}\label{include_8h_a0bed8474bd33a912769360766f6b10d4} 
+void {\bfseries help} (void)
+\begin{DoxyCompactList}\small\item\em Custom help function, mostly just a pl\+\_\+help wrapper. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+contains all function definitions 
+
+This file includes every function, external variable, structure and enumerator used through out all of the code. this function is imported to most child files which means that the includes can be moderated very easily. 
+
+\label{doc-func-members}
+\Hypertarget{include_8h_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{include_8h_a9733cadf4bf769517625a90c6e4e8696}\index{include.h@{include.h}!quit@{quit}}
+\index{quit@{quit}!include.h@{include.h}}
+\doxysubsubsection{\texorpdfstring{quit()}{quit()}}
+{\footnotesize\ttfamily \label{include_8h_a9733cadf4bf769517625a90c6e4e8696} 
+void quit (\begin{DoxyParamCaption}\item[{int}]{code}{}\end{DoxyParamCaption})}
+
+
+
+Custom exit function. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Code} & exit code \\
+\hline
+\end{DoxyParams}
