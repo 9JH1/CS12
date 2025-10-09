@@ -250,7 +250,10 @@ char *lower(const char *in) {
 int ui_main_main();
 
 int loan_menu(const int cur) {
-	if(cur <= 0 || cur > db_members_index) return -2;
+	if(cur <= 0 || cur > db_members_index){
+		printf("%d is not a valid loan idx\n",cur);
+		return -2;
+	}
   member member_cur = db_members[cur];
 
   char *loans[member_cur.loan.loan_index];
