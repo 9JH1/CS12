@@ -1,0 +1,111 @@
+\doxysection{src/remote/plib Directory Reference}
+\hypertarget{dir_ccc9e1c0436a14b6025ecbfd3cce46e3}{}\label{dir_ccc9e1c0436a14b6025ecbfd3cce46e3}\index{src/remote/plib Directory Reference@{src/remote/plib Directory Reference}}
+\doxysubsubsection*{Directories}
+\begin{DoxyCompactItemize}
+\item 
+directory \mbox{\hyperlink{dir_936106f531de81092bac27e0cfbb9ed0}{lib}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Files}
+\begin{DoxyCompactItemize}
+\item 
+file {\bfseries plib.\+h}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{plib\ V4.5}
+\DoxyCodeLine{-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/\&mdash;}
+\DoxyCodeLine{PLib\ is\ a\ tiny\ (13.4KB)\ but\ powerful\ argument\ library\ }
+\DoxyCodeLine{written\ in\ C.\ Using\ this\ library\ you\ can\ very\ easily\ }
+\DoxyCodeLine{set\ up\ full\ argument\ parsing\ with\ many\ features.}
+\DoxyCodeLine{}
+\DoxyCodeLine{included\ in\ the\ lib\ folder\ you\ can\ find\ many\ other\ util\ librarys}
+
+\end{DoxyCode}
+ 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{preprocessor}{\#include\ "{}plib.h"{}}}
+\DoxyCodeLine{\textcolor{preprocessor}{\#include\ <stdio.h>}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{keywordtype}{int}\ \mbox{\hyperlink{main_8c_ac490e54d26e537126a97540acf0b1cba}{main}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ a,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *b[])\{}
+\DoxyCodeLine{\ \ \ \ \textcolor{comment}{//\ create\ arguments\ }}
+\DoxyCodeLine{\ \ \ \ \mbox{\hyperlink{structpl__arg}{pl\_arg}}\ *\mbox{\hyperlink{include_8h_a0bed8474bd33a912769360766f6b10d4}{help}}\ =\ PL\_P(\textcolor{stringliteral}{"{}-\/-\/help"{}},\textcolor{stringliteral}{"{}basic\ help\ call"{}},.type=\textcolor{stringliteral}{"{}void"{}},.shorthand=\textcolor{stringliteral}{"{}-\/h"{}});}
+\DoxyCodeLine{\ \ \ \ \mbox{\hyperlink{structpl__arg}{pl\_arg}}\ *test\ =\ PL\_P(\textcolor{stringliteral}{"{}-\/-\/test"{}},\textcolor{stringliteral}{"{}basic\ value\ arg"{}},1,.type=\textcolor{stringliteral}{"{}char\ *"{}},.shorthand=\textcolor{stringliteral}{"{}-\/t"{}});}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \textcolor{comment}{//\ error\ code\ var\ }}
+\DoxyCodeLine{\ \ \ \ pl\_r\ ret;\ }
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \textcolor{comment}{//\ process\ the\ system\ arguments\ }}
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordflow}{if}((ret\ =\ pl\_proc(a,\ b))\ ==\ PL\_SUCCESS)\{}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{comment}{//\ check\ if\ arguments\ have\ been\ run\ }}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(PL\_R(test))}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}'\%s'\(\backslash\)n"{}},\ pl\_arg\_value(test),0);}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(PL\_R(\mbox{\hyperlink{include_8h_a0bed8474bd33a912769360766f6b10d4}{help}}))}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ pl\_help();\ }
+\DoxyCodeLine{\ \ \ \ }
+\DoxyCodeLine{\ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{comment}{//\ handle\ errors}}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}error\ '\%s'\ ('\%s')\(\backslash\)n"{}},\ PL\_E(ret),\ PL\_LAST\_ARG);}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ pl\_help();}
+\DoxyCodeLine{\ \ \ \ \}}
+\DoxyCodeLine{\ \ \ \ }
+\DoxyCodeLine{\ \ \ \ \textcolor{comment}{//\ exit}}
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+ \hypertarget{README.md_autotoc_md0}{}\doxysubsection{\texorpdfstring{Usage librarys}{Usage librarys}}\label{README.md_autotoc_md0}
+\begin{quote}
+what the lib files provide \end{quote}
+
+\begin{DoxyItemize}
+\item \doxylink{plib_8h_source}{plib.\+h} -\/ allows for advanced and fleixable argument parsing/handling.
+\item \doxylink{draw_8h_source}{lib/draw.\+h} -\/ provides functions to draw boxes borders and titles, useful if making a TUI interface.
+\item \doxylink{ansi_8h_source}{lib/ansi.\+h} -\/ defines a bunch of ansi codes that do things eg move caret to pos or change term buffer.
+\item \doxylink{gc_8h_source}{lib/gc.\+h} -\/ basic garbage collector.
+\item \doxylink{input_8h_source}{input.\+h} -\/ a input loop that collects mouse and keyboard information. All of this is done using standard librarys, so no curses or ncurses. 
+\end{DoxyItemize}\hypertarget{README.md_autotoc_md1}{}\doxysubsection{\texorpdfstring{Changelog}{Changelog}}\label{README.md_autotoc_md1}
+\begin{quote}
+started 02/10/2025 \end{quote}
+
+\begin{DoxyEnumerate}
+\item added multi argument support. before, when using the same arg (that takes a value) twice the second run would overwrite the first runs value, now ive changed {\ttfamily arg.\+value} to be a {\ttfamily char \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}} array and ive added {\ttfamily arg.\+value\+\_\+idx} and {\ttfamily arg.\+value\+\_\+cap} meta for use in dma in {\ttfamily pl\+\_\+proc}. you can now use {\ttfamily pl\+\_\+arg\+\_\+count} as a macro that returns the {\ttfamily arg.\+value\+\_\+idx} value, below is a basic usage\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{preprocessor}{\#include\ <stdio.h>}}
+\DoxyCodeLine{\textcolor{preprocessor}{\#include\ "{}plib.h"{}}}
+\DoxyCodeLine{}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{keywordtype}{int}\ \mbox{\hyperlink{main_8c_ac490e54d26e537126a97540acf0b1cba}{main}}(\textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ c,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *v[])\{}
+\DoxyCodeLine{\ \ \ \ \mbox{\hyperlink{structpl__arg}{pl\_arg}}\ *test\ =\ PL\_P(\textcolor{stringliteral}{"{}-\/-\/test"{}},.takes\_value\ =\ 1);}
+\DoxyCodeLine{\ \ \ \ pl\_r\ ret\ =\ PL\_FAILURE;}
+\DoxyCodeLine{\ \ \ \ }
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordflow}{if}((ret\ =\ pl\_proc(c,v))\ ==\ PL\_SUCCESS)\{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}(PL\_R(test))\{}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ iterate\ through\ every\ use\ of\ -\/-\/test}}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int}\ i\ =\ 0\ ;\ i\ <\ pl\_arg\_count(test)\ ;\ i++)\{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}\%02d\ -\/-\/test:\ \%s\(\backslash\)n"{}},}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ i+1,}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ test-\/>value[i]);}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{comment}{//\ handle\ errors\ }}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ printf(\textcolor{stringliteral}{"{}Error:\ '\%s'\ from\ '\%s'\(\backslash\)n"{}},}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ PL\_E(ret),}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ PL\_LAST\_ARG);}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ pl\_help();}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 1;}
+\DoxyCodeLine{\ \ \ \ \}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+ 2. 
+\end{DoxyEnumerate}

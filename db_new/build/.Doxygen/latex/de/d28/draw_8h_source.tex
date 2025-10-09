@@ -1,0 +1,73 @@
+\doxysection{draw.\+h}
+\hypertarget{draw_8h_source}{}\label{draw_8h_source}\index{src/remote/plib/lib/draw.h@{src/remote/plib/lib/draw.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ BOX\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ BOX\_H\ }}
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#define\ ANSI\_BYTE\_SIZE\ 35\ }}
+\DoxyCodeLine{00004\ }
+\DoxyCodeLine{00005\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00006\ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ width;}
+\DoxyCodeLine{00007\ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ height;}
+\DoxyCodeLine{00008\ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ x;}
+\DoxyCodeLine{00009\ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ y;}
+\DoxyCodeLine{00010\ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ fill;\ \textcolor{comment}{//\ char}}
+\DoxyCodeLine{00011\ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *ansi;}
+\DoxyCodeLine{00012\ \ \ \ \ \textcolor{keywordtype}{char}\ *string;}
+\DoxyCodeLine{00013\ \}\ \mbox{\hyperlink{structsolid__opt}{solid\_opt}};}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ \{}
+\DoxyCodeLine{00016\ \ \ TOP\_LEFT,}
+\DoxyCodeLine{00017\ \ \ TOP\_RIGHT,}
+\DoxyCodeLine{00018\ \ \ BOTTOM\_LEFT,}
+\DoxyCodeLine{00019\ \ \ BOTTOM\_RIGHT,}
+\DoxyCodeLine{00020\ \}\ title\_opt\_position;}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00022\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00023\ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *title;}
+\DoxyCodeLine{00024\ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *suffix;}
+\DoxyCodeLine{00025\ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *prefix;}
+\DoxyCodeLine{00026\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ padding;}
+\DoxyCodeLine{00027\ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *ansi;}
+\DoxyCodeLine{00028\ \ \ \ \ \textcolor{keywordtype}{char}\ *string;}
+\DoxyCodeLine{00029\ \ \ \textcolor{keyword}{const}\ title\_opt\_position\ pos;}
+\DoxyCodeLine{00030\ \}\ \mbox{\hyperlink{structtitle__opt}{title\_opt}};}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00033\ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *top;}
+\DoxyCodeLine{00034\ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *top\_left\_corner;}
+\DoxyCodeLine{00035\ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *top\_right\_corner;}
+\DoxyCodeLine{00036\ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *bottom;}
+\DoxyCodeLine{00037\ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *bottom\_left\_corner;}
+\DoxyCodeLine{00038\ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *bottom\_right\_corner;}
+\DoxyCodeLine{00039\ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *left;}
+\DoxyCodeLine{00040\ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *right;}
+\DoxyCodeLine{00041\ \ \ \ \ \textcolor{keywordtype}{char}\ *string;}
+\DoxyCodeLine{00042\ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *ansi;}
+\DoxyCodeLine{00043\ \}\ \mbox{\hyperlink{structborder__opt}{border\_opt}};}
+\DoxyCodeLine{00044\ }
+\DoxyCodeLine{00045\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00046\ \ \ \ \ \mbox{\hyperlink{structsolid__opt}{solid\_opt}}\ solid;}
+\DoxyCodeLine{00047\ \ \ \ \ \mbox{\hyperlink{structborder__opt}{border\_opt}}\ border;}
+\DoxyCodeLine{00048\ \ \ \ \ \mbox{\hyperlink{structtitle__opt}{title\_opt}}\ title;}
+\DoxyCodeLine{00049\ \ \ \ \ \textcolor{keywordtype}{char}*\ string;}
+\DoxyCodeLine{00050\ \}\ \mbox{\hyperlink{structbox__opt}{box\_opt}};}
+\DoxyCodeLine{00051\ }
+\DoxyCodeLine{00052\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00053\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ x;}
+\DoxyCodeLine{00054\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ y;}
+\DoxyCodeLine{00055\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *ansi;}
+\DoxyCodeLine{00056\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ meta\_width;}
+\DoxyCodeLine{00057\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ meta\_height;}
+\DoxyCodeLine{00058\ \ \ \ \ \textcolor{keywordtype}{char}\ *string;}
+\DoxyCodeLine{00059\ \}\ \mbox{\hyperlink{structsprite__opt}{sprite\_opt}};}
+\DoxyCodeLine{00060\ }
+\DoxyCodeLine{00061\ \textcolor{keywordtype}{int}\ solid(\mbox{\hyperlink{structsolid__opt}{solid\_opt}}\ *opt);}
+\DoxyCodeLine{00062\ \textcolor{keywordtype}{int}\ border(\textcolor{keyword}{const}\ \mbox{\hyperlink{structsolid__opt}{solid\_opt}}\ \mbox{\hyperlink{structbox__opt}{box\_opt}},\ \mbox{\hyperlink{structborder__opt}{border\_opt}}\ *opt);}
+\DoxyCodeLine{00063\ \textcolor{keywordtype}{int}\ title(\textcolor{keyword}{const}\ \mbox{\hyperlink{structsolid__opt}{solid\_opt}}\ box,\ \mbox{\hyperlink{structtitle__opt}{title\_opt}}\ *opt);}
+\DoxyCodeLine{00064\ \textcolor{keywordtype}{void}\ box(\mbox{\hyperlink{structbox__opt}{box\_opt}}\ *opt);}
+\DoxyCodeLine{00065\ \textcolor{keywordtype}{void}\ free\_box\_opt(\mbox{\hyperlink{structbox__opt}{box\_opt}}\ *opt);}
+\DoxyCodeLine{00066\ \textcolor{keywordtype}{int}\ sprite(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *array[],\ \mbox{\hyperlink{structsprite__opt}{sprite\_opt}}\ *opt);}
+\DoxyCodeLine{00067\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

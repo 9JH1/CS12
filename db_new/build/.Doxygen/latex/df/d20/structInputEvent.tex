@@ -1,0 +1,31 @@
+\doxysection{Input\+Event Struct Reference}
+\hypertarget{structInputEvent}{}\label{structInputEvent}\index{InputEvent@{InputEvent}}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{structInputEvent_a16568bcd5bedaef5279c6b922221eea1}\label{structInputEvent_a16568bcd5bedaef5279c6b922221eea1} 
+Event\+Type {\bfseries type}
+\item 
+\Hypertarget{structInputEvent_abe35fc801c360909ab0b196df4b95d32}\label{structInputEvent_abe35fc801c360909ab0b196df4b95d32} 
+\begin{tabbing}
+xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=xx\=\kill
+union \{\\
+\>struct \{\\
+\>\>int {\bfseries x}\\
+\>\>int {\bfseries y}\\
+\>\>int {\bfseries m}\\
+\>\} {\bfseries mouse}\\
+\>int {\bfseries scroll\_y}\\
+\>struct \{\\
+\>\>int {\bfseries code}\\
+\>\>char {\bfseries buf} \mbox{[}2\mbox{]}\\
+\>\} {\bfseries key}\\
+\>int {\bfseries special\_key}\\
+\} {\bfseries data}\\
+
+\end{tabbing}\end{DoxyCompactItemize}
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/remote/plib/lib/input.\+h\end{DoxyCompactItemize}

@@ -1,7 +1,7 @@
 #!/bin/bash
 build_path="build/src/"
 file_name="db"
-extra_flags="-Wall -Wextra -Wno-unused-function -Wno-unused-variable" 
+extra_flags="" 
 main_flags="main.c src/*.c src/remote/plib/*.c -o $build_path$file_name $extra_flags"
 
 # handle path
@@ -57,7 +57,7 @@ else
 	fi
 fi
 
-doxygen ./build/.Doxy
-ln -s ./build/.Doxygen/html/index.html docs.html
+doxygen ./build/.Doxy &>/dev/null 
+ln -s ./build/.Doxygen/html/index.html docs.html &>/dev/null
 echo "finished"
 

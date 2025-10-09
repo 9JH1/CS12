@@ -1,0 +1,50 @@
+\doxysection{input.\+h}
+\hypertarget{input_8h_source}{}\label{input_8h_source}\index{src/remote/plib/lib/input.h@{src/remote/plib/lib/input.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ UILIB\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ UILIB\_H}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00005\ \ \ \textcolor{keywordtype}{int}\ WIDTH;}
+\DoxyCodeLine{00006\ \ \ \textcolor{keywordtype}{int}\ HEIGHT;}
+\DoxyCodeLine{00007\ \}\ \mbox{\hyperlink{structtermsize}{termsize}};}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ \{}
+\DoxyCodeLine{00010\ \ \ ERROR\ =\ -\/1,}
+\DoxyCodeLine{00011\ \ \ MOUSE\_MOVE\ =\ 0,}
+\DoxyCodeLine{00012\ \ \ MOUSE\_CLICK\ =\ 1,}
+\DoxyCodeLine{00013\ \ \ MOUSE\_SCROLL\ =\ 2,}
+\DoxyCodeLine{00014\ \ \ KEY\ =\ 3,}
+\DoxyCodeLine{00015\ \ \ SPECIAL\_KEY\ =\ 4,}
+\DoxyCodeLine{00016\ \ \ MOUSE\_RELEASE\ =\ 5,}
+\DoxyCodeLine{00017\ \}\ EventType;}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00019\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00020\ \ \ EventType\ type;}
+\DoxyCodeLine{00021\ \ \ \textcolor{keyword}{union\ }\{}
+\DoxyCodeLine{00022\ \ \ \ \ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00023\ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ x,\ y,\ m;}
+\DoxyCodeLine{00024\ \ \ \ \ \}\ mouse;}
+\DoxyCodeLine{00025\ \ \ \ \ \textcolor{keywordtype}{int}\ scroll\_y;}
+\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ code;}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{char}\ buf[2];}
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ \}\ key;}
+\DoxyCodeLine{00030\ \ \ \ \ \textcolor{keywordtype}{int}\ special\_key;}
+\DoxyCodeLine{00031\ \ \ \}\ data;}
+\DoxyCodeLine{00032\ \}\ \mbox{\hyperlink{structInputEvent}{InputEvent}};}
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00034\ \textcolor{keywordtype}{void}\ enable\_mouse\_reporting(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00035\ \textcolor{keywordtype}{void}\ disable\_mouse\_reporting(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00036\ \textcolor{keywordtype}{int}\ await\_scroll(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00037\ \textcolor{keywordtype}{int}\ input(\mbox{\hyperlink{structInputEvent}{InputEvent}}\ *local);}
+\DoxyCodeLine{00038\ \mbox{\hyperlink{structtermsize}{termsize}}\ get\_term\_size(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00039\ \textcolor{keywordtype}{void}\ log\_InputEvent(\mbox{\hyperlink{structInputEvent}{InputEvent}}\ local);}
+\DoxyCodeLine{00040\ \textcolor{keywordtype}{void}\ disable\_raw\_mode(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00041\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{int}\ MOUSE\_SCROLL\_Y;}
+\DoxyCodeLine{00042\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{int}\ MOUSE\_X;}
+\DoxyCodeLine{00043\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{int}\ MOUSE\_Y;}
+\DoxyCodeLine{00044\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ UILIB\_H}}
+
+\end{DoxyCode}

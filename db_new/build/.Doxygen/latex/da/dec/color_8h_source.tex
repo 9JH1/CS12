@@ -1,0 +1,47 @@
+\doxysection{color.\+h}
+\hypertarget{color_8h_source}{}\label{color_8h_source}\index{src/remote/plib/lib/color.h@{src/remote/plib/lib/color.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ COLOR\_LIB}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ COLOR\_LIB}}
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ <stdio.h>}}
+\DoxyCodeLine{00004\ }
+\DoxyCodeLine{00005\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{int}\ slen(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ str)\{}
+\DoxyCodeLine{00006\ \ \ \ \ \textcolor{keywordtype}{int}\ i\ =\ 0;}
+\DoxyCodeLine{00007\ \ \ \ \ \textcolor{keywordflow}{for}(;\ str[i]\ !=\ 0;\ i++);}
+\DoxyCodeLine{00008\ \ \ \ \ \textcolor{keywordflow}{return}\ i;}
+\DoxyCodeLine{00009\ \}\ }
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ \textcolor{keyword}{static}\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{char}\ *color(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *fg,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *bg)\ \{}
+\DoxyCodeLine{00013\ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{char}\ out[64]\ =\ \textcolor{stringliteral}{"{}\(\backslash\)033[0m"{}};}
+\DoxyCodeLine{00014\ \ \ \textcolor{keywordtype}{int}\ pos\ =\ 0;}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \ \ \textcolor{keywordflow}{if}\ (fg\ \&\&\ slen(fg)\ >=\ (fg[0]\ ==\ \textcolor{charliteral}{'\#'}\ ?\ 7\ :\ 6))\ \{}
+\DoxyCodeLine{00017\ \ \ \ \ \textcolor{keywordflow}{if}\ (fg[0]\ ==\ \textcolor{charliteral}{'\#'})\ fg++;}
+\DoxyCodeLine{00018\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ r\ =\ ((fg[0]\ >=\ \textcolor{charliteral}{'0'}\ \&\&\ fg[0]\ <=\ \textcolor{charliteral}{'9'})\ ?\ fg[0]\ -\/\ \textcolor{charliteral}{'0'}\ :\ (fg[0]\ >=\ \textcolor{charliteral}{'A'}\ \&\&\ fg[0]\ <=\ \textcolor{charliteral}{'F'})\ ?\ fg[0]\ -\/\ \textcolor{charliteral}{'A'}\ +\ 10\ :\ (fg[0]\ >=\ \textcolor{charliteral}{'a'}\ \&\&\ fg[0]\ <=\ \textcolor{charliteral}{'f'})\ ?\ fg[0]\ -\/\ \textcolor{charliteral}{'a'}\ +\ 10\ :\ 0)\ *\ 16\ +}
+\DoxyCodeLine{00019\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ((fg[1]\ >=\ \textcolor{charliteral}{'0'}\ \&\&\ fg[1]\ <=\ \textcolor{charliteral}{'9'})\ ?\ fg[1]\ -\/\ \textcolor{charliteral}{'0'}\ :\ (fg[1]\ >=\ \textcolor{charliteral}{'A'}\ \&\&\ fg[1]\ <=\ \textcolor{charliteral}{'F'})\ ?\ fg[1]\ -\/\ \textcolor{charliteral}{'A'}\ +\ 10\ :\ (fg[1]\ >=\ \textcolor{charliteral}{'a'}\ \&\&\ fg[1]\ <=\ \textcolor{charliteral}{'f'})\ ?\ fg[1]\ -\/\ \textcolor{charliteral}{'a'}\ +\ 10\ :\ 0);}
+\DoxyCodeLine{00020\ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ g\ =\ ((fg[2]\ >=\ \textcolor{charliteral}{'0'}\ \&\&\ fg[2]\ <=\ \textcolor{charliteral}{'9'})\ ?\ fg[2]\ -\/\ \textcolor{charliteral}{'0'}\ :\ (fg[2]\ >=\ \textcolor{charliteral}{'A'}\ \&\&\ fg[2]\ <=\ \textcolor{charliteral}{'F'})\ ?\ fg[2]\ -\/\ \textcolor{charliteral}{'A'}\ +\ 10\ :\ (fg[2]\ >=\ \textcolor{charliteral}{'a'}\ \&\&\ fg[2]\ <=\ \textcolor{charliteral}{'f'})\ ?\ fg[2]\ -\/\ \textcolor{charliteral}{'a'}\ +\ 10\ :\ 0)\ *\ 16\ +}
+\DoxyCodeLine{00021\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ((fg[3]\ >=\ \textcolor{charliteral}{'0'}\ \&\&\ fg[3]\ <=\ \textcolor{charliteral}{'9'})\ ?\ fg[3]\ -\/\ \textcolor{charliteral}{'0'}\ :\ (fg[3]\ >=\ \textcolor{charliteral}{'A'}\ \&\&\ fg[3]\ <=\ \textcolor{charliteral}{'F'})\ ?\ fg[3]\ -\/\ \textcolor{charliteral}{'A'}\ +\ 10\ :\ (fg[3]\ >=\ \textcolor{charliteral}{'a'}\ \&\&\ fg[3]\ <=\ \textcolor{charliteral}{'f'})\ ?\ fg[3]\ -\/\ \textcolor{charliteral}{'a'}\ +\ 10\ :\ 0);}
+\DoxyCodeLine{00022\ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ b\ =\ ((fg[4]\ >=\ \textcolor{charliteral}{'0'}\ \&\&\ fg[4]\ <=\ \textcolor{charliteral}{'9'})\ ?\ fg[4]\ -\/\ \textcolor{charliteral}{'0'}\ :\ (fg[4]\ >=\ \textcolor{charliteral}{'A'}\ \&\&\ fg[4]\ <=\ \textcolor{charliteral}{'F'})\ ?\ fg[4]\ -\/\ \textcolor{charliteral}{'A'}\ +\ 10\ :\ (fg[4]\ >=\ \textcolor{charliteral}{'a'}\ \&\&\ fg[4]\ <=\ \textcolor{charliteral}{'f'})\ ?\ fg[4]\ -\/\ \textcolor{charliteral}{'a'}\ +\ 10\ :\ 0)\ *\ 16\ +}
+\DoxyCodeLine{00023\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ((fg[5]\ >=\ \textcolor{charliteral}{'0'}\ \&\&\ fg[5]\ <=\ \textcolor{charliteral}{'9'})\ ?\ fg[5]\ -\/\ \textcolor{charliteral}{'0'}\ :\ (fg[5]\ >=\ \textcolor{charliteral}{'A'}\ \&\&\ fg[5]\ <=\ \textcolor{charliteral}{'F'})\ ?\ fg[5]\ -\/\ \textcolor{charliteral}{'A'}\ +\ 10\ :\ (fg[5]\ >=\ \textcolor{charliteral}{'a'}\ \&\&\ fg[5]\ <=\ \textcolor{charliteral}{'f'})\ ?\ fg[5]\ -\/\ \textcolor{charliteral}{'a'}\ +\ 10\ :\ 0);}
+\DoxyCodeLine{00024\ \ \ \ \ \ \ pos\ +=\ snprintf(out\ +\ pos,\ \textcolor{keyword}{sizeof}(out)\ -\/\ pos,\ \textcolor{stringliteral}{"{}\(\backslash\)033[38;2;\%d;\%d;\%dm"{}},\ r,\ g,\ b);}
+\DoxyCodeLine{00025\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ pos\ +=\ snprintf(out\ +\ pos,\ \textcolor{keyword}{sizeof}(out)\ -\/\ pos,\ \textcolor{stringliteral}{"{}\(\backslash\)033[39m"{}});}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \ \ \ \ \textcolor{keywordflow}{if}\ (bg\ \&\&\ slen(bg)\ >=\ (bg[0]\ ==\ \textcolor{charliteral}{'\#'}\ ?\ 7\ :\ 6))\ \{}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (bg[0]\ ==\ \textcolor{charliteral}{'\#'})\ bg++;}
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ r\ =\ ((bg[0]\ >=\ \textcolor{charliteral}{'0'}\ \&\&\ bg[0]\ <=\ \textcolor{charliteral}{'9'})\ ?\ bg[0]\ -\/\ \textcolor{charliteral}{'0'}\ :\ (bg[0]\ >=\ \textcolor{charliteral}{'A'}\ \&\&\ bg[0]\ <=\ \textcolor{charliteral}{'F'})\ ?\ bg[0]\ -\/\ \textcolor{charliteral}{'A'}\ +\ 10\ :\ (bg[0]\ >=\ \textcolor{charliteral}{'a'}\ \&\&\ bg[0]\ <=\ \textcolor{charliteral}{'f'})\ ?\ bg[0]\ -\/\ \textcolor{charliteral}{'a'}\ +\ 10\ :\ 0)\ *\ 16\ +}
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ((bg[1]\ >=\ \textcolor{charliteral}{'0'}\ \&\&\ bg[1]\ <=\ \textcolor{charliteral}{'9'})\ ?\ bg[1]\ -\/\ \textcolor{charliteral}{'0'}\ :\ (bg[1]\ >=\ \textcolor{charliteral}{'A'}\ \&\&\ bg[1]\ <=\ \textcolor{charliteral}{'F'})\ ?\ bg[1]\ -\/\ \textcolor{charliteral}{'A'}\ +\ 10\ :\ (bg[1]\ >=\ \textcolor{charliteral}{'a'}\ \&\&\ bg[1]\ <=\ \textcolor{charliteral}{'f'})\ ?\ bg[1]\ -\/\ \textcolor{charliteral}{'a'}\ +\ 10\ :\ 0);}
+\DoxyCodeLine{00031\ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ g\ =\ ((bg[2]\ >=\ \textcolor{charliteral}{'0'}\ \&\&\ bg[2]\ <=\ \textcolor{charliteral}{'9'})\ ?\ bg[2]\ -\/\ \textcolor{charliteral}{'0'}\ :\ (bg[2]\ >=\ \textcolor{charliteral}{'A'}\ \&\&\ bg[2]\ <=\ \textcolor{charliteral}{'F'})\ ?\ bg[2]\ -\/\ \textcolor{charliteral}{'A'}\ +\ 10\ :\ (bg[2]\ >=\ \textcolor{charliteral}{'a'}\ \&\&\ bg[2]\ <=\ \textcolor{charliteral}{'f'})\ ?\ bg[2]\ -\/\ \textcolor{charliteral}{'a'}\ +\ 10\ :\ 0)\ *\ 16\ +}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ((bg[3]\ >=\ \textcolor{charliteral}{'0'}\ \&\&\ bg[3]\ <=\ \textcolor{charliteral}{'9'})\ ?\ bg[3]\ -\/\ \textcolor{charliteral}{'0'}\ :\ (bg[3]\ >=\ \textcolor{charliteral}{'A'}\ \&\&\ bg[3]\ <=\ \textcolor{charliteral}{'F'})\ ?\ bg[3]\ -\/\ \textcolor{charliteral}{'A'}\ +\ 10\ :\ (bg[3]\ >=\ \textcolor{charliteral}{'a'}\ \&\&\ bg[3]\ <=\ \textcolor{charliteral}{'f'})\ ?\ bg[3]\ -\/\ \textcolor{charliteral}{'a'}\ +\ 10\ :\ 0);}
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ b\ =\ ((bg[4]\ >=\ \textcolor{charliteral}{'0'}\ \&\&\ bg[4]\ <=\ \textcolor{charliteral}{'9'})\ ?\ bg[4]\ -\/\ \textcolor{charliteral}{'0'}\ :\ (bg[4]\ >=\ \textcolor{charliteral}{'A'}\ \&\&\ bg[4]\ <=\ \textcolor{charliteral}{'F'})\ ?\ bg[4]\ -\/\ \textcolor{charliteral}{'A'}\ +\ 10\ :\ (bg[4]\ >=\ \textcolor{charliteral}{'a'}\ \&\&\ bg[4]\ <=\ \textcolor{charliteral}{'f'})\ ?\ bg[4]\ -\/\ \textcolor{charliteral}{'a'}\ +\ 10\ :\ 0)\ *\ 16\ +}
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ((bg[5]\ >=\ \textcolor{charliteral}{'0'}\ \&\&\ bg[5]\ <=\ \textcolor{charliteral}{'9'})\ ?\ bg[5]\ -\/\ \textcolor{charliteral}{'0'}\ :\ (bg[5]\ >=\ \textcolor{charliteral}{'A'}\ \&\&\ bg[5]\ <=\ \textcolor{charliteral}{'F'})\ ?\ bg[5]\ -\/\ \textcolor{charliteral}{'A'}\ +\ 10\ :\ (bg[5]\ >=\ \textcolor{charliteral}{'a'}\ \&\&\ bg[5]\ <=\ \textcolor{charliteral}{'f'})\ ?\ bg[5]\ -\/\ \textcolor{charliteral}{'a'}\ +\ 10\ :\ 0);}
+\DoxyCodeLine{00035\ \ \ \ \ \ \ pos\ +=\ snprintf(out\ +\ pos,\ \textcolor{keyword}{sizeof}(out)\ -\/\ pos,\ \textcolor{stringliteral}{"{}\(\backslash\)033[48;2;\%d;\%d;\%dm"{}},\ r,\ g,\ b);}
+\DoxyCodeLine{00036\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ pos\ +=\ snprintf(out\ +\ pos,\ \textcolor{keyword}{sizeof}(out)\ -\/\ pos,\ \textcolor{stringliteral}{"{}\(\backslash\)033[49m"{}});}
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00038\ \ \ \ \ \textcolor{keywordflow}{return}\ out;}
+\DoxyCodeLine{00039\ \}}
+\DoxyCodeLine{00040\ }
+\DoxyCodeLine{00041\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

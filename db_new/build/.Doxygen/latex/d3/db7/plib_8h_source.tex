@@ -1,0 +1,128 @@
+\doxysection{plib.\+h}
+\hypertarget{plib_8h_source}{}\label{plib_8h_source}\index{src/remote/plib/plib.h@{src/remote/plib/plib.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ PLIB\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ PLIB\_H}}
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#ifndef\ PL\_INIT\_ARG\_ALLOC\ }}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#define\ PL\_INIT\_ARG\_ALLOC\ 2\ }\textcolor{comment}{//\ initial\ amount\ of\ arguments}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00006\ }
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#ifdef\ PL\_VERBOSE\_ENABLE}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#define\ PL\_VERBOSE\ 1\ }}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#else\ }}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#define\ PL\_VERBOSE\ 0}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \textcolor{comment}{/*\ This\ is\ the\ generic\ argument\ structure,}}
+\DoxyCodeLine{00014\ \textcolor{comment}{\ *\ it\ contains\ all\ of\ the\ options\ that\ you\ }}
+\DoxyCodeLine{00015\ \textcolor{comment}{\ *\ may\ need\ or\ want\ idk.\ */}}
+\DoxyCodeLine{00016\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structpl__arg}{pl\_arg}}\ \{}
+\DoxyCodeLine{00017\ \ \ \textcolor{comment}{//\ basic\ options}}
+\DoxyCodeLine{00018\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *name;}
+\DoxyCodeLine{00019\ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *description;}
+\DoxyCodeLine{00020\ \ \ \ \ \textcolor{keywordtype}{int}\ takes\_value;}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00022\ \ \ \ \ \textcolor{comment}{//\ extended\ options}}
+\DoxyCodeLine{00023\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *catagory;\ }
+\DoxyCodeLine{00024\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *shorthand;}
+\DoxyCodeLine{00025\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *type;\ \ \ }
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \ \ \ \ \textcolor{comment}{//\ metadata\ (\ this\ is\ overwritten\ )}}
+\DoxyCodeLine{00028\ \ \ \textcolor{keywordtype}{char}\ **value;}
+\DoxyCodeLine{00029\ \ \ \ \ \textcolor{keywordtype}{int}\ value\_cap;}
+\DoxyCodeLine{00030\ \ \ \ \ \textcolor{keywordtype}{int}\ value\_idx;}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ \ \ \textcolor{keywordtype}{int}\ triggered;}
+\DoxyCodeLine{00033\ \ \ \ \ \textcolor{keywordtype}{int}\ shorthand\_triggered;}
+\DoxyCodeLine{00034\ \}\ \mbox{\hyperlink{structpl__arg}{pl\_arg}};}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00037\ \textcolor{comment}{//\ PLib\ return\ codes}}
+\DoxyCodeLine{00038\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{enum}\ \{}
+\DoxyCodeLine{00039\ \ \ \ \ PL\_ARG\_NOT\_FOUND\ =\ -\/1,}
+\DoxyCodeLine{00040\ \ \ \ \ PL\_ARG\_REQUIRES\_VALUE\ =\ -\/2,}
+\DoxyCodeLine{00041\ \ \ \ \ PL\_ARG\_NO\_REQUIRES\_VALUE\ =\ -\/3,}
+\DoxyCodeLine{00042\ \ \ \ \ PL\_NO\_ARGUMENTS\_GIVEN\ =\ -\/4,}
+\DoxyCodeLine{00043\ \ \ \ \ PL\_MEM\_ALLOC\_ERROR\ =\ -\/5,}
+\DoxyCodeLine{00044\ \ \ \ \ PL\_SUCCESS\ =\ -\/7,}
+\DoxyCodeLine{00045\ \ \ \ \ PL\_ARG\_INVALID\_FORMAT\ =\ -\/8,}
+\DoxyCodeLine{00046\ \ \ \ \ PL\_ARG\_IS\_NULL\ =\ -\/9,}
+\DoxyCodeLine{00047\ \ \ \ \ PL\_FAILURE\ =\ -\/10,}
+\DoxyCodeLine{00048\ \ \ \ \ PL\_ARG\_PRE\_EXISTS\ =\ -\/11,}
+\DoxyCodeLine{00049\ \ \ \ \ PL\_ARG\_MISSING\_PARAM\ =\ -\/12,}
+\DoxyCodeLine{00050\ \}\ pl\_r;}
+\DoxyCodeLine{00051\ }
+\DoxyCodeLine{00052\ \textcolor{preprocessor}{\#define\ PL\_INVERT(n)\ ((n\ *\ -\/1)\ -\/\ 1)}}
+\DoxyCodeLine{00053\ }
+\DoxyCodeLine{00054\ \textcolor{comment}{//\ PLib\ string\ map\ for\ return\ codes}}
+\DoxyCodeLine{00055\ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *pl\_s[12]\ =\ \{}
+\DoxyCodeLine{00056\ \ \ \ \ [PL\_INVERT(PL\_ARG\_NOT\_FOUND)]\ =\ \textcolor{stringliteral}{"{}ARG\_NOT\_FOUND"{}},}
+\DoxyCodeLine{00057\ \ \ \ \ [PL\_INVERT(PL\_ARG\_REQUIRES\_VALUE)]\ =\ \textcolor{stringliteral}{"{}ARG\_REQUIRES\_VALUE"{}},}
+\DoxyCodeLine{00058\ \ \ \ \ [PL\_INVERT(PL\_ARG\_NO\_REQUIRES\_VALUE)]\ =\ \textcolor{stringliteral}{"{}ARG\_NO\_REQUIRES\_VALUE"{}},}
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ [PL\_INVERT(PL\_NO\_ARGUMENTS\_GIVEN)]\ =\ \textcolor{stringliteral}{"{}NO\_ARGUMENTS\_GIVEN"{}},}
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ [PL\_INVERT(PL\_MEM\_ALLOC\_ERROR)]\ =\ \textcolor{stringliteral}{"{}MEM\_ALLOC\_ERROR"{}},}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ [PL\_INVERT(PL\_SUCCESS)]\ =\ \textcolor{stringliteral}{"{}SUCCESS"{}},}
+\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ [PL\_INVERT(PL\_ARG\_INVALID\_FORMAT)]\ =\ \textcolor{stringliteral}{"{}ARG\_INVALID\_FORMAT"{}},}
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ [PL\_INVERT(PL\_ARG\_IS\_NULL)]\ =\ \textcolor{stringliteral}{"{}ARG\_IS\_NULL"{}},}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ [PL\_INVERT(PL\_FAILURE)]\ =\ \textcolor{stringliteral}{"{}FAILURE"{}},}
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ [PL\_INVERT(PL\_ARG\_PRE\_EXISTS)]\ =\ \textcolor{stringliteral}{"{}ARG\_PRE\_EXISTS"{}},}
+\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ [PL\_INVERT(PL\_ARG\_MISSING\_PARAM)]\ =\ \ \textcolor{stringliteral}{"{}ARG\_MISSING\_PARAM"{}}}
+\DoxyCodeLine{00067\ \};}
+\DoxyCodeLine{00068\ }
+\DoxyCodeLine{00069\ \textcolor{comment}{//\ returns\ bool\ of\ if\ flag\ exists}}
+\DoxyCodeLine{00070\ pl\_r\ pl\_arg\_exist(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *name);}
+\DoxyCodeLine{00071\ }
+\DoxyCodeLine{00072\ \textcolor{comment}{//\ parses\ argument\ }}
+\DoxyCodeLine{00073\ pl\_r\ pl\_proc(\textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ argc,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *argv[]);}
+\DoxyCodeLine{00074\ }
+\DoxyCodeLine{00075\ \textcolor{comment}{//\ returns\ bool\ of\ if\ arg\ run\ }}
+\DoxyCodeLine{00076\ pl\_r\ pl\_arg\_run(\textcolor{keyword}{const}\ \mbox{\hyperlink{structpl__arg}{pl\_arg}}\ *local);}
+\DoxyCodeLine{00077\ }
+\DoxyCodeLine{00078\ \textcolor{comment}{//\ returns\ bool\ of\ if\ ALL\ args\ have\ been\ run\ }}
+\DoxyCodeLine{00079\ pl\_r\ pl\_all\_triggered(\textcolor{keywordtype}{void});\ }
+\DoxyCodeLine{00080\ }
+\DoxyCodeLine{00081\ \textcolor{comment}{//\ prints\ out\ argument\ info\ }}
+\DoxyCodeLine{00082\ \textcolor{keywordtype}{void}\ pl\_help(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00083\ }
+\DoxyCodeLine{00084\ \textcolor{comment}{//\ de-\/allocates\ PL\_ARGS\ }}
+\DoxyCodeLine{00085\ \textcolor{keywordtype}{void}\ pl\_exit(\textcolor{keywordtype}{void});}
+\DoxyCodeLine{00086\ }
+\DoxyCodeLine{00087\ \textcolor{comment}{//\ return\ the\ value\ of\ an\ arg\ }}
+\DoxyCodeLine{00088\ \textcolor{keywordtype}{char}*\ pl\_arg\_value(\textcolor{keyword}{const}\ \mbox{\hyperlink{structpl__arg}{pl\_arg}}\ *local,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ i);}
+\DoxyCodeLine{00089\ }
+\DoxyCodeLine{00090\ \textcolor{comment}{//\ create\ an\ argument\ }}
+\DoxyCodeLine{00091\ pl\_r\ pl\_a(\mbox{\hyperlink{structpl__arg}{pl\_arg}}\ in);}
+\DoxyCodeLine{00092\ }
+\DoxyCodeLine{00093\ \textcolor{comment}{//\ get\ the\ pl\_a\ struct\ of\ an\ arg\ by\ flag\ name\ }}
+\DoxyCodeLine{00094\ \mbox{\hyperlink{structpl__arg}{pl\_arg}}\ *pl\_arg\_by\_name(\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *name);}
+\DoxyCodeLine{00095\ }
+\DoxyCodeLine{00096\ \textcolor{comment}{//\ global\ pl\_arg\ macro/function\ }}
+\DoxyCodeLine{00097\ \mbox{\hyperlink{structpl__arg}{pl\_arg}}\ *pl\_arg\_global\_ptr(\mbox{\hyperlink{structpl__arg}{pl\_arg}}\ in);}
+\DoxyCodeLine{00098\ }
+\DoxyCodeLine{00099\ \textcolor{keyword}{extern}\ \mbox{\hyperlink{structpl__arg}{pl\_arg}}\ *PL\_ARGS;}
+\DoxyCodeLine{00100\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{int}\ PL\_ARGS\_IDX;}
+\DoxyCodeLine{00101\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{int}\ PL\_ARGS\_CAP;}
+\DoxyCodeLine{00102\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{int}\ PL\_PROC\_END\_ARGC;}
+\DoxyCodeLine{00103\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{char}**\ PL\_ARGV;}
+\DoxyCodeLine{00104\ \textcolor{keyword}{extern}\ \textcolor{keywordtype}{int}\ PL\_ARGC;}
+\DoxyCodeLine{00105\ }
+\DoxyCodeLine{00106\ \textcolor{preprocessor}{\#define\ PL\_R(arg)\ (pl\_arg\_run(arg)\ ==\ PL\_SUCCESS)\ ?\ 1\ :\ 0\ }}
+\DoxyCodeLine{00107\ \textcolor{preprocessor}{\#define\ PL\_GETN(name)\ pl\_arg\_by\_name(name)}}
+\DoxyCodeLine{00108\ \textcolor{preprocessor}{\#define\ PL\_GETI(idx)\ \&PL\_ARGS[idx]}}
+\DoxyCodeLine{00109\ \textcolor{preprocessor}{\#define\ PL\_VERSION\ "{}4.7"{}\ }}
+\DoxyCodeLine{00110\ \textcolor{preprocessor}{\#define\ pl\_proc\_at\_i(i,argv)\ pl\_proc\_i(i,argv)}}
+\DoxyCodeLine{00111\ \textcolor{preprocessor}{\#define\ PL\_PROC()\ pl\_proc(argc,argv)}}
+\DoxyCodeLine{00112\ \textcolor{preprocessor}{\#define\ PL\_A(...)\ pl\_a((pl\_arg)\{\_\_VA\_ARGS\_\_\})}}
+\DoxyCodeLine{00113\ \textcolor{preprocessor}{\#define\ pl\_arg\_get(name)\ \&PL\_ARGS[pl\_arg\_exist(name)]}}
+\DoxyCodeLine{00114\ \textcolor{preprocessor}{\#define\ PL\_LAST\_ARG\ (PL\_PROC\_END\_ARGC\ >=\ 0)\ ?\ \(\backslash\)}}
+\DoxyCodeLine{00115\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (PL\_ARGV[PL\_PROC\_END\_ARGC])\ :\ \(\backslash\)}}
+\DoxyCodeLine{00116\ \textcolor{preprocessor}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ pl\_s[PL\_INVERT(PL\_NO\_ARGUMENTS\_GIVEN)]}}
+\DoxyCodeLine{00117\ \textcolor{preprocessor}{\#define\ PL\_E(i)\ pl\_s[PL\_INVERT(i)]}}
+\DoxyCodeLine{00118\ \textcolor{preprocessor}{\#define\ pl\_arg\_sys(arg)\ (arg-\/>triggered\ ==\ 1)\ ?\ ((arg-\/>shorthand\_triggered\ ==\ 1)\ ?\ arg-\/>shorthand\ :\ arg-\/>name)\ :\ NULL}}
+\DoxyCodeLine{00119\ \textcolor{preprocessor}{\#define\ PL\_P(...)\ pl\_arg\_global\_ptr((pl\_arg)\{\_\_VA\_ARGS\_\_\})}}
+\DoxyCodeLine{00120\ \textcolor{preprocessor}{\#define\ pl\_arg\_count(parg)\ parg-\/>value\_idx}}
+\DoxyCodeLine{00121\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ PLIB\_H}}
+\DoxyCodeLine{00122\ }
+
+\end{DoxyCode}

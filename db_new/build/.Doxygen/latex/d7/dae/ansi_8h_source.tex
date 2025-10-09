@@ -1,0 +1,21 @@
+\doxysection{ansi.\+h}
+\hypertarget{ansi_8h_source}{}\label{ansi_8h_source}\index{src/remote/plib/lib/ansi.h@{src/remote/plib/lib/ansi.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ ANSI\_H}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ ANSI\_H}}
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#define\ ESCAPE\_CODE\ "{}\(\backslash\)033"{}}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#define\ ESC\ ESCAPE\_CODE}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#define\ ansi(seq)\ printf("{}\%s\%s"{},\ ESC,\ seq);}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#define\ activate\_terminal\_buffer()\ ansi("{}[?1049h"{});}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#define\ deactivate\_terminal\_buffer()\ ansi("{}[?1049l"{});}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#define\ enable\_mouse\_reporting\_ansi()\ ansi("{}[?1003h"{});}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#define\ disable\_mouse\_reporting\_ansi()\ ansi("{}[?1003l"{});}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#define\ hide\_cursor()\ ansi("{}[?25l"{});}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#define\ show\_cursor()\ ansi("{}[?25h"{});}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#define\ clear()\ printf("{}\(\backslash\)033[H\(\backslash\)033[J"{})}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#define\ gotoxy(x,\ y)\ printf("{}\(\backslash\)033[\%d;\%dH"{},y,x)}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#define\ cursor\_home()\ ansi("{}[H"{})}}
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

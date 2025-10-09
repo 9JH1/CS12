@@ -25,6 +25,10 @@
 var NAVTREE =
 [
   [ "CS12 Database", "index.html", [
+    [ "Classes", "annotated.html", [
+      [ "Class List", "annotated.html", "annotated_dup" ],
+      [ "Class Index", "classes.html", null ]
+    ] ],
     [ "Files", "files.html", [
       [ "File List", "files.html", "files_dup" ],
       [ "File Members", "globals.html", [
@@ -38,7 +42,7 @@ var NAVTREE =
 
 var NAVTREEINDEX =
 [
-"d0/d29/main_8c.html"
+"annotated.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronization';
