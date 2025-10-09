@@ -89,7 +89,7 @@ int ui_menu(const char *array1[], const int size, const char *array2[],
     for (int i = 0; i < size + 1; i++) {
       gotoxy(1, i + 1);
       if (i == selected)
-        printf("\033[37;40;1m");
+        printf("\033[40;37;1m");
 
       if (i < size) {
         if ((COL_SIZE - strlen(array1[i])) <= 0) {
