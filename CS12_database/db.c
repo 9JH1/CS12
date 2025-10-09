@@ -1237,7 +1237,7 @@ int ui_main_main() {
     if (sel_idx != -2) {
       member *member_cur = &db_members[sel_idx];
       if (member_cur->loan.loan_index == 0) {
-        printf("selected member has no loans to return\n");
+        printf("selected member has no loans to return (index %d)\n",sel_idx);
       } else {
         ret = loan_menu(sel_idx);
 
