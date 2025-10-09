@@ -1314,7 +1314,7 @@ int ui_main_main() {
 		achar();
 		int mem_ret = print_member_data(memberid);
 
-    if (memberid != -2 || mem_ret != -2) {
+    if (memberid != -2 && mem_ret != -2) {
       ui_print("please pick the date this loan is due..\npress any key to "
                "continue\n");
       achar();
