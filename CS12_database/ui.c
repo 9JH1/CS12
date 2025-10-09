@@ -47,6 +47,7 @@ int ui_menu(const char *array1[], const int size, const char *array2[],
             const char *prompt) {
   hide_cursor();
   run_count = 0;
+	clear();
 
   // calculate longest
   int x, y, selected;
