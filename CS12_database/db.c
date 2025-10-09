@@ -1234,7 +1234,6 @@ int ui_main_main() {
     // RETURN BOOK DIALOGS
     int sel_idx = member_selector_menu();
     if (sel_idx != -2) {
-			printf("working\n");
       member *member_cur = &db_members[sel_idx];
       ret = loan_menu(sel_idx);
       if (ret != -2) {
