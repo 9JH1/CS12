@@ -439,6 +439,8 @@ int member_selector_menu() {
 
       free(l_name);
     }
+
+		free(l_buffer);
     if (sel_idx == -1) {
       printf("last name \"%s\" not found\n", buffer);
 			achar();
