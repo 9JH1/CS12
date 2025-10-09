@@ -440,25 +440,20 @@ int member_selector_menu() {
       free(l_name);
     }
 
-		free(l_buffer);
+    free(l_buffer);
     if (sel_idx == -1) {
       printf("last name \"%s\" not found\n", buffer);
-			achar();
+      achar();
       return -2;
     }
   } else if (ret == 1) {
     // SHOW MEMBER LIST
 
     sel_idx = member_menu();
-		if(sel_idx == -2) return sel_idx;
+    if (sel_idx == -2)
+      return sel_idx;
   }
   member *member_cur = &db_members[sel_idx];
-
-  if (member_cur->loan.loan_index <= 0) {
-    printf("the member you selected has zero loans\n");
-    return -1;
-  }
-
   return sel_idx;
 }
 // data setup
@@ -1235,16 +1230,19 @@ int ui_main_main() {
     int sel_idx = member_selector_menu();
     if (sel_idx != -2) {
       member *member_cur = &db_members[sel_idx];
-      //ret = loan_menu(sel_idx);
-      ret = -2;
+      if (member_cur->loan.loan_index <= 0) {
+        printf("selected member has no loans to return\n");
+      } else {
+        ret = loan_menu(sel_idx);
 
-			if (ret != -2) {
-        db_loans[member_cur->loan.loan_ids[ret]].returned = date_now();
-        remove_element(member_cur->loan.loan_ids, ret,
-                       member_cur->loan.loan_index);
-        member_cur->loan.loan_index--;
+        if (ret != -2) {
+          db_loans[member_cur->loan.loan_ids[ret]].returned = date_now();
+          remove_element(member_cur->loan.loan_ids, ret,
+                         member_cur->loan.loan_index);
+          member_cur->loan.loan_index--;
 
-        printf("Loan has been returned\n");
+          printf("Loan has been returned\n");
+        }
       }
     }
   } else if (ret == 4) {
@@ -1262,18 +1260,17 @@ int ui_main_main() {
   } else if (ret == 6) {
     int bookid = book_menu();
     int memberid = member_selector_menu();
-		ui_print("please pick the date this loan is due..\npress any key to continue\n");
-		achar();
-    loan_new(
-        id_to_member_ptr(memberid),
-        (loan){
-            .bookid = bookid,
-            .issued = date_now(),
-            .return_date = date_wizard(),
-            .active = true,
-            .note = "",
-            .amount = 0, // owes nothing
-        });
+    ui_print(
+        "please pick the date this loan is due..\npress any key to continue\n");
+    achar();
+    loan_new(id_to_member_ptr(memberid), (loan){
+                                             .bookid = bookid,
+                                             .issued = date_now(),
+                                             .return_date = date_wizard(),
+                                             .active = true,
+                                             .note = "",
+                                             .amount = 0, // owes nothing
+                                         });
   } else if (ret == -2) {
     ui_print("There is nothing to go back too..\n");
   }
