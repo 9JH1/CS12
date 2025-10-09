@@ -278,7 +278,7 @@ int loan_menu(const int cur) {
   for (int i = 0; i < member_cur.loan.loan_index; i++) {
     // Validate loan ID
     int loan_id = member_cur.loan.loan_ids[i];
-    if (loan_id < 0 || loan_id >= /* db_loans size, assuming MAX_LOANS */) {
+    if (loan_id < 0 || loan_id >= db_loans_index) {
       fprintf(stderr, "Error: Invalid loan ID at index %d\n", i);
       goto cleanup;
     }
@@ -286,13 +286,13 @@ int loan_menu(const int cur) {
     loan loan_cur = db_loans[loan_id];
 
     // Validate book ID
-    if (loan_cur.bookid < 0 || loan_cur.bookid >= /* db_books size, assuming MAX_BOOKS */) {
+    if (loan_cur.bookid < 0 || loan_cur.bookid >= db_books_index) {
       fprintf(stderr, "Error: Invalid book ID for loan at index %d\n", i);
       goto cleanup;
     }
 
     // Check if book title is valid
-    if (db_books[loan_cur.bookid].title == NULL) {
+    if (strlen(db_books[loan_cur.bookid].title) >= 1) {
       fprintf(stderr, "Error: Invalid book title for book ID %d\n", loan_cur.bookid);
       goto cleanup;
     }
