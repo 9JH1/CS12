@@ -441,6 +441,7 @@ int member_selector_menu() {
         sel_idx = i;
       }
       free(l_name);
+		printf("last name \"%s\" found at index %d\n",buffer,sel_idx);
 			return sel_idx;
     }
 
