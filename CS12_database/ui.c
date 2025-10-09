@@ -43,10 +43,16 @@ int run_count;
  * 					and DOWNARROW can navigate the menu
  *pressing enter returns the selected integer index of the array
  **/
+int old_size;
+
 int ui_menu(const char *array1[], const int size, const char *array2[],
             const char *prompt) {
   hide_cursor();
   run_count = 0;
+	if(old_size != size){
+		old_size = size;
+		clear();
+	}
 
   // calculate longest
   int x, y, selected;
@@ -184,7 +190,7 @@ void ui_print(const char *in) {
   size_t len = strlen(in); // Cache the string length
 
   for (size_t i = 0; i < len; i++) {
-    usleep(500);
+    usleep(900);
     fflush(stdout);
     const char cur = in[i];
 
