@@ -1233,6 +1233,7 @@ int ui_main_main() {
   } else if (ret == 3) {
     // RETURN BOOK DIALOGS
     int sel_idx = member_selector_menu();
+		printf("working\n");
     if (sel_idx != -2) {
       member *member_cur = &db_members[sel_idx];
       ret = loan_menu(sel_idx);
