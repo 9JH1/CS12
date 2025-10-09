@@ -116,14 +116,9 @@ int ui_menu(const char *array1[], const int size, const char *array2[],
         printf("\033[0m\n");
       } else if (i == size) {
         printf("Back");
-        for(int j = 0; j < x - 4;j++)
-                printf(" ");
         printf("\033[0m\n");
       } else if (i == size + 1){
 				printf("jump to index");
-				for(int j = 0; j < x - 12;j++){
-					printf(" ");
-				}
 				printf("\033[0m\n");
 			}
     }
