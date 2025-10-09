@@ -162,7 +162,7 @@ int ui_menu(const char *array1[], const int size, const char *array2[],
         return -2;
 
       } else if (out > size || out <= 0) {
-				printf("number out of bounds, pick a number between 1 and %d\n",size+1);
+				printf("number out of bounds, pick a number between 1 and %d\n",size);
 				achar();
 			} else {
         selected = out-1;
