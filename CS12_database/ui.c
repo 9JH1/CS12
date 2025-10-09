@@ -159,7 +159,9 @@ int ui_menu(const char *array1[], const int size, const char *array2[],
         printf("press any key to continue\n");
         achar();
         return -2;
-      } else {
+      } else if (out-1 > size+1) {
+				printf("number out of bounds, pick a number between 1 and %d\n",size+1);
+			} else {
         selected = out-1;
       }
     }
