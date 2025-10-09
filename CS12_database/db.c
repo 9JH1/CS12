@@ -280,7 +280,6 @@ int loan_menu(const int cur) {
     int loan_id = member_cur.loan.loan_ids[i];
     if (loan_id < 0 || loan_id >= db_loans_index) {
       fprintf(stderr, "Error: Invalid loan ID at index %d\n", i);
-      goto cleanup;
     }
 
     loan loan_cur = db_loans[loan_id];
@@ -288,13 +287,11 @@ int loan_menu(const int cur) {
     // Validate book ID
     if (loan_cur.bookid < 0 || loan_cur.bookid >= db_books_index) {
       fprintf(stderr, "Error: Invalid book ID for loan at index %d\n", i);
-      goto cleanup;
     }
 
     // Check if book title is valid
     if (strlen(db_books[loan_cur.bookid].title) >= 1) {
       fprintf(stderr, "Error: Invalid book title for book ID %d\n", loan_cur.bookid);
-      goto cleanup;
     }
 
     loans[i] = db_books[loan_cur.bookid].title;
@@ -303,7 +300,6 @@ int loan_menu(const int cur) {
     desc[i] = malloc(COL_SIZE_2 * sizeof(char));
     if (desc[i] == NULL) {
       fprintf(stderr, "Error: Memory allocation failed for description %d\n", i);
-      goto cleanup;
     }
 
     // Ensure COL_SIZE_2 is large enough (e.g., at least 50 for safety)
@@ -316,7 +312,6 @@ int loan_menu(const int cur) {
   int ret = ui_menu((const char **)loans, member_cur.loan.loan_index,
                     (const char **)desc, "Loans");
 
-cleanup:
   // Free allocated memory
   for (int i = 0; i < member_cur.loan.loan_index; i++) {
     if (desc[i] != NULL) {
