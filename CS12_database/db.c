@@ -439,6 +439,7 @@ int member_selector_menu() {
       char *l_name = lower(db_members[i].last_name);
       if (strcmp(l_name, l_buffer) == 0) {
         sel_idx = i;
+      	free(l_name);
 				break;
       }
       free(l_name);
@@ -1249,7 +1250,7 @@ int ui_main_main() {
 
           printf("Loan has been returned\n");
         } else {
-					printf("error occured ret == -2\n");
+					printf("error occured\n");
 				}
       }
     }
